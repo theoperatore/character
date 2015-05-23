@@ -1,0 +1,91 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "hippo-icons";
+  src:url("fonts/hippo-icons.eot");
+  src:url("fonts/hippo-icons.eot?#iefix") format("embedded-opentype"),
+    url("fonts/hippo-icons.woff") format("woff"),
+    url("fonts/hippo-icons.ttf") format("truetype"),
+    url("fonts/hippo-icons.svg#hippo-icons") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "hippo-icons" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "hippo-icons" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-graph:before {
+  content: "d";
+}
+.icon-crown:before {
+  content: "e";
+}
+.icon-shield:before {
+  content: "k";
+}
+.icon-talk-chat:before {
+  content: "m";
+}
+.icon-talk-chat-group:before {
+  content: "n";
+}
+.icon-beer:before {
+  content: "t";
+}
+.icon-repo:before {
+  content: "v";
+}
+.icon-dollar:before {
+  content: "y";
+}
+.icon-group:before {
+  content: "D";
+}
+.icon-link:before {
+  content: "E";
+}
+.icon-link-broken:before {
+  content: "F";
+}
+.icon-chart:before {
+  content: "I";
+}
+.icon-attack:before {
+  content: "K";
+}
+.icon-equipment:before {
+  content: "c";
+}
+.icon-features:before {
+  content: "g";
+}
+.icon-anchor:before {
+  content: "a";
+}
+.icon-branching:before {
+  content: "b";
+}

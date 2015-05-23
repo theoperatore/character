@@ -1,0 +1,256 @@
+span.square {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+/******************************************************************************
+*
+* Colors
+*
+******************************************************************************/
+.bg-blue {
+  background-color: #d9edf7;
+}
+.bg-red {
+  background-color: #f2dede;
+}
+.bg-green {
+  background-color: #dff0d8;
+}
+.bg-gold {
+  background-color: #fcf8e3;
+}
+.text-blue {
+  color: #31708f;
+}
+.text-red {
+  color: #a94442;
+}
+.text-green {
+  color: #3c763d;
+}
+.text-gold {
+  color: #8a6d3b;
+}
+
+
+/******************************************************************************
+*
+* Absolute Item
+*
+******************************************************************************/
+.absolute-container {
+  position: relative;
+}
+
+.absolute-item-container {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 1);
+  width: 100%;
+  overflow:hidden;
+
+  -webkit-transition: translate3d 500ms ease-in;
+  -moz-transition: translate3d 500ms ease-in;
+  -ms-transition: translate3d 500ms ease-in;
+  -o-transition: translate3d 500ms ease-in;
+  transition: translate3d 500ms ease-in;
+}
+
+/******************************************************************************
+*
+* Accordion
+*
+******************************************************************************/
+.accordion-container {
+  position: relative;
+}
+.accordion-item-container {
+  position: relative;
+  background-color: rgba(255, 255, 255, 1);
+}
+.accordion-item-title {}
+
+/******************************************************************************
+*
+* Panel
+*
+******************************************************************************/
+.panel-container {
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 10px;
+
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden; /* Chrome and Safari */
+  -moz-backface-visibility:hidden; /* Firefox */
+  -ms-backface-visibility:hidden; /* Internet Explorer 10+ */
+}
+.panel-title-container {
+  position: relative;
+  background-color: rgba(255, 255, 255, 1);
+
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden; /* Chrome and Safari */
+  -moz-backface-visibility:hidden; /* Firefox */
+  -ms-backface-visibility:hidden; /* Internet Explorer 10+ */
+
+  cursor: pointer;
+}
+
+.panel-content-container {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  padding-top: 10px;
+
+  -webkit-transition: all 400ms ease;
+  -moz-transition: all 400ms ease;
+  -ms-transition: all 400ms ease;
+  -o-transition: all 400ms ease;
+  transition: all 400ms ease;
+
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden; /* Chrome and Safari */
+  -moz-backface-visibility:hidden; /* Firefox */
+  -ms-backface-visibility:hidden; /* Internet Explorer 10+ */
+}
+
+.panel-content-container.open {
+  opacity: 1;
+}
+
+.panel-title-container.open {
+  border-bottom: 1px solid #ddd;
+}
+
+/******************************************************************************
+*
+* SwipeTabs
+*
+******************************************************************************/
+.swiper-container {}
+.swiper-slide {}
+
+/******************************************************************************
+*
+* SettingsWell
+*
+******************************************************************************/
+.settings-well-container {
+  position: relative;
+  overflow: hidden;
+  height: 0px;
+  width: 100%;
+
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden; /* Chrome and Safari */
+  -moz-backface-visibility:hidden; /* Firefox */
+  -ms-backface-visibility:hidden; /* Internet Explorer 10+ */
+}
+.settings-well-content {
+  position: absolute;
+  width: 100%;
+
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden; /* Chrome and Safari */
+  -moz-backface-visibility:hidden; /* Firefox */
+  -ms-backface-visibility:hidden; /* Internet Explorer 10+ */
+}
+
+.settings-well-content.open {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+/******************************************************************************
+*
+* Tabs and Tab
+*
+******************************************************************************/
+.tabs-container {
+  width : 100%;
+}
+.tabs-container:after {
+  content : "";
+  display: table;
+  clear:both;
+}
+
+.tab-container {
+  float:left;
+  width: 14.285714286%;
+  width: calc(100% / 7);
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  padding-top: 5px;
+}
+
+.tab-container.active {
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+}
+
+.tab-container>a {
+  width: 100%;
+  display: inline-block;
+}
+
+.tab-container>a:hover {
+  cursor: pointer;
+}
+
+
+/******************************************************************************
+*
+* Shell
+*
+******************************************************************************/
+.hovered-text-score {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+/******************************************************************************
+*
+* MoneyChart
+*
+******************************************************************************/
+.domain {
+  display:none;
+}
+
