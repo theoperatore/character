@@ -27,6 +27,26 @@ $ gulp build-vendor   # build just vendor files
 
 The most useful is probably going to be `gulp` by itself which will set everything up for you to develop.
 
+Viewing the App
+---------------
+
+Once you have cloned a local copy of the code, you can run
+
+```
+$ gulp
+```
+
+Let it do it's thing, and eventually, it should open up a web browser with the address `localhost:8080`. URLs available are:
+
+```
+localhost:8080            # the character sheet page
+localhost:8080/#/user/id  # user page that should show user's created characters
+localhost:8080/#/login    # page to log in / log out a user
+localhost:8080/#/style    # style guide showing basic components
+```
+
+Each route above uses a different view component located in `src/ui/views` folder. Each one is bare and needs work.
+
 License
 --------
 
