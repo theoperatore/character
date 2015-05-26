@@ -113,6 +113,7 @@ module.exports = React.createClass({
 
 
   componentDidUpdate : function() {
+    console.log('updating money');
     this.renderMoney();
   },
 

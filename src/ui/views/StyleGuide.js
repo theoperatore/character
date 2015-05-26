@@ -2,6 +2,8 @@
 
 var React = require('react/addons');
 var Immutable = require('immutable');
+
+
 var Panel = require('../components/common/Panel');
 var Shell = require('../components/common/Shell');
 var SwipePanes = require('../components/common/SwipePanes');
@@ -11,10 +13,13 @@ var Tabs = require('../components/common/Tabs');
 var Tab = require('../components/common/Tab');
 var Icon = require('../components/common/Icon');
 var MoneyChart = require('../components/common/MoneyChart');
+var HPBar = require('../components/common/HPBar');
+var Shield = require('../components/common/Shield');
 
 
 var mockSkills = require('../mock/character-skills');
 var mockEquipment = require('../mock/character-equipment');
+var mockHps = require('../mock/character-hitpoints');
 
 module.exports = React.createClass({
   displayName : "StyleGuide",
@@ -23,6 +28,7 @@ module.exports = React.createClass({
       skillsData : mockSkills,
       skillsSort : true,
       equipData : Immutable.fromJS(mockEquipment),
+      hpData : Immutable.fromJS(mockHps),
       settingsWellOpen : false
     })
   },
@@ -45,6 +51,18 @@ module.exports = React.createClass({
     data = data.updateIn(['money', 'pp'], () => Math.round(Math.random() * 50));
 
     this.setState({ equipData : data });
+  },
+
+  randomizeHP : function() {
+    var data = this.state.hpData;
+    var max = this.state.hpData.get('maximum');
+    var cur = Math.round(Math.random() * max);
+    var tmp = Math.round(Math.random() * max);
+
+    data = data.update('current', () => cur);
+    data = data.update('temporary', () => tmp);
+
+    this.setState({ hpData : data });
   },
 
   augmentSkills : function() {
@@ -159,10 +177,13 @@ module.exports = React.createClass({
         <hr />
         <section>
           <p><strong>HP Bar</strong></p>
+          <button onClick={this.randomizeHP}>randomize</button>
+          <HPBar data={this.state.hpData} onClick={this.randomizeHP}/>
         </section>
         <hr />
         <section>
           <p><strong>Shield</strong></p>
+          <Shield data={this.state.hpData} />
         </section>
         <hr />
       </div>

@@ -1,0 +1,1 @@
+module.exports = {"current":77,"maximum":77,"temporary":0,"hitDiceTotal":"11d8","hitDiceCurrent":11,"deathSaves":{"successes":0,"failures":0},"derivatives":[]};

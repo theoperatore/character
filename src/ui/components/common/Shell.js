@@ -254,6 +254,7 @@ module.exports = React.createClass({
   },
 
   componentDidUpdate : function() {
+    console.log('updating shell');
     this.renderShell();
   },
 
