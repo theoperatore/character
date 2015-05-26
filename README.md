@@ -50,7 +50,7 @@ Each route above uses a different view component located in `src/ui/views` folde
 Dev Notes
 ---------
 
-Since we're using [React]() and [JSX](), we're allowed to use _SOME_ ES6 features. To be safe, only use:
+Since we're using React and JSX, we're allowed to use _SOME_ ES6 features. To be safe, only use:
 
 - Destructuring
 - Arrow Functions
