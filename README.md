@@ -56,7 +56,7 @@ Since we're using React and JSX, we're allowed to use _SOME_ ES6 features. To be
 - Arrow Functions
 - Enhanced Object Literals
 
-Anything else _might_ break the build on certain browsers as [Reactify]() doesn't transpile them by default, but those mentioned above are safe.
+Anything else _might_ break the build on certain browsers as Reactify doesn't transpile them by default, but those mentioned above are safe.
 
 Stack
 -----
