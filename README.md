@@ -47,6 +47,17 @@ localhost:8080/#/style    # style guide showing basic components
 
 Each route above uses a different view component located in `src/ui/views` folder. Each one is bare and needs work.
 
+Dev Notes
+---------
+
+Since we're using [React]() and [JSX](), we're allowed to use _SOME_ ES6 features. To be safe, only use:
+
+- Destructuring
+- Arrow Functions
+- Enhanced Object Literals
+
+Anything else _might_ break the build on certain browsers as [Reactify]() doesn't transpile them by default, but those mentioned above are safe.
+
 License
 --------
 
