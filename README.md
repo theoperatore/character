@@ -8,13 +8,13 @@ This app isn't meant to replace playing in-person; on the contrary, table top ga
 Dev Usage
 ---------
 
-Clone the repo and cd into the directory. Then, you'll need to 
+Clone the repo and `cd` into the directory. Then be sure you have access to [nodeJS](https://nodejs.org/) and run: 
 
 ```
 npm install
 ```
 
-to download all of the dependencies. Once you have all of the dependencies, you can run a few [Gulp]() commands:
+to download all of the dependencies. Once you have all of the dependencies, you can run a few [Gulp](http://gulpjs.com/) commands:
 
 ```
 $ gulp                # cleans, builds vendor and the app, watches for changes, opens browser
