@@ -58,6 +58,21 @@ Since we're using [React]() and [JSX](), we're allowed to use _SOME_ ES6 feature
 
 Anything else _might_ break the build on certain browsers as [Reactify]() doesn't transpile them by default, but those mentioned above are safe.
 
+Stack
+-----
+
+For UI, we use:
+
+- [React](https://facebook.github.io/react/docs/getting-started.html) as the web framework
+  - [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) for easy react component composition
+- [ImmutableJS](http://facebook.github.io/immutable-js/docs/#/) for easy state / component updating performance
+- [Firebase](https://www.firebase.com/docs/web/guide/) as the backend database
+- [React-Router-Component](https://github.com/STRML/react-router-component) as our router (should prolly change this...kinda limited, maybe [React-Router](https://github.com/rackt/react-router)?)
+
+Server side:
+
+- TBD : Nothing set up yet / relying on GitHub Pages
+
 License
 --------
 
