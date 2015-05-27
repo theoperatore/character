@@ -1,6 +1,7 @@
 "use strict";
 
 var React = require('react/addons');
+var RouteHandler = require('react-router').RouteHandler;
 
 module.exports = React.createClass({
   displayName : "App",

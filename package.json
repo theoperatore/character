@@ -21,7 +21,6 @@
     "moment": "^2.10.3",
     "react": "^0.13.3",
     "react-async": "^2.1.0",
-    "react-router-component": "^0.24.4",
     "request": "^2.55.0",
     "swiper": "^3.0.7"
   },

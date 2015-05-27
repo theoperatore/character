@@ -121,19 +121,11 @@ gulp.task('build-vendor', function() {
     console.log("browserify vendor error:", ev.message);
   }
 
-  rebundle = function() {
-    stream = bundler.bundle();
-    stream.on('error', handleError);
-    stream = stream.pipe(source('vendor.js'));
-    return stream.pipe(gulp.dest('./build'));
-  }
-
-  bundler.on('update', function(ev) {
-    console.log("building vendor: ", ev);
-    rebundle();
-  });
-
-  return rebundle();
+  stream = bundler.bundle();
+  stream.on('error', handleError);
+  stream = stream.pipe(source('vendor.js'));
+  
+  return stream.pipe(gulp.dest('./build'));
 })
 
 
