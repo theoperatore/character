@@ -53,10 +53,47 @@ gulp.task('lint', function() {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+// Compile JS
+//
+///////////////////////////////////////////////////////////////////////////////
+gulp.task('compile-js', function() {
+  var handleError;
+  var stream;
+  var bundler;
+  var rebundle;
+
+  bundler = browserify('./src/ui/index.js', {
+    debug : true,
+    cache : {},
+    packageCache : {},
+    fullPaths : true,
+    verbose : true
+  });
+
+  getVendorKeys().forEach(function(vendor) {
+    bundler.external(vendor);
+  })
+
+  bundler.transform(reactify, { es6 : true, target : "es5" });
+
+  handleError = function(ev) {
+    console.log("browserify error:", ev.message);
+  }
+
+  
+  stream = bundler.bundle();
+  stream.on('error', handleError);
+  stream = stream.pipe(source('bundle.js'));
+  return stream.pipe(gulp.dest('./build'));
+})
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 // Watch for js files to change, rebuild
 //
 ///////////////////////////////////////////////////////////////////////////////
-gulp.task('watch', function() {
+gulp.task('watch-js', function() {
   var handleError;
   var stream;
   var bundler;
@@ -148,7 +185,7 @@ gulp.task('mocha', function() {
 // Watch and build js files, but also reload a browser!
 //
 ///////////////////////////////////////////////////////////////////////////////
-gulp.task('default', ['clean', 'build-vendor', 'watch'], function() {
+gulp.task('default', ['clean', 'build-vendor', 'watch-js'], function() {
   browsersync({
     notify: true,
     port : 8080,
