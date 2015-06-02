@@ -2,6 +2,8 @@
 
 var FastClick = require('fastclick');
 var React = require('react/addons');
+var Router = require('./router/Router');
+var db = require('../api/')
 
 var App = require('./views/App');
 var Login = require('./views/Login');
@@ -9,30 +11,33 @@ var User = require('./views/User');
 var StyleGuide = require('./views/StyleGuide');
 var HTML404 = require('./views/HTML404');
 
-var Index = React.createClass({
-  render : function() {
-    var view;
-    console.log(this.props.location);
-    switch(this.props.location) {
-      case '/style' : view = <StyleGuide/>; break;
-      case '/user'  : view = <User/>; break;
-      default : view = <App />; break;
-    }
-
-    return (
-      <div>
-        {view}
-      </div>
-    );
-  }
-});
-
 new FastClick(document.body);
 
-function render() {
-  var route = window.location.hash.substr(1);
-  React.render(<Index location={route} />, document.body);
-}
+// default route
+Router.get('/', () => {
+  React.render(<App />, document.body);
+})
 
-window.addEventListener('hashchange', render);
-render();
+// user
+Router.get('/user', () => {
+  React.render(<User />, document.body);
+})
+
+// login
+Router.get('/login', () => {
+  React.render(<Login />, document.body);
+})
+
+// Not found
+Router.get('*', () => {
+  React.render(<HTML404 />, document.body);
+})
+
+// style guide
+Router.get('/style', () => {
+  React.render(<StyleGuide />, document.body);
+})
+
+// start routing!
+Router.nav();
+
