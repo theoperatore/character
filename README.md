@@ -40,7 +40,7 @@ Let it do it's thing, and eventually, it should open up a web browser with the a
 
 ```
 localhost:8080            # the character sheet page
-localhost:8080/#/user/id  # user page that should show user's created characters
+localhost:8080/#/user     # user page that should show user's created characters
 localhost:8080/#/login    # page to log in / log out a user
 localhost:8080/#/style    # style guide showing basic components
 ```
@@ -67,7 +67,6 @@ For UI, we use:
   - [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) for easy react component composition
 - [ImmutableJS](http://facebook.github.io/immutable-js/docs/#/) for easy state / component updating performance
 - [Firebase](https://www.firebase.com/docs/web/guide/) as the backend database
-- [React-Router-Component](https://github.com/STRML/react-router-component) as our router (should prolly change this...kinda limited, maybe [React-Router](https://github.com/rackt/react-router)?)
 
 Server side:
 
