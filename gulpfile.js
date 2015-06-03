@@ -14,7 +14,8 @@ var del = require('del');
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Fn to get vendor dependencies
+// Fn to get vendor dependencies; devDependencies are really server deps, and
+// dependencies are really UI deps. Bundle normal dependencies as vendor.js
 //
 ///////////////////////////////////////////////////////////////////////////////
 function getVendorKeys() {

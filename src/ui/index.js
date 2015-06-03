@@ -19,12 +19,14 @@ Router.get('/', () => {
 })
 
 // user
-Router.get('/user', () => {
+Router.get('/user/(:id)', (params) => {
+  console.log(params);
   React.render(<User />, document.body);
 })
 
 // login
-Router.get('/login', () => {
+Router.get('/login/(:id)', (params) => {
+  console.log(params);
   React.render(<Login />, document.body);
 })
 
