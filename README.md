@@ -66,10 +66,11 @@ For UI, we use:
 - [React](https://facebook.github.io/react/docs/getting-started.html) as the web framework
   - [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) for easy react component composition
 - [ImmutableJS](http://facebook.github.io/immutable-js/docs/#/) for easy state / component updating performance
-- [Firebase](https://www.firebase.com/docs/web/guide/) as the backend database
+- [Swiper](http://www.idangero.us/swiper/#.VXA5ztNViko) for swiping!
 
 Server side:
 
+- [Firebase](https://www.firebase.com/docs/web/guide/) since we don't have a normal server
 - TBD : Nothing set up yet / relying on GitHub Pages
 
 License
