@@ -4,12 +4,14 @@ var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var jshint = require('gulp-jshint');
 var react = require('gulp-react');
+var stylus = require('gulp-stylus');
 var reactify = require('reactify');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var watchify = require('watchify');
 var browsersync = require('browser-sync');
 var del = require('del');
+var nib = require('nib');
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -178,6 +180,18 @@ gulp.task('mocha', function() {
       reporter : 'spec',
       timeout : 5000
     }));
+})
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Compile-CSS using stylus and nib
+//
+///////////////////////////////////////////////////////////////////////////////
+gulp.task('compile-css', function() {
+  return gulp.src('src/ui/**/*.styl')
+    .pipe(stylus({ use : nib(), import : ['nib']}))
+    .pipe(gulp.dest('build/css'));
 })
 
 
