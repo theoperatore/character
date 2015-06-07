@@ -3,8 +3,8 @@
 var FastClick = require('fastclick');
 var React = require('react/addons');
 var Router = require('./router/Router');
-var db = require('../api/')
 
+var Landing = require('./views/Landing');
 var App = require('./views/App');
 var Login = require('./views/Login');
 var User = require('./views/User');
@@ -14,20 +14,24 @@ var HTML404 = require('./views/HTML404');
 new FastClick(document.body);
 
 // default route
-Router.get('/', () => {
-  React.render(<App />, document.body);
+Router.get('/', (params) => {
+  React.render(<Landing />, document.body);
+})
+
+// view a character
+Router.get('/character/(:id)', (params) => {
+  console.log(params.id);
+  React.render(<App character={params.id} />, document.body);
 })
 
 // user
 Router.get('/user/(:id)', (params) => {
-  console.log(params);
-  React.render(<User />, document.body);
+  React.render(<User id={params.id} />, document.body);
 })
 
 // login
 Router.get('/login/(:id)', (params) => {
-  console.log(params);
-  React.render(<Login />, document.body);
+  React.render(<Login token={params.id} />, document.body);
 })
 
 // Not found

@@ -4,19 +4,19 @@ var React = require('react/addons');
 var Immutable = require('immutable');
 
 
-var Panel = require('../components/common/Panel');
-var Shell = require('../components/common/Shell');
-var SwipePanes = require('../components/common/SwipePanes');
-var SwipePane = require('../components/common/SwipePane');
-var SettingsWell = require('../components/common/SettingsWell');
-var Tabs = require('../components/common/Tabs');
-var Tab = require('../components/common/Tab');
-var Icon = require('../components/common/Icon');
-var MoneyChart = require('../components/common/MoneyChart');
-var HPBar = require('../components/common/HPBar');
-var Shield = require('../components/common/Shield');
-var Stat = require('../components/common/Stat');
-var Switch = require('../components/common/Switch');
+var Panel = require('../components/Panel');
+var Shell = require('../components/Shell');
+var SwipePanes = require('../components/SwipePanes');
+var SwipePane = require('../components/SwipePane');
+var SettingsWell = require('../components/SettingsWell');
+var Tabs = require('../components/Tabs');
+var Tab = require('../components/Tab');
+var Icon = require('../components/Icon');
+var MoneyChart = require('../components/MoneyChart');
+var HPBar = require('../components/HPBar');
+var Shield = require('../components/Shield');
+var Stat = require('../components/Stat');
+var Switch = require('../components/Switch');
 
 
 var mockSkills = require('../mock/character-skills');

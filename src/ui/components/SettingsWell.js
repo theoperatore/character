@@ -2,7 +2,7 @@
 
 var React = require('react/addons');
 var classnames = require('classnames');
-var utils = require('../../util/utils');
+var utils = require('../util/utils');
 
 module.exports = React.createClass({
   displayName : "SettingsWell",

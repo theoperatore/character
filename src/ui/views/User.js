@@ -7,7 +7,7 @@ module.exports = React.createClass({
   render : function() {
     return (
       <div className="container">
-        <h1>{"No user logged in"}</h1>
+        <h1>{this.props.id || "No user logged in"}</h1>
       </div>
     );
   }

@@ -1,6 +1,6 @@
 "use strict";
 var React = require('react/addons');
-var utils = require('../../util/utils');
+var utils = require('../util/utils');
 
 
 module.exports = React.createClass({
