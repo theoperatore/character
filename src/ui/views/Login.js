@@ -1,6 +1,7 @@
 "use strict";
 
 var React = require('react/addons');
+var db = require('../../api');
 
 module.exports = React.createClass({
   displayName : "Login",

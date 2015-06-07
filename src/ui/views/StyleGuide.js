@@ -19,9 +19,9 @@ var Stat = require('../components/Stat');
 var Switch = require('../components/Switch');
 
 
-var mockSkills = require('../mock/character-skills');
-var mockEquipment = require('../mock/character-equipment');
-var mockHps = require('../mock/character-hitpoints');
+var mockSkills = require('../mock-data/character-skills');
+var mockEquipment = require('../mock-data/character-equipment');
+var mockHps = require('../mock-data/character-hitpoints');
 
 module.exports = React.createClass({
   displayName : "StyleGuide",

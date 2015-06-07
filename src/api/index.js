@@ -1,6 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// DEPRECATED -- When the new server gets up and running...
+// Might be deprecated when a real server is installed. But could always use
+// firebase in addition to the web server; web server only used for serving
+// app and not worrying about db stuff
 //
 ///////////////////////////////////////////////////////////////////////////////
 'use strict';
