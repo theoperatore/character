@@ -1,0 +1,19 @@
+.settings-well-container
+  position relative
+  overflow hidden
+  height 0px
+  width 100%
+
+  transform translate3d(0, 0, 0)
+  backface-visibility hidden
+
+.settings-well-content
+  position absolute
+  width 100%
+
+  transition all 500ms ease
+  backface-visibility hidden
+
+.settings-well-content
+  &.open
+    transform translate3d(0, 0, 0)

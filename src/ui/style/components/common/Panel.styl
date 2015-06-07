@@ -1,0 +1,32 @@
+.panel-container 
+  overflow  hidden
+  position relative
+  margin-bottom 10px
+  transform translate3d(0, 0, 0)
+  backface-visibility hidden
+
+.panel-title-container 
+  position relative
+  background-color rgba(255, 255, 255, 1)
+  transform translate3d(0, 0, 0)
+  backface-visibility hidden
+  cursor pointer
+
+.panel-content-container 
+  position absolute
+  width 100%
+  opacity 0
+  padding-top 10px
+
+  transition all 400ms ease
+  transform translate3d(0, 0, 0)
+
+  backface-visibility hidden
+
+.panel-content-container
+  &.open 
+   opacity 1
+
+.panel-title-container
+  &.open 
+    border-bottom 1px solid #ddd
