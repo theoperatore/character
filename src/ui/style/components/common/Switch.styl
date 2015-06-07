@@ -1,0 +1,25 @@
+@require('base.styl')
+
+.switch-container
+  transition background-color 300ms ease
+  display inline-block
+  position relative
+  width 25px
+  height 25px
+  border-radius 50%
+  background-color bg-green
+  &.switch-active
+    background-color bg-red
+
+.switch-content
+  transition background-color 300ms ease
+  display inline-block
+  position absolute
+  width 15px
+  height 15px
+  background-color bg-green
+  border-radius 50%
+  left 5px
+  top 5px
+  &.switch-active
+    background-color text-red

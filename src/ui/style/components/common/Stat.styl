@@ -1,3 +1,29 @@
-.stat-background
-  border-radius 5px
+@require('base.styl')
+
+.stat-container
+  display inline-block
+  text-align center
+
+.stat-title
+  font-size 11px
+
+.stat-content
+  font-size 18px
+  height 50px
+  width 50px
+  >p
+    line-height 50px
+  &.stat-trained
+    border-radius 0
+    background-color bg-green
+    color text-green
+    transform rotate(45deg)
+    >p
+      transform rotate(-45deg)
     
+.stat-background
+  border-radius 50%
+  
+.stat-subtitle
+  margin-top 10px
+  font-size 11px

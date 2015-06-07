@@ -15,6 +15,8 @@ var Icon = require('../components/common/Icon');
 var MoneyChart = require('../components/common/MoneyChart');
 var HPBar = require('../components/common/HPBar');
 var Shield = require('../components/common/Shield');
+var Stat = require('../components/common/Stat');
+var Switch = require('../components/common/Switch');
 
 
 var mockSkills = require('../mock/character-skills');
@@ -29,7 +31,8 @@ module.exports = React.createClass({
       skillsSort : true,
       equipData : Immutable.fromJS(mockEquipment),
       hpData : Immutable.fromJS(mockHps),
-      settingsWellOpen : false
+      settingsWellOpen : false,
+      switchActive : false
     })
   },
 
@@ -39,6 +42,10 @@ module.exports = React.createClass({
 
   toggleSkillsSort : function() {
     this.setState({ skillsSort : !this.state.skillsSort });
+  },
+
+  toggleSwitch : function() {
+    this.setState({ switchActive : !this.state.switchActive });
   },
 
   randomizeGold : function() {
@@ -184,6 +191,17 @@ module.exports = React.createClass({
         <section>
           <p><strong>Shield</strong></p>
           <Shield data={this.state.hpData} />
+        </section>
+        <hr />
+        <section>
+          <p><strong>Stats</strong></p>
+          <p><Stat title="STR" score={2} subtitle={14} background={true} /></p>
+          <p><Stat title="TRAINED" score={2} background={true} trained={true}/></p>
+        </section>
+        <hr />
+        <section>
+          <p><strong>Switches</strong></p>
+          <Switch active={this.state.switchActive} onClick={this.toggleSwitch} />
         </section>
         <hr />
       </div>

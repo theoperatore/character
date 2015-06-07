@@ -193,7 +193,7 @@ gulp.task('mocha', function() {
 gulp.task('compile-css', function() {
   return gulp.src('src/ui/**/*.styl')
     .pipe(sourcemaps.init())
-    .pipe(stylus({ use : nib(), import : ['nib']}))
+    .pipe(stylus({ use : nib(), import : ['nib'], include : ['src/ui/style']}))
     .pipe(concat('style.css'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('build'));

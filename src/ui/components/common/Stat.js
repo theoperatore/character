@@ -10,7 +10,7 @@ module.exports = React.createClass({
   getDefaultProps : function() {
     return ({
       title : 'stat',
-      subtitle : 'mod',
+      subtitle : '',
       score : 0,
       background : false,
       trained : false
@@ -32,6 +32,8 @@ module.exports = React.createClass({
     var css = classnames({
       'stat-content' : true,
       'stat-background' : this.props.background,
+      'bg-blue' : this.props.background,
+      'text-blue' : this.props.background,
       'stat-trained' : this.props.trained
     });
 
