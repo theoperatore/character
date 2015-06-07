@@ -3,7 +3,7 @@ Character
 
 The goal of this project is to create a web application to replace pen and paper character sheets while playing Dungeons & Dragons 5th Edition.
 
-This app isn't meant to replace playing in-person; on the contrary, table top games are meant to be played surrounded by your closest friends (your enemies...).
+This app isn't meant to replace playing in-person; on the contrary, table top games are meant to be played surrounded by your closest friends (or your enemies...).
 
 Dev Usage
 ---------
@@ -61,7 +61,7 @@ Anything else _might_ break the build on certain browsers as Reactify doesn't tr
 Stack
 -----
 
-For UI, we use:
+For UI, we use (and growing):
 
 - [React](https://facebook.github.io/react/docs/getting-started.html) as the web framework
   - [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) for easy react component composition
