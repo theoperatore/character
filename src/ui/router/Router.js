@@ -51,7 +51,12 @@ exports.get = function(url, cb) {
 }
 
 // do initial routing
-exports.nav = change;
+exports.init = change;
+
+// manual navigation
+exports.nav = function(href) {
+  window.location.hash = href.replace(/[\#]/g, '');
+}
 
 // listen for routing
 window.addEventListener('hashchange', change);

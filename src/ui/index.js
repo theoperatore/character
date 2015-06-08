@@ -7,6 +7,7 @@ var Router = require('./router/Router');
 var Landing = require('./views/Landing');
 var App = require('./views/App');
 var Login = require('./views/Login');
+var Signup = require('./views/Signup');
 var User = require('./views/User');
 var StyleGuide = require('./views/StyleGuide');
 var HTML404 = require('./views/HTML404');
@@ -34,6 +35,11 @@ Router.get('/login/(:id)', (params) => {
   React.render(<Login token={params.id} />, document.body);
 })
 
+// signup
+Router.get('/signup', () => {
+  React.render(<Signup />, document.body);
+})
+
 // Not found
 Router.get('*', () => {
   React.render(<HTML404 />, document.body);
@@ -45,5 +51,5 @@ Router.get('/style', () => {
 })
 
 // start routing!
-Router.nav();
+Router.init();
 

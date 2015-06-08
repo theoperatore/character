@@ -12,6 +12,7 @@ module.exports = React.createClass({
         <p><Link href="#/user/ralf">User: Ralf</Link></p>
         <p><Link href="#/character/ralf">Character: Ralf</Link></p>
         <p><Link href="#/login">Log In</Link></p>
+        <p><Link href="#/signup">Sign up</Link></p>
       </div>
     )
   }

@@ -90,17 +90,31 @@ exports.token = function(email) {
         reject(err);
       }
       else {
-        resolve("you're in...");
+        resolve("sent");
       }
     })
   })
 };
 
+// update data at the specified path
+exports.update = function(path, value) {
+  return new Promise((resolve, reject) => {
+    db.child(path).update(value, (err) => {
+      if (err) {
+        reject(err);
+      }
+      else {
+        resolve("success");
+      }
+    })
+  })
+}
+
 // check if auth
-exports.getAuth = db.getAuth();
+exports.getAuth = db.getAuth;
 
 // unAuth user
-exports.unAuth = db.unauth();
+exports.unAuth = db.unauth;
 
 // for anything else we might need...
 exports.ref = db;

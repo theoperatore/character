@@ -17,12 +17,14 @@ npm install
 to download all of the dependencies. Once you have all of the dependencies, you can run a few [Gulp](http://gulpjs.com/) commands:
 
 ```
-$ gulp                # cleans, builds vendor and the app, watches for changes, opens browser
+$ gulp                # cleans, builds vendor/app/stylus, watches for changes, opens browser
 $ gulp lint           # lint your javascipt!
 $ gulp mocha          # run unit tests in the tests folder
 $ gulp clean          # remove all build files
 $ gulp watch          # build the app and watch for changes
 $ gulp build-vendor   # build just vendor files
+$ gulp compile-js     # compile all app dependencies
+$ gulp compile-css    # compile all css stylus files
 ```
 
 The most useful is probably going to be `gulp` by itself which will set everything up for you to develop.
@@ -39,10 +41,11 @@ $ gulp
 Let it do it's thing, and eventually, it should open up a web browser with the address `localhost:8080`. URLs available are:
 
 ```
-localhost:8080             # the character sheet page
-localhost:8080/#/user/:id  # user page that should show user's created characters
-localhost:8080/#/login/:id # page to log in / log out a user
-localhost:8080/#/style     # style guide showing basic components
+localhost:8080          # the character sheet page
+localhost:8080/#/user   # user page that should show user's created characters
+localhost:8080/#/login  # page to log in / log out a user
+localhost:8080/#/signup # page to create a new user account
+localhost:8080/#/style  # style guide showing basic components
 ```
 
 Each route above uses a different view component located in `src/ui/views` folder. Each one is bare and needs work.
@@ -67,6 +70,7 @@ For UI, we use (and growing):
   - [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) for easy react component composition
 - [ImmutableJS](http://facebook.github.io/immutable-js/docs/#/) for easy state / component updating performance
 - [Swiper](http://www.idangero.us/swiper/#.VXA5ztNViko) for swiping!
+- [Stylus](https://learnboost.github.io/stylus/) for css preprocessing
 
 Server side:
 

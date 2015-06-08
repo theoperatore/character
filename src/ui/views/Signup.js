@@ -6,12 +6,12 @@ var Message = require('../components/Message');
 var db = require('../../api');
 
 module.exports = React.createClass({
-  displayName : "Login",
+  displayName : "Signup",
 
 
   getInitialState : function() {
     return ({
-      btnVal : "Log in",
+      btnVal : "Create",
       message : "",
       messageType : "alert",
       disabled : false
@@ -20,34 +20,10 @@ module.exports = React.createClass({
 
 
   componentWillMount : function() {
-    var email;
-    var newuser;
+    var auth = db.ref.getAuth();
 
-    if (db.ref.getAuth()) {
+    if (auth) {
       Router.nav("/user");
-    }
-    else if (this.props.token) {
-      email = localStorage.getItem("__cm_character_app_email__");
-      newuser = localStorage.getItem("__cm_character_app_new_user__");
-      this.setState({ btnVal : "Authenticating...", disabled : true });
-
-      db.auth(email, this.props.token).then((auth) => {
-        if (newuser) {
-          var query = "/users/" + auth.uid;
-          var user = {};
-
-          user['profile_name'] = email.split("@")[0];
-          user['signup_date'] = +new Date;
-
-          return db.update(query, user);
-        }
-      }).then(() => {
-        localStorage.removeItem("__cm_character_app_email__");
-        localStorage.removeItem("__cm_character_app_new_user__");
-        Router.nav('/user');
-      }).catch((err) => {
-        this.setState({ message : err.message, messageType : "alert", btnVal : "Log in", disabled : false });
-      })
     }
   },
 
@@ -65,25 +41,42 @@ module.exports = React.createClass({
   },
 
 
+  generatePass : function() {
+    var chars = "0123456789abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var pass = "";
+
+    for (var i = 0; i < 32; i++) {
+      pass += chars[Math.floor(Math.random() * chars.length)];
+    }
+
+    return pass;
+  },
+
+
   handleSubmit : function() {
     var email = React.findDOMNode(this.refs['input-login']).value;
     var passed = this.validateEmail(email);
+    var password;
 
     if (!passed) {
       this.setState({ message : "Invalid email address format!" });
       return;
     }
 
-    localStorage.setItem("__cm_character_app_email__", email);
-    this.setState({ btnVal : "Sending...", disabled : true });
+    password = this.generatePass();
 
-    // start login times
-    db.token(email).then((msg) => {
-      this.setState({ btnVal : "Sent", message : "Check your email!", messageType : "success" });
+    localStorage.setItem("__cm_character_app_email__", email);
+    localStorage.setItem("__cm_character_app_new_user__", "new_user");
+    this.setState({ btnVal : "Creating...", disabled : true });
+
+    // start create user times
+    db.create(email, password).then((auth) => {
+      return db.token(email);
+    }).then((msg) => {
+      this.setState({ message : "Check your email!", messageType : "success", btnVal : "Created" });
     }).catch((err) => {
-      this.setState({ btnVal : "Submit", disabled : false, message : err.message });
-      console.error(err);
-    });
+      this.setState({ message : err.message, messageType : "alert", btnVal : "Create", disabled : false });
+    })
   },
 
 
@@ -91,7 +84,7 @@ module.exports = React.createClass({
 
     return (
       <div className="container">
-        <h1>Authenticate</h1>
+        <h1>Create Account</h1>
         <Message type={this.state.messageType} message={this.state.message} />
         <input ref="input-login" type="text" className="input-email-address" onFocus={this.clearMessage} placeholder="Email Address" />
         <button disabled={this.state.disabled} onClick={this.handleSubmit}>{this.state.btnVal}</button>
