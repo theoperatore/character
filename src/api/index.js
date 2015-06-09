@@ -110,11 +110,5 @@ exports.update = function(path, value) {
   })
 }
 
-// check if auth
-exports.getAuth = db.getAuth;
-
-// unAuth user
-exports.unAuth = db.unauth;
-
 // for anything else we might need...
 exports.ref = db;

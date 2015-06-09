@@ -113,10 +113,10 @@ module.exports = React.createClass({
   render : function() {
 
     return (
-      <div className="container">
-        <h1>Authenticate</h1>
+      <div className="login-container">
+        <h1 className="login-title">Authenticate</h1>
         <Message type={this.state.messageType} message={this.state.message} />
-        <input ref="input-login" type="text" className="input-email-address" onFocus={this.clearMessage} placeholder="Email Address" />
+        <input ref="input-login" type="text" className="login-input-email-address" onFocus={this.clearMessage} placeholder="Email Address" />
         <button disabled={this.state.disabled} onClick={this.handleSubmit}>{this.state.btnVal}</button>
       </div>
     );
