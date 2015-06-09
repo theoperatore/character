@@ -65,11 +65,24 @@ module.exports = React.createClass({
   },
 
 
+  generatePass : function() {
+    var chars = "0123456789abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var pass = "";
+
+    for (var i = 0; i < 32; i++) {
+      pass += chars[Math.floor(Math.random() * chars.length)];
+    }
+
+    return pass;
+  },
+
+
   handleSubmit : function() {
     var email = React.findDOMNode(this.refs['input-login']).value;
-    var passed = this.validateEmail(email);
+    var valid = this.validateEmail(email);
+    var pass = this.generatePass();
 
-    if (!passed) {
+    if (!valid) {
       this.setState({ message : "Invalid email address format!" });
       return;
     }
@@ -77,11 +90,21 @@ module.exports = React.createClass({
     localStorage.setItem("__cm_character_app_email__", email);
     this.setState({ btnVal : "Sending...", disabled : true });
 
-    // start login times
-    db.token(email).then((msg) => {
+    // assume a new user;
+    db.create(email, pass).then((auth) => {
+
+      localStorage.setItem("__cm_character_app_new_user__", "new_user_times_yeah");
+      return db.token(email);
+    }).catch((err) => {
+      if (err.code === "EMAIL_TAKEN") {
+        return db.token(email);
+      }
+
+      throw new Error(err);
+    }).then((msg) => {
       this.setState({ btnVal : "Sent", message : "Check your email!", messageType : "success" });
     }).catch((err) => {
-      this.setState({ btnVal : "Submit", disabled : false, message : err.message });
+      this.setState({ btnVal : "Submit", disabled : false, message : err.message, messageType : "alert" });
       console.error(err);
     });
   },
