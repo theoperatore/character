@@ -243,6 +243,5 @@ gulp.task('default', ['copy', 'build-vendor', 'watch-js', 'watch-css'], function
     }
   });
 
-  gulp.watch(['index.html', 'build/bundle.js', 'build/style.css'], browsersync.reload);
-  gulp.watch(['src/ui/style/*.css'], browsersync.reload);
+  gulp.watch(['build/index.html', 'build/bundle.js', 'build/style.css'], browsersync.reload);
 })
