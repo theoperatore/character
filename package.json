@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "gulp mocha",
-    "watch-live": "gulp watch-live",
-    "watch": "gulp watch",
-    "lint": "gulp lint"
+    "watch": "gulp",
+    "lint": "gulp lint",
+    "deploy" : "gulp deploy"
   },
   "author": "Alex Petersen <theoperatore@gmail.com> (http://anpetersen.me)",
   "license": "MIT",
