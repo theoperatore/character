@@ -65,22 +65,9 @@ module.exports = React.createClass({
   },
 
 
-  generatePass : function() {
-    var chars = "0123456789abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    var pass = "";
-
-    for (var i = 0; i < 32; i++) {
-      pass += chars[Math.floor(Math.random() * chars.length)];
-    }
-
-    return pass;
-  },
-
-
   handleSubmit : function() {
     var email = React.findDOMNode(this.refs['input-login']).value;
     var valid = this.validateEmail(email);
-    var pass = this.generatePass();
 
     if (!valid) {
       this.setState({ message : "Invalid email address format!" });
@@ -90,35 +77,47 @@ module.exports = React.createClass({
     localStorage.setItem("__cm_character_app_email__", email);
     this.setState({ btnVal : "Sending...", disabled : true });
 
-    // assume a new user;
-    db.create(email, pass).then((auth) => {
-
-      localStorage.setItem("__cm_character_app_new_user__", "new_user_times_yeah");
-      return db.token(email);
-    }).catch((err) => {
-      if (err.code === "EMAIL_TAKEN") {
-        return db.token(email);
-      }
-
-      throw new Error(err);
-    }).then((msg) => {
+    // login user
+    db.login(email).then((msg) => {
       this.setState({ btnVal : "Sent", message : "Check your email!", messageType : "success" });
     }).catch((err) => {
       this.setState({ btnVal : "Submit", disabled : false, message : err.message, messageType : "alert" });
       console.error(err);
     });
+    
   },
 
 
   render : function() {
-
     return (
-      <div className="login-container">
-        <h1 className="login-title">Authenticate</h1>
-        <Message type={this.state.messageType} message={this.state.message} />
-        <input ref="input-login" type="text" className="login-input-email-address" onFocus={this.clearMessage} placeholder="Email Address" />
-        <button disabled={this.state.disabled} onClick={this.handleSubmit}>{this.state.btnVal}</button>
-      </div>
+      <section className="login-page">
+        <div className="grid">
+          <div className="row">
+            <div className="col-xs-12 col-sm-4 col-sm-offset-4">
+              <div className="login-content">
+                <h1 className="login-title">Authenticate</h1>
+                <Message type={this.state.messageType} message={this.state.message} />
+                <input className="login-input" ref="input-login" type="text" onFocus={this.clearMessage} placeholder="Email Address" />
+                <button className="login-btn" disabled={this.state.disabled} onClick={this.handleSubmit}>{this.state.btnVal}</button>
+                <section className="login-container-description">
+                  <ol className="login-list">
+                    <li>Enter your email address</li>
+                    <li>Get sent an email</li>
+                    <li>Click the link in the email</li>
+                    <li>Party! Because you're all set to rock!</li>
+                  </ol>
+                  <p className="login-text-description">Do this any time you need to log into your account.</p>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+        <section className="footer-container">
+          <div className="footer-content">
+            <p className="footer-text-description">Designed by the ClockworkMonocle team | &copy;2015</p>
+          </div>
+        </section>
+      </section>
     );
   }
 })

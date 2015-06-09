@@ -7,9 +7,11 @@ var react = require('gulp-react');
 var stylus = require('gulp-stylus');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
+var uglify = require('gulp-uglify');
 var reactify = require('reactify');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 var watchify = require('watchify');
 var browsersync = require('browser-sync');
 var del = require('del');
@@ -158,16 +160,12 @@ gulp.task('build-vendor', function() {
   getVendorKeys().forEach(function(vendor) {
     bundler.require(vendor, { expose : vendor });
   });
-
-  handleError = function(ev) {
-    console.log("browserify vendor error:", ev.message);
-  }
-
-  stream = bundler.bundle();
-  stream.on('error', handleError);
-  stream = stream.pipe(source('vendor.js'));
   
-  return stream.pipe(gulp.dest('./build'));
+  return bundler.bundle()
+    .pipe(source('vendor.js'))
+    .pipe(buffer())
+    .pipe(uglify())
+    .pipe(gulp.dest('./build'));
 })
 
 
@@ -195,7 +193,7 @@ gulp.task('compile-css', function() {
     .pipe(sourcemaps.init())
     .pipe(stylus({ use : nib(), import : ['nib'], include : ['src/ui/style']}))
     .pipe(concat('style.css'))
-    .pipe(sourcemaps.write('.'))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('build'));
 })
 

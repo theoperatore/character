@@ -15,7 +15,7 @@ var db = new Firebase(config.dbroot);
 
 
 // wrap Firebase `once` read in a promise
-exports.once = function(path, type) {
+function once(path, type) {
   path = path || "./";
   type = type || "value";
 
@@ -31,7 +31,7 @@ exports.once = function(path, type) {
 };
 
 // wrap Firebase 'on' read in a promise
-exports.on = function(path, type) {
+function on(path, type) {
   path = path || "./";
   type = type || "value";
 
@@ -47,7 +47,7 @@ exports.on = function(path, type) {
 };
 
 // auth wrapper
-exports.auth = function(email, token) {
+function auth(email, token) {
   return new Promise((resolve, reject) => {
     db.authWithPassword({
       email : email,
@@ -64,7 +64,7 @@ exports.auth = function(email, token) {
 };
 
 // create a new user
-exports.create = function(email, password) {
+function create(email, password) {
   return new Promise((resolve, reject) => {
     db.createUser({
       email : email,
@@ -81,7 +81,7 @@ exports.create = function(email, password) {
 };
 
 // send token in email
-exports.token = function(email) {
+function token(email) {
   return new Promise((resolve, reject) => {
     db.resetPassword({
       email : email
@@ -97,7 +97,7 @@ exports.token = function(email) {
 };
 
 // update data at the specified path
-exports.update = function(path, value) {
+function update(path, value) {
   return new Promise((resolve, reject) => {
     db.child(path).update(value, (err) => {
       if (err) {
@@ -110,5 +110,41 @@ exports.update = function(path, value) {
   })
 }
 
-// for anything else we might need...
+// create random password
+function generatePass() {
+  var chars = "0123456789abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  var pass = "";
+
+  for (var i = 0; i < 32; i++) {
+    pass += chars[Math.floor(Math.random() * chars.length)];
+  }
+
+  return pass;
+}
+
+// login flow
+function login(email) {
+  var pass = generatePass();
+
+  return create(email, pass).then((auth) => {
+    localStorage.setItem("__cm_character_app_new_user__", "new_user_times_yeah");
+    return token(email);
+  }).catch((err) => {
+    if (err.code === "EMAIL_TAKEN") {
+      return token(email);
+    }
+
+    throw new Error(err);
+  })
+}
+
+
+// api
 exports.ref = db;
+exports.update = update;
+exports.token = token;
+exports.create = create;
+exports.auth = auth;
+exports.on = on;
+exports.once = once;
+exports.login = login;
