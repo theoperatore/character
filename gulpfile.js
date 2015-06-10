@@ -194,7 +194,10 @@ gulp.task('compile-css', function() {
     .pipe(stylus({ use : nib(), import : ['nib'], include : ['src/ui/style']}))
     .pipe(concat('style.css'))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('build'));
+    .pipe(gulp.dest('build'))
+    .on('error', function() {
+      this.emit('end')
+    });
 })
 
 

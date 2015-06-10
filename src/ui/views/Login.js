@@ -11,7 +11,7 @@ module.exports = React.createClass({
 
   getInitialState : function() {
     return ({
-      btnVal : "Log in",
+      btnVal : "Submit",
       message : "",
       messageType : "alert",
       disabled : false
@@ -46,14 +46,9 @@ module.exports = React.createClass({
         localStorage.removeItem("__cm_character_app_new_user__");
         Router.nav('/user');
       }).catch((err) => {
-        this.setState({ message : err.message, messageType : "alert", btnVal : "Log in", disabled : false });
+        this.setState({ message : err.message, messageType : "alert", btnVal : "Submit", disabled : false });
       })
     }
-  },
-
-
-  clearMessage : function() {
-    this.setState({ message : "" });
   },
 
 
@@ -75,11 +70,11 @@ module.exports = React.createClass({
     }
 
     localStorage.setItem("__cm_character_app_email__", email);
-    this.setState({ btnVal : "Sending...", disabled : true });
+    this.setState({ btnVal : "working...", disabled : true });
 
     // login user
     db.login(email).then((msg) => {
-      this.setState({ btnVal : "Sent", message : "Check your email!", messageType : "success" });
+      this.setState({ btnVal : "Success", message : "Check your email!", messageType : "success", disabled : true });
     }).catch((err) => {
       this.setState({ btnVal : "Submit", disabled : false, message : err.message, messageType : "alert" });
       console.error(err);
@@ -90,34 +85,18 @@ module.exports = React.createClass({
 
   render : function() {
     return (
-      <section className="login-page">
-        <div className="grid">
-          <div className="row">
-            <div className="col-xs-12 col-sm-4 col-sm-offset-4">
-              <div className="login-content">
-                <h1 className="login-title">Authenticate</h1>
-                <Message type={this.state.messageType} message={this.state.message} />
-                <input className="login-input" ref="input-login" type="text" onFocus={this.clearMessage} placeholder="Email Address" />
-                <button className="login-btn" disabled={this.state.disabled} onClick={this.handleSubmit}>{this.state.btnVal}</button>
-                <section className="login-container-description">
-                  <ol className="login-list">
-                    <li>Enter your email address</li>
-                    <li>Get sent an email</li>
-                    <li>Click the link in the email</li>
-                    <li>Party! Because you're all set to rock!</li>
-                  </ol>
-                  <p className="login-text-description">Do this any time you need to log into your account.</p>
-                </section>
-              </div>
-            </div>
+      <div className="login-page">
+        <div className="login-content">
+          <h1 className="login-title">A</h1>
+          <p>authenticate</p>
+          <div className="login-input-group">
+            <Message type={this.state.messageType} message={this.state.message} />
+            <input className="login-input" disabled={this.state.disabled} ref="input-login" type="email" placeholder="Email Address" />
+            <button className="login-btn" disabled={this.state.disabled} onClick={this.handleSubmit}>{this.state.btnVal}</button>
           </div>
+          <p className="login-subtext"><small>&copy;2015 - ClockworkMonocle</small></p>
         </div>
-        <section className="footer-container">
-          <div className="footer-content">
-            <p className="footer-text-description">Designed by the ClockworkMonocle team | &copy;2015</p>
-          </div>
-        </section>
-      </section>
+      </div>
     );
   }
 })
