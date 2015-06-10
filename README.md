@@ -21,10 +21,9 @@ $ gulp                # cleans, builds vendor/app/stylus, watches for changes, o
 $ gulp lint           # lint your javascipt!
 $ gulp mocha          # run unit tests in the tests folder
 $ gulp clean          # remove all build files
-$ gulp watch          # build the app and watch for changes
-$ gulp build-vendor   # build just vendor files
-$ gulp compile-js     # compile all app dependencies
-$ gulp compile-css    # compile all css stylus files
+$ gulp build-vendor   # build and uglify vendor files (takes a while...)
+$ gulp compile-js     # compile all app dependencies (watch-js as well)
+$ gulp compile-css    # compile all css stylus files (watch-css as well)
 ```
 
 The most useful is probably going to be `gulp` by itself which will set everything up for you to develop.
@@ -41,11 +40,11 @@ $ gulp
 Let it do it's thing, and eventually, it should open up a web browser with the address `localhost:8080`. URLs available are:
 
 ```
-localhost:8080          # the character sheet page
-localhost:8080/#/user   # user page that should show user's created characters
-localhost:8080/#/login  # page to log in / log out a user
-localhost:8080/#/signup # page to create a new user account
-localhost:8080/#/style  # style guide showing basic components
+localhost:8080             # landing page talking about how cool this thing is (just links right now)
+localhost:8080/#/character # the character app
+localhost:8080/#/user      # user page that should show user's created characters
+localhost:8080/#/login     # page to log in / log out a user
+localhost:8080/#/style     # style guide showing basic components
 ```
 
 Each route above uses a different view component located in `src/ui/views` folder. Each one is bare and needs work.
