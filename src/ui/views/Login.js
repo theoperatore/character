@@ -20,12 +20,24 @@ module.exports = React.createClass({
 
 
   componentWillMount : function() {
+    var user = db.ref.getAuth();
     var email;
     var newuser;
 
-    if (db.ref.getAuth()) {
-      Router.nav("/user");
+    // if the user is already logged in, then redirect to profile page
+    if (user) {
+      db.once('/users/' + user.uid).then((snapshot) => {
+        var u = snapshot.val();
+
+        if (!u) throw new Error('Cannot read from user');
+
+        Router.nav('/user/' + u['profile_name']);
+      }).catch((err) => {
+        this.setState({ message : err.message, messageType : "alert", btnVal : "Submit", disabled : false });
+      })
     }
+
+    // if there is a token, then use it to authenticate
     else if (this.props.token) {
       email = localStorage.getItem("__cm_character_app_email__");
       newuser = localStorage.getItem("__cm_character_app_new_user__");
@@ -44,7 +56,15 @@ module.exports = React.createClass({
       }).then(() => {
         localStorage.removeItem("__cm_character_app_email__");
         localStorage.removeItem("__cm_character_app_new_user__");
-        Router.nav('/user');
+
+        return db.once('/users/' + db.ref.getAuth().uid);
+      }).then((snapshot) => {
+        var user = snapshot.val();
+
+        if (!user) throw new Error("Cannot read from user");
+
+        Router.nav('/user/' + user['profile_name']);
+
       }).catch((err) => {
         this.setState({ message : err.message, messageType : "alert", btnVal : "Submit", disabled : false });
       })

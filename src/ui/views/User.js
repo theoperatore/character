@@ -12,7 +12,7 @@ module.exports = React.createClass({
     db.ref.unauth();
     Router.nav('/login');
   },
-
+  
 
   render : function() {
     return (
