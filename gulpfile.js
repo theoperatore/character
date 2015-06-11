@@ -217,7 +217,7 @@ gulp.task('watch-css', ['compile-css'], function() {
 //
 ///////////////////////////////////////////////////////////////////////////////
 gulp.task('copy', ['clean'], function() {
-  return gulp.src('index.html')
+  return gulp.src(['index.html', 'src/ui/statics/**'])
     .pipe(gulp.dest('build/'));
 })
 

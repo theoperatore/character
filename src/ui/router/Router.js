@@ -16,7 +16,12 @@ function change() {
 
   if (path === '' || path === '/' || !path) {
     if (window.history && window.history.replaceState) {
-      window.history.replaceState({}, "", window.location.origin + "#/");
+      var url = window.location.origin.replace(/\/$/, '');
+
+      url += window.location.pathname.replace(/\/$/, '');
+      url += '/#/';
+
+      window.history.replaceState({}, "", url);
     }
 
     key = { k : '/'};
