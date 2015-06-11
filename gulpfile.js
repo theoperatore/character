@@ -240,7 +240,25 @@ gulp.task('default', ['copy', 'build-vendor', 'watch-js', 'watch-css'], function
     notify: true,
     port : 8080,
     server: {
-      baseDir : __dirname
+      baseDir : __dirname + "/build"
+    }
+  });
+
+  gulp.watch(['build/index.html', 'build/bundle.js', 'build/style.css'], browsersync.reload);
+})
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Just watch, don't do initial compile
+//
+///////////////////////////////////////////////////////////////////////////////
+gulp.task('watch', function() {
+  browsersync({
+    notify: true,
+    port : 8080,
+    server: {
+      baseDir : __dirname + "/build"
     }
   });
 
