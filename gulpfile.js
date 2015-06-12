@@ -16,6 +16,7 @@ var watchify = require('watchify');
 var browsersync = require('browser-sync');
 var del = require('del');
 var nib = require('nib');
+var server = require('gulp-express');
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -26,7 +27,7 @@ var nib = require('nib');
 ///////////////////////////////////////////////////////////////////////////////
 function getVendorKeys() {
   var pkg = require('./package.json');
-  
+
   return Object.keys(pkg.dependencies);
 }
 
@@ -48,7 +49,7 @@ gulp.task('clean', function(cb) {
 ///////////////////////////////////////////////////////////////////////////////
 gulp.task('lint', function() {
   return gulp.src([
-        'src/**/*.js', 
+        'src/**/*.js',
         'tests/**/*.js'
       ])
     .pipe(react())
@@ -87,7 +88,7 @@ gulp.task('compile-js', function() {
     console.log("browserify error:", ev.message);
   }
 
-  
+
   stream = bundler.bundle();
   stream.on('error', handleError);
   stream = stream.pipe(source('bundle.js'));
@@ -144,7 +145,7 @@ gulp.task('watch-js', function() {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Build vendor dependancies
+// Build vendor dependencies
 //
 ///////////////////////////////////////////////////////////////////////////////
 gulp.task('build-vendor', function() {
@@ -154,13 +155,13 @@ gulp.task('build-vendor', function() {
   var rebundle;
 
   bundler = browserify({
-    debug : true 
+    debug : true
   });
 
   getVendorKeys().forEach(function(vendor) {
     bundler.require(vendor, { expose : vendor });
   });
-  
+
   return bundler.bundle()
     .pipe(source('vendor.js'))
     .pipe(buffer())
@@ -176,7 +177,7 @@ gulp.task('build-vendor', function() {
 ///////////////////////////////////////////////////////////////////////////////
 gulp.task('mocha', function() {
   return gulp.src('tests/**/*.js', { read : false })
-    .pipe(mocha({ 
+    .pipe(mocha({
       reporter : 'spec',
       timeout : 5000
     }));
@@ -263,4 +264,14 @@ gulp.task('watch', function() {
   });
 
   gulp.watch(['build/index.html', 'build/bundle.js', 'build/style.css'], browsersync.reload);
+})
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Compile project and init express server
+//
+///////////////////////////////////////////////////////////////////////////////
+gulp.task('server', ['copy', 'build-vendor', 'watch-js', 'watch-css'], function() {
+  server.run(['app.js']);
 })
