@@ -89,3 +89,9 @@
 .icon-branching:before {
   content: "b";
 }
+.icon-angle-double-right:before {
+  content: "h";
+}
+.icon-cog:before {
+  content: "j";
+}

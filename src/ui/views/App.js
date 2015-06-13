@@ -8,7 +8,7 @@ module.exports = React.createClass({
     return (
       <div className="container">
         <h1>Character</h1>
-        <p>{this.props.character}</p>
+        <p>{this.props.user}'s {this.props.character}</p>
       </div>
     );
   }

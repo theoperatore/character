@@ -1,1 +1,84 @@
-// for User.js specific styles
+@require('base.styl')
+
+.profile-container
+  width base-width-lg
+  margin 0 auto
+  @media screen and (max-width: 480px)
+    width 100%
+
+.profile-header
+  padding base-padding
+  text-align center
+  border-bottom 1px solid #ddd
+  >h1
+    display inline-block
+  &:after
+    display table
+    clear both
+    content ""
+    
+.profile-header-name 
+  font-weight bold
+    
+.profile-header-button
+  margin-left 30px
+  font-size 20px
+  line-height 1.1
+  appearance none
+  border 0
+  background-color base-background-color
+  outline none
+  border-radius base-border-radius
+  &:active
+    background-color darken(base-background-color, 10%)
+
+.profile-content
+  padding base-padding
+  margin-top base-margin
+
+.profile-list-characters
+  padding-left 0
+  >li
+    list-style none
+    
+.profile-character-button
+  width 100%
+  appearance none
+  border 0
+  background-color base-background-color
+  outline none
+  border-radius base-border-radius
+  &:active
+    background-color darken(base-background-color, 10%)
+  
+
+.profile-character-container
+  border-bottom 1px solid #ddd
+  padding base-padding
+  height base-height
+  &:after
+    display table
+    clear both
+    content ""
+
+.profile-character-details
+  padding-left 0
+  >li 
+    display inline-block
+    list-style none
+    margin-right 1.4em
+    >h3
+      margin 0
+      line-height base-height
+  >p
+    display inline-block
+    line-height base-height
+    margin 0
+    font-size 24px
+
+.left
+  float left
+  
+.right
+  float right
+  

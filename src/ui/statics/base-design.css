@@ -4,33 +4,3 @@ span.square {
   height: 50px;
   margin-right: 10px;
 }
-
-/******************************************************************************
-*
-* Colors
-*
-******************************************************************************/
-.bg-blue {
-  background-color: #d9edf7;
-}
-.bg-red {
-  background-color: #f2dede;
-}
-.bg-green {
-  background-color: #dff0d8;
-}
-.bg-gold {
-  background-color: #fcf8e3;
-}
-.text-blue {
-  color: #31708f;
-}
-.text-red {
-  color: #a94442;
-}
-.text-green {
-  color: #3c763d;
-}
-.text-gold {
-  color: #8a6d3b;
-}

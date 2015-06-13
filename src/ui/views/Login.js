@@ -31,7 +31,7 @@ module.exports = React.createClass({
 
         if (!u) throw new Error('Cannot read from user');
 
-        Router.nav('/user/' + u['profile_name']);
+        Router.nav('/profile/' + u['profile_name']);
       }).catch((err) => {
         this.setState({ message : err.message, messageType : "alert", btnVal : "Submit", disabled : false });
       })

@@ -17,6 +17,7 @@ var HPBar = require('../components/HPBar');
 var Shield = require('../components/Shield');
 var Stat = require('../components/Stat');
 var Switch = require('../components/Switch');
+var ClickInput = require('../components/ClickInput');
 
 
 var mockSkills = require('../mock-data/character-skills');
@@ -32,7 +33,8 @@ module.exports = React.createClass({
       equipData : Immutable.fromJS(mockEquipment),
       hpData : Immutable.fromJS(mockHps),
       settingsWellOpen : false,
-      switchActive : false
+      switchActive : false,
+      characterName : 'Click Me'
     })
   },
 
@@ -46,6 +48,16 @@ module.exports = React.createClass({
 
   toggleSwitch : function() {
     this.setState({ switchActive : !this.state.switchActive });
+  },
+
+  handleUserInput : function(val) {
+    console.log(val);
+    this.setState({ characterName : val });
+  },
+
+  handleUserInputEnd : function(val) {
+    console.log('end', val);
+    this.setState({ characterName : val });
   },
 
   randomizeGold : function() {
@@ -202,6 +214,11 @@ module.exports = React.createClass({
         <section>
           <p><strong>Switches</strong></p>
           <Switch active={this.state.switchActive} onClick={this.toggleSwitch} />
+        </section>
+        <hr />
+        <section>
+          <p><strong>Click Inputs</strong></p>
+          <ClickInput label={this.state.characterName} onUserInput={this.handleUserInput} onUserInputEnd={this.handleUserInputEnd} />
         </section>
         <hr />
       </div>

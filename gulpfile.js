@@ -192,12 +192,13 @@ gulp.task('compile-css', function() {
   return gulp.src('src/ui/**/*.styl')
     .pipe(sourcemaps.init())
     .pipe(stylus({ use : nib(), import : ['nib'], include : ['src/ui/style']}))
+    .on('error', function(err) {
+      console.log("found a stylus error: %s", err.message);
+      this.emit('end');
+    })
     .pipe(concat('style.css'))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('build'))
-    .on('error', function() {
-      this.emit('end')
-    });
+    .pipe(gulp.dest('build'));
 })
 
 
@@ -244,7 +245,7 @@ gulp.task('default', ['copy', 'build-vendor', 'watch-js', 'watch-css'], function
     }
   });
 
-  gulp.watch(['build/index.html', 'build/bundle.js', 'build/style.css'], browsersync.reload);
+  gulp.watch(['index.html', 'build/bundle.js', 'build/style.css'], browsersync.reload);
 })
 
 
