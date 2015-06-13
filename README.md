@@ -40,11 +40,11 @@ $ gulp
 Let it do it's thing, and eventually, it should open up a web browser with the address `localhost:8080`. URLs available are:
 
 ```
-localhost:8080             # landing page talking about how cool this thing is (just links right now)
-localhost:8080/#/character # the character app
-localhost:8080/#/user      # user page that should show user's created characters
-localhost:8080/#/login     # page to log in / log out a user
-localhost:8080/#/style     # style guide showing basic components
+localhost:8080                                # landing page talking about how cool this thing is (just links right now)
+localhost:8080/#/user/{:id}/character/{:name} # the character app
+localhost:8080/#/profile/{:id}                # user page that should show user's created characters
+localhost:8080/#/login                        # page to log in / log out a user
+localhost:8080/#/style                        # style guide showing basic components
 ```
 
 Each route above uses a different view component located in `src/ui/views` folder. Each one is bare and needs work.
