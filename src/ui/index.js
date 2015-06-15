@@ -36,7 +36,18 @@ Router.get('/profile/(:id)', (params) => {
 
 // login
 Router.get('/login/(:id)', (params) => {
-  React.render(<Login token={params.id} />, document.body);
+  var user = db.ref.getAuth();
+
+  // if the user is already logged in, then redirect to profile page
+  if (user) {
+    db.once('/users/' + user.uid).then((snapshot) => {
+      var u = snapshot.val();
+      Router.nav('/profile/' + u['profile_name']);
+    })
+  }
+  else {
+    React.render(<Login token={params.id} />, document.body);
+  }
 })
 
 // Not found

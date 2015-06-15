@@ -15,3 +15,13 @@ exports.findTransitionEndEvent = function() {
     }
   }
 }
+
+exports.isTargetInRoot = function(target, root) {
+  while(target) {
+    if (target === root) return true;
+
+    target = target.parentNode;
+  }
+
+  return false;
+}

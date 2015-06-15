@@ -20,25 +20,11 @@ module.exports = React.createClass({
 
 
   componentWillMount : function() {
-    var user = db.ref.getAuth();
     var email;
     var newuser;
 
-    // if the user is already logged in, then redirect to profile page
-    if (user) {
-      db.once('/users/' + user.uid).then((snapshot) => {
-        var u = snapshot.val();
-
-        if (!u) throw new Error('Cannot read from user');
-
-        Router.nav('/profile/' + u['profile_name']);
-      }).catch((err) => {
-        this.setState({ message : err.message, messageType : "alert", btnVal : "Submit", disabled : false });
-      })
-    }
-
     // if there is a token, then use it to authenticate
-    else if (this.props.token) {
+    if (this.props.token) {
       email = localStorage.getItem("__cm_character_app_email__");
       newuser = localStorage.getItem("__cm_character_app_new_user__");
       this.setState({ btnVal : "Authenticating...", disabled : true });

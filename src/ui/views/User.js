@@ -4,6 +4,7 @@ var React = require('react/addons');
 var db = require('../../api');
 var Router = require('../router/Router');
 var Icon = require('../components/Icon');
+var Menu = require('../components/Menu');
 
 module.exports = React.createClass({
   displayName : "User",
@@ -70,7 +71,13 @@ module.exports = React.createClass({
       <div className="profile-container">
         <div className="profile-header">
           <p className="profile-header-name left">{this.props.id}</p>
-          <button className="profile-header-button right"><Icon icon="icon-cog" /></button>
+          <div className="right">
+            <Menu anchor={<Icon icon="icon-cog" />}>
+              <p>new character</p>
+              <p>logout</p>
+            </Menu>
+          </div>
+          
         </div>
         <div className="profile-content">
           <ul className="profile-list-characters">

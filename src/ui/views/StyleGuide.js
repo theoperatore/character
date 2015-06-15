@@ -18,6 +18,7 @@ var Shield = require('../components/Shield');
 var Stat = require('../components/Stat');
 var Switch = require('../components/Switch');
 var ClickInput = require('../components/ClickInput');
+var Menu = require('../components/Menu');
 
 
 var mockSkills = require('../mock-data/character-skills');
@@ -219,6 +220,15 @@ module.exports = React.createClass({
         <section>
           <p><strong>Click Inputs</strong></p>
           <ClickInput label={this.state.characterName} onUserInput={this.handleUserInput} onUserInputEnd={this.handleUserInputEnd} />
+        </section>
+        <hr />
+        <section>
+          <p><strong>Menu</strong></p>
+          <Menu anchor={<Icon icon="icon-cog" />}>
+            <div>Link 1</div>
+            <div>Another Link for Stuff</div>
+            <div>The last link that is really long and possibly going to get cut off</div>
+          </Menu>
         </section>
         <hr />
       </div>
