@@ -1,145 +1,126 @@
-"use strict";
-var React = require('react/addons');
-var utils = require('../util/utils');
+'use strict';
 
+var React = require('react/addons');
+var cn = require('classnames');
+var utils = require('../utils');
 
 module.exports = React.createClass({
-  displayName : "Panel",
+  displayName : 'Panel',
 
-  
   getInitialState : function() {
     return ({
-      open : false,
-      titleHeight : 0,
-      contentHeight : 0,
-      dirty : true
+      active : false,
+      headerHeight : 0,
+      totalHeight : 0,
+      closing : false
     })
   },
 
 
   componentDidMount : function() {
     var node = React.findDOMNode(this);
-    var title = node.firstChild.nextElementSibling;
-    var content = node.firstChild;
-    var state = {};
+    var header = node.firstChild;
+    var content = node.firstChild.nextElementSibling;
+    var headerHeight;
+    var totalHeight;
 
-    state.titleHeight = title.getBoundingClientRect().height;
-    state.contentHeight = content.getBoundingClientRect().height;
-
-    content.addEventListener(utils.findTransitionEndEvent(), function(el) {
-      if (el.target.classList.contains('closing')) {
-        var height = this.state.titleHeight;
-
-        if (this.state.dirty) {
-          height = React.findDOMNode(this).firstChild.nextElementSibling.getBoundingClientRect().height;
-        }
-
-        el.target.classList.remove('closing');
-        React.findDOMNode(this).style.height = height + "px";
+    content.addEventListener(utils.findTransitionEndEvent(), (ev) => {
+      if (this.state.closing) {
+        this.setState({ closing : false, active : false });
       }
-    }.bind(this))
+    });
 
-    this.setState(state);
+    headerHeight = header.getBoundingClientRect().height;
+    totalHeight = headerHeight + content.getBoundingClientRect().height;
+
+    this.setState({ headerHeight : headerHeight, totalHeight : totalHeight });
   },
 
 
-  open : function() {
+  recalculate : function() {
     var node = React.findDOMNode(this);
-    var title = node.firstChild.nextElementSibling;
-    var content = node.firstChild;
-    var titleHeight = this.state.titleHeight;
-    var contentHeight = this.state.contentHeight;
+    var header = node.firstChild;
+    var content = node.firstChild.nextElementSibling;
+    var headerHeight;
+    var totalHeight;
 
-    if (this.state.dirty) {
-      var state = {};
+    headerHeight = header.getBoundingClientRect().height;
+    totalHeight = headerHeight + content.getBoundingClientRect().height;
 
-      contentHeight = content.getBoundingClientRect().height;
-      titleHeight = title.getBoundingClientRect().height;
-
-      state.contentHeight = contentHeight;
-      state.titleHeight = titleHeight;
-      state.dirty = false;
-
-      this.setState(state);
-    }
-
-    title.classList.add('open');
-    content.classList.add('open');
-
-    content.style.webkitTransform = "translate3d(0," + titleHeight + "px,0)";
-    content.style.MozTransform    = "translate3d(0," + titleHeight + "px,0)";
-    content.style.msTransform     = "translate3d(0," + titleHeight + "px,0)";
-    content.style.OTransform      = "translate3d(0," + titleHeight + "px,0)";
-    content.style.transform       = "translate3d(0," + titleHeight + "px,0)";
-
-    node.style.height = (titleHeight + contentHeight) + "px";
-
-    this.setState({ open : true });
-  },
-
-
-  close : function() {
-    var node = React.findDOMNode(this);
-    var title = node.firstChild.nextElementSibling;
-    var content = node.firstChild;
-
-    if (this.state.dirty) {
-      var state = {};
-      var contentHeight;
-      var titleHeight;
-
-      contentHeight = content.getBoundingClientRect().height;
-      titleHeight = title.getBoundingClientRect().height;
-
-      state.contentHeight = contentHeight;
-      state.titleHeight = titleHeight;
-      state.dirty = false;
-
-      this.setState(state);
-    }
-
-    title.classList.remove('open');
-    content.classList.remove('open');
-    content.classList.add('closing');
-
-    content.style.webkitTransform = "translate3d(0,0,0)";
-    content.style.MozTransform    = "translate3d(0,0,0)";
-    content.style.msTransform     = "translate3d(0,0,0)";
-    content.style.OTransform      = "translate3d(0,0,0)";
-    content.style.transform       = "translate3d(0,0,0)";
-
-    this.setState({ open : false });
+    this.setState({ headerHeight : headerHeight, totalHeight : totalHeight });
   },
 
 
   toggle : function() {
-    if (this.state.open) {
-      this.close();
+    if (this.state.active) {
+      this.setState({ closing : true });
     }
     else {
-      this.open();
+      this.setState({ active : true });
     }
   },
 
 
-  renderTitle : function() {
-    return this.props.title;
+  renderHeader : function() {
+    var css = cn({
+      'panel-header-container' : true,
+      'panel-active' : this.state.active
+    })
+
+    return (
+      <div className={css} onClick={this.toggle}>
+        {this.props.header || "Panel_Header"}      
+      </div>
+    );
   },
 
 
   renderContent : function() {
-    return this.props.children;
+    var trans = this.state.closing ? -this.state.headerHeight : 0;
+    var cssContent;
+    var children;
+    var style;
+    
+    style = {
+      WebkitTransform : "translate3d(0," + trans + "px,0)",
+      MozTransform    : "translate3d(0," + trans + "px,0)",
+      msTransform     : "translate3d(0," + trans + "px,0)",
+      OTransform      : "translate3d(0," + trans + "px,0)",
+      transform       : "translate3d(0," + trans + "px,0)"
+    };
+
+    cssContent = cn({
+      'panel-content-container' : true,
+      'panel-active' : this.state.active && !this.state.closing
+    });
+
+    children = React.Children.map(this.props.children, (child) => {
+      var props = {};
+
+      props.recalculate = this.recalculate;
+
+      return React.addons.cloneWithProps(child, props);
+    })
+
+
+    return (
+      <div className={cssContent} style={style}>
+        {children}    
+      </div>
+    );
   },
 
 
   render : function() {
-    var { className } = this.props;
+    var containerStyle = {
+      height : (this.state.active || this.state.closing) ? this.state.totalHeight : this.state.headerHeight
+    };
 
     return (
-      <div className={"panel-container " + (className || "")}>
-        <div className="panel-content-container">{this.renderContent()}</div>
-        <div className="panel-title-container" onClick={this.toggle}>{this.renderTitle()}</div>
+      <div className='panel-container' style={containerStyle}>
+        {this.renderHeader()}
+        {this.renderContent()}
       </div>
-    )
+    );
   }
 })

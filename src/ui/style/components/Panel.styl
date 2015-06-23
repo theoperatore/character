@@ -5,12 +5,13 @@
   transform translate3d(0, 0, 0)
   backface-visibility hidden
 
-.panel-title-container 
+.panel-header-container 
   position relative
   background-color rgba(255, 255, 255, 1)
   transform translate3d(0, 0, 0)
   backface-visibility hidden
   cursor pointer
+  z-index 2
 
 .panel-content-container 
   position absolute
@@ -22,11 +23,13 @@
   transform translate3d(0, 0, 0)
 
   backface-visibility hidden
+  z-index -1
 
 .panel-content-container
-  &.open 
+  &.panel-active 
    opacity 1
+   z-index 1
 
-.panel-title-container
-  &.open 
+.panel-header-container
+  &.panel-active 
     border-bottom 1px solid #ddd

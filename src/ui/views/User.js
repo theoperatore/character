@@ -72,7 +72,7 @@ module.exports = React.createClass({
         <div className="profile-header">
           <p className="profile-header-name left">{this.props.id}</p>
           <div className="right">
-            <Menu anchor={<Icon icon="icon-cog" />}>
+            <Menu anchor={<Icon icon="icon-cog" right={true} />}>
               <p>new character</p>
               <p>logout</p>
             </Menu>
