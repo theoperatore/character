@@ -64,9 +64,9 @@ Router.get('/style', () => {
 Router.init();
 
 // set up auth listnen
-//db.ref.onAuth((auth) => {
-//  if (!auth) {
-//    Router.nav('/login');
-//  }
-//})
+// db.ref.onAuth((auth) => {
+//   if (!auth) {
+//     Router.nav('/login');
+//   }
+// })
 
