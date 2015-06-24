@@ -7,7 +7,7 @@ module.exports = React.createClass({
   displayName : "Tab",
 
 
-  handleClick : function() {
+  handleClick : function(ev) {
     this.props._handleClick(this.props.idx);
   },
 

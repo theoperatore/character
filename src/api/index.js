@@ -110,6 +110,25 @@ function update(path, value) {
   })
 }
 
+// if only path is specified, return a new push reference to the path given,
+// otherwise, push the give data to the given path and return a promise
+function push(path, data) {
+  if (!data) {
+    return db.child(path).push();
+  }
+
+  return new Promise((resolve, reject) => {
+    db.child(path).push(data, (err) => {
+      if (err){
+        reject(err);
+      }
+      else {
+        resolve();
+      }
+    })
+  })
+}
+
 // create random password
 function generatePass() {
   var chars = "0123456789abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -148,3 +167,4 @@ exports.auth = auth;
 exports.on = on;
 exports.once = once;
 exports.login = login;
+exports.push = push;

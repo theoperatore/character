@@ -1,6 +1,8 @@
 "use strict";
 
 var React = require('react/addons');
+var db = require('../../api');
+
 var SwipePanes = require('../components/SwipePanes');
 var SwipePane = require('../components/SwipePane');
 var Tabs = require('../components/Tabs');
@@ -17,13 +19,44 @@ var Equipments = require('../panes/Equipments');
 
 module.exports = React.createClass({
   displayName : "App",
+
+
+  getInitialState : function() {
+    return ({
+      activePane : 3
+    })
+  },
+
+
+  componentWillMount : function() {
+    //db.once('/users/')
+
+    // /users/id/character/pushID must be the same pushId as /characters/pushID
+    // in order to write
+  },
+
+
+  componentDidMount : function() {
+    console.log(this.props.user, this.props.character);
+  },
+
+
+  handlePaneSwipe : function(ev) {
+    this.setState({ activePane : ev.activeIndex });
+  },
+
+
+  handleTabSelect : function(idx) {
+    this.setState({ activePane : idx });
+  },
+
+
   render : function() {
     return (
       <div className="character-container">
         <h1>Character</h1>
-        <p>{this.props.user}'s {this.props.character}</p>
 
-        <Tabs activeIdx={0}>
+        <Tabs activeIdx={this.state.activePane} onTabSelect={this.handleTabSelect}>
           <Tab><Icon icon="icon-crown" /></Tab>
           <Tab><Icon icon="icon-features" /></Tab>
           <Tab><Icon icon="icon-chart" /></Tab>
@@ -33,7 +66,7 @@ module.exports = React.createClass({
           <Tab><Icon icon="icon-equipment"/></Tab>
         </Tabs>
 
-        <SwipePanes>
+        <SwipePanes onSlideChangeEnd={this.handlePaneSwipe} activeIdx={this.state.activePane} initialSlide={this.state.activePane}>
           <SwipePane>
             <Info />
           </SwipePane>

@@ -6,7 +6,7 @@ module.exports = React.createClass({
   render : function() {
     return (
       <div className="pane-container">
-        <h1>PORTING...</h1>
+        <h1>Abilities</h1>
       </div>
     );
   }

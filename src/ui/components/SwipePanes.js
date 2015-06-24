@@ -9,13 +9,18 @@ module.exports = React.createClass({
 
 
   componentDidUpdate : function() {
-    swipe.slideTo(this.props.activeIdx || swipe.activeIndex);
+    swipe.slideTo(this.props.activeIdx);
+  },
+
+
+  shouldComponentUpdate : function(nextProps) {
+    return (nextProps.activeIdx !== this.props.activeIdx);
   },
 
 
   componentDidMount : function() {
     var mount = React.findDOMNode(this);
-    var { activeIndex, ...opts } = this.props;
+    var { activeIdx, ...opts } = this.props;
 
     swipe = new Swiper(mount, opts);
   },

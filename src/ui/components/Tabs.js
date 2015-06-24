@@ -15,13 +15,26 @@ module.exports = React.createClass({
 
   getDefaultProps : function() {
     return ({
-      activeIdx : 0
+      activeIdx : 0,
+      onTabSelect : function() {}
     })
+  },
+
+
+  shouldComponentUpdate : function(nextProps, nextState) {
+    return (nextProps.activeIdx !== this.props.activeIdx) ||
+           (nextState.activeIdx !== this.state.activeIdx); 
+  },
+
+
+  componentWillReceiveProps : function(nextProps) {
+    this.setState({ activeIdx : nextProps.activeIdx });
   },
 
 
   handleChildSelect : function(id) {
     this.setState({ activeIdx : id });
+    this.props.onTabSelect(id);
   },
 
 
