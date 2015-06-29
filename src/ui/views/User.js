@@ -5,6 +5,8 @@ var db = require('../../api');
 var Router = require('../router/Router');
 var Icon = require('../components/Icon');
 var Menu = require('../components/Menu');
+var dummy = require('../mock-data/profile');
+
 
 module.exports = React.createClass({
   displayName : "User",
@@ -12,7 +14,7 @@ module.exports = React.createClass({
 
   getInitialState : function() {
     return ({
-      characters : []
+      characters : dummy
     })
   },
 
@@ -23,27 +25,42 @@ module.exports = React.createClass({
 
 
   componentWillMount : function() {
-    db.once('/users/' + db.ref.getAuth().uid).then((snap) => {
-      var val = snap.val();
-      var out = [];
+    if (db.ref.getAuth()) {
+      db.once('/users/' + db.ref.getAuth().uid).then((snap) => {
+        var val = snap.val();
+        var out = [];
 
-      if (val.characters) {
-        Object.keys(val.characters).forEach((idx) => {
-          var curr = val.characters[idx];
-          var obj = {};
+        if (val.characters) {
+          Object.keys(val.characters).forEach((idx) => {
+            var curr = val.characters[idx];
+            var obj = {};
 
-          obj.characterName = curr['character_name'];
-          obj.characterLevel = curr['character_lvl'];
-          obj.characterClass = curr['character_class'];
-          obj.createdDate = curr['created_date'];
-          obj.deathDate = curr['death_date'];
+            obj.characterName = curr['character_name'];
+            obj.characterLevel = curr['character_lvl'];
+            obj.characterClass = curr['character_class'];
+            obj.createdDate = curr['created_date'];
+            obj.deathDate = curr['death_date'];
+            obj.characterUID = curr['character_data'];
 
-          out.push(obj);
-        })
+            out.push(obj);
+          })
 
-        this.setState({ characters : out });
-      }
-    })
+          this.setState({ characters : out });
+        }
+      })
+    }
+  },
+
+
+  loadCharacter : function(idx) {
+    var character = this.state.characters[idx];
+    var href = '/user/';
+    var params = {};
+
+    href += this.props.id + "/character/";
+    href += character.characterUID;
+
+    Router.nav(href);
   },
 
 
@@ -51,7 +68,7 @@ module.exports = React.createClass({
     var list = this.state.characters.map((character, i) => {
       return (
         <li key={i}>
-          <button className="profile-character-button">
+          <button className="profile-character-button" onClick={this.loadCharacter.bind(this, i)}>
             <div className="profile-character-container">
               <ul className="profile-character-details left">
                 <li><h3>{character.characterName}</h3></li>
@@ -72,12 +89,12 @@ module.exports = React.createClass({
         <div className="profile-header">
           <p className="profile-header-name left">{this.props.id}</p>
           <div className="right">
-            <Menu anchor={<Icon icon="icon-cog" right={true} />}>
+            <Menu anchor={<Icon icon="icon-cog"/>} right={true}>
               <p>new character</p>
               <p>logout</p>
             </Menu>
           </div>
-          
+
         </div>
         <div className="profile-content">
           <ul className="profile-list-characters">

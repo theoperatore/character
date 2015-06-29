@@ -8,7 +8,7 @@ var routes = {};
 function noop() {};
 
 // do the routing
-function change() {
+function change(ev) {
   var path = window.location.hash.substr(1);
   var key;
   var params;
@@ -65,3 +65,4 @@ exports.nav = function(href) {
 
 // listen for routing
 window.addEventListener('hashchange', change);
+// window.addEventListener('popstate', change);

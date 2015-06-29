@@ -63,7 +63,7 @@ module.exports = React.createClass({
       .duration(450)
       .attr('y', '2em')
       .attr('x', () => xlscale(data.current))
-      .attr('text-anchor', 'end')
+      .attr('text-anchor', 'middle')
       .text(data.current + " / " + data.maximum);
 
     tmpLabel

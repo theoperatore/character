@@ -13,11 +13,6 @@ module.exports = React.createClass({
   },
 
 
-  shouldComponentUpdate : function(nextProps) {
-    return (nextProps.activeIdx !== this.props.activeIdx);
-  },
-
-
   componentDidMount : function() {
     var mount = React.findDOMNode(this);
     var { activeIdx, ...opts } = this.props;

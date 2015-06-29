@@ -12,7 +12,8 @@ module.exports = React.createClass({
       active : false,
       headerHeight : 0,
       totalHeight : 0,
-      closing : false
+      closing : false,
+      dirty : true
     })
   },
 
@@ -37,6 +38,11 @@ module.exports = React.createClass({
   },
 
 
+  componentWillRecieveProps : function() {
+    this.setState({ dirty : true });
+  },
+
+
   recalculate : function() {
     var node = React.findDOMNode(this);
     var header = node.firstChild;
@@ -58,6 +64,11 @@ module.exports = React.createClass({
     else {
       this.setState({ active : true });
     }
+
+    if (this.state.dirty) {
+      this.recalculate();
+      this.setState({ dirty : false })
+    }
   },
 
 
@@ -69,7 +80,7 @@ module.exports = React.createClass({
 
     return (
       <div className={css} onClick={this.toggle}>
-        {this.props.header || "Panel_Header"}      
+        {this.props.header || "Panel_Header"}
       </div>
     );
   },
@@ -80,7 +91,9 @@ module.exports = React.createClass({
     var cssContent;
     var children;
     var style;
-    
+
+    trans = this.state.active ? trans : -this.state.headerHeight;
+
     style = {
       WebkitTransform : "translate3d(0," + trans + "px,0)",
       MozTransform    : "translate3d(0," + trans + "px,0)",
@@ -105,7 +118,7 @@ module.exports = React.createClass({
 
     return (
       <div className={cssContent} style={style}>
-        {children}    
+        {children}
       </div>
     );
   },

@@ -11,8 +11,9 @@ module.exports = React.createClass({
     return ({
       height: 500,
       width: "100%",
-      sort : true,
-      duration : 350
+      sort : false,
+      duration : 350,
+      bonus : 4
     })
   },
 
@@ -36,18 +37,18 @@ module.exports = React.createClass({
       // needs refactor to just use data values, should not know about
       // trained or anything else.
       // When in real use, should have data calculated automatically
-      out.score = skill.score + ((skill.trained) ? 4 : 0);
+      out.score = skill.score;
       out.name = skill.name;
       out.abil = skill.mod;
 
       maxScore = Math.max(maxScore, out.score);
 
       return out;
-    })
+    }, this)
 
     var width = mount[0][0].getBoundingClientRect().width;
     var height = mount[0][0].getBoundingClientRect().height;
-    var outerRadius = this.props.outerRadius || (width < height) ? (width / 2) - 5 : (height / 2 - 5);
+    var outerRadius = this.props.outerRadius || (width < height) ? (width / 2) - 5 : (height / 2) - 5;
     var innerRadius = this.props.innerRadius || outerRadius * 0.33333;
     var scale = d3.scale.linear().range([45, 60]).domain([0, maxScore]);
 
@@ -65,7 +66,7 @@ module.exports = React.createClass({
     path.enter()
       .append('path')
       .attr('class', 'shell-sections')
-      .attr('fill', function(d) { 
+      .attr('fill', function(d) {
         if (d.data.score >=0 && d.data.score < 4) {
           return '#f2dede';
         }
@@ -76,7 +77,7 @@ module.exports = React.createClass({
           return '#dff0d8';
         }
       })
-      .attr('stroke', function(d) { 
+      .attr('stroke', function(d) {
         if (d.data.score >=0 && d.data.score < 4) {
           return '#ebccd1';
         }
@@ -88,7 +89,7 @@ module.exports = React.createClass({
         }
       })
 
-    path.attr('fill', function(d) { 
+    path.attr('fill', function(d) {
         if (d.data.score >=0 && d.data.score < 4) {
           return '#f2dede';
         }
@@ -99,7 +100,7 @@ module.exports = React.createClass({
           return '#dff0d8';
         }
       })
-      .attr('stroke', function(d) { 
+      .attr('stroke', function(d) {
         if (d.data.score >=0 && d.data.score < 4) {
           return '#ebccd1';
         }
@@ -135,7 +136,7 @@ module.exports = React.createClass({
 
     var labels = g.selectAll('text.label').data(layout(data));
 
-    labels.attr('fill', function(d) { 
+    labels.attr('fill', function(d) {
         if (d.data.score >=0 && d.data.score < 4) {
           return '#a94442';
         }
@@ -158,7 +159,7 @@ module.exports = React.createClass({
     labels.enter()
       .append('text')
       .attr('class', 'label')
-      .attr('fill', function(d) { 
+      .attr('fill', function(d) {
         if (d.data.score >=0 && d.data.score < 4) {
           return '#a94442';
         }
@@ -206,7 +207,7 @@ module.exports = React.createClass({
 
       d3.select(path[0][i])
         .attr('stroke', 'rgba(66, 139, 202, 1)').attr('style', 'stroke-width: 1px');
-        
+
       d3.event.preventDefault();
       d3.event.stopPropagation();
     }
@@ -214,7 +215,7 @@ module.exports = React.createClass({
     function stopInspectLabelSkill(d,i) {
       d3.select(path[0][i])
         .attr('stroke', 'rgba(66, 139, 202, 0)');
-        
+
       d3.event.preventDefault();
       d3.event.stopPropagation();
     }
@@ -229,7 +230,7 @@ module.exports = React.createClass({
     labels.on('mouseover', startInspectLabelSkill);
     labels.on('mouseleave', stopInspectLabelSkill);
   },
-  
+
 
   componentDidMount : function() {
     var mount = d3.select(React.findDOMNode(this));

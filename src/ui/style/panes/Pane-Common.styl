@@ -1,0 +1,17 @@
+@require('base.styl')
+
+.pane-container
+  padding $base-padding
+  width 1080px
+  margin 0 auto
+  @media screen and (max-width: 480px)
+    width 100%
+
+.pane-section
+  margin-bottom $base-margin-bottom
+  &.pane-padding
+    padding $base-padding
+  &.pane-border
+    padding $base-padding
+    border-radius $base-border-radius
+    border 1px solid $base-border-color

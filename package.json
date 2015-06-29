@@ -7,7 +7,7 @@
     "test": "gulp mocha",
     "watch": "gulp",
     "lint": "gulp lint",
-    "deploy" : "gulp deploy"
+    "deploy": "gulp deploy"
   },
   "author": "Alex Petersen <theoperatore@gmail.com> (http://anpetersen.me)",
   "license": "MIT",
@@ -23,6 +23,7 @@
     "firebase": "^2.2.4",
     "immutable": "^3.7.2",
     "moment": "^2.10.3",
+    "page": "^1.6.3",
     "react": "^0.13.3",
     "react-async": "^2.1.0",
     "request": "^2.55.0",

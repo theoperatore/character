@@ -29,7 +29,7 @@ module.exports = React.createClass({
   displayName : "StyleGuide",
   getInitialState : function() {
     return ({
-      skillsData : mockSkills,
+      skillsData : Immutable.fromJS(mockSkills),
       skillsSort : true,
       equipData : Immutable.fromJS(mockEquipment),
       hpData : Immutable.fromJS(mockHps),
@@ -187,7 +187,7 @@ module.exports = React.createClass({
           <p><strong>SVG Shell</strong></p>
           <button onClick={this.augmentSkills}>randomize</button>
           <button onClick={this.toggleSkillsSort}>toggle sort</button>
-          <Shell data={this.state.skillsData} sort={this.state.skillsSort} />
+          <Shell data={this.state.skillsData.toJS()} sort={this.state.skillsSort} />
         </section>
         <hr />
         <section>

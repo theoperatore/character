@@ -13,7 +13,9 @@ module.exports = React.createClass({
       subtitle : '',
       score : 0,
       background : false,
-      trained : false
+      color : 'blue',
+      trained : false,
+      width : 1
     })
   },
 
@@ -32,16 +34,27 @@ module.exports = React.createClass({
     var css = classnames({
       'stat-content' : true,
       'stat-background' : this.props.background,
-      'bg-blue' : this.props.background,
-      'text-blue' : this.props.background,
-      'stat-trained' : this.props.trained
+      'bg-blue' : this.props.background && this.props.color === 'blue',
+      'bg-green' : this.props.background && this.props.color === 'green',
+      'text-blue' : this.props.background && this.props.color === 'blue',
+      'text-green' : this.props.background && this.props.color === 'green',
+      'stat-trained' : this.props.trained,
+      'stat-width-full' : this.props.width !== 1
     });
+
+    var container = classnames({
+      'stat-container' : true,
+      'stat-width-2' : this.props.width === 2,
+      'stat-width-3' : this.props.width === 3,
+      'stat-width-4' : this.props.width === 4,
+      'stat-width-34' : this.props.width === 34
+    })
 
 
     return (
-      <div className="stat-container">
+      <div className={container}>
         <div className="stat-title">
-          <p>{this.props.title}</p>
+          <p><strong>{this.props.title}</strong></p>
         </div>
         <div className={css}>
           <p>{this.props.score}</p>

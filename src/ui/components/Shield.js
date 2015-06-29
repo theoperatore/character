@@ -39,12 +39,16 @@ module.exports = React.createClass({
     var centerx = (width / 2);
     var centery = (height / 2);
 
+    var bgColor = '#d9edf7';
+    var txtColor = '#31708f';
+
     bgRect
       .attr('x', bgcw)
       .attr('y', bgch)
       .attr('width', 200)
       .attr('height', 200)
-      .attr('transform', 'rotate(45, ' + centerx + ',' + centery + ')');
+      .attr('transform', 'rotate(45, ' + centerx + ',' + centery + ')')
+      .attr('fill', bgColor);
 
     bgStripe
       .attr('x', centerx - 5)
@@ -62,7 +66,8 @@ module.exports = React.createClass({
     scoreCircle
       .attr('cx', centerx)
       .attr('cy', centery)
-      .attr('r', 50);
+      .attr('r', 50)
+      .attr('fill', bgColor);
 
     // bgShield
     //   .attr('transform', () => {
@@ -96,35 +101,35 @@ module.exports = React.createClass({
       .attr('y', centery + 15)
       .attr('text-anchor', 'middle')
       .attr('font-size', '24pt')
-      .attr('fill', '#fff')
+      .attr('fill', txtColor)
       .text(this.props.data.get('hitDiceCurrent'))
 
     textHitdice
       .attr('x', centerx)
       .attr('y', centery + 100)
       .attr('text-anchor', 'middle')
-      .attr('fill', '#fff')
+      .attr('fill', txtColor)
       .text(this.props.data.get('hitDiceCurrent') + "d8")
 
     textSpeed
       .attr('x', centerx + 90)
       .attr('y', centery + 10)
       .attr('text-anchor', 'middle')
-      .attr('fill', '#fff')
+      .attr('fill', txtColor)
       .text(this.props.data.get('hitDiceCurrent'))
 
     textInit
       .attr('x', centerx - 90)
       .attr('y', centery + 10)
       .attr('text-anchor', 'middle')
-      .attr('fill', '#fff')
+      .attr('fill', txtColor)
       .text(this.props.data.get('hitDiceCurrent'))
 
     labelAc
       .attr('x', centerx)
       .attr('y', centery)
       .attr('dy', '-1.45em')
-      .attr('fill', '#fff')
+      .attr('fill', txtColor)
       .attr('text-anchor', 'middle')
       .text('AC')
 
@@ -132,7 +137,7 @@ module.exports = React.createClass({
       .attr('x', centerx)
       .attr('y', centery + 90)
       .attr('dy', '-0.75em')
-      .attr('fill', '#fff')
+      .attr('fill', txtColor)
       .attr('text-anchor', 'middle')
       .text('Hit Dice')
 
@@ -140,7 +145,7 @@ module.exports = React.createClass({
       .attr('x', centerx + 90)
       .attr('y', centery)
       .attr('dy', '-0.75em')
-      .attr('fill', '#fff')
+      .attr('fill', txtColor)
       .attr('text-anchor', 'middle')
       .text('Speed')
 
@@ -148,7 +153,7 @@ module.exports = React.createClass({
       .attr('x', centerx - 90)
       .attr('y', centery)
       .attr('dy', '-0.75em')
-      .attr('fill', '#fff')
+      .attr('fill', txtColor)
       .attr('text-anchor', 'middle')
       .text('Init')
 
@@ -187,7 +192,7 @@ module.exports = React.createClass({
         <g className="shield-container">
           <rect className="bg-rect"></rect>
           <rect className="bg-stripe"></rect>
-          <circle className="bg-circle"></circle>    
+          <circle className="bg-circle"></circle>
           <circle className="score-circle"></circle>
           <text className="text-ac"></text>
           <text className="text-init"></text>

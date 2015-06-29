@@ -22,13 +22,6 @@ module.exports = React.createClass({
   },
 
 
-  getDefaultProps : function() {
-    return ({
-      left : true
-    })
-  },
-
-
   shouldComponentUpdate : function(nextProps, nextState) {
     return (nextState.active !== this.state.active);
   },
@@ -73,7 +66,7 @@ module.exports = React.createClass({
     var style = {};
     var css = cn({
       'menu-content' : true,
-      'menu-left' : this.props.left,
+      'menu-left' : !this.props.right,
       'menu-right' : this.props.right,
       'menu-active' : this.state.active
     });

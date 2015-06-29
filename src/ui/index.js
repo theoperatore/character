@@ -15,21 +15,26 @@ var HTML404 = require('./views/HTML404');
 new FastClick(document.body);
 
 // default route
-Router.get('/', (params) => {
+Router.get('/', () => {
   React.render(<Landing />, document.body);
 })
 
 // view a character
-Router.get('/user/(:id)/character/(:name)', (params) => {
-  React.render(<App character={params.name} user={params.id} />, document.body);
+Router.get('/user/(:id)/character/(:uid)', (params) => {
+  // if (!db.ref.getAuth()) {
+  //   Router.nav('/login');
+  //   return;
+  // }
+
+  React.render(<App characterUID={params.uid} user={params.id} />, document.body);
 })
 
 // user
 Router.get('/profile/(:id)', (params) => {
-  if (!db.ref.getAuth()) {
-    Router.nav('/login');
-    return;
-  }
+  // if (!db.ref.getAuth()) {
+  //   Router.nav('/login');
+  //   return;
+  // }
 
   React.render(<User id={params.id} />, document.body);
 })
@@ -62,6 +67,7 @@ Router.get('/style', () => {
 
 // start routing!
 Router.init();
+
 
 // set up auth listnen
 // db.ref.onAuth((auth) => {

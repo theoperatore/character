@@ -9,18 +9,27 @@ module.exports = React.createClass({
 
   getDefaultProps : function() {
     return ({
-      active : false
+      active : false,
+      width : 1
     })
   },
 
 
   render : function() {
     var { active, ...others } = this.props;
-    
+
     var cssContainer = classnames({
       'switch-container' : true,
-      'switch-active' : active
+      'switch-width-2' : this.props.width === 2,
+      'switch-width-3' : this.props.width === 3,
+      'switch-width-4' : this.props.width === 4,
+      'switch-width-10' : this.props.width === 10
     });
+
+    var cssOuter = classnames({
+      'switch-outer' : true,
+      'switch-active' : active
+    })
 
     var cssContent = classnames({
       'switch-content' : true,
@@ -28,9 +37,11 @@ module.exports = React.createClass({
     });
 
     return (
-      <span className={cssContainer} {...others}>
-        <span className={cssContent}></span>
-      </span>
+      <div className={cssContainer} {...others}>
+        <span className={cssOuter}>
+          <span className={cssContent}></span>
+        </span>
+      </div>
     );
   }
 })
