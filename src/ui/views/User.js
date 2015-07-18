@@ -5,7 +5,7 @@ var db = require('../../api');
 var Router = require('../router/Router');
 var Icon = require('../components/Icon');
 var Menu = require('../components/Menu');
-var dummy = require('../mock-data/profile');
+var dummy = require('../dummy/profile');
 
 
 module.exports = React.createClass({
