@@ -23,7 +23,8 @@ module.exports = React.createClass({
       'switch-width-2' : this.props.width === 2,
       'switch-width-3' : this.props.width === 3,
       'switch-width-4' : this.props.width === 4,
-      'switch-width-10' : this.props.width === 10
+      'switch-width-10' : this.props.width === 10,
+      'switch-width-sm' : this.props.width === 'sm'
     });
 
     var cssOuter = classnames({

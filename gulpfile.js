@@ -26,7 +26,7 @@ var nib = require('nib');
 ///////////////////////////////////////////////////////////////////////////////
 function getVendorKeys() {
   var pkg = require('./package.json');
-  
+
   return Object.keys(pkg.dependencies);
 }
 
@@ -48,7 +48,7 @@ gulp.task('clean', function(cb) {
 ///////////////////////////////////////////////////////////////////////////////
 gulp.task('lint', function() {
   return gulp.src([
-        'src/**/*.js', 
+        'src/**/*.js',
         'tests/**/*.js'
       ])
     .pipe(react())
@@ -87,7 +87,7 @@ gulp.task('compile-js', function() {
     console.log("browserify error:", ev.message);
   }
 
-  
+
   stream = bundler.bundle();
   stream.on('error', handleError);
   stream = stream.pipe(source('bundle.js'));
@@ -154,13 +154,13 @@ gulp.task('build-vendor', function() {
   var rebundle;
 
   bundler = browserify({
-    debug : true 
+    debug : true
   });
 
   getVendorKeys().forEach(function(vendor) {
     bundler.require(vendor, { expose : vendor });
   });
-  
+
   return bundler.bundle()
     .pipe(source('vendor.js'))
     .pipe(buffer())
@@ -176,7 +176,7 @@ gulp.task('build-vendor', function() {
 ///////////////////////////////////////////////////////////////////////////////
 gulp.task('mocha', function() {
   return gulp.src('tests/**/*.js', { read : false })
-    .pipe(mocha({ 
+    .pipe(mocha({
       reporter : 'spec',
       timeout : 5000
     }));
@@ -251,10 +251,10 @@ gulp.task('default', ['copy', 'build-vendor', 'watch-js', 'watch-css'], function
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Just watch, don't do initial compile
+// Just watch, don't compile vendor
 //
 ///////////////////////////////////////////////////////////////////////////////
-gulp.task('watch', function() {
+gulp.task('watch', ['compile-js', 'comiple-css'],  function() {
   browsersync({
     notify: true,
     port : 8080,

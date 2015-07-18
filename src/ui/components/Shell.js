@@ -44,7 +44,7 @@ module.exports = React.createClass({
       maxScore = Math.max(maxScore, out.score);
 
       return out;
-    }, this)
+    })
 
     var width = mount[0][0].getBoundingClientRect().width;
     var height = mount[0][0].getBoundingClientRect().height;
@@ -260,7 +260,8 @@ module.exports = React.createClass({
   },
 
   shouldComponentUpdate : function(nextProps) {
-    return (nextProps.data !== this.props.data) || (nextProps.sort !== this.props.sort);
+    return (nextProps.data !== this.props.data ||
+            nextProps.sort !== this.props.sort);
   },
 
 

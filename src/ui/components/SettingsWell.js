@@ -23,6 +23,7 @@ module.exports = React.createClass({
     content.addEventListener(utils.findTransitionEndEvent(), () => {
       if (this.state.closing) {
         this.setState({ closing : false });
+        this.recomputeHeight();
       }
     });
 
@@ -31,14 +32,14 @@ module.exports = React.createClass({
 
 
   componentWillReceiveProps : function(nextProps) {
+    this.recomputeHeight();
     this.setState({ closing : (this.props.open && (this.props.open !== nextProps.open)) });
   },
 
 
-  recomputeHeight : function() {
+  recomputeHeight : function(childHeight) {
     var mount = React.findDOMNode(this);
     var content = mount.firstChild;
-
     this.setState({ height : content.getBoundingClientRect().height });
   },
 
@@ -56,9 +57,9 @@ module.exports = React.createClass({
 
   renderContent : function() {
     var { open } = this.props;
-    
+
     var trans = open ? 0 : -this.state.height;
-    
+
     var cssContent = classnames({
       "settings-well-content" : true,
       "open" : open,

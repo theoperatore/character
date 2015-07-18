@@ -18,6 +18,15 @@ module.exports = React.createClass({
   },
 
 
+  // this is very un-React-like
+  getDefaultProps : function() {
+    return ({
+      onOpen : () => {},
+      onClosing : () => {}
+    })
+  },
+
+
   componentDidMount : function() {
     var node = React.findDOMNode(this);
     var header = node.firstChild;
@@ -28,6 +37,12 @@ module.exports = React.createClass({
     content.addEventListener(utils.findTransitionEndEvent(), (ev) => {
       if (this.state.closing) {
         this.setState({ closing : false, active : false });
+        this.props.onClosing();
+      }
+
+      // panel inside settings well
+      if (this.props._recompute) {
+        this.props._recompute();
       }
     });
 
@@ -53,7 +68,7 @@ module.exports = React.createClass({
     headerHeight = header.getBoundingClientRect().height;
     totalHeight = headerHeight + content.getBoundingClientRect().height;
 
-    this.setState({ headerHeight : headerHeight, totalHeight : totalHeight });
+    this.setState({ headerHeight : headerHeight, totalHeight : totalHeight, dirty : false });
   },
 
 
@@ -63,12 +78,10 @@ module.exports = React.createClass({
     }
     else {
       this.setState({ active : true });
+      this.props.onOpen();
     }
 
-    if (this.state.dirty) {
-      this.recalculate();
-      this.setState({ dirty : false })
-    }
+    this.recalculate();
   },
 
 

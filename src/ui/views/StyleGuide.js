@@ -19,11 +19,13 @@ var Stat = require('../components/Stat');
 var Switch = require('../components/Switch');
 var ClickInput = require('../components/ClickInput');
 var Menu = require('../components/Menu');
+var SpellCircle = require('../components/SpellCircle');
 
 
-var mockSkills = require('../mock-data/character-skills');
-var mockEquipment = require('../mock-data/character-equipment');
-var mockHps = require('../mock-data/character-hitpoints');
+var mockSkills = require('../dummy/character-skills');
+var mockEquipment = require('../dummy/character-equipment');
+var mockHps = require('../dummy/character-hitpoints');
+var mockSpells = require('../dummy/character-spells');
 
 module.exports = React.createClass({
   displayName : "StyleGuide",
@@ -35,7 +37,9 @@ module.exports = React.createClass({
       hpData : Immutable.fromJS(mockHps),
       settingsWellOpen : false,
       switchActive : false,
-      characterName : 'Click Me'
+      characterName : 'Click Me',
+      spellsData : Immutable.fromJS(mockSpells),
+      spellSlotSelected : 9
     })
   },
 
@@ -59,6 +63,11 @@ module.exports = React.createClass({
   handleUserInputEnd : function(val) {
     console.log('end', val);
     this.setState({ characterName : val });
+  },
+
+  handleSpellSlotSelect : function(d, i) {
+    console.log(`slot ${i} is now open`);
+    this.setState({ spellSlotSelected : i });
   },
 
   randomizeGold : function() {
@@ -187,7 +196,7 @@ module.exports = React.createClass({
           <p><strong>SVG Shell</strong></p>
           <button onClick={this.augmentSkills}>randomize</button>
           <button onClick={this.toggleSkillsSort}>toggle sort</button>
-          <Shell data={this.state.skillsData.toJS()} sort={this.state.skillsSort} />
+          <Shell data={this.state.skillsData} sort={this.state.skillsSort} />
         </section>
         <hr />
         <section>
@@ -232,6 +241,70 @@ module.exports = React.createClass({
           </Menu>
         </section>
         <hr />
+        <section>
+          <p><strong>SpellCircle</strong></p>
+          <SpellCircle data={this.state.spellsData} onSpellSlotSelect={this.handleSpellSlotSelect}/>
+          <SettingsWell open={this.state.spellSlotSelected === 0}>
+            <div>
+              <h4>Level 1 spell slots</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget augue sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In erat lacus, porta eu blandit scelerisque, vestibulum id purus. Nam vel rhoncus purus. Nunc molestie ligula neque, a finibus ante semper at. In hac habitasse platea dictumst. Aliquam erat lacus, rutrum eget ex at, hendrerit pretium massa. Praesent commodo vestibulum dictum. Mauris congue sagittis neque, nec malesuada urna gravida ac.</p>
+            </div>
+          </SettingsWell>
+          <SettingsWell open={this.state.spellSlotSelected === 1}>
+            <div>
+              <h4>Level 2 spell slots</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget augue sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In erat lacus, porta eu blandit scelerisque, vestibulum id purus. Nam vel rhoncus purus. Nunc molestie ligula neque, a finibus ante semper at. In hac habitasse platea dictumst. Aliquam erat lacus, rutrum eget ex at, hendrerit pretium massa. Praesent commodo vestibulum dictum. Mauris congue sagittis neque, nec malesuada urna gravida ac.</p>
+            </div>
+          </SettingsWell>
+          <SettingsWell open={this.state.spellSlotSelected === 2}>
+            <div>
+              <h4>Level 3 spell slots</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget augue sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In erat lacus, porta eu blandit scelerisque, vestibulum id purus. Nam vel rhoncus purus. Nunc molestie ligula neque, a finibus ante semper at. In hac habitasse platea dictumst. Aliquam erat lacus, rutrum eget ex at, hendrerit pretium massa. Praesent commodo vestibulum dictum. Mauris congue sagittis neque, nec malesuada urna gravida ac.</p>
+            </div>
+          </SettingsWell>
+          <SettingsWell open={this.state.spellSlotSelected === 3}>
+            <div>
+              <h4>Level 4 spell slots</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget augue sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In erat lacus, porta eu blandit scelerisque, vestibulum id purus. Nam vel rhoncus purus. Nunc molestie ligula neque, a finibus ante semper at. In hac habitasse platea dictumst. Aliquam erat lacus, rutrum eget ex at, hendrerit pretium massa. Praesent commodo vestibulum dictum. Mauris congue sagittis neque, nec malesuada urna gravida ac.</p>
+            </div>
+          </SettingsWell>
+          <SettingsWell open={this.state.spellSlotSelected === 4}>
+            <div>
+              <h4>Level 5 spell slots</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget augue sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In erat lacus, porta eu blandit scelerisque, vestibulum id purus. Nam vel rhoncus purus. Nunc molestie ligula neque, a finibus ante semper at. In hac habitasse platea dictumst. Aliquam erat lacus, rutrum eget ex at, hendrerit pretium massa. Praesent commodo vestibulum dictum. Mauris congue sagittis neque, nec malesuada urna gravida ac.</p>
+            </div>
+          </SettingsWell>
+          <SettingsWell open={this.state.spellSlotSelected === 5}>
+            <div>
+              <h4>Level 6 spell slots</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget augue sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In erat lacus, porta eu blandit scelerisque, vestibulum id purus. Nam vel rhoncus purus. Nunc molestie ligula neque, a finibus ante semper at. In hac habitasse platea dictumst. Aliquam erat lacus, rutrum eget ex at, hendrerit pretium massa. Praesent commodo vestibulum dictum. Mauris congue sagittis neque, nec malesuada urna gravida ac.</p>
+            </div>
+          </SettingsWell>
+          <SettingsWell open={this.state.spellSlotSelected === 6}>
+            <div>
+              <h4>Level 7 spell slots</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget augue sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In erat lacus, porta eu blandit scelerisque, vestibulum id purus. Nam vel rhoncus purus. Nunc molestie ligula neque, a finibus ante semper at. In hac habitasse platea dictumst. Aliquam erat lacus, rutrum eget ex at, hendrerit pretium massa. Praesent commodo vestibulum dictum. Mauris congue sagittis neque, nec malesuada urna gravida ac.</p>
+            </div>
+          </SettingsWell>
+          <SettingsWell open={this.state.spellSlotSelected === 7}>
+            <div>
+              <h4>Level 8 spell slots</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget augue sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In erat lacus, porta eu blandit scelerisque, vestibulum id purus. Nam vel rhoncus purus. Nunc molestie ligula neque, a finibus ante semper at. In hac habitasse platea dictumst. Aliquam erat lacus, rutrum eget ex at, hendrerit pretium massa. Praesent commodo vestibulum dictum. Mauris congue sagittis neque, nec malesuada urna gravida ac.</p>
+            </div>
+          </SettingsWell>
+          <SettingsWell open={this.state.spellSlotSelected === 8}>
+            <div>
+              <h4>Level 9 spell slots</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget augue sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In erat lacus, porta eu blandit scelerisque, vestibulum id purus. Nam vel rhoncus purus. Nunc molestie ligula neque, a finibus ante semper at. In hac habitasse platea dictumst. Aliquam erat lacus, rutrum eget ex at, hendrerit pretium massa. Praesent commodo vestibulum dictum. Mauris congue sagittis neque, nec malesuada urna gravida ac.</p>
+            </div>
+          </SettingsWell>
+          <SettingsWell open={this.state.spellSlotSelected === 9}>
+            <div>
+              <h4>Cantrips</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget augue sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In erat lacus, porta eu blandit scelerisque, vestibulum id purus. Nam vel rhoncus purus. Nunc molestie ligula neque, a finibus ante semper at. In hac habitasse platea dictumst. Aliquam erat lacus, rutrum eget ex at, hendrerit pretium massa. Praesent commodo vestibulum dictum. Mauris congue sagittis neque, nec malesuada urna gravida ac.</p>
+            </div>
+          </SettingsWell>
+        </section>
       </div>
     );
   }
