@@ -57,7 +57,7 @@ module.exports = React.createClass({
     var href = '/user/';
     var params = {};
 
-    href += this.props.id + "/character/";
+    href += (this.props.id || 'nologin') + "/character/";
     href += character.characterUID;
 
     Router.nav(href);
