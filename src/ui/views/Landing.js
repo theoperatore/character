@@ -29,11 +29,11 @@ module.exports = React.createClass({
   render : function() {
     return (
       <div className="container">
-        <h1>Do the things!</h1>
+        <h1>Get to a place!</h1>
+        <p className="lead">To view the app, click the profile link and select a demo character. To view all of the components the app uses, go to the Style Guide.</p>
         <p><Link href="/style">Style Guide</Link></p>
         <p><Link href={"/profile/" + this.state.profile}>Profile</Link></p>
         <p><Link href="/login">Log In</Link></p>
-        <p><small></small></p>
       </div>
     )
   }
