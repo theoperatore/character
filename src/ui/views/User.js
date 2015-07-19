@@ -21,6 +21,7 @@ module.exports = React.createClass({
 
   logout : function() {
     db.ref.unauth();
+    Router.nav('/login');
   },
 
 
@@ -91,7 +92,7 @@ module.exports = React.createClass({
           <div className="right">
             <Menu anchor={<Icon icon="icon-cog"/>} right={true}>
               <p>new character</p>
-              <p>logout</p>
+              <p onClick={this.logout}>logout</p>
             </Menu>
           </div>
 
