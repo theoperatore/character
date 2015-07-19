@@ -8,7 +8,7 @@ This app isn't meant to replace playing in-person; on the contrary, table top ga
 Dev Usage
 ---------
 
-Clone the repo and `cd` into the directory. Then be sure you have access to [nodeJS](https://nodejs.org/) and run: 
+Clone the repo and `cd` into the directory. Then be sure you have access to [nodeJS](https://nodejs.org/) and run:
 
 ```
 npm install
@@ -57,6 +57,7 @@ Since we're using React and JSX, we're allowed to use _SOME_ ES6 features. To be
 - Destructuring
 - Arrow Functions
 - Enhanced Object Literals
+- Template strings
 
 Anything else _might_ break the build on certain browsers as Reactify doesn't transpile them by default, but those mentioned above are safe.
 
@@ -75,6 +76,11 @@ Server side:
 
 - [Firebase](https://www.firebase.com/docs/web/guide/) since we don't have a normal server
 - TBD : Nothing set up yet / relying on GitHub Pages
+
+Tools
+-----
+
+There is a custom webhook installed for a very basic ci found [here](http://ci.cmonocle.link/status/).
 
 License
 --------
