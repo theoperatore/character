@@ -32,7 +32,6 @@ module.exports = React.createClass({
         <h1>Do the things!</h1>
         <p><Link href="/style">Style Guide</Link></p>
         <p><Link href={"/profile/" + this.state.profile}>Profile</Link></p>
-        <p><Link href="/user/bill/character/chet">Character App</Link></p>
         <p><Link href="/login">Log In</Link></p>
       </div>
     )
