@@ -80,7 +80,7 @@ Server side:
 Tools
 -----
 
-There is a custom webhook installed for a very basic ci found [here](http://ci.cmonocle.link/status/).
+There is a custom webhook installed for a very basic ci, found [here](http://ci.cmonocle.link/status/).
 
 License
 --------
