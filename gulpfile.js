@@ -261,7 +261,7 @@ gulp.task('default', ['copy', 'build-vendor', 'watch-js', 'watch-css'], function
 // Just watch, don't compile vendor
 //
 ///////////////////////////////////////////////////////////////////////////////
-gulp.task('watch', ['compile-js', 'comiple-css'],  function() {
+gulp.task('watch', ['compile-js', 'compile-css'],  function() {
   browsersync({
     notify: true,
     port : 8080,
