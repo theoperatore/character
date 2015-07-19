@@ -57,6 +57,7 @@ module.exports = React.createClass({
 
       this.setState({ character : data, preferences : preferences, loading : false });
     }).catch((err) => {
+      alert(err);
       console.error(err);
     })
   },
