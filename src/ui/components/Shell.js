@@ -31,7 +31,7 @@ module.exports = React.createClass({
     }
 
     var maxScore = 0;
-    var data = this.props.data.map(function(skill) {
+    var data = this.props.data.toJS().map(function(skill) {
       var out = {};
 
       // needs refactor to just use data values, should not know about

@@ -1,13 +1,14 @@
 'use strict';
 
 var React = require('react/addons');
+var Immutable = require('immutable');
 var Stat = require('../components/Stat');
 var Shell = require('../components/Shell');
 
 module.exports = React.createClass({
 
   renderSkills : function() {
-    var data = this.props.skills.toJS().map((skill) => {
+    var data = Immutable.fromJS(this.props.skills.toJS().map((skill) => {
       var score = 0;
 
       score += this.props.abilities.get(skill.mod).get('mod');
@@ -18,7 +19,7 @@ module.exports = React.createClass({
         mod : skill.mod,
         name : skill.name
       })
-    }, this);
+    }, this));
 
     return <Shell data={data} />
   },

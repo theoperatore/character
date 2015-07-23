@@ -108,7 +108,7 @@ module.exports = React.createClass({
       out.push(tmp)
     })
 
-    this.setState({skillsData : out});
+    this.setState({skillsData : Immutable.fromJS(out)});
   },
 
   render : function() {
