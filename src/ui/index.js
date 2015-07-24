@@ -2,6 +2,7 @@
 
 var FastClick = require('fastclick');
 var React = require('react/addons');
+var log = require('debug')('logs:router');
 var Router = require('./router/Router');
 var db = require('../api');
 
@@ -25,7 +26,7 @@ Router.get('/user/(:id)/character/(:uid)', (params) => {
   //   Router.nav('/login');
   //   return;
   // }
-
+  log(`routing to character view: ${params}`);
   React.render(<App characterUID={params.uid} user={params.id} />, document.body);
 })
 
@@ -36,6 +37,7 @@ Router.get('/profile/(:id)', (params) => {
   //   return;
   // }
 
+  log(`routing to profile view: ${params}`);
   React.render(<User id={params.id} />, document.body);
 })
 
@@ -69,9 +71,12 @@ Router.get('/style', () => {
 Router.init();
 
 
+
 // set up auth listnen
 // db.ref.onAuth((auth) => {
 //   if (!auth) {
 //     Router.nav('/login');
 //   }
 // })
+
+window.messages = require('debug');

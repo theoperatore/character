@@ -1,6 +1,7 @@
 "use strict";
 
 var React = require('react/addons');
+var log = require('debug')('logs:component');
 var d3 = require('d3');
 
 module.exports = React.createClass({
@@ -255,7 +256,7 @@ module.exports = React.createClass({
   },
 
   componentDidUpdate : function() {
-    console.log('updating shell');
+    log('updating shell');
     this.renderShell();
   },
 

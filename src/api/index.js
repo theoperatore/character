@@ -9,6 +9,7 @@
 
 var config = require('../config');
 var Firebase = require('firebase');
+var log = require('debug')('logs:api');
 var Promise = require('es6-promise').Promise;
 
 var db = new Firebase(config.dbroot);
@@ -22,6 +23,7 @@ function once(path, type) {
   return new Promise((resolve, reject) => {
     db.child(path).once(type,
       (snapshot) => {
+        log(`resolving: ${path} with data: ${snapshot}`);
         resolve(snapshot);
       },
       (err) => {
@@ -38,6 +40,7 @@ function on(path, type) {
   return new Promise((resolve, reject) => {
     db.child(path).on(type,
       (snapshot) => {
+        log(`resolving: ${path} with data: ${snapshot}`);
         resolve(snapshot);
       },
       (err) => {

@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react/addons');
+var log = require('debug')('logs:component');
 var d3 = require('d3');
 
 module.exports = React.createClass({
@@ -53,7 +54,7 @@ module.exports = React.createClass({
     xaxis.scale(xscale).orient('bottom');
 
     bars = g.selectAll('rect.monies-bar').data(data);
-      
+
     bars.enter()
       .append('rect')
       .attr('class', 'monies-bar')
@@ -113,7 +114,7 @@ module.exports = React.createClass({
 
 
   componentDidUpdate : function() {
-    console.log('updating money');
+    log('updating money');
     this.renderMoney();
   },
 
