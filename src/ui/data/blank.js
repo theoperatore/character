@@ -1,18 +1,18 @@
 module.exports = {
-  "charName" : "",
+  "charName" : "_",
   "charInfo" : {
-    "class" : "",
+    "class" : "_",
     "level" : 1,
-    "background" : "",
-    "race" : "",
-    "alignment" : "",
+    "background" : "_",
+    "race" : "_",
+    "alignment" : "_",
     "xp" : 0
   },
   "charTraits" : {
-    "personalityTraits" : "",
-    "ideals" : "",
-    "bonds" : "",
-    "flaws" : ""
+    "personalityTraits" : "_",
+    "ideals" : "_",
+    "bonds" : "_",
+    "flaws" : "_"
   },
   "charClassCharges" : [],
   "charSpells" : [

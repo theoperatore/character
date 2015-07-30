@@ -13,7 +13,7 @@ var log = require('debug')('logs:api');
 var Promise = require('es6-promise').Promise;
 
 var db = new Firebase(config.dbroot);
-
+var info = new Firebase(config.dbinfo);
 
 // wrap Firebase `once` read in a promise
 function once(path, type) {
@@ -23,10 +23,11 @@ function once(path, type) {
   return new Promise((resolve, reject) => {
     db.child(path).once(type,
       (snapshot) => {
-        log(`resolving: ${path} with data: ${snapshot}`);
+        log(`resolving: ${path} with data`, snapshot.val());
         resolve(snapshot);
       },
       (err) => {
+        log(`error resolving ${path}`);
         reject(err);
       })
   });
@@ -40,7 +41,7 @@ function on(path, type) {
   return new Promise((resolve, reject) => {
     db.child(path).on(type,
       (snapshot) => {
-        log(`resolving: ${path} with data: ${snapshot}`);
+        log(`resolving: ${path} with data`, snapshot.val());
         resolve(snapshot);
       },
       (err) => {
@@ -160,6 +161,16 @@ function login(email) {
   })
 }
 
+// detect changes in network
+info.child('connected').on('value', (snap) => {
+  if (snap.val() === true) {
+    log('connected');
+  }
+  else {
+    log('disconnected');
+  }
+})
+
 
 // api
 exports.ref = db;
@@ -171,3 +182,5 @@ exports.on = on;
 exports.once = once;
 exports.login = login;
 exports.push = push;
+
+window.db = db;

@@ -10,6 +10,13 @@ module.exports = React.createClass({
   displayName : 'PaneInfo',
 
 
+  getInitialState : function() {
+    return ({
+      editingInfo : false
+    })
+  },
+
+
   // only update when the info character data changes
   shouldComponentUpdate : function(nextProps) {
     return (nextProps.info !== this.props.info) ||
@@ -52,6 +59,10 @@ module.exports = React.createClass({
     return (
       <div className="pane-container">
         <h3>Info</h3>
+        <SettingsWell open={this.state.editingInfo}>
+          <h4>Edit Character Info</h4>
+          
+        </SettingsWell>
         <section className="pane-section pane-border">
             <Stat width={3} title="Class" score={this.props.info.get('class')} />
             <Stat width={3} title="Level" score={this.props.info.get('level')} />

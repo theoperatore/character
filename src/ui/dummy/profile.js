@@ -14,5 +14,13 @@ module.exports = [
     createdDate : 123456789,
     deathDate : 123456789,
     characterUID : '-J1234asdfjklqweruiop'
+  },
+  {
+    characterName : 'NoLoad',
+    characterLevel : 1337,
+    characterClass : 'Test',
+    createdDate : 123456789,
+    deathDate : 123456789,
+    characterUID : 'wan'
   }
 ];

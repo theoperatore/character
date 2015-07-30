@@ -6,6 +6,9 @@ var db = require('../../api');
 var blankCharacter = require('../data/blank');
 var blankPreferences = require('../data/preferences');
 
+var error = require('debug')('logs:app:error');
+var log = require('debug')('logs:app');
+
 var SwipePanes = require('../components/SwipePanes');
 var SwipePane = require('../components/SwipePane');
 var Tabs = require('../components/Tabs');
@@ -57,8 +60,9 @@ module.exports = React.createClass({
 
       this.setState({ character : data, preferences : preferences, loading : false });
     }).catch((err) => {
-      alert(err);
-      console.error(err);
+      error(err);
+      error('using blank character');
+      this.setState({ loading : false });
     })
   },
 
@@ -83,44 +87,48 @@ module.exports = React.createClass({
 
 
   handleInfoChange : function(key, data) {
-    console.log("got new info:", data);
+    log("got new info:", data);
   },
 
 
   handleFeatureChange : function(data) {
-    console.log("feaure change", data);
+    log("feaure change", data);
   },
 
 
   handleAbilityChange : function(key, data) {
-    console.log("ability change:", key, data);
+    log("ability change:", key, data);
   },
 
 
   handleDefenseChange : function(key, data) {
-    console.log("defense change:", key, data);
+    log("defense change:", key, data);
   },
 
 
   handleAttacksChange : function(key, data) {
-    console.log("attacks change:", key, data);
+    log("attacks change:", key, data);
   },
 
 
   handleSpellsChange : function(key, data) {
-    console.log("spells change:", key, data);
+    log("spells change:", key, data);
   },
 
 
   handleEquipmentChange : function(key, data) {
-    console.log("equipment change:", key, data);
+    log("equipment change:", key, data);
   },
 
 
   render : function() {
     return (
       <div className="character-container">
-        <h1>{this.state.character.get('charName')}</h1>
+        <header>
+          <div>
+            <h5>{this.state.character.get('charName')}</h5>
+          </div>
+        </header>
 
         <Tabs activeIdx={this.state.activePane} onTabSelect={this.handleTabSelect}>
           <Tab><Icon icon="icon-crown" /></Tab>
