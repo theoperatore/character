@@ -8,7 +8,7 @@ This app isn't meant to replace playing in-person; on the contrary, table top ga
 Dev Usage
 ---------
 
-Clone the repo and `cd` into the directory. Then be sure you have access to [nodeJS](https://nodejs.org/) and run:
+Clone the repo and `cd` into the directory and run:
 
 ```
 npm install
@@ -24,9 +24,8 @@ $ gulp clean          # remove all build files
 $ gulp build-vendor   # build and uglify vendor files (takes a while...)
 $ gulp compile-js     # compile all app dependencies (watch-js as well)
 $ gulp compile-css    # compile all css stylus files (watch-css as well)
+$ gulp watch          # watches both js/css files and opens a browser
 ```
-
-The most useful is probably going to be `gulp` by itself which will set everything up for you to develop.
 
 Viewing the App
 ---------------
@@ -52,16 +51,16 @@ Each route above uses a different view component located in `src/ui/views` folde
 Dev Notes
 ---------
 
-Since we're using React and JSX, we're allowed to use _SOME_ ES6 features. To be safe, only use:
+Since we're using React and JSX, we're allowed to use some ES6 features (using Reactify). So far, I've been able to successfully use:
 
 - Destructuring
 - Arrow Functions
 - Enhanced Object Literals
 - Template strings
 
-Anything else _might_ break the build on certain browsers as Reactify doesn't transpile them by default, but those mentioned above are safe.
+I've run into some problems with block scoping and others, but otherwise feel free to use it all.
 
-Stack
+Libs
 -----
 
 For UI, we use (and growing):
