@@ -20,6 +20,7 @@ var Switch = require('../components/Switch');
 var ClickInput = require('../components/ClickInput');
 var Menu = require('../components/Menu');
 var SpellCircle = require('../components/SpellCircle');
+var Button = require('../components/Button');
 
 
 var mockSkills = require('../dummy/character-skills');
@@ -136,6 +137,24 @@ module.exports = React.createClass({
         </section>
         <hr />
         <section>
+          <p><strong>Buttons</strong></p>
+          <div>
+            <Button><span>Default</span></Button>
+          </div>
+          <div>
+            <Button size="sm" ><span>Small</span></Button>
+            <Button size="md" ><span>Medium</span></Button>
+            <Button size="lg" ><span>Large</span></Button>
+          </div>
+          <div>
+            <Button style="blue" ><span>Blue</span></Button>
+            <Button style="green" ><span>Green</span></Button>
+            <Button style="red" ><span>Red</span></Button>
+            <Button style="gold" ><span>Gold</span></Button>
+          </div>
+        </section>
+        <hr />
+        <section>
           <p><strong>Collapsing Panels</strong></p>
           <Panel header={"Click Me 1"}>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget augue sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In erat lacus, porta eu blandit scelerisque, vestibulum id purus. Nam vel rhoncus purus. Nunc molestie ligula neque, a finibus ante semper at. In hac habitasse platea dictumst. Aliquam erat lacus, rutrum eget ex at, hendrerit pretium massa. Praesent commodo vestibulum dictum. Mauris congue sagittis neque, nec malesuada urna gravida ac.</p>
@@ -151,7 +170,7 @@ module.exports = React.createClass({
         <hr />
         <section>
           <p><strong>Settings Wells</strong></p>
-          <button onClick={this.toggleSettingsWell}>Toggle</button>
+          <Button onClick={this.toggleSettingsWell}>Toggle</Button>
           <SettingsWell open={this.state.settingsWellOpen}>
             <div className="container-fluid">
               <h2>Change things</h2>
@@ -194,20 +213,20 @@ module.exports = React.createClass({
         <hr />
         <section>
           <p><strong>SVG Shell</strong></p>
-          <button onClick={this.augmentSkills}>randomize</button>
-          <button onClick={this.toggleSkillsSort}>toggle sort</button>
+          <Button onClick={this.augmentSkills}>randomize</Button>
+          <Button onClick={this.toggleSkillsSort}>toggle sort</Button>
           <Shell data={this.state.skillsData} sort={this.state.skillsSort} />
         </section>
         <hr />
         <section>
           <p><strong>Currency</strong></p>
-          <button onClick={this.randomizeGold}>randomize</button>
+          <Button onClick={this.randomizeGold}>randomize</Button>
           <MoneyChart data={this.state.equipData.get('money')} />
         </section>
         <hr />
         <section>
           <p><strong>HP Bar</strong></p>
-          <button onClick={this.randomizeHP}>randomize</button>
+          <Button onClick={this.randomizeHP}>randomize</Button>
           <HPBar data={this.state.hpData} onClick={this.randomizeHP}/>
         </section>
         <hr />
