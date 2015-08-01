@@ -74,7 +74,6 @@ For UI, we use (and growing):
 Server side:
 
 - [Firebase](https://www.firebase.com/docs/web/guide/) since we don't have a normal server
-- TBD : Nothing set up yet / relying on GitHub Pages
 
 Tools
 -----
