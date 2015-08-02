@@ -34,8 +34,7 @@ module.exports = React.createClass({
 
     return (
       <div style={style}>
-        <h1>Get to a place!</h1>
-        <p>To view the app, click the profile link and select a demo character. To view all of the components the app uses, go to the Style Guide.</p>
+        <h1>Character</h1>
         <p><Link href="/style">Style Guide</Link></p>
         <p><Link href={"/profile/" + this.state.profile}>Profile</Link></p>
       </div>
