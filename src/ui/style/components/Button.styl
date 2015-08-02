@@ -4,7 +4,7 @@
   appearance none
   outline none
   border 1px solid #ddd
-  background-color #fff
+  background-color $base-background-color
   border-radius $base-border-radius
   display inline-block
   margin-right $base-component-margin
@@ -14,7 +14,8 @@
   padding-left $base-padding-lg
   padding-right $base-padding-lg
   &:active
-    background-color darken(#fff, 15%)
+    background-color darken($base-background-color, 15%)
+    box-shadow inset 0px 0px 3px 1px rgba(0,0,0,0.1)
   &.button-sm
     font-size 12px
   &.button-lg
