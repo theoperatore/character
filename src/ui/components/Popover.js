@@ -34,14 +34,7 @@ module.exports = React.createClass({
   },
 
 
-  componentDidUpdate : function() {
-    if (this.state.active) {
-      document.addEventListener('click', this.handleOutsideClick);
-    }
-  },
-
-
-  componentDidMount : function(nextProps) {
+  calculate : function() {
     var drect = document.body.getBoundingClientRect();
     var element = React.findDOMNode(this.refs.content);
     var popover = React.findDOMNode(this.refs.popover);
@@ -57,14 +50,29 @@ module.exports = React.createClass({
     left = left < 0 ? 0 : left;
     left = left + prect.width > drect.width ? drect.width - prect.width : left;
 
-    document.removeEventListener('click', this.handleOutsideClick);
-    document.addEventListener('click', this.handleOutsideClick);
-
     this.setState({ arrow : arrow, left : left });
   },
 
 
+  componentDidUpdate : function() {
+    if (this.state.active) {
+      document.addEventListener('click', this.handleOutsideClick);
+    }
+  },
+
+
+  componentDidMount : function() {
+    this.calculate();
+  },
+
+
   toggle : function() {
+    if (!this.state.active) {
+      this.calculate();
+      document.removeEventListener('click', this.handleOutsideClick);
+      document.addEventListener('click', this.handleOutsideClick);
+    }
+
     this.setState({ active : !this.state.active });
   },
 
