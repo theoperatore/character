@@ -28,7 +28,7 @@ module.exports = React.createClass({
 
   render : function() {
     var style = {
-      "max-width" : 225,
+      "maxWidth" : 225,
       "padding" : 5
     }
 
