@@ -165,7 +165,7 @@ gulp.task('build-vendor', function() {
     .pipe(source('vendor.js'))
     .pipe(buffer())
     .pipe(uglify())
-    .pipe(gulp.dest('./build'));
+    .pipe(gulp.dest('./src/ui/statics'));
 })
 
 
