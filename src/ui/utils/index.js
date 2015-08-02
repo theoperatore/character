@@ -25,3 +25,15 @@ exports.isTargetInRoot = function(target, root) {
 
   return false;
 }
+
+exports.getElementLeft = function(element) {
+  var left = element.getBoundingClientRect().left;
+  var el = element.parentElement;
+
+  while(el) {
+    left += el.getBoundingClientRect().left;
+    el = el.parentElement;
+  }
+
+  return left;
+}

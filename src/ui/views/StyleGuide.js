@@ -21,6 +21,7 @@ var ClickInput = require('../components/ClickInput');
 var Menu = require('../components/Menu');
 var SpellCircle = require('../components/SpellCircle');
 var Button = require('../components/Button');
+var Popover = require('../components/Popover');
 
 
 var mockSkills = require('../dummy/character-skills');
@@ -178,6 +179,20 @@ module.exports = React.createClass({
               <input type="text" className="input form-input" placeholder="Some Box..." />
             </div>
           </SettingsWell>
+        </section>
+        <hr />
+        <section className='clearfix'>
+          <p><strong>Popovers</strong></p>
+          <div className="text-center">
+            <Popover popover={<div><p style={{'textAlign':'center'}}>A basic Popover</p><p>asdfasdfasdf asdf asdf saf sadf sadf asdf sdaf sadf sadf sadf sadf asdfasdf asd fsdaf sadf asdf ;laksdj f;laskjf ;alskdf ;alskfj ;alksj f;laskdf ;lsakfj ;laskfj ;alskdjf ;lsakj f;</p></div>}>
+              <Button>Toggle</Button>
+            </Popover>
+          </div>
+          <div>
+            <Popover popover={<div><p style={{'textAlign':'center'}}>A basic Popover</p><p>asdfasdfasdf asdf asdf saf sadf sadf asdf sdaf sadf sadf sadf sadf asdfasdf asd fsdaf sadf asdf ;laksdj f;laskjf ;alskdf ;alskfj ;alksj f;laskdf ;lsakfj ;laskfj ;alskdjf ;lsakj f;</p></div>}>
+              <Button>Toggle</Button>
+            </Popover>
+          </div>
         </section>
         <hr />
         <section>
