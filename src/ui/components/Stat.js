@@ -2,6 +2,8 @@
 
 var React = require('react/addons');
 var classnames = require('classnames');
+var Popover = require('./Popover');
+var StatPopover = require('../popovers/StatPopover');
 
 module.exports = React.createClass({
   displayName : "Stat",
@@ -15,7 +17,9 @@ module.exports = React.createClass({
       background : false,
       color : 'blue',
       trained : false,
-      width : 1
+      width : 1,
+      popover : false,
+      onPopoverChange : () => {}
     })
   },
 
@@ -50,19 +54,28 @@ module.exports = React.createClass({
       'stat-width-34' : this.props.width === 34
     })
 
+    var popover = <StatPopover
+                    onChange={this.props.onPopoverChange}
+                    label='Enter a new value'
+                    stat={this.props.score}
+                    checked={this.props.trained}>
+                  </StatPopover>
+
 
     return (
-      <div className={container}>
-        <div className="stat-title">
-          <p><strong>{this.props.title}</strong></p>
+      <Popover popover={popover} css={container}>
+        <div>
+          <div className="stat-title">
+            <p><strong>{this.props.title}</strong></p>
+          </div>
+          <div className={css}>
+            <p>{this.props.score}</p>
+          </div>
+          <div className="stat-subtitle">
+            <p>{this.props.subtitle}</p>
+          </div>
         </div>
-        <div className={css}>
-          <p>{this.props.score}</p>
-        </div>
-        <div className="stat-subtitle">
-          <p>{this.props.subtitle}</p>
-        </div>
-      </div>
+      </Popover>
     )
   }
 })

@@ -35,6 +35,11 @@ module.exports = React.createClass({
   },
 
 
+  handleStatChange : function(stat, data) {
+    console.log(`value from ${stat} popover: ${data}`);
+  },
+
+
   render : function() {
     var trained = false;
     var passivePerception = 0;
@@ -52,12 +57,12 @@ module.exports = React.createClass({
       <div className="pane-container">
         <h3>Ability Scores</h3>
         <section className="pane-section pane-border">
-          <Stat title={'STR'} score={this.props.abilities.get('str').get('mod')} subtitle={this.props.abilities.get('str').get('score')} width={3} background={true} trained={true} color='green'/>
-          <Stat title={'DEX'} score={this.props.abilities.get('dex').get('mod')} subtitle={this.props.abilities.get('dex').get('score')} width={3} background={true} trained={true} color='green'/>
-          <Stat title={'CON'} score={this.props.abilities.get('con').get('mod')} subtitle={this.props.abilities.get('con').get('score')} width={3} background={true} trained={true} color='green'/>
-          <Stat title={'INT'} score={this.props.abilities.get('int').get('mod')} subtitle={this.props.abilities.get('int').get('score')} width={3} background={true} trained={true} color='green'/>
-          <Stat title={'WIS'} score={this.props.abilities.get('wis').get('mod')} subtitle={this.props.abilities.get('wis').get('score')} width={3} background={true} trained={true} color='green'/>
-          <Stat title={'CHA'} score={this.props.abilities.get('cha').get('mod')} subtitle={this.props.abilities.get('cha').get('score')} width={3} background={true} trained={true} color='green'/>
+          <Stat onPopoverChange={this.handleStatChange.bind(this, 'STR')} title={'STR'} score={this.props.abilities.get('str').get('mod')} subtitle={this.props.abilities.get('str').get('score')} width={3} background={true} trained={true} color='green'/>
+          <Stat onPopoverChange={this.handleStatChange.bind(this, 'DEX')} title={'DEX'} score={this.props.abilities.get('dex').get('mod')} subtitle={this.props.abilities.get('dex').get('score')} width={3} background={true} trained={true} color='green'/>
+          <Stat onPopoverChange={this.handleStatChange.bind(this, 'CON')} title={'CON'} score={this.props.abilities.get('con').get('mod')} subtitle={this.props.abilities.get('con').get('score')} width={3} background={true} trained={true} color='green'/>
+          <Stat onPopoverChange={this.handleStatChange.bind(this, 'INT')} title={'INT'} score={this.props.abilities.get('int').get('mod')} subtitle={this.props.abilities.get('int').get('score')} width={3} background={true} trained={true} color='green'/>
+          <Stat onPopoverChange={this.handleStatChange.bind(this, 'WIS')} title={'WIS'} score={this.props.abilities.get('wis').get('mod')} subtitle={this.props.abilities.get('wis').get('score')} width={3} background={true} trained={true} color='green'/>
+          <Stat onPopoverChange={this.handleStatChange.bind(this, 'CHA')} title={'CHA'} score={this.props.abilities.get('cha').get('mod')} subtitle={this.props.abilities.get('cha').get('score')} width={3} background={true} trained={true} color='green'/>
         </section>
         <section className="pane-section pane-border">
           <Stat title={'Proficiency Bonus'} score={this.props.proficiencyBonus.get('score')} width={2} background={true} trained={true} />

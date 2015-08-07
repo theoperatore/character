@@ -19,7 +19,9 @@ module.exports = React.createClass({
 
   getDefaultProps : function() {
     return ({
-      popover : <span></span>
+      popover : false,
+      onClose : () => {},
+      css : ''
     })
   },
 
@@ -45,7 +47,7 @@ module.exports = React.createClass({
     var arrow = (prect.width / 2) - 5;
 
     arrow = left < 0 ? arrow - Math.abs(0 - left) : arrow;
-    arrow = left + prect.width > drect.width ? arrow + Math.abs(drect.width - (left + precdt.width)) : arrow;
+    arrow = left + prect.width > drect.width ? arrow + Math.abs(drect.width - (left + prect.width)) : arrow;
 
     left = left < 0 ? 0 : left;
     left = left + prect.width > drect.width ? drect.width - prect.width : left;
@@ -67,13 +69,14 @@ module.exports = React.createClass({
 
 
   toggle : function() {
-    if (!this.state.active) {
-      this.calculate();
-      document.removeEventListener('click', this.handleOutsideClick);
-      document.addEventListener('click', this.handleOutsideClick);
+    if (this.props.popover) {
+      if (!this.state.active) {
+        this.calculate();
+        document.removeEventListener('click', this.handleOutsideClick);
+        document.addEventListener('click', this.handleOutsideClick);
+      }
+      this.setState({ active : !this.state.active });
     }
-
-    this.setState({ active : !this.state.active });
   },
 
 
@@ -101,8 +104,10 @@ module.exports = React.createClass({
 
 
   render : function() {
+    var css = 'popover-container ' + this.props.css;
+
     return (
-      <div className='popover-container'>
+      <div className={css}>
         <div ref='content' className='popover-content-container' onClick={this.toggle}>
           {this.props.children}
         </div>

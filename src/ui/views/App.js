@@ -43,27 +43,32 @@ module.exports = React.createClass({
 
     // /users/id/character/pushID must be the same pushId as /characters/pushID
     // in order to write
-    db.once('characters/' + this.props.characterUID).then((snap) => {
-      var character = snap.val();
-      var data;
-      var preferences;
+    if (this.props.characterUID !== 'noload') {
+      db.once('characters/' + this.props.characterUID).then((snap) => {
+        var character = snap.val();
+        var data;
+        var preferences;
 
-      data = JSON.parse(character.character_data);
-      preferences = JSON.parse(character.preference_data);
+        data = JSON.parse(character.character_data);
+        preferences = JSON.parse(character.preference_data);
 
-      data = Immutable.fromJS(data);
-      preferences = Immutable.fromJS(preferences);
+        data = Immutable.fromJS(data);
+        preferences = Immutable.fromJS(preferences);
 
-      window.characterjs = data.toJS();
-      window.character = data;
-      window.preferences = preferences.toJS();
+        window.characterjs = data.toJS();
+        window.character = data;
+        window.preferences = preferences.toJS();
 
-      this.setState({ character : data, preferences : preferences, loading : false });
-    }).catch((err) => {
-      error(err);
-      error('using blank character');
+        this.setState({ character : data, preferences : preferences, loading : false });
+      }).catch((err) => {
+        error(err);
+        error('using blank character');
+        this.setState({ loading : false });
+      })
+    }
+    else {
       this.setState({ loading : false });
-    })
+    }
   },
 
 

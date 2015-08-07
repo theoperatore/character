@@ -21,6 +21,6 @@ module.exports = [
     characterClass : 'Test',
     createdDate : 123456789,
     deathDate : 123456789,
-    characterUID : 'wan'
+    characterUID : 'noload'
   }
 ];
