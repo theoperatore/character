@@ -17,6 +17,9 @@ var browsersync = require('browser-sync');
 var del = require('del');
 var nib = require('nib');
 
+// whenever a *.js file is required, pump through ('react-tools').transform
+require('./react-global-compiler-polyfill');
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -178,7 +181,12 @@ gulp.task('mocha', function() {
   return gulp.src('tests/**/*.js', { read : false })
     .pipe(mocha({
       reporter : 'spec',
-      timeout : 5000
+      timeout : 5000,
+      harmony : true,
+      require : [
+        __dirname + '/test-utils/dom',
+        __dirname + '/test-utils/env'
+      ]
     }));
 })
 
