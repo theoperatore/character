@@ -182,7 +182,6 @@ gulp.task('mocha', function() {
     .pipe(mocha({
       reporter : 'spec',
       timeout : 5000,
-      harmony : true,
       require : [
         __dirname + '/test-utils/dom',
         __dirname + '/test-utils/env'

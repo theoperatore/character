@@ -29,8 +29,8 @@ module.exports = React.createClass({
 
   componentDidMount : function() {
     var node = React.findDOMNode(this);
-    var header = node.firstChild;
-    var content = node.firstChild.nextElementSibling;
+    var header = React.findDOMNode(this.refs['panel-header']);
+    var content = React.findDOMNode(this.refs['panel-content']);
     var headerHeight;
     var totalHeight;
 
@@ -60,8 +60,8 @@ module.exports = React.createClass({
 
   recalculate : function() {
     var node = React.findDOMNode(this);
-    var header = node.firstChild;
-    var content = node.firstChild.nextElementSibling;
+    var header = React.findDOMNode(this.refs['panel-header']);
+    var content = React.findDOMNode(this.refs['panel-content']);
     var headerHeight;
     var totalHeight;
 
@@ -75,13 +75,12 @@ module.exports = React.createClass({
   toggle : function() {
     if (this.state.active) {
       this.setState({ closing : true });
+      this.recalculate();
     }
     else {
       this.setState({ active : true });
       this.props.onOpen();
     }
-
-    this.recalculate();
   },
 
 
@@ -92,7 +91,7 @@ module.exports = React.createClass({
     })
 
     return (
-      <div className={css} onClick={this.toggle}>
+      <div ref='panel-header' className={css} onClick={this.toggle}>
         {this.props.header || "Panel_Header"}
       </div>
     );
@@ -130,7 +129,7 @@ module.exports = React.createClass({
 
 
     return (
-      <div className={cssContent} style={style}>
+      <div ref='panel-content' className={cssContent} style={style}>
         {children}
       </div>
     );

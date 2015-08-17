@@ -2,21 +2,15 @@
 
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
+var Button = require(process.cwd() + '/src/ui/components/Button');
 
 describe('Button', function() {
   var button;
   var callback;
 
   beforeEach(function() {
-    var Button = require(process.cwd() + '/src/ui/components/Button');
-
     callback = sinon.spy();
-
     button = TestUtils.renderIntoDocument(<Button id='testButton' style='red' size='sm' onClick={callback}/>).getDOMNode();
-  })
-
-  afterEach(function() {
-    React.unmountComponentAtNode(document.body);
   })
 
   it('should have style red with size small', function() {
