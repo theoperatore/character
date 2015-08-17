@@ -12,19 +12,19 @@ module.exports = React.createClass({
       label : '',
       stat: 'placeholder',
       checked : false,
-      handleStatChange : () => {},
-      handleCheckboxChange : () => {}
+      onStatChange : () => {},
+      onCheckboxChange : () => {}
     })
   },
 
 
   handleStatChange : function(ev) {
-    this.props.handleStatChange(ev.target.value);
+    this.props.onStatChange(ev.target.value);
   },
 
 
   handleCheckboxChange : function(ev) {
-    this.props.handleCheckboxChange(ev.target.value);
+    this.props.onCheckboxChange(ev.target.value);
   },
 
 

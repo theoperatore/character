@@ -64,16 +64,14 @@ module.exports = React.createClass({
 
     return (
       <Popover popover={popover} css={container}>
-        <div>
-          <div className="stat-title">
-            <p><strong>{this.props.title}</strong></p>
-          </div>
-          <div className={css}>
-            <p>{this.props.score}</p>
-          </div>
-          <div className="stat-subtitle">
-            <p>{this.props.subtitle}</p>
-          </div>
+        <div className="stat-title">
+          <p><strong>{this.props.title}</strong></p>
+        </div>
+        <div className={css}>
+          <p>{this.props.score}</p>
+        </div>
+        <div className="stat-subtitle">
+          <p>{this.props.subtitle}</p>
         </div>
       </Popover>
     )
