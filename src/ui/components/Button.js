@@ -21,6 +21,7 @@ module.exports = React.createClass({
       'button-sm' : size === 'sm',
       'button-md' : size === 'md',
       'button-lg' : size === 'lg',
+      'button-sq' : size === 'sq',
       'button-bl' : style === 'blue',
       'button-gr' : style === 'green',
       'button-rd' : style === 'red',

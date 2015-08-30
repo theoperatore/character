@@ -1,7 +1,6 @@
 'use strict';
 
 var jsdom = require('node-jsdom').jsdom;
-var expect = require('chai').expect;
 
 (function() {
   var htmlStart = '<!DOCTYPE html><html>';

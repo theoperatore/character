@@ -129,70 +129,74 @@ module.exports = React.createClass({
   render : function() {
     return (
       <div className="character-container">
-        <header>
-          <div>
-            <h5>{this.state.character.get('charName')}</h5>
-          </div>
-        </header>
+        <section ref="header" className="character-header">
+          <header>
+            <div>
+              <h5>{this.state.character.get('charName')}</h5>
+            </div>
+          </header>
 
-        <Tabs activeIdx={this.state.activePane} onTabSelect={this.handleTabSelect}>
-          <Tab><Icon icon="icon-crown" /></Tab>
-          <Tab><Icon icon="icon-features" /></Tab>
-          <Tab><Icon icon="icon-chart" /></Tab>
-          <Tab><Icon icon="icon-shield" /></Tab>
-          <Tab><Icon icon="icon-attack" /></Tab>
-          <Tab><Icon icon="icon-repo" /></Tab>
-          <Tab><Icon icon="icon-equipment"/></Tab>
-        </Tabs>
+          <Tabs activeIdx={this.state.activePane} onTabSelect={this.handleTabSelect}>
+            <Tab><Icon icon="icon-crown" /></Tab>
+            <Tab><Icon icon="icon-features" /></Tab>
+            <Tab><Icon icon="icon-chart" /></Tab>
+            <Tab><Icon icon="icon-shield" /></Tab>
+            <Tab><Icon icon="icon-attack" /></Tab>
+            <Tab><Icon icon="icon-repo" /></Tab>
+            <Tab><Icon icon="icon-equipment"/></Tab>
+          </Tabs>
+        </section>
 
-        <SwipePanes onSlideChangeEnd={this.handlePaneSwipe} activeIdx={this.state.activePane} initialSlide={this.state.activePane}>
-          <SwipePane>
-            <Info info={this.state.character.get('charInfo')}
-                  traits={this.state.character.get('charTraits')}
-                  proficiencies={this.state.character.get('charOtherProficiencies')}
-                  handleInfoChange={this.handleInfoChange}/>
-          </SwipePane>
-          <SwipePane>
-            <Features features={this.state.character.get('charFeatures')}
-                      handleFeatureChange={this.handleFeatureChange}/>
-          </SwipePane>
-          <SwipePane>
-            <Abilities abilities={this.state.character.get('charAbilities')}
-                       skills={this.state.character.get('charSkills')}
+        <section className="character-body">
+          <SwipePanes onSlideChangeEnd={this.handlePaneSwipe} activeIdx={this.state.activePane} initialSlide={this.state.activePane}>
+            <SwipePane>
+              <Info info={this.state.character.get('charInfo')}
+                    traits={this.state.character.get('charTraits')}
+                    proficiencies={this.state.character.get('charOtherProficiencies')}
+                    handleInfoChange={this.handleInfoChange}/>
+            </SwipePane>
+            <SwipePane>
+              <Features features={this.state.character.get('charFeatures')}
+                        handleFeatureChange={this.handleFeatureChange}/>
+            </SwipePane>
+            <SwipePane>
+              <Abilities abilities={this.state.character.get('charAbilities')}
+                         skills={this.state.character.get('charSkills')}
+                         proficiencyBonus={this.state.character.get('charProficiencyBonus')}
+                         passivePerception={this.state.character.get('charPassivePerception')}
+                         handleAbilityChange={this.handleAbilityChange}/>
+            </SwipePane>
+            <SwipePane>
+              <Defenses hitPoints={this.state.character.get('charHitPoints')}
+                        speed={this.state.character.get('charSpeed')}
+                        initiative={this.state.character.get('charInitiative')}
+                        armorClass={this.state.character.get('charArmorClass')}
+                        savingThrows={this.state.character.get('charSavingThrows')}
+                        resistances={this.state.character.get('charResistances')}
+                        handleDefenseChange={this.handleDefenseChange}/>
+            </SwipePane>
+            <SwipePane>
+              <Attacks attacks={this.state.character.get('charAttacks')}
+                       charges={this.state.character.get('charClassCharges')}
+                       abilities={this.state.character.get('charAbilities')}
                        proficiencyBonus={this.state.character.get('charProficiencyBonus')}
-                       passivePerception={this.state.character.get('charPassivePerception')}
-                       handleAbilityChange={this.handleAbilityChange}/>
-          </SwipePane>
-          <SwipePane>
-            <Defenses hitPoints={this.state.character.get('charHitPoints')}
-                      speed={this.state.character.get('charSpeed')}
-                      initiative={this.state.character.get('charInitiative')}
-                      armorClass={this.state.character.get('charArmorClass')}
-                      savingThrows={this.state.character.get('charSavingThrows')}
-                      resistances={this.state.character.get('charResistances')}
-                      handleDefenseChange={this.handleDefenseChange}/>
-          </SwipePane>
-          <SwipePane>
-            <Attacks attacks={this.state.character.get('charAttacks')}
-                     charges={this.state.character.get('charClassCharges')}
-                     abilities={this.state.character.get('charAbilities')}
-                     proficiencyBonus={this.state.character.get('charProficiencyBonus')}
-                     bubbles={this.state.preferences.get('atkBubbles')}
-                     handleAttacksChange={this.handleAttacksChange}/>
-          </SwipePane>
-          <SwipePane>
-            <Spells bubbles={this.state.preferences.get('spellBubbles')}
-                    spellDC={this.state.preferences.get('spellDC')}
-                    spells={this.state.character.get('charSpells')}
-                    abilities={this.state.character.get('charAbilities')}
-                    proficiencyBonus={this.state.character.get('charProficiencyBonus')}
-                    handleSpellsChange={this.handleSpellsChange}/>
-          </SwipePane>
-          <SwipePane>
-            <Equipments equipment={this.state.character.get('charEquipment')}
-                        handleEquipmentChange={this.handleEquipmentChange}/>
-          </SwipePane>
-        </SwipePanes>
+                       bubbles={this.state.preferences.get('atkBubbles')}
+                       handleAttacksChange={this.handleAttacksChange}/>
+            </SwipePane>
+            <SwipePane>
+              <Spells bubbles={this.state.preferences.get('spellBubbles')}
+                      spellDC={this.state.preferences.get('spellDC')}
+                      spells={this.state.character.get('charSpells')}
+                      abilities={this.state.character.get('charAbilities')}
+                      proficiencyBonus={this.state.character.get('charProficiencyBonus')}
+                      handleSpellsChange={this.handleSpellsChange}/>
+            </SwipePane>
+            <SwipePane>
+              <Equipments equipment={this.state.character.get('charEquipment')}
+                          handleEquipmentChange={this.handleEquipmentChange}/>
+            </SwipePane>
+          </SwipePanes>
+        </section>
 
         <Loading isLoading={this.state.loading} />
       </div>
