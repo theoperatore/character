@@ -197,7 +197,6 @@ module.exports = React.createClass({
             </SwipePane>
           </SwipePanes>
         </section>
-
         <Loading isLoading={this.state.loading} />
       </div>
     );

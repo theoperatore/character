@@ -1,14 +1,15 @@
-@require('base.styl')
+@import('base.styl')
 
 .character-container
   height 100%
-.character-header
-  position fixed
-  width 100%
-  z-index 3
+  display flex
+  flex-flow column
+  
 .character-body
-  padding-top 80px
-  height 100%
+  flex 1
+  -webkit-overflow-scrolling: touch;
+  overflow-y scroll
+  
 
 header
   background-color #333
