@@ -4,7 +4,6 @@ var React = require('react/addons');
 
 var Panel = require('../components/Panel');
 var Stat = require('../components/Stat');
-var SettingsWell = require('../components/SettingsWell');
 
 module.exports = React.createClass({
   displayName : 'PaneInfo',
@@ -58,22 +57,32 @@ module.exports = React.createClass({
   render : function() {
     return (
       <div className="pane-container">
-        <h3>Info</h3>
-        <SettingsWell open={this.state.editingInfo}>
-          <h4>Edit Character Info</h4>
-          
-        </SettingsWell>
-        <section className="pane-section pane-border">
-            <Stat width={3} title="Class" score={this.props.info.get('class')} />
-            <Stat width={3} title="Level" score={this.props.info.get('level')} />
-            <Stat width={3} title="Xp" score={this.props.info.get('xp')} />
-        </section>
-        <section className="pane-section pane-border">
-          <Stat width={3} title="Bg" score={this.props.info.get('background')} />
-          <Stat width={3} title="Race" score={this.props.info.get('race')} />
-          <Stat width={3} title="Alignment" score={this.props.info.get('alignment')} />
-        </section>
-        <h3>Traits</h3>
+        <section className='info-container'>
+          <div className='level-container'>
+            <h6>level</h6>
+            <span className='level'>{this.props.info.get('level')}</span>
+            <h6>{this.props.info.get('xp')}</h6>
+          </div>
+          <div className='info-stat-group'>
+            <div className='info-stat'>
+              <span className='header'>class</span>
+              <p className='content'>{this.props.info.get('class')}</p>
+            </div>
+            <div className='info-stat'>
+              <span className='header'>race</span>
+              <p className='content'>{this.props.info.get('race')}</p>
+            </div>
+            <div className='info-stat'>
+              <span className='header'>alignment</span>
+              <p className='content'>{this.props.info.get('alignment')}</p>
+            </div>
+            <div className='info-stat'>
+              <span className='header'>background</span>
+              <p className='content'>{this.props.info.get('background')}</p>
+            </div>
+          </div>
+        </section> 
+        <hr />
         <section className="pane-section pane-padding">
           <Panel header='Personality Traits'>
             <p>{this.props.traits.get('personalityTraits')}</p>
@@ -88,11 +97,11 @@ module.exports = React.createClass({
             <p>{this.props.traits.get('flaws')}</p>
           </Panel>
         </section>
-        <h3>Proficiencies</h3>
+        <hr />
         <section className="pane-section pane-padding">
           {this.renderProficiencies()}
         </section>
-        <h3>Languages</h3>
+        <hr />
         <section className="pane-section pane-padding">
           {this.renderLanguages()}
         </section>

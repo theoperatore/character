@@ -30,7 +30,7 @@ module.exports = React.createClass({
 
   getInitialState : function() {
     return ({
-      activePane : 3,
+      activePane : 0,
       loading : true,
       character : Immutable.fromJS(blankCharacter),
       preferences : Immutable.fromJS(blankPreferences)
