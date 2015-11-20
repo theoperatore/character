@@ -6,7 +6,11 @@ module.exports = {
     "background" : "_",
     "race" : "_",
     "alignment" : "_",
-    "xp" : 0
+    "xp" : 0,
+    "deity" : "_",
+    "weight": 0,
+    "height" : "_",
+    "description" : "_"
   },
   "charTraits" : {
     "personalityTraits" : "_",

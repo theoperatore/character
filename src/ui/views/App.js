@@ -55,6 +55,9 @@ module.exports = React.createClass({
         data = Immutable.fromJS(data);
         preferences = Immutable.fromJS(preferences);
 
+        data = this.state.character.mergeDeep(data);
+
+        // TODO: remove
         window.characterjs = data.toJS();
         window.character = data;
         window.preferences = preferences.toJS();

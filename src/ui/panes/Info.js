@@ -46,14 +46,6 @@ module.exports = React.createClass({
   },
 
 
-  handleInfoChange : function() {
-    var key = "traits";
-    var data = 'some data as immutable';
-
-    this.props.handleInfoChange(key, data);
-  },
-
-
   render : function() {
     return (
       <div className="pane-container">
@@ -83,26 +75,44 @@ module.exports = React.createClass({
           </div>
         </section> 
         <hr />
-        <section className="pane-section pane-padding">
-          <Panel header='Personality Traits'>
-            <p>{this.props.traits.get('personalityTraits')}</p>
-          </Panel>
-          <Panel header='Ideals'>
-            <p>{this.props.traits.get('ideals')}</p>
-          </Panel>
-          <Panel header='Bonds'>
-            <p>{this.props.traits.get('bonds')}</p>
-          </Panel>
-          <Panel header='Flaws'>
-            <p>{this.props.traits.get('flaws')}</p>
-          </Panel>
+        <section className="info-section pane-padding tile-container">
+          <div className='tile-stat-container'>
+            <div className='tile-stat'>
+              <span className='fa fa-cube'></span> 
+              <h6>{'Personality Traits'}</h6>
+            </div>
+          </div>
+          <div className='tile-stat-container'>
+            <div className='tile-stat'>
+              <span className='fa fa-cube'></span> 
+              <h6>{'Ideals'}</h6>
+            </div>
+          </div>
+          <div className='tile-stat-container'>
+            <div className='tile-stat'>
+              <span className='fa fa-cube'></span> 
+              <h6>{'Bonds'}</h6>
+            </div>
+          </div>
+          <div className='tile-stat-container'>
+            <div className='tile-stat'>
+              <span className='fa fa-cube'></span> 
+              <h6>{'Flaws'}</h6>
+            </div>
+          </div>
+          <div className='tile-container'>
+            <div className='tile-stat'>
+              <h6>Descriptors</h6>
+            </div>
+          </div>
         </section>
+
         <hr />
-        <section className="pane-section pane-padding">
+        <section className="info-section pane-padding">
           {this.renderProficiencies()}
         </section>
         <hr />
-        <section className="pane-section pane-padding">
+        <section className="info-section pane-padding">
           {this.renderLanguages()}
         </section>
       </div>
