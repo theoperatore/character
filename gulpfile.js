@@ -1,36 +1,61 @@
 "use strict";
 
 var gulp = require('gulp');
-var mocha = require('gulp-mocha');
-var jshint = require('gulp-jshint');
-var react = require('gulp-react');
-var stylus = require('gulp-stylus');
-var concat = require('gulp-concat');
-var sourcemaps = require('gulp-sourcemaps');
+
 var uglify = require('gulp-uglify');
-var reactify = require('reactify');
+var stylus = require('gulp-stylus');
+var minifyCss = require('gulp-minify-css');
+
 var browserify = require('browserify');
+var watchify = require('watchify');
+var babelify = require('babelify');
+
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var watchify = require('watchify');
-var browsersync = require('browser-sync');
+var sourcemaps = require('gulp-sourcemaps');
+
+var rename = require('gulp-rename');
+var concat = require('gulp-concat');
+var gutils = require('gulp-util');
+var chalk = require('chalk');
+
 var del = require('del');
 var nib = require('nib');
 
-// whenever a *.js file is required, pump through ('react-tools').transform
-require('./react-global-compiler-polyfill');
+function logError(err) {
+  if (err.fileName) {
+    gutil.log(chalk.red(err.name)
+      + ': '
+      + chalk.yellow(err.fileName.replace(__dirname + '/src/js/', ''))
+      + ': '
+      + 'Line '
+      + chalk.magenta(err.lineNumber)
+      + ' & '
+      + 'Column '
+      + chalk.magenta(err.columnNumber || err.column)
+      + ': '
+      + chalk.blue(err.description))
+  }
+  else {
+    gutils.log(chalk.red(err.name) + ": " + chalk.yellow(err.message));
+  }
+
+  this.end();
+}
 
 
-///////////////////////////////////////////////////////////////////////////////
-//
-// Fn to get vendor dependencies; devDependencies are really server deps, and
-// dependencies are really UI deps. Bundle normal dependencies as vendor.js
-//
-///////////////////////////////////////////////////////////////////////////////
-function getVendorKeys() {
-  var pkg = require('./package.json');
-
-  return Object.keys(pkg.dependencies);
+function bundle(bundler) {
+  return bundler.bundle()
+    .on('error', logError)
+    .pipe(source('index.js'))
+    .pipe(buffer())
+    .pipe(rename('bundle.js'))
+    .pipe(gulp.dest('build'))
+    // .pipe(rename('bundle.min.js'))
+    // .pipe(sourcemaps.init({ loadMaps: true }))
+    // .pipe(uglify())
+    // .pipe(sourcemaps.write())
+    // .pipe(gulp.dest('build'))
 }
 
 
@@ -46,55 +71,20 @@ gulp.task('clean', function(cb) {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Lint TEH js!
-//
-///////////////////////////////////////////////////////////////////////////////
-gulp.task('lint', function() {
-  return gulp.src([
-        'src/**/*.js',
-        'tests/**/*.js'
-      ])
-    .pipe(react())
-    .pipe(jshint())
-    .pipe(jshint.reporter('default', { verbose : true }))
-    .pipe(jshint.reporter('fail'));
-})
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
 // Compile JS
 //
 ///////////////////////////////////////////////////////////////////////////////
 gulp.task('compile-js', function() {
-  var handleError;
-  var stream;
-  var bundler;
-  var rebundle;
-
-  bundler = browserify('./src/ui/index.js', {
-    debug : true,
-    cache : {},
-    packageCache : {},
-    fullPaths : true,
-    verbose : true
-  });
-
-  getVendorKeys().forEach(function(vendor) {
-    bundler.external(vendor);
+  var bundler = browserify('./src/ui/index.js').transform(babelify, {
+    presets: [ 'stage-0', 'es2015', 'react' ],
+    sourceMapRelative: '.'
   })
 
-  bundler.transform(reactify, { es6 : true, target : "es5" });
+  bundler.on('file', function (file) {
+    console.log(chalk.yellow('[file]'), chalk.gray(file));
+  });
 
-  handleError = function(ev) {
-    console.log("browserify error:", ev.message);
-  }
-
-
-  stream = bundler.bundle();
-  stream.on('error', handleError);
-  stream = stream.pipe(source('bundle.js'));
-  return stream.pipe(gulp.dest('./build'));
+  return bundle(bundler);
 })
 
 
@@ -104,89 +94,30 @@ gulp.task('compile-js', function() {
 //
 ///////////////////////////////////////////////////////////////////////////////
 gulp.task('watch-js', function() {
-  var handleError;
-  var stream;
-  var bundler;
-  var rebundle;
+  var args = watchify.args;
+  args.debug = true;
 
-  bundler = browserify('./src/ui/index.js', {
-    debug : true,
-    cache : {},
-    packageCache : {},
-    fullPaths : true,
-    verbose : true
+  var brsfy = browserify('./src/ui/index.js', args);
+
+  brsfy.on('file', function (file) {
+    console.log(chalk.yellow('[file]'), chalk.gray(file));
   });
 
-  bundler = watchify(bundler);
+  var bundler = watchify(brsfy)
+    .transform(babelify, {
+      presets: ['stage-0', 'es2015', 'react'],
+      sourceMapRelative: '.'
+    });
 
-  getVendorKeys().forEach(function(vendor) {
-    bundler.external(vendor);
+  bundler.on('update', function (id) {
+    bundle(bundler);
   })
 
-  bundler.transform(reactify, { es6 : true, target : "es5" });
+  bundler.on('log', function (msg) {
+    console.log(chalk.green('[watch]', msg));
+  })
 
-  handleError = function(ev) {
-    console.log("browserify error:", ev.message);
-  }
-
-  rebundle = function() {
-    stream = bundler.bundle();
-    stream.on('error', handleError);
-    stream = stream.pipe(source('bundle.js'));
-    return stream.pipe(gulp.dest('./build'));
-  }
-
-  bundler.on('update', function(ev) {
-    console.log("building: ", ev);
-    rebundle();
-  });
-
-  return rebundle();
-})
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-// Build vendor dependancies
-//
-///////////////////////////////////////////////////////////////////////////////
-gulp.task('build-vendor', function() {
-  var bundler;
-  var stream;
-  var handleError;
-  var rebundle;
-
-  bundler = browserify({
-    debug : true
-  });
-
-  getVendorKeys().forEach(function(vendor) {
-    bundler.require(vendor, { expose : vendor });
-  });
-
-  return bundler.bundle()
-    .pipe(source('vendor.js'))
-    .pipe(buffer())
-    .pipe(uglify())
-    .pipe(gulp.dest('./src/ui/statics'));
-})
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-// RUN ALL OF THE TESTS!
-//
-///////////////////////////////////////////////////////////////////////////////
-gulp.task('mocha', function() {
-  return gulp.src('tests/**/*.js', { read : false })
-    .pipe(mocha({
-      reporter : 'spec',
-      timeout : 5000,
-      require : [
-        __dirname + '/test-utils/dom',
-        __dirname + '/test-utils/env'
-      ]
-    }));
+  return bundle(bundler);
 })
 
 
@@ -196,14 +127,15 @@ gulp.task('mocha', function() {
 //
 ///////////////////////////////////////////////////////////////////////////////
 gulp.task('compile-css', function() {
-  return gulp.src('src/ui/**/*.styl')
+  return gulp.src('./src/ui/**/*.styl')
     .pipe(sourcemaps.init())
-    .pipe(stylus({ use : nib(), import : ['nib'], include : ['src/ui/style']}))
-    .on('error', function(err) {
-      console.log("found a stylus error: %s", err.message);
-      this.emit('end');
-    })
+    .pipe(stylus({ 
+      use : nib(), 
+      import : ['nib', __dirname + '/src/ui/style/base']
+    }))
+    .on('error', logError)
     .pipe(concat('style.css'))
+    .pipe(minifyCss())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('build'));
 })
@@ -215,7 +147,7 @@ gulp.task('compile-css', function() {
 //
 ///////////////////////////////////////////////////////////////////////////////
 gulp.task('watch-css', ['compile-css'], function() {
-  gulp.watch(['src/ui/**/*.styl'], ['compile-css']);
+  return gulp.watch(['src/ui/**/*.styl'], ['compile-css']);
 })
 
 
@@ -224,58 +156,8 @@ gulp.task('watch-css', ['compile-css'], function() {
 // Copy files into the correct place
 //
 ///////////////////////////////////////////////////////////////////////////////
-gulp.task('copy', ['clean'], function() {
-  return gulp.src(['index.html', 'src/ui/statics/**'])
+gulp.task('copy', function() {
+  return gulp.src(['src/ui/statics/**'])
     .pipe(gulp.dest('build/'));
 })
 
-
-///////////////////////////////////////////////////////////////////////////////
-//
-// Deploy code by compiling and moving but not serving
-//
-///////////////////////////////////////////////////////////////////////////////
-gulp.task('deploy', ['copy', 'build-vendor', 'compile-js', 'compile-css']);
-
-///////////////////////////////////////////////////////////////////////////////
-//
-// Build all deployable code without building vendor
-//
-///////////////////////////////////////////////////////////////////////////////
-gulp.task('deploy-lite', ['copy', 'compile-js', 'compile-css']);
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-// Watch and build js files, but also reload a browser!
-//
-///////////////////////////////////////////////////////////////////////////////
-gulp.task('default', ['copy', 'build-vendor', 'watch-js', 'watch-css'], function() {
-  browsersync({
-    notify: true,
-    port : 8080,
-    server: {
-      baseDir : __dirname + "/build"
-    }
-  });
-
-  gulp.watch(['index.html', 'build/bundle.js', 'build/style.css'], browsersync.reload);
-})
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-// Just watch, don't compile vendor
-//
-///////////////////////////////////////////////////////////////////////////////
-gulp.task('watch', ['watch-js', 'watch-css'],  function() {
-  browsersync({
-    notify: true,
-    port : 8080,
-    server: {
-      baseDir : __dirname + "/build"
-    }
-  });
-
-  gulp.watch(['build/index.html', 'build/bundle.js', 'build/style.css'], browsersync.reload);
-})

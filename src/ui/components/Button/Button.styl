@@ -1,0 +1,48 @@
+.button
+  appearance none
+  outline none
+  border 1px solid #ddd
+  background-color $base-background-color
+  border-radius $base-border-radius
+  display inline-block
+  margin-right $base-component-margin
+  margin-bottom $base-component-margin
+  padding-top $base-padding-sm
+  padding-bottom $base-padding-sm
+  padding-left $base-padding-lg
+  padding-right $base-padding-lg
+  &:active
+    background-color darken($base-background-color, 15%)
+    box-shadow inset 0px 0px 3px 1px rgba(0,0,0,0.1)
+  &.button-sm
+    font-size 12px
+  &.button-lg
+    font-size 16px
+  &.button-bl
+    background-color $bg-blue
+    color $text-blue
+    border-color lighten($text-blue, 50%)
+    &:active
+      background-color darken($bg-blue, 15%)
+      box-shadow inset 0px 0px 3px 1px rgba(0,0,0,0.1)
+  &.button-gr
+    background-color $bg-green
+    color $text-green
+    border-color lighten($text-green, 50%)
+    &:active
+      background-color darken($bg-green, 15%)
+      box-shadow inset 0px 0px 3px 1px rgba(0,0,0,0.1)
+  &.button-gd
+    background-color $bg-gold
+    color $text-gold
+    border-color lighten($text-gold, 50%)
+    &:active
+      background-color darken($bg-gold, 15%)
+      box-shadow inset 0px 0px 3px 1px rgba(0,0,0,0.1)
+  &.button-rd
+    background-color $bg-red
+    color $text-red
+    border-color lighten($text-red, 50%)
+    &:active
+      background-color darken($bg-red, 15%)
+      box-shadow inset 0px 0px 3px 1px rgba(0,0,0,0.1)
