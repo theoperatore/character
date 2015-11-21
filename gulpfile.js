@@ -161,3 +161,11 @@ gulp.task('copy', function() {
     .pipe(gulp.dest('build/'));
 })
 
+///////////////////////////////////////////////////////////////////////////////
+//
+// Watch both css and js
+//
+///////////////////////////////////////////////////////////////////////////////
+gulp.task('watch', ['watch-js', 'watch-css'], function () {
+  gutils.log(chalk.magenta('watching for changes...'));
+});
