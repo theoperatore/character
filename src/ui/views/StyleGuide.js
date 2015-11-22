@@ -1,8 +1,9 @@
 "use strict";
 
-var React = require('react/addons');
-var Immutable = require('immutable');
+import React from 'react/addons';
+import Immutable from 'immutable';
 
+import ListItem from '../components/ListItem';
 
 var Panel = require('../components/Panel');
 var Shell = require('../components/Shell');
@@ -17,7 +18,6 @@ var HPBar = require('../components/HPBar');
 var Shield = require('../components/Shield');
 var Stat = require('../components/Stat');
 var Switch = require('../components/Switch');
-var ClickInput = require('../components/ClickInput');
 var Menu = require('../components/Menu');
 var SpellCircle = require('../components/SpellCircle');
 var Button = require('../components/Button');
@@ -28,6 +28,7 @@ var mockSkills = require('../dummy/character-skills');
 var mockEquipment = require('../dummy/character-equipment');
 var mockHps = require('../dummy/character-hitpoints');
 var mockSpells = require('../dummy/character-spells');
+
 
 module.exports = React.createClass({
   displayName : "StyleGuide",
@@ -113,9 +114,15 @@ module.exports = React.createClass({
     this.setState({skillsData : Immutable.fromJS(out)});
   },
 
+  closeListItem(ev) {
+    this.refs.listItem.close();
+    ev.stopPropagation();
+    ev.preventDefault();
+  },
+
   render : function() {
     return (
-      <div className="container">
+      <div className="container main-content">
         <section>
           <h1>Headings 1</h1>
           <h2>Headings 2</h2>
@@ -167,6 +174,54 @@ module.exports = React.createClass({
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget augue sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In erat lacus, porta eu blandit scelerisque, vestibulum id purus. Nam vel rhoncus purus. Nunc molestie ligula neque, a finibus ante semper at. In hac habitasse platea dictumst. Aliquam erat lacus, rutrum eget ex at, hendrerit pretium massa. Praesent commodo vestibulum dictum. Mauris congue sagittis neque, nec malesuada urna gravida ac.</p>
           </Panel>
 
+        </section>
+        <hr />
+        <section>
+          <p><strong>ListItems</strong></p>
+          <ListItem glyph={<Icon icon='icon-attack' />} glyphCss='text-red'>
+            <p>Item 1</p>
+          </ListItem>
+          <ListItem glyph={<Icon icon='icon-attack' />} glyphCss='text-red'>
+            <p>Item 2</p>
+          </ListItem>
+          <ListItem>
+            <p>Item no glyph</p>
+          </ListItem>
+          <ListItem glyph={<Icon icon='icon-repo' />} glyphCss='text-blue' content={
+            <section>
+              <div className='modal-header'>
+                <h3>A long modal</h3>
+              </div>
+              <div className='modal-content'>
+                <p>Some really cool content</p>
+                <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia purus vitae diam porta efficitur. Duis augue mauris, gravida a felis sed, placerat dictum magna. Ut a enim vitae sapien auctor pellentesque eu sed erat. Cras eget eros placerat augue suscipit pharetra a eu metus. Aliquam accumsan, urna ut fermentum placerat, ligula elit maximus eros, et gravida enim orci vitae nunc. Duis rhoncus dolor non sagittis dignissim. Phasellus vitae est arcu. Aenean fermentum ligula diam, non ullamcorper tortor euismod id. Ut molestie nisl bibendum ex scelerisque volutpat. Vestibulum ullamcorper justo lacinia lectus ultricies dignissim. Nunc vitae ullamcorper diam. Nunc nec gravida ante, id fringilla magna. </p>
+                <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia purus vitae diam porta efficitur. Duis augue mauris, gravida a felis sed, placerat dictum magna. Ut a enim vitae sapien auctor pellentesque eu sed erat. Cras eget eros placerat augue suscipit pharetra a eu metus. Aliquam accumsan, urna ut fermentum placerat, ligula elit maximus eros, et gravida enim orci vitae nunc. Duis rhoncus dolor non sagittis dignissim. Phasellus vitae est arcu. Aenean fermentum ligula diam, non ullamcorper tortor euismod id. Ut molestie nisl bibendum ex scelerisque volutpat. Vestibulum ullamcorper justo lacinia lectus ultricies dignissim. Nunc vitae ullamcorper diam. Nunc nec gravida ante, id fringilla magna. </p>
+                <textarea></textarea>
+                <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia purus vitae diam porta efficitur. Duis augue mauris, gravida a felis sed, placerat dictum magna. Ut a enim vitae sapien auctor pellentesque eu sed erat. Cras eget eros placerat augue suscipit pharetra a eu metus. Aliquam accumsan, urna ut fermentum placerat, ligula elit maximus eros, et gravida enim orci vitae nunc. Duis rhoncus dolor non sagittis dignissim. Phasellus vitae est arcu. Aenean fermentum ligula diam, non ullamcorper tortor euismod id. Ut molestie nisl bibendum ex scelerisque volutpat. Vestibulum ullamcorper justo lacinia lectus ultricies dignissim. Nunc vitae ullamcorper diam. Nunc nec gravida ante, id fringilla magna. </p>
+                <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia purus vitae diam porta efficitur. Duis augue mauris, gravida a felis sed, placerat dictum magna. Ut a enim vitae sapien auctor pellentesque eu sed erat. Cras eget eros placerat augue suscipit pharetra a eu metus. Aliquam accumsan, urna ut fermentum placerat, ligula elit maximus eros, et gravida enim orci vitae nunc. Duis rhoncus dolor non sagittis dignissim. Phasellus vitae est arcu. Aenean fermentum ligula diam, non ullamcorper tortor euismod id. Ut molestie nisl bibendum ex scelerisque volutpat. Vestibulum ullamcorper justo lacinia lectus ultricies dignissim. Nunc vitae ullamcorper diam. Nunc nec gravida ante, id fringilla magna. </p>
+                <input type='text' placeholder='enter some cool text' />
+              </div>
+            </section>
+          }>
+            <p>Item 3</p>
+          </ListItem>
+          <ListItem ref='listItem' glyph={<Icon icon='icon-attack' />} glyphCss='text-red' content={
+            <section>
+              <div className='modal-header'>
+                <h3>A modal</h3>
+              </div>
+              <div className='modal-content'>
+                <p>Some really cool content</p>
+                <input type='text' placeholder='enter some cool text' />
+              </div>
+              <div className='modal-footer'>
+                <Button style='red' onClick={this.closeListItem}><span>Close</span></Button>
+                <Button style='green' onClick={this.closeListItem}><span>Ok</span></Button>
+              </div>
+            </section>
+          }>
+            <p><strong>Item 4</strong></p>
+          </ListItem>
         </section>
         <hr />
         <section>
@@ -259,11 +314,6 @@ module.exports = React.createClass({
         <section>
           <p><strong>Switches</strong></p>
           <Switch active={this.state.switchActive} onClick={this.toggleSwitch} />
-        </section>
-        <hr />
-        <section>
-          <p><strong>Click Inputs</strong></p>
-          <ClickInput label={this.state.characterName} onUserInput={this.handleUserInput} onUserInputEnd={this.handleUserInputEnd} />
         </section>
         <hr />
         <section>

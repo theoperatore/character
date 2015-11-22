@@ -53,7 +53,7 @@ module.exports = React.createClass({
   },
 
 
-  componentWillRecieveProps : function() {
+  componentWillReceiveProps : function() {
     this.setState({ dirty : true });
   },
 

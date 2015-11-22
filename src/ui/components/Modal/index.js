@@ -1,63 +1,85 @@
 'use strict';
 
-var React = require('react/addons');
-var cn = require('classnames');
+import React from 'react/addons';
+import cn from 'classnames';
 
-
-module.exports = React.createClass({
+export default React.createClass({
   displayName: 'Modal',
 
 
   getInitialState() {
-    return ({
+    return {
+      transition: false,
       open: false
-    })
+    }
   },
 
 
   getDefaultProps() {
-    return ({
-      open: false
-    })
+    return {
+      onDismiss: () => {},
+      active: false
+    }
   },
 
 
-  renderHeader() {
-    return this.props.header ? this.props.header : '';
+  dismiss(ev) {
+    if (ev.target === React.findDOMNode(this.refs.overlay)) {
+      this.props.onDismiss();
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
   },
 
 
-  renderContent() {
-    return this.props.children;
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.active === true) {
+      this.setState({ transition: true }, () => {
+        setTimeout(() => {
+          this.setState({ open: true });
+        }, 100)
+      })
+    }
+    else {
+      this.setState({ open: false }, () => {
+        setTimeout(() => {
+          this.setState({ transition: false })
+        }, 300)
+      })
+    }
   },
 
 
-  renderFooter() {
-    return this.props.footer ? this.props.footer : '';
+  componentDidUpdate() {
+    if (this.props.active === false) {
+      document.querySelector('.main-content').style.overflow = 'auto';
+      return;
+    }
+
+    document.querySelector('.main-content').style.overflow = 'hidden';
   },
 
 
   render() {
-    var css = cn({
+    let css = cn({
       'modal-overlay': true,
-      'modal-active' : this.props.open || this.state.open
+      'modal-overlay-transition': this.state.transition,
+      'modal-overlay-active': this.state.open
     })
 
+    let container = cn({
+      'modal-content-container': true,
+      'modal-content-transition': this.state.transition,
+      'modal-content-active': this.state.open
+    })
 
-    return (
-      <div className={css}>
-        <div className='modal-container'>
-          <div className='modal-header'>
-            {this.renderHeader()}
-          </div>
-          <div className='modal-content'>
-            {this.renderContent()}
-          </div>
-          <div className='modal-footer'>
-            {this.renderFooter()}
-          </div>
+    let content = this.state.transition || this.state.open ?
+      <div ref='overlay' className={css} onClick={this.dismiss}>
+        <div ref='content' className={container}>
+          {this.props.children}
         </div>
-      </div>
-    )
+      </div> : React.DOM.noscript();
+
+    return content;
   }
 })
