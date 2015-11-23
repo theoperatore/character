@@ -1,28 +1,30 @@
 "use strict";
 
-var React = require('react/addons');
-var Immutable = require('immutable');
-var db = require('../../api');
-var blankCharacter = require('../data/blank');
-var blankPreferences = require('../data/preferences');
+import React from 'react/addons';
+import Immutable from 'immutable';
+import db from '../../api';
+import blankCharacter from '../data/blank';
+import blankPreferences from '../data/preferences';
 
-var error = require('debug')('logs:app:error');
-var log = require('debug')('logs:app');
+import debug from 'debug';
 
-var SwipePanes = require('../components/SwipePanes');
-var SwipePane = require('../components/SwipePane');
-var Tabs = require('../components/Tabs');
-var Tab = require('../components/Tab');
-var Icon = require('../components/Icon');
-var Loading = require('../components/Loading');
+import SwipePanes from '../components/SwipePanes';
+import SwipePane from '../components/SwipePane';
+import Tabs from '../components/Tabs';
+import Tab from '../components/Tab';
+import Icon from '../components/Icon';
+import Loading from '../components/Loading';
 
-var Info = require('../panes/Info');
-var Features = require('../panes/Features');
-var Abilities = require('../panes/Abilities');
-var Defenses = require('../panes/Defenses');
-var Attacks = require('../panes/Attacks');
-var Spells = require('../panes/Spells');
-var Equipments = require('../panes/Equipments');
+import Info from '../panes/Info';
+import Features from '../panes/Features';
+import Abilities from '../panes/Abilities';
+import Defenses from '../panes/Defenses';
+import Attacks from '../panes/Attacks';
+import Spells from '../panes/Spells';
+import Equipments from '../panes/Equipments';
+
+let error = debug('logs:app:error');
+let log = debug('logs:app');
 
 module.exports = React.createClass({
   displayName : "App",
@@ -64,7 +66,7 @@ module.exports = React.createClass({
 
         this.setState({ character : data, preferences : preferences, loading : false });
       }).catch((err) => {
-        error(err);
+        error(err.message);
         error('using blank character');
         this.setState({ loading : false });
       })
@@ -129,6 +131,16 @@ module.exports = React.createClass({
   },
 
 
+  openModal(content) {
+    this.setState({ modal: content });
+  },
+
+
+  closeModal() {
+    this.setState({ modal: React.DOM.noscript() });
+  },
+
+
   render : function() {
     return (
       <div className="character-container">
@@ -156,7 +168,9 @@ module.exports = React.createClass({
               <Info info={this.state.character.get('charInfo')}
                     traits={this.state.character.get('charTraits')}
                     proficiencies={this.state.character.get('charOtherProficiencies')}
-                    handleInfoChange={this.handleInfoChange}/>
+                    handleInfoChange={this.handleInfoChange}
+                    openModal={this.openModal}
+                    closeModa={this.closeModal}/>
             </SwipePane>
             <SwipePane>
               <Features features={this.state.character.get('charFeatures')}
@@ -200,6 +214,7 @@ module.exports = React.createClass({
             </SwipePane>
           </SwipePanes>
         </section>
+        <div id='modal'></div>
         <Loading isLoading={this.state.loading} />
       </div>
     );

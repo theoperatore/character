@@ -187,7 +187,7 @@ module.exports = React.createClass({
           <ListItem>
             <p>Item no glyph</p>
           </ListItem>
-          <ListItem glyph={<Icon icon='icon-repo' />} glyphCss='text-blue' content={
+          <ListItem glyph={<Icon icon='icon-repo' />} glyphCss='text-blue' container='.main-content' content={
             <section>
               <div className='modal-header'>
                 <h3>A long modal</h3>
@@ -205,7 +205,7 @@ module.exports = React.createClass({
           }>
             <p>Item 3</p>
           </ListItem>
-          <ListItem ref='listItem' glyph={<Icon icon='icon-attack' />} glyphCss='text-red' content={
+          <ListItem ref='listItem' glyph={<Icon icon='icon-attack' />} glyphCss='text-red' container='.main-content' content={
             <section>
               <div className='modal-header'>
                 <h3>A modal</h3>

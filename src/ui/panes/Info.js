@@ -1,9 +1,8 @@
 'use strict';
 
-var React = require('react/addons');
-
-var Panel = require('../components/Panel');
-var Stat = require('../components/Stat');
+import React from 'react/addons';
+import ListItem from '../components/ListItem';
+import Icon from '../components/Icon';
 
 module.exports = React.createClass({
   displayName : 'PaneInfo',
@@ -27,9 +26,18 @@ module.exports = React.createClass({
   renderProficiencies : function() {
     return this.props.proficiencies.get('proficiencies').toJS().map((prof, i) => {
       return (
-        <Panel header={prof.name} key={i}>
-          <p>{prof.desc}</p>
-        </Panel>
+        <ListItem glyph={<Icon icon='fa fa-cube' />} key={i} container='.character-body' content={
+          <section>
+            <div className='modal-header'>
+              <h3>{prof.name}</h3>
+            </div>
+            <div className='modal-content'>
+              <p>{prof.desc}</p>
+            </div>
+          </section>
+        }>
+          <p>{prof.name}</p>
+        </ListItem>
       );
     })
   },
@@ -38,9 +46,18 @@ module.exports = React.createClass({
   renderLanguages : function() {
     return this.props.proficiencies.get('languages').toJS().map((lang, i) => {
       return (
-        <Panel header={lang.name} key={i}>
-          <p>{lang.desc}</p>
-        </Panel>
+        <ListItem glyph={<Icon icon='fa fa-cube' />} key={i} container='.character-body' content={
+          <section>
+            <div className='modal-header'>
+              <h3>{lang.name}</h3>
+            </div>
+            <div className='modal-content'>
+              <p>{lang.desc}</p>
+            </div>
+          </section>
+        }>
+          <p>{lang.name}</p>
+        </ListItem>
       );
     })
   },
@@ -74,45 +91,12 @@ module.exports = React.createClass({
             </div>
           </div>
         </section> 
-        <hr />
-        <section className="info-section pane-padding tile-container">
-          <div className='tile-stat-container'>
-            <div className='tile-stat'>
-              <span className='fa fa-cube'></span> 
-              <h6>{'Personality Traits'}</h6>
-            </div>
-          </div>
-          <div className='tile-stat-container'>
-            <div className='tile-stat'>
-              <span className='fa fa-cube'></span> 
-              <h6>{'Ideals'}</h6>
-            </div>
-          </div>
-          <div className='tile-stat-container'>
-            <div className='tile-stat'>
-              <span className='fa fa-cube'></span> 
-              <h6>{'Bonds'}</h6>
-            </div>
-          </div>
-          <div className='tile-stat-container'>
-            <div className='tile-stat'>
-              <span className='fa fa-cube'></span> 
-              <h6>{'Flaws'}</h6>
-            </div>
-          </div>
-          <div className='tile-container'>
-            <div className='tile-stat'>
-              <h6>Descriptors</h6>
-            </div>
-          </div>
-        </section>
-
-        <hr />
         <section className="info-section pane-padding">
+          <h3>Proficiencies</h3>
           {this.renderProficiencies()}
         </section>
-        <hr />
         <section className="info-section pane-padding">
+          <h3>Languages</h3>
           {this.renderLanguages()}
         </section>
       </div>

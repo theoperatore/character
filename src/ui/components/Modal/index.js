@@ -9,7 +9,6 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      transition: false,
       open: false
     }
   },
@@ -18,68 +17,55 @@ export default React.createClass({
   getDefaultProps() {
     return {
       onDismiss: () => {},
-      active: false
+      container: ''
     }
   },
 
 
   dismiss(ev) {
     if (ev.target === React.findDOMNode(this.refs.overlay)) {
-      this.props.onDismiss();
       ev.preventDefault();
       ev.stopPropagation();
-    }
-  },
 
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.active === true) {
-      this.setState({ transition: true }, () => {
-        setTimeout(() => {
-          this.setState({ open: true });
-        }, 100)
-      })
-    }
-    else {
       this.setState({ open: false }, () => {
         setTimeout(() => {
-          this.setState({ transition: false })
-        }, 300)
+          this.props.onDismiss();
+        }, 300);
       })
     }
   },
 
 
-  componentDidUpdate() {
-    if (this.props.active === false) {
-      document.querySelector('.main-content').style.overflow = 'auto';
-      return;
-    }
+  componentDidMount() {
+    document.querySelector(this.props.container).style.overflow = 'hidden';
+    setTimeout(() => {
+      this.setState({ open: true });
+    }, 100);
+  },
 
-    document.querySelector('.main-content').style.overflow = 'hidden';
+
+  componentWillUnmount() {
+    document.querySelector(this.props.container).style.overflow = 'auto';
   },
 
 
   render() {
     let css = cn({
       'modal-overlay': true,
-      'modal-overlay-transition': this.state.transition,
       'modal-overlay-active': this.state.open
     })
 
     let container = cn({
       'modal-content-container': true,
-      'modal-content-transition': this.state.transition,
       'modal-content-active': this.state.open
     })
 
-    let content = this.state.transition || this.state.open ?
+    return (
       <div ref='overlay' className={css} onClick={this.dismiss}>
         <div ref='content' className={container}>
           {this.props.children}
         </div>
-      </div> : React.DOM.noscript();
-
-    return content;
+      </div>
+    )
   }
 })

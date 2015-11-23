@@ -18,13 +18,29 @@ export default React.createClass({
     return {
       glyph: '',
       glyphCss: '',
-      content: ''
+      content: '',
+      container: ''
+    }
+  },
+
+
+  componentDidUpdate() {
+    if (this.state.edit === true) {
+      React.render(
+        <Modal onDismiss={this.close} active={this.state.edit} container={this.props.container}>
+          {this.props.content}
+        </Modal>,
+        document.querySelector('#modal')
+      );
+    }
+    else if (this.state.edit === false) {
+      React.unmountComponentAtNode(document.querySelector('#modal'));
     }
   },
 
 
   _open(ev) {
-    if (this.state !== true && this.props.content !== '') {
+    if (this.state.edit !== true && this.props.content !== '') {
       this.setState({ edit : true });
       ev.preventDefault();
       ev.stopPropagation();
@@ -46,9 +62,6 @@ export default React.createClass({
         <div className='container-list-item-content'>
           {this.props.children}
         </div>
-        <Modal onDismiss={this.close} active={this.state.edit}>
-          {this.props.content}
-        </Modal>
       </div>
     )
   }

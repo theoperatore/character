@@ -39,10 +39,6 @@
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  -ms-transform-style: preserve-3d;
-  transform-style: preserve-3d;
   -webkit-transition-property: -webkit-transform;
   -moz-transition-property: -moz-transform;
   -o-transition-property: -o-transform;
@@ -54,11 +50,13 @@
 }
 .swiper-container-android .swiper-slide,
 .swiper-wrapper {
+  /*
   -webkit-transform: translate3d(0px, 0, 0);
   -moz-transform: translate3d(0px, 0, 0);
   -o-transform: translate(0px, 0px);
   -ms-transform: translate3d(0px, 0, 0);
   transform: translate3d(0px, 0, 0);
+  */
 }
 .swiper-container-multirow > .swiper-wrapper {
   -webkit-box-lines: multiple;
@@ -76,10 +74,13 @@
   margin: 0 auto;
 }
 .swiper-slide {
+  /*
   -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
   -ms-transform-style: preserve-3d;
   transform-style: preserve-3d;
+  */
+  
   -webkit-flex-shrink: 0;
   -ms-flex: 0 0 auto;
   flex-shrink: 0;
