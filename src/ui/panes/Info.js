@@ -92,6 +92,57 @@ module.exports = React.createClass({
           </div>
         </section> 
         <section className="info-section pane-padding">
+          <h3>Traits</h3>
+          <ListItem glyph={<Icon icon='fa fa-cube' />} container='.character-body' content={
+            <section>
+              <div className='modal-header'>
+                <h3>Personality</h3>
+              </div>
+              <div className='modal-content'>
+                <p>{this.props.traits.get('personalityTraits')}</p>
+              </div>
+            </section>
+          }>
+            <p>Personality</p>
+          </ListItem>
+          <ListItem glyph={<Icon icon='fa fa-cube' />} container='.character-body' content={
+            <section>
+              <div className='modal-header'>
+                <h3>Ideals</h3>
+              </div>
+              <div className='modal-content'>
+                <p>{this.props.traits.get('ideals')}</p>
+              </div>
+            </section>
+          }>
+            <p>Ideals</p>
+          </ListItem>
+          <ListItem glyph={<Icon icon='fa fa-cube' />} container='.character-body' content={
+            <section>
+              <div className='modal-header'>
+                <h3>Bonds</h3>
+              </div>
+              <div className='modal-content'>
+                <p>{this.props.traits.get('bonds')}</p>
+              </div>
+            </section>
+          }>
+            <p>Bonds</p>
+          </ListItem>
+          <ListItem glyph={<Icon icon='fa fa-cube' />} container='.character-body' content={
+            <section>
+              <div className='modal-header'>
+                <h3>Flaws</h3>
+              </div>
+              <div className='modal-content'>
+                <p>{this.props.traits.get('flaws')}</p>
+              </div>
+            </section>
+          }>
+            <p>Flaws</p>
+          </ListItem>
+        </section>
+        <section className="info-section pane-padding">
           <h3>Proficiencies</h3>
           {this.renderProficiencies()}
         </section>

@@ -1,9 +1,10 @@
 'use strict';
 
-var React = require('react/addons');
-var Panel = require('../components/Panel');
+import React from 'react/addons';
+import ListItem from '../components/ListItem';
+import Icon from '../components/Icon';
 
-module.exports = React.createClass({
+export default React.createClass({
   displayName : 'PaneFeatures',
 
 
@@ -16,19 +17,6 @@ module.exports = React.createClass({
     var data = "some data";
 
     this.props.handleFeatureChange(data);
-  },
-
-
-  renderFeatures : function() {
-    return (
-      this.props.features.toJS().map((feature, i) => {
-        return (
-          <Panel header={feature.name} key={i}>
-            <p>{feature.desc}</p>
-          </Panel>
-        )
-      })
-    )
   },
 
 
@@ -48,13 +36,33 @@ module.exports = React.createClass({
   },
 
 
+  renderListItems() {
+    return (
+      this.props.features.toJS().map((feature, i) => {
+        return (
+          <ListItem glyph={<Icon icon='fa fa-cube' />} key={i} container='.character-body' content={
+            <section>
+              <div className='modal-header'>
+                <h3>{feature.name}</h3>
+              </div>
+              <div className='modal-content'>
+                <p>{feature.desc}</p>
+              </div>
+            </section>
+          }>
+            <p>{feature.name}</p>
+          </ListItem>
+        )
+      })
+    )
+  },
+
+
   render : function() {
     return (
       <div className="pane-container">
         <h3>Features</h3>
-        <div className='feature-container'>
-          {this.renderFeatureTiles()}
-        </div>
+        {this.renderListItems()}
       </div>
     );
   }

@@ -1,10 +1,11 @@
 'use strict';
 
-var React = require('react/addons');
-var MoneyChart = require('../components/MoneyChart');
-var Panel = require('../components/Panel');
+import React from 'react/addons';
+import MoneyChart from '../components/MoneyChart';
+import ListItem from '../components/ListItem';
+import Icon from '../components/Icon';
 
-module.exports = React.createClass({
+export default React.createClass({
   displayName : 'PaneEquipments',
 
 
@@ -16,9 +17,18 @@ module.exports = React.createClass({
   renderEquipments : function() {
     return this.props.equipment.get('otherEquipment').toJS().map((equip, i) => {
       return (
-        <Panel header={equip.name} key={i}>
-          <p>{equip.desc}</p>
-        </Panel>
+        <ListItem glyph={<Icon icon='fa fa-cube' />} key={i} container='.character-body' content={
+          <section>
+            <div className='modal-header'>
+              <h3>{equip.name}</h3>
+            </div>
+            <div className='modal-content'>
+              <p>{equip.desc}</p>
+            </div>
+          </section>
+        }>
+          <p>{equip.name}</p>
+        </ListItem>
       )
     })
   },
@@ -29,7 +39,6 @@ module.exports = React.createClass({
       <div className="pane-container">
         <h3>Equipments</h3>
         <MoneyChart data={this.props.equipment.get('money')} />
-        <hr />
         {this.renderEquipments()}
       </div>
     );
