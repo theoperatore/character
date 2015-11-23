@@ -1,21 +1,37 @@
 'use strict';
 
-var React = require('react/addons');
-var Swiper = require('swiper');
-var swipe;
+import React from 'react/addons';
+import Swiper from 'swiper';
+
+let swipe;
 
 module.exports = React.createClass({
   displayName : "SwipePanes",
 
 
   componentDidUpdate : function() {
+    let height = document.querySelector('.swiper-slide-active>.pane-container').getBoundingClientRect().height;
+
     swipe.slideTo(this.props.activeIdx);
+
+    document.querySelector('.swiper-container').style.height = `${height}px`;
+    document.querySelector('.swiper-wrapper').style.height = `${height}px`;
+  },
+
+
+  _slideChangeStart() {
+    let height = document.querySelector('.swiper-slide-active>.pane-container').getBoundingClientRect().height;
+
+    document.querySelector('.swiper-container').style.height = `${height}px`;
+    document.querySelector('.swiper-wrapper').style.height = `${height}px`;
   },
 
 
   componentDidMount : function() {
-    var mount = React.findDOMNode(this);
-    var { activeIdx, ...opts } = this.props;
+    let mount = React.findDOMNode(this);
+    let { activeIdx, ...opts } = this.props;
+
+    opts.onSlideChangeStart = this._slideChangeStart;
 
     swipe = new Swiper(mount, opts);
   },

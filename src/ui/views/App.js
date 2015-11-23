@@ -131,16 +131,6 @@ module.exports = React.createClass({
   },
 
 
-  openModal(content) {
-    this.setState({ modal: content });
-  },
-
-
-  closeModal() {
-    this.setState({ modal: React.DOM.noscript() });
-  },
-
-
   render : function() {
     return (
       <div className="character-container">
@@ -168,9 +158,7 @@ module.exports = React.createClass({
               <Info info={this.state.character.get('charInfo')}
                     traits={this.state.character.get('charTraits')}
                     proficiencies={this.state.character.get('charOtherProficiencies')}
-                    handleInfoChange={this.handleInfoChange}
-                    openModal={this.openModal}
-                    closeModa={this.closeModal}/>
+                    handleInfoChange={this.handleInfoChange}/>
             </SwipePane>
             <SwipePane>
               <Features features={this.state.character.get('charFeatures')}
