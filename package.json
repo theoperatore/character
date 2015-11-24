@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "watch": "gulp watch",
-    "start": "beefy --cwd build"
+    "start": "beefy --cwd build",
+    "build": "gulp build",
+    "deploy": "scp -r build/* root@ci.cmonocle.link:~/public/",
+    "build-deploy": "gulp build-production && npm run deploy"
   },
   "author": "Alex Petersen <theoperatore@gmail.com> (http://anpetersen.me)",
   "license": "MIT",

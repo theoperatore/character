@@ -51,11 +51,17 @@ function bundle(bundler) {
     .pipe(buffer())
     .pipe(rename('bundle.js'))
     .pipe(gulp.dest('build'))
-    // .pipe(rename('bundle.min.js'))
-    // .pipe(sourcemaps.init({ loadMaps: true }))
-    // .pipe(uglify())
-    // .pipe(sourcemaps.write())
-    // .pipe(gulp.dest('build'))
+}
+
+
+function uglifyBundle(bundler) {
+  return bundler.bundle()
+    .on('error', logError)
+    .pipe(source('index.js'))
+    .pipe(buffer())
+    .pipe(rename('bundle.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('build'))
 }
 
 
@@ -87,6 +93,24 @@ gulp.task('compile-js', function() {
   return bundle(bundler);
 })
 
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Uglify JS
+//
+///////////////////////////////////////////////////////////////////////////////
+gulp.task('uglify-js', function() {
+  var bundler = browserify('./src/ui/index.js').transform(babelify, {
+    presets: [ 'stage-0', 'es2015', 'react' ],
+    sourceMaps: false
+  })
+
+  bundler.on('file', function (file) {
+    console.log(chalk.yellow('[file]'), chalk.gray(file));
+  });
+
+  return uglifyBundle(bundler);
+})
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -160,6 +184,10 @@ gulp.task('copy', function() {
   return gulp.src(['src/ui/statics/**'])
     .pipe(gulp.dest('build/'));
 })
+gulp.task('clean-copy', ['clean'], function() {
+  return gulp.src(['src/ui/statics/**'])
+    .pipe(gulp.dest('build/'));
+})
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -177,3 +205,4 @@ gulp.task('watch', ['copy', 'watch-js', 'watch-css'], function () {
 //
 ///////////////////////////////////////////////////////////////////////////////
 gulp.task('build', [ 'copy', 'compile-js', 'compile-css' ]);
+gulp.task('build-production', ['clean-copy', 'uglify-js', 'compile-css']);
