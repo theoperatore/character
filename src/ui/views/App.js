@@ -45,6 +45,8 @@ export default React.createClass({
 
     // /users/id/character/pushID must be the same pushId as /characters/pushID
     // in order to write
+    //
+    // also need to give each entry an id to help with updating character state
     if (this.props.characterUID !== 'noload') {
       db.once('characters/' + this.props.characterUID).then((snap) => {
         var character = snap.val();
@@ -106,37 +108,37 @@ export default React.createClass({
   //
   /////////////////////////////////////////////////////////////////////////////
   handleInfoChange : function(event) {
-    log("got new info:", event);
+    log("info event:", event);
   },
 
 
   handleFeatureChange : function(event) {
-    log("feaure change", event);
+    log("feaure event", event);
   },
 
 
   handleAbilityChange : function(event) {
-    log("ability change:", event);
+    log("ability event:", event);
   },
 
 
   handleDefenseChange : function(event) {
-    log("defense change:", event);
+    log("defense event:", event);
   },
 
 
   handleAttacksChange : function(event) {
-    log("attacks change:", event);
+    log("attacks event:", event);
   },
 
 
   handleSpellsChange : function(event) {
-    log("spells change:", event);
+    log("spells event:", event);
   },
 
 
   handleEquipmentChange : function(event) {
-    log("equipment change:", event);
+    log("equipment event:", event);
   },
 
   /////////////////////////////////////////////////////////////////////////////
