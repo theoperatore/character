@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react/addons';
+import React from 'react';
 import MoneyChart from '../components/MoneyChart';
 import ListItem from '../components/ListItem';
 import Icon from '../components/Icon';

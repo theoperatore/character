@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 var cn = require('classnames');
 
 module.exports = React.createClass({

@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require('react/addons');
-var cn = require('classnames');
+import React from 'react';
+import cn from 'classnames';
 
 module.exports = React.createClass({
   displayName : 'Button',
@@ -15,8 +15,8 @@ module.exports = React.createClass({
 
 
   render : function() {
-    var { size, style, children, ...props } = this.props;
-    var css = cn({
+    let { size, style, children, ...props } = this.props;
+    let css = cn({
       'button' : true,
       'button-sm' : size === 'sm',
       'button-md' : size === 'md',

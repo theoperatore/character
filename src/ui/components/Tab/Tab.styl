@@ -1,17 +1,42 @@
 .tab-container
   float left
-  width 14.285714286%
-  width calc(100% / 3)
   text-align center
   border-bottom 1px solid #ddd
   padding-top 5px
   background-color #333
-
-.tab-container
+  
+  &:first-child:nth-last-child(1)
+    width 100%
+          
+  &:first-child:nth-last-child(2),
+  &:first-child:nth-last-child(2) ~ .tab-container
+    width 50%
+    
+  &:first-child:nth-last-child(3),
+  &:first-child:nth-last-child(3) ~ .tab-container
+    width 33.333333333333%
+    
+  &:first-child:nth-last-child(4),
+  &:first-child:nth-last-child(4) ~ .tab-container
+    width 25%
+    
+  &:first-child:nth-last-child(5),
+  &:first-child:nth-last-child(5) ~ .tab-container
+    width 20%
+    
+  &:first-child:nth-last-child(6),
+  &:first-child:nth-last-child(6) ~ .tab-container
+    width 16.666666666%
+    
+  &:first-child:nth-last-child(7),
+  &:first-child:nth-last-child(7) ~ .tab-container
+    width 14.285714286%
+    
   &.active
     background-color #fff
     border 1px solid #ddd
     border-bottom-color transparent
+  
 
 .tab-container
   a

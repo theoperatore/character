@@ -1,71 +1,70 @@
 'use strict';
 
-import React from 'react/addons';
-import cn from 'classnames';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import ModalComponent from './modal-component';
 
 export default React.createClass({
   displayName: 'Modal',
 
 
   getInitialState() {
-    return {
-      open: false
-    }
+    return ({
+      active: false
+    })
   },
 
 
   getDefaultProps() {
-    return {
-      onDismiss: () => {},
+    return ({
+      active: false,
       container: ''
+    })
+  },
+
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.active !== undefined || nextProps.active !== null) {
+      this.setState({ active: nextProps.active });
     }
   },
 
 
-  dismiss(ev) {
-    if (ev.target === React.findDOMNode(this.refs.overlay)) {
-      ev.preventDefault();
-      ev.stopPropagation();
+  toggle() {
+    this.setState({ active: !this.state.active });
+  },
 
-      this.setState({ open: false }, () => {
-        setTimeout(() => {
-          this.props.onDismiss();
-        }, 300);
-      })
+
+  _dismiss() {
+    if (this.props.checkDismiss) {
+      let result = this.props.checkDismiss();
+      if (result) {
+        this.setState({ active: false });
+        return;
+      }
     }
+
+    this.setState({ active: false });
   },
 
 
-  componentDidMount() {
-    document.querySelector(this.props.container).style.overflow = 'hidden';
-    setTimeout(() => {
-      this.setState({ open: true });
-    }, 100);
-  },
-
-
-  componentWillUnmount() {
-    document.querySelector(this.props.container).style.overflow = 'auto';
+  componentDidUpdate() {
+    if (this.state.active === true && this.props.modalContent) {
+      ReactDOM.render(
+        <ModalComponent onDismiss={this._dismiss} active={this.state.active} container={this.props.container}>
+          {this.props.modalContent}
+        </ModalComponent>,
+        document.querySelector('#details')
+      );
+    }
+    else if (this.state.active === false) {
+      ReactDOM.unmountComponentAtNode(document.querySelector('#details'));
+    }
   },
 
 
   render() {
-    let css = cn({
-      'modal-overlay': true,
-      'modal-overlay-active': this.state.open
-    })
-
-    let container = cn({
-      'modal-content-container': true,
-      'modal-content-active': this.state.open
-    })
-
-    return (
-      <div ref='overlay' className={css} onClick={this.dismiss}>
-        <div ref='content' className={container}>
-          {this.props.children}
-        </div>
-      </div>
-    )
+    return this.props.children;
   }
 })

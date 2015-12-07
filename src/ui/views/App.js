@@ -1,6 +1,6 @@
 "use strict";
 
-import React from 'react/addons';
+import React from 'react';
 import Immutable from 'immutable';
 import db from '../../api';
 import blankCharacter from '../data/blank';
@@ -26,7 +26,7 @@ import Equipments from '../panes/Equipments';
 let error = debug('logs:app:error');
 let log = debug('logs:app');
 
-module.exports = React.createClass({
+export default React.createClass({
   displayName : "App",
 
 
@@ -96,40 +96,50 @@ module.exports = React.createClass({
   },
 
 
-  handleInfoChange : function(key, data) {
-    log("got new info:", data);
+  /////////////////////////////////////////////////////////////////////////////
+  // 
+  // These functions should call a servie that interacts with the api service
+  // and then possibly set state.
+  //
+  // these should all be events with at least a 'type' property. the rest
+  // can be tailored to each pane specifically
+  //
+  /////////////////////////////////////////////////////////////////////////////
+  handleInfoChange : function(event) {
+    log("got new info:", event);
   },
 
 
-  handleFeatureChange : function(data) {
-    log("feaure change", data);
+  handleFeatureChange : function(event) {
+    log("feaure change", event);
   },
 
 
-  handleAbilityChange : function(key, data) {
-    log("ability change:", key, data);
+  handleAbilityChange : function(event) {
+    log("ability change:", event);
   },
 
 
-  handleDefenseChange : function(key, data) {
-    log("defense change:", key, data);
+  handleDefenseChange : function(event) {
+    log("defense change:", event);
   },
 
 
-  handleAttacksChange : function(key, data) {
-    log("attacks change:", key, data);
+  handleAttacksChange : function(event) {
+    log("attacks change:", event);
   },
 
 
-  handleSpellsChange : function(key, data) {
-    log("spells change:", key, data);
+  handleSpellsChange : function(event) {
+    log("spells change:", event);
   },
 
 
-  handleEquipmentChange : function(key, data) {
-    log("equipment change:", key, data);
+  handleEquipmentChange : function(event) {
+    log("equipment change:", event);
   },
 
+  /////////////////////////////////////////////////////////////////////////////
 
   render : function() {
     return (
@@ -171,7 +181,7 @@ module.exports = React.createClass({
             </SwipePane>
           </SwipePanes>
         </section>
-        <div id='modal'></div>
+        <span id='details'></span>
         <Loading isLoading={this.state.loading} />
       </div>
     );

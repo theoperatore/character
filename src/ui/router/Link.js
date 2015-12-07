@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require('react/addons');
-var Router = require('./Router');
+import React from 'react';
+import Router from './Router';
 
 module.exports = React.createClass({
 

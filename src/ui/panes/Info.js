@@ -1,7 +1,9 @@
 'use strict';
 
-import React from 'react/addons';
+import React from 'react';
 import ListItem from '../components/ListItem';
+import ProficienciesDialog from '../dialog-components/ProficienciesDialog';
+import LanguagesDialog from '../dialog-components/LanguagesDialog';
 import Icon from '../components/Icon';
 
 module.exports = React.createClass({
@@ -23,47 +25,42 @@ module.exports = React.createClass({
   },
 
 
-  renderProficiencies : function() {
+  addProficiency() {
+    this.props.handleInfoChange({ type: 'PROFICIENCY_ADD' });
+  },
+
+
+  addLanguage() {
+    this.props.handleInfoChange({ type: 'LANGUAGE_ADD' });
+  },
+
+
+  renderProficiencies() {
     return this.props.proficiencies.get('proficiencies').toJS().map((prof, i) => {
       return (
-        <ListItem glyph={<Icon icon='fa fa-cube' />} key={i} container='.character-body' content={
-          <section>
-            <div className='modal-header'>
-              <h3>{prof.name}</h3>
-            </div>
-            <div className='modal-content'>
-              <p>{prof.desc}</p>
-            </div>
-          </section>
-        }>
-          <p>{prof.name}</p>
+        <ListItem key={i} title={prof.name}>
+          <ProficienciesDialog name={prof.name} desc={prof.desc} id={`${i}`} onProficiencyChange={this.props.handleInfoChange} />
         </ListItem>
-      );
+      )
     })
   },
 
 
-  renderLanguages : function() {
+  renderLanguages() {
     return this.props.proficiencies.get('languages').toJS().map((lang, i) => {
       return (
-        <ListItem glyph={<Icon icon='fa fa-cube' />} key={i} container='.character-body' content={
-          <section>
-            <div className='modal-header'>
-              <h3>{lang.name}</h3>
-            </div>
-            <div className='modal-content'>
-              <p>{lang.desc}</p>
-            </div>
-          </section>
-        }>
-          <p>{lang.name}</p>
+        <ListItem key={i} title={lang.name}>
+          <LanguagesDialog name={lang.name} desc={lang.desc} id={`${i}`} onLanguageChange={this.props.handleInfoChange} />
         </ListItem>
-      );
+      )
     })
   },
 
 
-  render : function() {
+  render() {
+
+    let glyph = <Icon icon='fa fa-cube' />;
+
     return (
       <div className="pane-container">
         <section className='info-container'>
@@ -93,61 +90,76 @@ module.exports = React.createClass({
         </section> 
         <section className="info-section pane-padding">
           <h3>Traits</h3>
-          <ListItem glyph={<Icon icon='fa fa-cube' />} container='.character-body' content={
-            <section>
-              <div className='modal-header'>
-                <h3>Personality</h3>
-              </div>
-              <div className='modal-content'>
-                <p>{this.props.traits.get('personalityTraits')}</p>
-              </div>
-            </section>
-          }>
-            <p>Personality</p>
+
+          <ListItem glyph={glyph} title='Personality'>
+            <div className='modal-header'>
+              <h3>Personality</h3>
+            </div>
+            <div className='modal-content'>
+              <p>{this.props.traits.get('personalityTraits')}</p>
+            </div>
+            <div className='modal-footer'>
+              <button>
+                <p><Icon icon='fa fa-pencil' /> Edit</p>
+              </button>
+            </div>
           </ListItem>
-          <ListItem glyph={<Icon icon='fa fa-cube' />} container='.character-body' content={
-            <section>
-              <div className='modal-header'>
-                <h3>Ideals</h3>
-              </div>
-              <div className='modal-content'>
-                <p>{this.props.traits.get('ideals')}</p>
-              </div>
-            </section>
-          }>
-            <p>Ideals</p>
+
+          <ListItem glyph={glyph} title='Ideals'>
+            <div className='modal-header'>
+              <h3>Ideals</h3>
+            </div>
+            <div className='modal-content'>
+              <p>{this.props.traits.get('ideals')}</p>
+            </div>
+            <div className='modal-footer'>
+              <button>
+                <p><Icon icon='fa fa-pencil' /> Edit</p>
+              </button>
+            </div>
           </ListItem>
-          <ListItem glyph={<Icon icon='fa fa-cube' />} container='.character-body' content={
-            <section>
-              <div className='modal-header'>
-                <h3>Bonds</h3>
-              </div>
-              <div className='modal-content'>
-                <p>{this.props.traits.get('bonds')}</p>
-              </div>
-            </section>
-          }>
-            <p>Bonds</p>
+
+          <ListItem glyph={glyph} title='Bonds'>
+            <div className='modal-header'>
+              <h3>Bonds</h3>
+            </div>
+            <div className='modal-content'>
+              <p>{this.props.traits.get('bonds')}</p>
+            </div>
+            <div className='modal-footer'>
+              <button>
+                <p><Icon icon='fa fa-pencil' /> Edit</p>
+              </button>
+            </div>
           </ListItem>
-          <ListItem glyph={<Icon icon='fa fa-cube' />} container='.character-body' content={
-            <section>
-              <div className='modal-header'>
-                <h3>Flaws</h3>
-              </div>
-              <div className='modal-content'>
-                <p>{this.props.traits.get('flaws')}</p>
-              </div>
-            </section>
-          }>
-            <p>Flaws</p>
+
+          <ListItem glyph={glyph} title='Flaws'>
+            <div className='modal-header'>
+              <h3>Flaws</h3>
+            </div>
+            <div className='modal-content'>
+              <p>{this.props.traits.get('flaws')}</p>
+            </div>
+            <div className='modal-footer'>
+              <button>
+                <p><Icon icon='fa fa-pencil' /> Edit</p>
+              </button>
+            </div>
           </ListItem>
+
         </section>
         <section className="info-section pane-padding">
-          <h3>Proficiencies</h3>
+          <div className='info-section-header'>
+            <h3 className='info-section-title'>Proficiencies</h3>
+            <p className='info-section-addon'><Icon icon='fa fa-plus' onClick={this.addProficiency}/></p>
+          </div>
           {this.renderProficiencies()}
         </section>
         <section className="info-section pane-padding">
-          <h3>Languages</h3>
+          <div className='info-section-header'>
+            <h3 className='info-section-title'>Languages</h3>
+            <p className='info-section-addon'><Icon icon='fa fa-plus' onClick={this.addLanguage}/></p>
+          </div>
           {this.renderLanguages()}
         </section>
       </div>

@@ -44,6 +44,27 @@
   max-width 500px
   margin 0 auto
   
+  .info-section-header
+    padding $base-padding
+    line-height 26px
+    
+    & > *
+      padding 0
+    
+    .info-section-title
+      float left
+    
+    .info-section-addon
+      float right
+      
+    &:after
+      clear both
+      display table
+      content ""
+      
+    &:active
+        background-color $bg-blue
+  
 .tile-container
   display flex
   flex-flow row wrap

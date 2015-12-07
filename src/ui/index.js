@@ -1,23 +1,27 @@
 "use strict";
 
-var FastClick = require('fastclick');
-var React = require('react/addons');
-var log = require('debug')('logs:router');
-var Router = require('./router/Router');
-var db = require('../api');
+import FastClick from 'fastclick';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import debug from 'debug';
+import Router from './router/Router';
+import db from '../api';
 
-var Landing = require('./views/Landing');
-var App = require('./views/App');
-var Login = require('./views/Login');
-var User = require('./views/User');
-var StyleGuide = require('./views/StyleGuide');
-var HTML404 = require('./views/HTML404');
+import Landing from './views/Landing';
+import App from './views/App';
+import Login from './views/Login';
+import User from './views/User';
+import StyleGuide from './views/StyleGuide';
+import HTML404 from './views/HTML404';
 
-new FastClick(document.body);
+let log = debug('logs:router');
+let mount = document.querySelector('#mount');
+
+new FastClick(mount);
 
 // default route
 Router.get('/', () => {
-  React.render(<Landing />, document.body);
+  ReactDOM.render(<Landing />, mount);
 })
 
 // view a character
@@ -27,7 +31,7 @@ Router.get('/user/(:id)/character/(:uid)', (params) => {
   //   return;
   // }
   log(`routing to character view: `, params);
-  React.render(<App characterUID={params.uid} user={params.id} />, document.body);
+  ReactDOM.render(<App characterUID={params.uid} user={params.id} />, mount);
 })
 
 // user
@@ -38,7 +42,7 @@ Router.get('/profile/(:id)', (params) => {
   // }
 
   log(`routing to profile view: `, params);
-  React.render(<User id={params.id} />, document.body);
+  ReactDOM.render(<User id={params.id} />, mount);
 })
 
 // login
@@ -53,18 +57,18 @@ Router.get('/login/(:id)', (params) => {
     })
   }
   else {
-    React.render(<Login token={params.id} />, document.body);
+    ReactDOM.render(<Login token={params.id} />, mount);
   }
 })
 
 // Not found
 Router.get('*', () => {
-  React.render(<HTML404 />, document.body);
+  ReactDOM.render(<HTML404 />, mount);
 })
 
 // style guide
 Router.get('/style', () => {
-  React.render(<StyleGuide />, document.body);
+  ReactDOM.render(<StyleGuide />, mount);
 })
 
 // start routing!

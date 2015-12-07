@@ -1,14 +1,17 @@
 .container-list-item
   height 50px
-  border-bottom 1px solid $base-border-color
+  border-top 1px solid $base-border-color
   line-height 45px
   padding-left $base-padding
   
   &:hover
     cursor pointer
+    
+  &:active
+    background-color #eee
   
-  &:first-of-type
-    border-top 1px solid $base-border-color
+  &:last-of-type
+    border-bottom 1px solid $base-border-color
   
   .container-list-item-glyph
     display inline-block

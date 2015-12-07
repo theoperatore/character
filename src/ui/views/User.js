@@ -1,14 +1,14 @@
 "use strict";
 
-var React = require('react/addons');
-var db = require('../../api');
-var Router = require('../router/Router');
-var Icon = require('../components/Icon');
-var Menu = require('../components/Menu');
-var dummy = require('../dummy/profile');
+import React from 'react';
+import db from '../../api';
+import Router from '../router/Router';
+import Icon from '../components/Icon';
+import Menu from '../components/Menu';
+import dummy from '../dummy/profile';
 
 
-module.exports = React.createClass({
+export default React.createClass({
   displayName : "User",
 
 

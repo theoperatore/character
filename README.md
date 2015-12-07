@@ -17,48 +17,44 @@ npm install
 to download all of the dependencies. Once you have all of the dependencies, you can run a few [Gulp](http://gulpjs.com/) commands:
 
 ```
-$ gulp                # cleans, builds vendor/app/stylus, watches for changes, opens browser
-$ gulp lint           # lint your javascipt!
-$ gulp mocha          # run unit tests in the tests folder
 $ gulp clean          # remove all build files
-$ gulp build-vendor   # build and uglify vendor files (takes a while...)
 $ gulp compile-js     # compile all app dependencies (watch-js as well)
 $ gulp compile-css    # compile all css stylus files (watch-css as well)
 $ gulp watch          # watches both js/css files and opens a browser
+$ gulp build          # build everything
+$ gulp build-production # clean everything, build everything, uglify
 ```
 
-Viewing the App
+App Times!
 ---------------
 
-Once you have cloned a local copy of the code, you can run
+Build the app, and run the dev server in two consoles. 
+
+In one console, you can either just build the app or watch for changes:
+
+```bash
+$ gulp build
+# or
+$ gulp watch
+```
+
+Then in another console, independent of the previous, run the script to run the server:
+
+```bash
+$ npm start
+```
+
+Once everything is built and the server is running, you have access to a couple of URLs:
 
 ```
-$ gulp
-```
-
-Let it do it's thing, and eventually, it should open up a web browser with the address `localhost:8080`. URLs available are:
-
-```
-localhost:8080                                # landing page talking about how cool this thing is (just links right now)
-localhost:8080/#/user/{:id}/character/{:name} # the character app
-localhost:8080/#/profile/{:id}                # user page that should show user's created characters
-localhost:8080/#/login                        # page to log in / log out a user
-localhost:8080/#/style                        # style guide showing basic components
-```
+localhost:9966                                # landing page talking about how cool this thing is (just links right now)
+localhost:9966/#/user/{:id}/character/{:name} # the character app
+localhost:9966/#/profile/{:id}                # user page that should show user's created characters
+localhost:9966/#/login                        # page to log in / log out a user
+localhost:9966/#/style                        # style guide showing basic components
+``` 
 
 Each route above uses a different view component located in `src/ui/views` folder. Each one is bare and needs work.
-
-Dev Notes
----------
-
-Since we're using React and JSX, we're allowed to use some ES6 features (using Reactify). So far, I've been able to successfully use:
-
-- Destructuring
-- Arrow Functions
-- Enhanced Object Literals
-- Template strings
-
-I've run into some problems with block scoping and others, but otherwise feel free to use it all.
 
 Libs
 -----
@@ -73,12 +69,12 @@ For UI, we use (and growing):
 
 Server side:
 
-- [Firebase](https://www.firebase.com/docs/web/guide/) since we don't have a normal server
+- [Firebase](https://www.firebase.com/docs/web/guide/) because everything can be done using client-side code!
 
 Tools
 -----
 
-There is a custom webhook installed for a very basic ci, found [here](http://ci.cmonocle.link/status/).
+The latest compiled version of the app can be found [here](http://ci.cmonocle.link/). It gets updated upon each commit
 
 License
 --------

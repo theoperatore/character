@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require('react/addons');
-var classnames = require('classnames');
+import React from 'react';
+import classnames from 'classnames';
 
 module.exports = React.createClass({
   displayName : "Message",

@@ -27,6 +27,7 @@
     "moment": "^2.10.3",
     "page": "^1.6.3",
     "react": "^0.13.3",
+    "react-dom": "^0.14.3",
     "request": "^2.55.0",
     "swiper": "^3.2.5",
     "url-pattern": "^0.9.0"

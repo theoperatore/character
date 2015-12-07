@@ -1,11 +1,11 @@
 "use strict";
 
-var React = require('react/addons');
-var Router = require('../router/Router');
-var Message = require('../components/Message');
-var db = require('../../api');
+import React from 'react/addons';
+import Router from '../router/Router';
+import Message from '../components/Message';
+import db from '../../api';
 
-module.exports = React.createClass({
+export default React.createClass({
   displayName : "Login",
 
 

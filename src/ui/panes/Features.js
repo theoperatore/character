@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react/addons';
+import React from 'react';
 import ListItem from '../components/ListItem';
 import Icon from '../components/Icon';
 
@@ -40,17 +40,13 @@ export default React.createClass({
     return (
       this.props.features.toJS().map((feature, i) => {
         return (
-          <ListItem glyph={<Icon icon='fa fa-cube' />} key={i} container='.character-body' content={
-            <section>
-              <div className='modal-header'>
-                <h3>{feature.name}</h3>
-              </div>
-              <div className='modal-content'>
-                <p>{feature.desc}</p>
-              </div>
-            </section>
-          }>
-            <p>{feature.name}</p>
+          <ListItem key={i} container='.character-body' title={feature.name}>
+            <div className='modal-header'>
+              <h3>{feature.name}</h3>
+            </div>
+            <div className='modal-content'>
+              <p>{feature.desc}</p>
+            </div>
           </ListItem>
         )
       })
