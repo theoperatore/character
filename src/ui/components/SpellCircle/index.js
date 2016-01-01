@@ -1,7 +1,8 @@
 'use strict';
 
-var React = require('react/addons');
-var d3 = require('d3');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import d3 from 'd3';
 
 module.exports = React.createClass({
   displayName : 'SpellCircle',
@@ -39,7 +40,7 @@ module.exports = React.createClass({
   // need an 'init' because the pie layout should be in the center of the
   // containing svg element
   componentDidMount : function() {
-    var mount = React.findDOMNode(this);
+    var mount = ReactDOM.findDOMNode(this);
     var height = mount.getBoundingClientRect().height;
     var width = mount.getBoundingClientRect().width;
     var svg = d3.select(mount);
@@ -61,7 +62,7 @@ module.exports = React.createClass({
 
 
   redraw : function() {
-    var mount = React.findDOMNode(this);
+    var mount = ReactDOM.findDOMNode(this);
     var height = mount.getBoundingClientRect().height;
     var width = mount.getBoundingClientRect().width;
     var g = d3.select(mount).select('g.spellcircle-container');

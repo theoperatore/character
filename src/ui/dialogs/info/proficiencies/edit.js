@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-import Icon from '../components/Icon';
+import Icon from '../../../components/Icon';
 
 export default React.createClass({
-  displayName: 'LanguagesDialog',
+  displayName: 'EditProficiencies',
 
 
   getInitialState() {
@@ -19,7 +19,7 @@ export default React.createClass({
     name: React.PropTypes.string.isRequired,
     desc: React.PropTypes.string.isRequired,
     id: React.PropTypes.string.isRequired,
-    onLanguageChange: React.PropTypes.func.isRequired,
+    onProficiencyChange: React.PropTypes.func.isRequired,
     dismiss: React.PropTypes.func
   },
 
@@ -32,7 +32,7 @@ export default React.createClass({
       let shouldUpdate = name !== this.props.name || desc !== this.props.desc;
 
       if (shouldUpdate) {
-        this.props.onLanguageChange({ type: 'LANGUAGE_EDIT', name, desc, id: this.props.id });  
+        this.props.onProficiencyChange({ type: 'PROFICIENCY_EDIT', name, desc, id: this.props.id });  
       }
     }
 
@@ -46,9 +46,9 @@ export default React.createClass({
       return;
     }
 
-    let result = window.confirm(`Delete Language: ${this.props.name}?`);
+    let result = window.confirm(`Delete Proficiency: ${this.props.name}?`);
     if (result) {
-      this.props.onLanguageChange({ type: 'LANGUAGE_DELETE', id: this.props.id });
+      this.props.onProficiencyChange({ type: 'PROFICIENCY_DELETE', id: this.props.id });
       this.props.dismiss();
     }
   },

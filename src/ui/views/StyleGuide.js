@@ -178,17 +178,9 @@ module.exports = React.createClass({
         <hr />
         <section>
           <p><strong>ListItems</strong></p>
-          <ListItem glyph={<Icon icon='icon-attack' />} glyphCss='text-red'>
-            <p>Item 1</p>
-          </ListItem>
-          <ListItem glyph={<Icon icon='icon-attack' />} glyphCss='text-red'>
-            <p>Item 2</p>
-          </ListItem>
-          <ListItem>
-            <p>Item no glyph</p>
-          </ListItem>
-          <ListItem glyph={<Icon icon='icon-repo' />} glyphCss='text-blue' container='.main-content' content={
-            <section>
+          
+          <ListItem glyph={<Icon icon='icon-repo' />} title={'Item 3'} container={'.main-content'}>
+            <section className='modal-container'>
               <div className='modal-header'>
                 <h3>A long modal</h3>
               </div>
@@ -202,25 +194,6 @@ module.exports = React.createClass({
                 <input type='text' placeholder='enter some cool text' />
               </div>
             </section>
-          }>
-            <p>Item 3</p>
-          </ListItem>
-          <ListItem ref='listItem' glyph={<Icon icon='icon-attack' />} glyphCss='text-red' container='.main-content' content={
-            <section>
-              <div className='modal-header'>
-                <h3>A modal</h3>
-              </div>
-              <div className='modal-content'>
-                <p>Some really cool content</p>
-                <input type='text' placeholder='enter some cool text' />
-              </div>
-              <div className='modal-footer'>
-                <Button style='red' onClick={this.closeListItem}><span>Close</span></Button>
-                <Button style='green' onClick={this.closeListItem}><span>Ok</span></Button>
-              </div>
-            </section>
-          }>
-            <p><strong>Item 4</strong></p>
           </ListItem>
         </section>
         <hr />
@@ -389,6 +362,7 @@ module.exports = React.createClass({
             </div>
           </SettingsWell>
         </section>
+        <div id='details'></div>
       </div>
     );
   }

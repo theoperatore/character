@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 var Immutable = require('immutable');
 var Stat = require('../components/Stat');
 var Shell = require('../components/Shell');

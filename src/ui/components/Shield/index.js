@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
+var ReactDOM = require('react-dom');
 var log = require('debug')('logs:component');
 var d3 = require('d3');
 
@@ -17,7 +18,7 @@ module.exports = React.createClass({
 
 
   renderShield : function() {
-    var mount = React.findDOMNode(this);
+    var mount = ReactDOM.findDOMNode(this);
     var width = mount.getBoundingClientRect().width;
     var height = mount.getBoundingClientRect().height;
     var g = d3.select(mount).select('g.shield-container');

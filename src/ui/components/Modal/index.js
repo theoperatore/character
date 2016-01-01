@@ -2,69 +2,87 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import cn from 'classnames';
+import Portal from '../Portal';
 
-import ModalComponent from './modal-component';
+// TODO: should require some constants to find config identifiers for html
+const appContainer = '.character-body';
 
 export default React.createClass({
-  displayName: 'Modal',
+  displayName: 'ModalV2',
+
+
+  propTypes: {
+    id: React.PropTypes.string.isRequired,
+    content: React.PropTypes.element.isRequired,
+    onDismiss: React.PropTypes.func.isRequired
+  },
 
 
   getInitialState() {
-    return ({
-      active: false
-    })
+    return {
+      active: false,
+      open: false
+    }
   },
 
 
   getDefaultProps() {
-    return ({
-      active: false,
-      container: ''
-    })
+    return {
+      active: false
+    }
   },
 
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.active !== undefined || nextProps.active !== null) {
-      this.setState({ active: nextProps.active });
+    if (nextProps.active !== this.props.active && nextProps.active === true) {
+      document.querySelector(appContainer).style.overflow = 'hidden';
+      this.setState({ active: true }, () => {
+        setTimeout(() => {
+          this.setState({ open: true });
+        }, 100);
+      })
+    }
+    else if (nextProps.active !== this.props.active && nextProps.active === false) {
+      this.setState({ open: false }, () => {
+        setTimeout(() => {
+          document.querySelector(appContainer).style.overflow = 'auto';
+          this.setState({ active: false });
+        }, 300);
+      }) 
     }
   },
 
 
-  toggle() {
-    this.setState({ active: !this.state.active });
-  },
+  dismiss(ev) {
+    if (ev.target === ReactDOM.findDOMNode(this.refs.overlay)) {
+      ev.preventDefault();
+      ev.stopPropagation();
 
-
-  _dismiss() {
-    if (this.props.checkDismiss) {
-      let result = this.props.checkDismiss();
-      if (result) {
-        this.setState({ active: false });
-        return;
-      }
-    }
-
-    this.setState({ active: false });
-  },
-
-
-  componentDidUpdate() {
-    if (this.state.active === true && this.props.modalContent) {
-      ReactDOM.render(
-        <ModalComponent onDismiss={this._dismiss} active={this.state.active} container={this.props.container}>
-          {this.props.modalContent}
-        </ModalComponent>,
-        document.querySelector('#details')
-      );
-    }
-    else if (this.state.active === false) {
-      ReactDOM.unmountComponentAtNode(document.querySelector('#details'));
+      this.props.onDismiss();
     }
   },
 
 
   render() {
-    return this.props.children;
+    let css = cn({
+      'modal-overlay': true,
+      'modal-overlay-active': this.state.open
+    })
+
+    let container = cn({
+      'modal-content-container': true,
+      'modal-content-active': this.state.open
+    })
+
+    return (this.state.active ?
+      <Portal id={this.props.id}>
+        <div ref='overlay' className={css} onClick={this.dismiss}>
+          <div ref='content' className={container}>
+            {this.props.content}
+          </div>
+        </div>
+      </Portal>
+      : null)
   }
 })

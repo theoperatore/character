@@ -1,6 +1,7 @@
 "use strict";
 
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import Router from '../router/Router';
 import Message from '../components/Message';
 import db from '../../api';
@@ -67,7 +68,7 @@ export default React.createClass({
 
 
   handleSubmit : function() {
-    var email = React.findDOMNode(this.refs['input-login']).value;
+    var email = ReactDOM.findDOMNode(this.refs['input-login']).value;
     var valid = this.validateEmail(email);
 
     if (!valid) {

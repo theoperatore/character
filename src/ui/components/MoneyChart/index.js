@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+import ReactDOM from 'react-dom';
 var log = require('debug')('logs:component');
 var d3 = require('d3');
 
@@ -18,14 +19,14 @@ module.exports = React.createClass({
 
 
   init : function() {
-    var mount = d3.select(React.findDOMNode(this));
+    var mount = d3.select(ReactDOM.findDOMNode(this));
     var g = mount.append('g');
     var labels = g.append('g').attr('class', 'labels');
   },
 
 
   renderMoney : function() {
-    var mount = React.findDOMNode(this);
+    var mount = ReactDOM.findDOMNode(this);
     var svg = d3.select(mount);
     var g = svg.select('g');
     var width = mount.getBoundingClientRect().width;

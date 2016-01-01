@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 var Stat = require('../components/Stat');
 var Panel = require('../components/Panel');
 var Switch = require('../components/Switch');

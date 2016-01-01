@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
+var ReactDOM = require('react-dom');
 var cn = require('classnames');
 var utils = require('../../utils');
 
@@ -27,7 +28,7 @@ module.exports = React.createClass({
 
 
   handleOutsideClick : function(ev) {
-    var root = React.findDOMNode(this);
+    var root = ReactDOM.findDOMNode(this);
 
     if (!utils.isTargetInRoot(ev.target, root)) {
       this.setState({ active : false });
@@ -38,8 +39,8 @@ module.exports = React.createClass({
 
   calculate : function() {
     var drect = document.body.getBoundingClientRect();
-    var element = React.findDOMNode(this.refs.content);
-    var popover = React.findDOMNode(this.refs.popover);
+    var element = ReactDOM.findDOMNode(this.refs.content);
+    var popover = ReactDOM.findDOMNode(this.refs.popover);
     var prect = popover.getBoundingClientRect();
     var rect = element.getBoundingClientRect();
     var center = rect.left + (rect.width / 2);

@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+import ReactDOM from 'react-dom';
 var log = require('debug')('logs:component');
 var d3 = require('d3');
 
@@ -17,7 +18,7 @@ module.exports = React.createClass({
 
 
   renderBars : function() {
-    var mount = React.findDOMNode(this);
+    var mount = ReactDOM.findDOMNode(this);
     var width = mount.getBoundingClientRect().width;
     var g = d3.select(mount).select('g.hp-bar-container');
     var hpBar = g.select('rect.hp-bar-hp');

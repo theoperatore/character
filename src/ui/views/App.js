@@ -100,7 +100,7 @@ export default React.createClass({
 
   /////////////////////////////////////////////////////////////////////////////
   // 
-  // These functions should call a servie that interacts with the api service
+  // These functions should call a service that interacts with the api service
   // and then possibly set state.
   //
   // these should all be events with at least a 'type' property. the rest
@@ -109,6 +109,23 @@ export default React.createClass({
   /////////////////////////////////////////////////////////////////////////////
   handleInfoChange : function(event) {
     log("info event:", event);
+    let character = this.state.character.toJS();
+
+    switch (event.type) {
+      case 'PROFICIENCY_EDIT':
+        character.charOtherProficiencies.proficiencies[event.id].name = event.name;
+        character.charOtherProficiencies.proficiencies[event.id].desc = event.desc;
+        this.setState({ character: Immutable.fromJS(character) });
+        break;
+      case 'PROFICIENCY_DELETE':
+        character.charOtherProficiencies.proficiencies.splice(event.id, 1);
+        this.setState({ character: Immutable.fromJS(character) });
+        break;
+      case 'PROFICIENCY_CREATE':
+        character.charOtherProficiencies.proficiencies.push(event.data);
+        this.setState({ character: Immutable.fromJS(character) });
+        break;
+    }
   },
 
 
@@ -183,7 +200,6 @@ export default React.createClass({
             </SwipePane>
           </SwipePanes>
         </section>
-        <span id='details'></span>
         <Loading isLoading={this.state.loading} />
       </div>
     );

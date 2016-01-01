@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-import Icon from '../components/Icon';
+import Icon from '../../components/Icon';
 
 export default React.createClass({
-  displayName: 'ProficienciesDialog',
+  displayName: 'TraitsDialog',
 
 
   getInitialState() {
@@ -19,38 +19,23 @@ export default React.createClass({
     name: React.PropTypes.string.isRequired,
     desc: React.PropTypes.string.isRequired,
     id: React.PropTypes.string.isRequired,
-    onProficiencyChange: React.PropTypes.func.isRequired,
+    onTraitChange: React.PropTypes.func.isRequired,
     dismiss: React.PropTypes.func
   },
 
 
   editSave() {
     if (this.state.editMode) {
-      let name = this.refs.newName.value.trim();
       let desc = this.refs.newDesc.value.trim();
 
-      let shouldUpdate = name !== this.props.name || desc !== this.props.desc;
+      let shouldUpdate = desc !== this.props.desc;
 
       if (shouldUpdate) {
-        this.props.onProficiencyChange({ type: 'PROFICIENCY_EDIT', name, desc, id: this.props.id });  
+        this.props.onTraitChange({ type: 'TRAIT_EDIT', desc, id: this.props.id });  
       }
     }
 
     this.setState({ editMode: !this.state.editMode })
-  },
-
-
-  handleRemove() {
-    if (this.state.editMode) {
-      this.setState({ editMode: false });
-      return;
-    }
-
-    let result = window.confirm(`Delete Proficiency: ${this.props.name}?`);
-    if (result) {
-      this.props.onProficiencyChange({ type: 'PROFICIENCY_DELETE', id: this.props.id });
-      this.props.dismiss();
-    }
   },
 
 
@@ -59,13 +44,7 @@ export default React.createClass({
     return (
       <section>
         <div className='modal-header'>
-          <h3>
-          {
-            this.state.editMode ? 
-            <input type='text' defaultValue={this.props.name} ref='newName' /> :
-            this.props.name
-          }
-          </h3>
+          <h3>{this.props.name}</h3>
         </div>
         <div className='modal-content'>
           {
@@ -77,9 +56,6 @@ export default React.createClass({
         <div className='modal-footer'>
           <button onClick={this.editSave} className={this.state.editMode ? 'bg-green text-green' : ''}>
             <p><Icon icon='fa fa-pencil' /> {this.state.editMode ? 'Save' : 'Edit'}</p>
-          </button>
-          <button onClick={this.handleRemove} className={this.state.editMode ? 'bg-red text-red' : ''}>
-            <p><Icon icon='fa fa-remove' /> {this.state.editMode ? 'Cancel' : 'Remove'}</p>
           </button>
         </div>
       </section>

@@ -2,9 +2,19 @@
 
 import React from 'react';
 import ListItem from '../components/ListItem';
-import ProficienciesDialog from '../dialog-components/ProficienciesDialog';
-import LanguagesDialog from '../dialog-components/LanguagesDialog';
+import Modal from '../components/Modal';
+
+import EditProficiency from '../dialogs/info/proficiencies/edit';
+import CreateProficiency from '../dialogs/info/proficiencies/create';
+
+import EditLanguage from '../dialogs/info/languages/edit';
+import CreateLanguage from '../dialogs/info/languages/create';
+
+import TraitsDialog from '../dialogs/info/TraitsDialog';
 import Icon from '../components/Icon';
+import debug from 'debug';
+
+const log = debug('logs:Info');
 
 module.exports = React.createClass({
   displayName : 'PaneInfo',
@@ -12,35 +22,70 @@ module.exports = React.createClass({
 
   getInitialState : function() {
     return ({
-      editingInfo : false
+      traits: [
+        { id: 'personalityTraits', name: 'Personality' }, 
+        { id: 'ideals', name: 'Ideals' }, 
+        { id: 'bonds', name: 'Bonds' }, 
+        { id: 'flaws', name: 'Flaws' }
+      ],
+      profModal: false,
+      langModal: false,
+      areYouSure: false
     })
   },
 
 
   // only update when the info character data changes
-  shouldComponentUpdate : function(nextProps) {
+  shouldComponentUpdate : function(nextProps, nextState) {
     return (nextProps.info !== this.props.info) ||
            (nextProps.traits !== this.props.traits) ||
-           (nextProps.proficiencies !== this.props.proficiencies);
+           (nextProps.proficiencies !== this.props.proficiencies) ||
+           (nextState.profModal !== this.state.profModal) ||
+           (nextState.langModal !== this.state.langModal) ||
+           (nextState.areYouSure !== this.state.areYouSure);
   },
 
 
-  addProficiency() {
-    this.props.handleInfoChange({ type: 'PROFICIENCY_ADD' });
+  handleNewDismiss(modal) {
+    let isModalDirty = this.refs[`${modal}Dialog`].isDirty();
+
+    if (isModalDirty) {
+      log(`${modal} is dirty...`);
+      this.setState({ areYouSure: true });
+    }
+    else {
+      log(`dismissing ${modal}`);
+      this.setState({ [`${modal}Modal`]: false, areYouSure: false });
+    }
   },
 
 
-  addLanguage() {
-    this.props.handleInfoChange({ type: 'LANGUAGE_ADD' });
+  openCreateDialog(type) {
+    this.setState({ [`${type}Modal`]: true });
+  },
+
+
+  handleCreate(type, data) {
+    this.setState({ [`${type}Modal`]: false });
+    this.props.handleInfoChange(data);
+  },
+
+
+  renderTraits() {
+    return this.state.traits.map((trait, i) => {
+      let mc = <TraitsDialog name={trait.name} desc={this.props.traits.get(trait.id)} id={trait.id} onTraitChange={this.props.handleInfoChange} />;
+      return (
+        <ListItem key={i} title={trait.name} id={`traits-${i}`} modalContent={mc} />
+      )
+    })
   },
 
 
   renderProficiencies() {
     return this.props.proficiencies.get('proficiencies').toJS().map((prof, i) => {
+      let mc = <EditProficiency name={prof.name} desc={prof.desc} id={`${i}`} onProficiencyChange={this.props.handleInfoChange} />;
       return (
-        <ListItem key={i} title={prof.name}>
-          <ProficienciesDialog name={prof.name} desc={prof.desc} id={`${i}`} onProficiencyChange={this.props.handleInfoChange} />
-        </ListItem>
+        <ListItem key={i} title={prof.name} id={`proficiencies-${i}`} modalContent={mc} />
       )
     })
   },
@@ -48,18 +93,54 @@ module.exports = React.createClass({
 
   renderLanguages() {
     return this.props.proficiencies.get('languages').toJS().map((lang, i) => {
+      let modalContent = <EditLanguage name={lang.name} desc={lang.desc} id={`${i}`} onLanguageChange={this.props.handleInfoChange} />;
       return (
-        <ListItem key={i} title={lang.name}>
-          <LanguagesDialog name={lang.name} desc={lang.desc} id={`${i}`} onLanguageChange={this.props.handleInfoChange} />
-        </ListItem>
+        <ListItem key={i} title={lang.name} id={`languages-${i}`} modalContent={modalContent} />
       )
     })
   },
 
 
+  handleYes() {
+    this.setState({ 
+      areYouSure: false,
+      profModal: false,
+      langModal: false 
+    });
+  },
+
+
+  handleNo() {
+    this.setState({ areYouSure: false });
+  },
+
+
+  areYouSureContent() {
+    return (
+      <section>
+        <div className='modal-header'>  
+          <h3>Are You Sure?</h3>
+        </div>
+        <div className='modal-content'>
+          <p>Do you really want to cancel and lose any unsaved changes?</p>
+        </div>
+        <div className='modal-footer'>
+          <button onClick={this.handleYes} className='bg-green text-green'>
+            <p>Yes</p>
+          </button>
+          <button onClick={this.handleNo} className='bg-red text-red'>
+            <p>No</p>
+          </button>
+        </div>
+      </section>
+    )
+  },
+
+
   render() {
 
-    let glyph = <Icon icon='fa fa-cube' />;
+    let createProf = <CreateProficiency ref='profDialog' onCreate={this.handleCreate.bind(this, 'prof')} onCancel={this.handleNewDismiss.bind(this, 'prof')}/>;
+    let createLang = <CreateLanguage ref='langDialog' onCreate={this.handleCreate.bind(this, 'lang')} onCancel={this.handleNewDismiss.bind(this, 'lang')}/>;
 
     return (
       <div className="pane-container">
@@ -89,79 +170,28 @@ module.exports = React.createClass({
           </div>
         </section> 
         <section className="info-section pane-padding">
-          <h3>Traits</h3>
-
-          <ListItem glyph={glyph} title='Personality'>
-            <div className='modal-header'>
-              <h3>Personality</h3>
-            </div>
-            <div className='modal-content'>
-              <p>{this.props.traits.get('personalityTraits')}</p>
-            </div>
-            <div className='modal-footer'>
-              <button>
-                <p><Icon icon='fa fa-pencil' /> Edit</p>
-              </button>
-            </div>
-          </ListItem>
-
-          <ListItem glyph={glyph} title='Ideals'>
-            <div className='modal-header'>
-              <h3>Ideals</h3>
-            </div>
-            <div className='modal-content'>
-              <p>{this.props.traits.get('ideals')}</p>
-            </div>
-            <div className='modal-footer'>
-              <button>
-                <p><Icon icon='fa fa-pencil' /> Edit</p>
-              </button>
-            </div>
-          </ListItem>
-
-          <ListItem glyph={glyph} title='Bonds'>
-            <div className='modal-header'>
-              <h3>Bonds</h3>
-            </div>
-            <div className='modal-content'>
-              <p>{this.props.traits.get('bonds')}</p>
-            </div>
-            <div className='modal-footer'>
-              <button>
-                <p><Icon icon='fa fa-pencil' /> Edit</p>
-              </button>
-            </div>
-          </ListItem>
-
-          <ListItem glyph={glyph} title='Flaws'>
-            <div className='modal-header'>
-              <h3>Flaws</h3>
-            </div>
-            <div className='modal-content'>
-              <p>{this.props.traits.get('flaws')}</p>
-            </div>
-            <div className='modal-footer'>
-              <button>
-                <p><Icon icon='fa fa-pencil' /> Edit</p>
-              </button>
-            </div>
-          </ListItem>
-
+          <div className='info-section-header'>
+            <h3 className='info-section-title'>Traits</h3>
+          </div>
+          {this.renderTraits()}
         </section>
         <section className="info-section pane-padding">
           <div className='info-section-header'>
             <h3 className='info-section-title'>Proficiencies</h3>
-            <p className='info-section-addon'><Icon icon='fa fa-plus' onClick={this.addProficiency}/></p>
+            <p className='info-section-addon'><Icon icon='fa fa-plus' onClick={this.openCreateDialog.bind(this, 'prof')}/></p>
           </div>
           {this.renderProficiencies()}
+          <Modal active={this.state.profModal} id='new-proficiency' content={createProf}  onDismiss={this.handleNewDismiss.bind(this, 'prof')}/>
         </section>
         <section className="info-section pane-padding">
           <div className='info-section-header'>
             <h3 className='info-section-title'>Languages</h3>
-            <p className='info-section-addon'><Icon icon='fa fa-plus' onClick={this.addLanguage}/></p>
+            <p className='info-section-addon'><Icon icon='fa fa-plus' onClick={this.openCreateDialog.bind(this, 'lang')}/></p>
           </div>
           {this.renderLanguages()}
+          <Modal active={this.state.langModal} id='new-language' content={createLang}  onDismiss={this.handleNewDismiss.bind(this, 'lang')}/>
         </section>
+        <Modal active={this.state.areYouSure} id='are-you-sure' content={this.areYouSureContent()} onDismiss={() => {}} />
       </div>
     );
   }

@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
+var ReactDOM = require('react-dom');
 var classnames = require('classnames');
 var utils = require('../../utils');
 
@@ -17,7 +18,7 @@ module.exports = React.createClass({
 
 
   componentDidMount : function() {
-    var mount = React.findDOMNode(this);
+    var mount = ReactDOM.findDOMNode(this);
     var content = mount.firstChild;
 
     content.addEventListener(utils.findTransitionEndEvent(), () => {
@@ -38,7 +39,7 @@ module.exports = React.createClass({
 
 
   recomputeHeight : function(childHeight) {
-    var mount = React.findDOMNode(this);
+    var mount = ReactDOM.findDOMNode(this);
     var content = mount.firstChild;
     this.setState({ height : content.getBoundingClientRect().height });
   },

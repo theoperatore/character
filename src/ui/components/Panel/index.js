@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
+var ReactDOM = require('react-dom');
 var cn = require('classnames');
 var utils = require('../../utils');
 
@@ -28,9 +29,9 @@ module.exports = React.createClass({
 
 
   componentDidMount : function() {
-    var node = React.findDOMNode(this);
-    var header = React.findDOMNode(this.refs['panel-header']);
-    var content = React.findDOMNode(this.refs['panel-content']);
+    var node = ReactDOM.findDOMNode(this);
+    var header = ReactDOM.findDOMNode(this.refs['panel-header']);
+    var content = ReactDOM.findDOMNode(this.refs['panel-content']);
     var headerHeight;
     var totalHeight;
 
@@ -59,9 +60,9 @@ module.exports = React.createClass({
 
 
   recalculate : function() {
-    var node = React.findDOMNode(this);
-    var header = React.findDOMNode(this.refs['panel-header']);
-    var content = React.findDOMNode(this.refs['panel-content']);
+    var node = ReactDOM.findDOMNode(this);
+    var header = ReactDOM.findDOMNode(this.refs['panel-header']);
+    var content = ReactDOM.findDOMNode(this.refs['panel-content']);
     var headerHeight;
     var totalHeight;
 

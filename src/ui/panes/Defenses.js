@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 var HPBar = require('../components/HPBar');
 var Shield = require('../components/Shield');
 var Switch = require('../components/Switch');

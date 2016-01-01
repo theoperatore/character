@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 var classnames = require('classnames');
 var Popover = require('../Popover');
 var StatPopover = require('../../popovers/StatPopover');

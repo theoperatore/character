@@ -1,6 +1,7 @@
 'use strict';
 
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import Swiper from 'swiper';
 
 let swipe;
@@ -28,7 +29,7 @@ module.exports = React.createClass({
 
 
   componentDidMount : function() {
-    let mount = React.findDOMNode(this);
+    let mount = ReactDOM.findDOMNode(this);
     let { activeIdx, ...opts } = this.props;
 
     opts.onSlideChangeStart = this._slideChangeStart;

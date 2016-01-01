@@ -40,14 +40,14 @@ export default React.createClass({
     return (
       this.props.features.toJS().map((feature, i) => {
         return (
-          <ListItem key={i} container='.character-body' title={feature.name}>
+          <ListItem key={i} title={feature.name} id={`feature-${i}`} modalContent={<div>
             <div className='modal-header'>
               <h3>{feature.name}</h3>
             </div>
             <div className='modal-content'>
               <p>{feature.desc}</p>
             </div>
-          </ListItem>
+          </div>} />
         )
       })
     )

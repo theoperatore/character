@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 
 module.exports = React.createClass({
   displayName : "Tabs",
@@ -46,7 +46,7 @@ module.exports = React.createClass({
       props.idx = i;
       props._handleClick = this.handleChildSelect;
 
-      return React.addons.cloneWithProps(child, props);
+      return React.cloneElement(child, props);
     })
   },
 

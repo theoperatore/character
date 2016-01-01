@@ -17,18 +17,14 @@ export default React.createClass({
   renderEquipments : function() {
     return this.props.equipment.get('otherEquipment').toJS().map((equip, i) => {
       return (
-        <ListItem glyph={<Icon icon='fa fa-cube' />} key={i} container='.character-body' content={
-          <section>
-            <div className='modal-header'>
-              <h3>{equip.name}</h3>
-            </div>
-            <div className='modal-content'>
-              <p>{equip.desc}</p>
-            </div>
-          </section>
-        }>
-          <p>{equip.name}</p>
-        </ListItem>
+        <ListItem title={equip.name} id={`equipments-${i}`} key={i} modalContent={<div>
+          <div className='modal-header'>
+            <h3>{equip.name}</h3>
+          </div>
+          <div className='modal-content'>
+            <p>{equip.desc}</p>
+          </div>
+        </div>}/>
       )
     })
   },

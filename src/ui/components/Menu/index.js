@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
+var ReactDOM = require('react-dom');
 var cn = require('classnames');
 var utils = require('../../utils');
 
@@ -28,14 +29,14 @@ module.exports = React.createClass({
 
 
   componentDidMount : function() {
-    var elem = React.findDOMNode(this);
+    var elem = ReactDOM.findDOMNode(this);
 
     this.setState({ top : elem.getBoundingClientRect().height });
   },
 
 
   outsideClick : function(ev) {
-    var node = React.findDOMNode(this);
+    var node = ReactDOM.findDOMNode(this);
 
     if (!utils.isTargetInRoot(ev.target, node)) {
       document.body.removeEventListener('click', this.outsideClick);

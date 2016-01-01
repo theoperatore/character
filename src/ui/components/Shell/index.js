@@ -1,6 +1,7 @@
 "use strict";
 
-var React = require('react/addons');
+var React = require('react');
+var ReactDOM = require('react-dom');
 var log = require('debug')('logs:component');
 var d3 = require('d3');
 
@@ -20,7 +21,7 @@ module.exports = React.createClass({
 
 
   renderShell : function() {
-    var mount = d3.select(React.findDOMNode(this));
+    var mount = d3.select(ReactDOM.findDOMNode(this));
     var g = mount.select('g');
 
     var layout = d3.layout.pie()
@@ -234,7 +235,7 @@ module.exports = React.createClass({
 
 
   componentDidMount : function() {
-    var mount = d3.select(React.findDOMNode(this));
+    var mount = d3.select(ReactDOM.findDOMNode(this));
     var g = mount.append('g').attr('class', 'shell-component');
     g.append('text')
       .attr('class', 'hovered-text-name')

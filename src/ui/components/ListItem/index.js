@@ -6,20 +6,17 @@ import Modal from '../Modal';
 import Icon from '../Icon';
 
 export default React.createClass({
-  displayName: 'ListItem',
+  displayName: 'ListItemV2',
 
 
   getInitialState() {
-    return {
-      edit: false
-    }
+    return {}
   },
 
 
   getDefaultProps() {
     return {
-      glyphCss: '',
-      container: '.character-body'
+      glyphCss: ''
     }
   },
 
@@ -27,22 +24,21 @@ export default React.createClass({
   propTypes: {
     glyphCss: React.PropTypes.string,
     container: React.PropTypes.string,
-    checkDismiss: React.PropTypes.func
+    onDismiss: React.PropTypes.func,
+    id: React.PropTypes.string.isRequired
   },
 
 
   _open(ev) {
-    if (this.state.edit !== true && this.props.children) {
-      this.setState({ edit : true });
-      ev.preventDefault();
-      ev.stopPropagation();
-    }
+    this.setState({ edit : true });
+    ev.preventDefault();
+    ev.stopPropagation();
   },
 
 
-  checkDismiss() {
-    if (this.props.checkDismiss) {
-      let result = this.props.checkDismiss();
+  onDismiss() {
+    if (this.props.onDismiss) {
+      let result = this.props.onDismiss();
       if (result) {
         this.setState({ edit: false });
       }
@@ -63,19 +59,17 @@ export default React.createClass({
   render() {
 
     let glyph = this.props.glyph || <Icon icon='fa fa-cube' />;
-    let children = React.Children.map(this.props.children, child => React.cloneElement(child, { dismiss: this._dismiss }));
 
     return (
-      <Modal active={this.state.edit} container={this.props.container} modalContent={children} checkDismiss={this.checkDismiss}>
-        <div className='container-list-item' onClick={this._open}>
-          <div className={`container-list-item-glyph ${this.props.glyphCss}`}>
-            {glyph}
-          </div>
-          <div className='container-list-item-content'>
-            <p>{this.props.title}</p>
-          </div>
+      <div className='container-list-item' onClick={this._open}>
+        <div className={`container-list-item-glyph ${this.props.glyphCss}`}>
+          {glyph}
         </div>
-      </Modal>
+        <div className='container-list-item-content'>
+          <p>{this.props.title}</p>
+        </div>
+        <Modal active={this.state.edit} id={this.props.id} content={this.props.modalContent} onDismiss={this.onDismiss} />
+      </div>
     )
   }
 })
