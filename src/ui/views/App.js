@@ -23,8 +23,8 @@ import Attacks from '../panes/Attacks';
 import Spells from '../panes/Spells';
 import Equipments from '../panes/Equipments';
 
-let error = debug('logs:app:error');
-let log = debug('logs:app');
+let error = debug('app:error');
+let log = debug('app:index');
 
 export default React.createClass({
   displayName : "App",

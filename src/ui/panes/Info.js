@@ -14,7 +14,7 @@ import TraitsDialog from '../dialogs/info/TraitsDialog';
 import Icon from '../components/Icon';
 import debug from 'debug';
 
-const log = debug('logs:Info');
+const log = debug('app:Info');
 
 module.exports = React.createClass({
   displayName : 'PaneInfo',

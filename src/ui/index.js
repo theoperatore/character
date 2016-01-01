@@ -14,7 +14,7 @@ import User from './views/User';
 //import StyleGuide from './views/StyleGuide';
 import HTML404 from './views/HTML404';
 
-let log = debug('logs:router');
+let log = debug('app:router');
 let mount = document.querySelector('#mount');
 
 new FastClick(mount);
