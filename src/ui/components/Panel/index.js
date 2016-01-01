@@ -125,7 +125,7 @@ module.exports = React.createClass({
 
       props.recalculate = this.recalculate;
 
-      return React.addons.cloneWithProps(child, props);
+      return React.cloneElement(child, props);
     })
 
 

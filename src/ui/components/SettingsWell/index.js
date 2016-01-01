@@ -51,7 +51,7 @@ module.exports = React.createClass({
 
       props._recompute = this.recomputeHeight;
 
-      return React.addons.cloneWithProps(child, props);
+      return React.cloneElement(child, props);
     })
   },
 

@@ -9,7 +9,7 @@ module.exports = React.createClass({
   renderChildren : function() {
     return React.Children.map(this.props.children, (child) => {
       var { children, ...props } = this.props;
-      return React.addons.cloneWithProps(child, ...props);
+      return React.cloneElement(child, ...props);
     })
   },
 

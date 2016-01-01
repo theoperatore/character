@@ -58,7 +58,7 @@ module.exports = React.createClass({
 
   renderChildren : function() {
     return React.Children.map(this.props.children, (child) => {
-      return React.addons.cloneWithProps(child, { className : 'menu-item' });
+      return React.cloneElement(child, { className : 'menu-item' });
     })
   },
 
