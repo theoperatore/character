@@ -17,7 +17,7 @@ import HTML404 from './views/HTML404';
 let log = debug('app:router');
 let mount = document.querySelector('#mount');
 
-new FastClick(mount);
+new FastClick(document.body);
 
 // default route
 Router.get('/', () => {
