@@ -19,7 +19,7 @@
     opacity 1
   
   .modal-content-container
-    transform scale(1.1)
+    transform scale(1)
     max-width 500px
     flex 1
     max-height 95%
@@ -27,7 +27,10 @@
     overflow-y scroll
     -webkit-overflow-scrolling touch
     border-radius $base-border-radius
-    transition all 300ms ease
+    transition transform 300ms ease
+    
+    &.modal-content-transitioning
+      transform scale(1.1)
     
     &.modal-content-active
       transform scale(1)

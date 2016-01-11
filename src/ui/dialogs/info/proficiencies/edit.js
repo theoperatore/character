@@ -10,7 +10,8 @@ export default React.createClass({
 
   getInitialState() {
     return ({
-      editMode: false
+      editMode: false,
+      dirty: false
     })
   },
 
@@ -21,6 +22,18 @@ export default React.createClass({
     id: React.PropTypes.string.isRequired,
     onProficiencyChange: React.PropTypes.func.isRequired,
     dismiss: React.PropTypes.func
+  },
+
+
+  makeDirty() {
+    if (!this.state.dirty) {
+      this.setState({ dirty: true });
+    }
+  },
+
+
+  isDirty() {
+    return this.state.dirty;
   },
 
 
@@ -36,20 +49,19 @@ export default React.createClass({
       }
     }
 
-    this.setState({ editMode: !this.state.editMode })
+    this.setState({ editMode: !this.state.editMode, dirty: false })
   },
 
 
   handleRemove() {
     if (this.state.editMode) {
-      this.setState({ editMode: false });
+      this.setState({ editMode: false, dirty: false });
       return;
     }
 
     let result = window.confirm(`Delete Proficiency: ${this.props.name}?`);
     if (result) {
       this.props.onProficiencyChange({ type: 'PROFICIENCY_DELETE', id: this.props.id });
-      this.props.dismiss();
     }
   },
 
@@ -62,7 +74,7 @@ export default React.createClass({
           <h3>
           {
             this.state.editMode ? 
-            <input type='text' defaultValue={this.props.name} ref='newName' /> :
+            <input type='text' defaultValue={this.props.name} ref='newName' onChange={this.makeDirty}/> :
             this.props.name
           }
           </h3>
@@ -70,7 +82,7 @@ export default React.createClass({
         <div className='modal-content'>
           {
             this.state.editMode ?
-            <textarea defaultValue={this.props.desc} ref='newDesc' /> :
+            <textarea defaultValue={this.props.desc} ref='newDesc' onChange={this.makeDirty}/> :
             <p>{this.props.desc}</p>
           }
         </div>

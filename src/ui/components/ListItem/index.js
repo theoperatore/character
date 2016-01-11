@@ -6,11 +6,14 @@ import Modal from '../Modal';
 import Icon from '../Icon';
 
 export default React.createClass({
-  displayName: 'ListItemV2',
+  displayName: 'ListItem',
 
 
   getInitialState() {
-    return {}
+    return {
+      edit: false,
+      areYouSure: false
+    }
   },
 
 
@@ -24,7 +27,7 @@ export default React.createClass({
   propTypes: {
     glyphCss: React.PropTypes.string,
     container: React.PropTypes.string,
-    onDismiss: React.PropTypes.func,
+    onDismiss: React.PropTypes.func.isRequired,
     id: React.PropTypes.string.isRequired
   },
 
@@ -36,23 +39,62 @@ export default React.createClass({
   },
 
 
+  // don't close the confirmation dialog by tapping overlay
+  noop() {},
+
+
   onDismiss() {
-    if (this.props.onDismiss) {
-      let result = this.props.onDismiss();
-      if (result) {
-        this.setState({ edit: false });
+    let isDirty = this.props.onDismiss();
+
+    if (isDirty) {
+      if (!this.state.areYouSure) {
+        this.setState({ areYouSure: true });
       }
-
-      return result;
     }
-
-    this.setState({ edit: false });
-    return true;
+    else {
+      this.setState({ edit: false });
+      
+    }
   },
 
 
-  _dismiss() {
-    this.setState({ edit: false });
+  dismiss() {
+    this.handleYes();
+  },
+
+
+  handleYes() {
+    this.setState({ 
+      areYouSure: false,
+      edit: false
+    });
+  },
+
+
+  handleNo() {
+    this.setState({ areYouSure: false });
+  },
+
+
+  areYouSureContent() {
+    return (
+      <section>
+        <div className='modal-header'>  
+          <h3>Are You Sure?</h3>
+        </div>
+        <div className='modal-content'>
+          <p>Do you really want to cancel and lose any unsaved changes?</p>
+        </div>
+        <div className='modal-footer'>
+          <button onClick={this.handleYes} className='bg-green text-green'>
+            <p>Yes</p>
+          </button>
+          <button onClick={this.handleNo} className='bg-red text-red'>
+            <p>No</p>
+          </button>
+        </div>
+      </section>
+    )
   },
 
 
@@ -68,7 +110,8 @@ export default React.createClass({
         <div className='container-list-item-content'>
           <p>{this.props.title}</p>
         </div>
-        <Modal active={this.state.edit} id={this.props.id} content={this.props.modalContent} onDismiss={this.onDismiss} />
+        <Modal ref='editContent' active={this.state.edit} id={this.props.id} content={this.props.modalContent} onDismiss={this.onDismiss} />
+        <Modal active={this.state.areYouSure} id={`areYouSure-${this.props.id}`} content={this.areYouSureContent()} onDismiss={this.noop} />
       </div>
     )
   }

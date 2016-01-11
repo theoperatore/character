@@ -22,7 +22,8 @@ export default React.createClass({
   getInitialState() {
     return {
       active: false,
-      open: false
+      open: false,
+      moving: false
     }
   },
 
@@ -37,17 +38,17 @@ export default React.createClass({
   componentWillReceiveProps(nextProps) {
     if (nextProps.active !== this.props.active && nextProps.active === true) {
       document.querySelector(appContainer).style.overflow = 'hidden';
-      this.setState({ active: true }, () => {
+      this.setState({ active: true, moving: true }, () => {
         setTimeout(() => {
-          this.setState({ open: true });
+          this.setState({ open: true, moving: false });
         }, 100);
       })
     }
     else if (nextProps.active !== this.props.active && nextProps.active === false) {
-      this.setState({ open: false }, () => {
+      this.setState({ open: false, moving: true }, () => {
         setTimeout(() => {
           document.querySelector(appContainer).style.overflow = 'auto';
-          this.setState({ active: false });
+          this.setState({ active: false, moving: false });
         }, 300);
       }) 
     }
@@ -72,6 +73,7 @@ export default React.createClass({
 
     let container = cn({
       'modal-content-container': true,
+      'modal-content-transitioning': this.state.moving,
       'modal-content-active': this.state.open
     })
 

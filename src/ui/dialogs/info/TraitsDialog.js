@@ -10,7 +10,8 @@ export default React.createClass({
 
   getInitialState() {
     return ({
-      editMode: false
+      editMode: false,
+      dirty: false
     })
   },
 
@@ -35,12 +36,23 @@ export default React.createClass({
       }
     }
 
-    this.setState({ editMode: !this.state.editMode })
+    this.setState({ editMode: !this.state.editMode, dirty: false })
+  },
+
+
+  makeDirty() {
+    if (!this.state.dirty) {
+      this.setState({ dirty: true });
+    }
+  },
+
+
+  isDirty() {
+    return this.state.dirty;
   },
 
 
   render() {
-
     return (
       <section>
         <div className='modal-header'>
@@ -49,7 +61,7 @@ export default React.createClass({
         <div className='modal-content'>
           {
             this.state.editMode ?
-            <textarea defaultValue={this.props.desc} ref='newDesc' /> :
+            <textarea defaultValue={this.props.desc} ref='newDesc' onChange={this.makeDirty}/> :
             <p>{this.props.desc}</p>
           }
         </div>

@@ -1,6 +1,6 @@
 "use strict";
 
-import React from 'react/addons';
+import React from 'react';
 import Immutable from 'immutable';
 
 import ListItem from '../components/ListItem';

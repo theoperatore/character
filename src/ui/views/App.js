@@ -107,11 +107,15 @@ export default React.createClass({
   // can be tailored to each pane specifically
   //
   /////////////////////////////////////////////////////////////////////////////
-  handleInfoChange : function(event) {
-    log("info event:", event);
+  handleInfoChange(event) {
+    log(event);
     let character = this.state.character.toJS();
 
     switch (event.type) {
+      case 'BASIC_INFO_EDIT':
+        break;
+      case 'TRAIT_EDIT':
+        break;
       case 'PROFICIENCY_EDIT':
         character.charOtherProficiencies.proficiencies[event.id].name = event.name;
         character.charOtherProficiencies.proficiencies[event.id].desc = event.desc;
@@ -125,12 +129,26 @@ export default React.createClass({
         character.charOtherProficiencies.proficiencies.push(event.data);
         this.setState({ character: Immutable.fromJS(character) });
         break;
+      case 'LANGUAGE_EDIT':
+        break;
+      case 'LANGUAGE_DELETE':
+        break;
+      case 'LANGUAGE_CREATE':
+        break;
     }
   },
 
 
   handleFeatureChange : function(event) {
     log("feaure event", event);
+    switch (event.type) {
+      case 'FEATURE_CREATE':
+        break;
+      case 'FEATURE_EDIT':
+        break;
+      case 'FEATURE_DELETE':
+        break;
+    }
   },
 
 
@@ -156,6 +174,16 @@ export default React.createClass({
 
   handleEquipmentChange : function(event) {
     log("equipment event:", event);
+    switch (event.type) {
+      case 'EQUIPMENT_CREATE':
+        break;
+      case 'EQUIPMENT_EDIT':
+        break;
+      case 'EQUIPMENT_DELETE':
+        break;
+      case 'MONEY_EDIT':
+        break;
+    }
   },
 
   /////////////////////////////////////////////////////////////////////////////

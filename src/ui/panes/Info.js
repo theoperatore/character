@@ -11,6 +11,7 @@ import EditLanguage from '../dialogs/info/languages/edit';
 import CreateLanguage from '../dialogs/info/languages/create';
 
 import TraitsDialog from '../dialogs/info/TraitsDialog';
+import LevelXpDialog from '../dialogs/info/LevelXPDialog';
 import Icon from '../components/Icon';
 import debug from 'debug';
 
@@ -30,6 +31,7 @@ module.exports = React.createClass({
       ],
       profModal: false,
       langModal: false,
+      levelXpModal: false,
       areYouSure: false
     })
   },
@@ -42,6 +44,7 @@ module.exports = React.createClass({
            (nextProps.proficiencies !== this.props.proficiencies) ||
            (nextState.profModal !== this.state.profModal) ||
            (nextState.langModal !== this.state.langModal) ||
+           (nextState.levelXpModal !== this.state.levelXpModal) ||
            (nextState.areYouSure !== this.state.areYouSure);
   },
 
@@ -50,17 +53,15 @@ module.exports = React.createClass({
     let isModalDirty = this.refs[`${modal}Dialog`].isDirty();
 
     if (isModalDirty) {
-      log(`${modal} is dirty...`);
       this.setState({ areYouSure: true });
     }
     else {
-      log(`dismissing ${modal}`);
       this.setState({ [`${modal}Modal`]: false, areYouSure: false });
     }
   },
 
 
-  openCreateDialog(type) {
+  openDialog(type) {
     this.setState({ [`${type}Modal`]: true });
   },
 
@@ -71,11 +72,33 @@ module.exports = React.createClass({
   },
 
 
+  handleChange(refId, event) {
+    log(refId, event);
+    if (event.type.indexOf('DELETE') !== -1) {
+      this.refs[refId].dismiss();
+    }
+    this.props.handleInfoChange(event);
+  },
+
+
+  handleLevelXpChange(event) {
+    this.setState({ levelXpModal: false });
+    this.props.handleInfoChange(event);
+  },
+
+
+  // function called by the ListItem to check whether or not to show the
+  // areYouSure dialog.
+  handleDirtyCheck(refId) {
+    return this.refs[refId].isDirty();
+  },
+
+
   renderTraits() {
     return this.state.traits.map((trait, i) => {
-      let mc = <TraitsDialog name={trait.name} desc={this.props.traits.get(trait.id)} id={trait.id} onTraitChange={this.props.handleInfoChange} />;
+      let mc = <TraitsDialog ref={`traits-${i}`} name={trait.name} desc={this.props.traits.get(trait.id)} id={trait.id} onTraitChange={this.props.handleInfoChange} />;
       return (
-        <ListItem key={i} title={trait.name} id={`traits-${i}`} modalContent={mc} />
+        <ListItem key={trait.id} title={trait.name} id={`traits-${i}`} modalContent={mc} onDismiss={this.handleDirtyCheck.bind(this, `traits-${i}`)}/>
       )
     })
   },
@@ -83,9 +106,9 @@ module.exports = React.createClass({
 
   renderProficiencies() {
     return this.props.proficiencies.get('proficiencies').toJS().map((prof, i) => {
-      let mc = <EditProficiency name={prof.name} desc={prof.desc} id={`${i}`} onProficiencyChange={this.props.handleInfoChange} />;
+      let mc = <EditProficiency ref={`profs-${i}`} name={prof.name} desc={prof.desc} id={`${i}`} onProficiencyChange={this.handleChange.bind(this, `prof-${i}`)} />;
       return (
-        <ListItem key={i} title={prof.name} id={`proficiencies-${i}`} modalContent={mc} />
+        <ListItem ref={`prof-${i}`} key={i} title={prof.name} id={`proficiencies-${i}`} modalContent={mc} onDismiss={this.handleDirtyCheck.bind(this, `profs-${i}`)}/>
       )
     })
   },
@@ -93,9 +116,9 @@ module.exports = React.createClass({
 
   renderLanguages() {
     return this.props.proficiencies.get('languages').toJS().map((lang, i) => {
-      let modalContent = <EditLanguage name={lang.name} desc={lang.desc} id={`${i}`} onLanguageChange={this.props.handleInfoChange} />;
+      let modalContent = <EditLanguage ref={`langs-${i}`} name={lang.name} desc={lang.desc} id={`${i}`} onLanguageChange={this.handleChange.bind(this, `lang-${i}`)} />;
       return (
-        <ListItem key={i} title={lang.name} id={`languages-${i}`} modalContent={modalContent} />
+        <ListItem ref={`lang-${i}`} key={i} title={lang.name} id={`languages-${i}`} modalContent={modalContent} onDismiss={this.handleDirtyCheck.bind(this, `langs-${i}`)}/>
       )
     })
   },
@@ -105,7 +128,8 @@ module.exports = React.createClass({
     this.setState({ 
       areYouSure: false,
       profModal: false,
-      langModal: false 
+      langModal: false,
+      levelXpModal: false
     });
   },
 
@@ -137,18 +161,35 @@ module.exports = React.createClass({
   },
 
 
-  render() {
+  buildLevelDialog() {
+    return (
+      <LevelXpDialog 
+        ref='levelXpDialog' 
+        currLevel={this.props.info.get('level')} 
+        currXp={this.props.info.get('xp')}
+        currRace={this.props.info.get('race')}
+        currClass={this.props.info.get('class')}
+        currAlign={this.props.info.get('alignment')}
+        currBackground={this.props.info.get('background')}
+        onSave={this.handleLevelXpChange} 
+        onCancel={this.handleNewDismiss.bind(this, 'levelXp')} 
+      />
+    )
+  },
 
+
+  render() {
     let createProf = <CreateProficiency ref='profDialog' onCreate={this.handleCreate.bind(this, 'prof')} onCancel={this.handleNewDismiss.bind(this, 'prof')}/>;
     let createLang = <CreateLanguage ref='langDialog' onCreate={this.handleCreate.bind(this, 'lang')} onCancel={this.handleNewDismiss.bind(this, 'lang')}/>;
 
     return (
       <div className="pane-container">
-        <section className='info-container'>
+        <section className='info-container' onClick={this.openDialog.bind(this, 'levelXp')}>
           <div className='level-container'>
             <h6>level</h6>
             <span className='level'>{this.props.info.get('level')}</span>
             <h6>{this.props.info.get('xp')}</h6>
+            <Modal active={this.state.levelXpModal} id='edit-level-xp' content={this.buildLevelDialog()} onDismiss={this.handleNewDismiss.bind(this, 'levelXp')} />
           </div>
           <div className='info-stat-group'>
             <div className='info-stat'>
@@ -178,7 +219,7 @@ module.exports = React.createClass({
         <section className="info-section pane-padding">
           <div className='info-section-header'>
             <h3 className='info-section-title'>Proficiencies</h3>
-            <p className='info-section-addon'><Icon icon='fa fa-plus' onClick={this.openCreateDialog.bind(this, 'prof')}/></p>
+            <p className='info-section-addon'><Icon icon='fa fa-plus' onClick={this.openDialog.bind(this, 'prof')}/></p>
           </div>
           {this.renderProficiencies()}
           <Modal active={this.state.profModal} id='new-proficiency' content={createProf}  onDismiss={this.handleNewDismiss.bind(this, 'prof')}/>
@@ -186,7 +227,7 @@ module.exports = React.createClass({
         <section className="info-section pane-padding">
           <div className='info-section-header'>
             <h3 className='info-section-title'>Languages</h3>
-            <p className='info-section-addon'><Icon icon='fa fa-plus' onClick={this.openCreateDialog.bind(this, 'lang')}/></p>
+            <p className='info-section-addon'><Icon icon='fa fa-plus' onClick={this.openDialog.bind(this, 'lang')}/></p>
           </div>
           {this.renderLanguages()}
           <Modal active={this.state.langModal} id='new-language' content={createLang}  onDismiss={this.handleNewDismiss.bind(this, 'lang')}/>
