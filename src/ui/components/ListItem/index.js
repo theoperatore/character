@@ -26,6 +26,7 @@ export default React.createClass({
 
   propTypes: {
     glyphCss: React.PropTypes.string,
+    glyph: React.PropTypes.element,
     container: React.PropTypes.string,
     onDismiss: React.PropTypes.func.isRequired,
     id: React.PropTypes.string.isRequired

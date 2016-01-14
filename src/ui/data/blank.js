@@ -18,6 +18,12 @@ module.exports = {
     "bonds" : "_",
     "flaws" : "_"
   },
+
+  // each object needs:
+  //  id: used to link class charges to feature
+  //  charges: number of charges
+  //  used: number of used charges
+  //  name: display name of charges
   "charClassCharges" : [],
   "charSpells" : [
     {
@@ -187,7 +193,7 @@ module.exports = {
       "gp" : 100,
       "pp" : 0
     },
-    "otherEquipment" : []
+    "items" : []
   },
   "charOtherProficiencies" : {
     "languages" : [],
@@ -340,5 +346,11 @@ module.exports = {
       "derivatives" : []
     }
   ],
+
+  // each object needs:
+  //  name: display name of feature
+  //  desc: a description
+  //  cid: classCharge Id (only if gives charges)
+  //  type: glyph type to show next to name
   "charFeatures" : []
 };

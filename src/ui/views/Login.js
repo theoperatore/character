@@ -101,7 +101,7 @@ export default React.createClass({
             <input className="login-input" disabled={this.state.disabled} ref="input-login" type="email" placeholder="Email Address" />
             <button className="login-btn" disabled={this.state.disabled} onClick={this.handleSubmit}>{this.state.btnVal}</button>
           </div>
-          <p className="login-subtext"><small>&copy;2015 - ClockworkMonocle</small></p>
+          <p className="login-subtext"><small>&copy;2016 - ClockworkMonocle</small></p>
         </div>
       </div>
     );

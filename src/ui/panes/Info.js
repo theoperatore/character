@@ -217,17 +217,17 @@ module.exports = React.createClass({
           {this.renderTraits()}
         </section>
         <section className="info-section pane-padding">
-          <div className='info-section-header'>
+          <div className='info-section-header' onClick={this.openDialog.bind(this, 'prof')}>
             <h3 className='info-section-title'>Proficiencies</h3>
-            <p className='info-section-addon'><Icon icon='fa fa-plus' onClick={this.openDialog.bind(this, 'prof')}/></p>
+            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
           </div>
           {this.renderProficiencies()}
           <Modal active={this.state.profModal} id='new-proficiency' content={createProf}  onDismiss={this.handleNewDismiss.bind(this, 'prof')}/>
         </section>
         <section className="info-section pane-padding">
-          <div className='info-section-header'>
+          <div className='info-section-header' onClick={this.openDialog.bind(this, 'lang')}>
             <h3 className='info-section-title'>Languages</h3>
-            <p className='info-section-addon'><Icon icon='fa fa-plus' onClick={this.openDialog.bind(this, 'lang')}/></p>
+            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
           </div>
           {this.renderLanguages()}
           <Modal active={this.state.langModal} id='new-language' content={createLang}  onDismiss={this.handleNewDismiss.bind(this, 'lang')}/>

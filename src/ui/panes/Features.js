@@ -20,45 +20,51 @@ export default React.createClass({
   },
 
 
-  renderFeatureTiles() {
+  handleDismiss(refid) {
+
+  },
+
+
+  createModalContent(name, desc) {
+    return <div>
+      <div className='modal-header'>
+        <h3>{name}</h3>
+      </div>
+      <div className='modal-content'>
+        <p>{desc}</p>
+      </div>
+    </div>
+  },
+
+
+  renderFeatures() {
     return (
       this.props.features.toJS().map((feature, i) => {
         return (
-          <div className='feature-stat-container' key={i}>
-            <div className='feature-stat'>
-              <span className='fa fa-cube'></span> 
-              <h6>{feature.name}</h6>
-            </div>
+          <ListItem 
+            ref={`feature-${i}`}
+            key={i} 
+            title={feature.name} 
+            id={`feature-${i}`} 
+            modalContent={this.createModalContent(feature.name, feature.desc)} 
+            onDismiss={this.handleDismiss.bind(this, `feature-${i}`)}
+          />
+        )
+      })
+    )
+  },
+
+
+  render() {
+    return (
+      <div className='pane-container'>
+        <section className="info-section pane-padding">
+          <div className='info-section-header'>
+            <h3 className='info-section-title'>Features</h3>
+            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
           </div>
-        )
-      })
-    )
-  },
-
-
-  renderListItems() {
-    return (
-      this.props.features.toJS().map((feature, i) => {
-        return (
-          <ListItem key={i} title={feature.name} id={`feature-${i}`} modalContent={<div>
-            <div className='modal-header'>
-              <h3>{feature.name}</h3>
-            </div>
-            <div className='modal-content'>
-              <p>{feature.desc}</p>
-            </div>
-          </div>} />
-        )
-      })
-    )
-  },
-
-
-  render : function() {
-    return (
-      <div className="pane-container">
-        <h3>Features</h3>
-        {this.renderListItems()}
+          {this.renderFeatures()}
+        </section>
       </div>
     );
   }
