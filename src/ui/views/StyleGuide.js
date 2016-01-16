@@ -24,10 +24,10 @@ var Button = require('../components/Button');
 var Popover = require('../components/Popover');
 
 
-var mockSkills = require('../dummy/character-skills');
-var mockEquipment = require('../dummy/character-equipment');
-var mockHps = require('../dummy/character-hitpoints');
-var mockSpells = require('../dummy/character-spells');
+var mockSkills = require('../../dummy-data/character-skills');
+var mockEquipment = require('../../dummy-data/character-equipment');
+var mockHps = require('../../dummy-data/character-hitpoints');
+var mockSpells = require('../../dummy-data/character-spells');
 
 
 module.exports = React.createClass({

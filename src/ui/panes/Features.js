@@ -4,6 +4,8 @@ import React from 'react';
 import ListItem from '../components/ListItem';
 import Icon from '../components/Icon';
 
+import EditDialog from '../dialogs/features/edit';
+
 export default React.createClass({
   displayName : 'PaneFeatures',
 
@@ -13,41 +15,59 @@ export default React.createClass({
   },
 
 
-  handleFeatureChange : function() {
-    var data = "some data";
+  // handleFeatureChange : function() {
+  //   var data = "some data";
 
-    this.props.handleFeatureChange(data);
+  //   this.props.handleFeatureChange(data);
+  // },
+
+
+  handleFeatureCancel(rid) {
+    this.refs[`${rid}-item`].confirmCancel();
   },
 
 
-  handleDismiss(refid) {
-
+  handleDismiss(rid) {
+    return this.refs[rid].isDirty();
   },
 
 
-  createModalContent(name, desc) {
-    return <div>
-      <div className='modal-header'>
-        <h3>{name}</h3>
-      </div>
-      <div className='modal-content'>
-        <p>{desc}</p>
-      </div>
-    </div>
+  handleFeatureRemove(featureId, rid) {
+    this.refs[`${rid}-item`].confirmCancel().then(answer => {
+      if (answer === 'yes') {
+        this.props.handleFeatureChange({
+          type: 'FEATURE_DELETE',
+          data: featureId
+        });
+      }
+    })
+  },
+
+
+  createModalContent(rid, name, desc, featureId) {
+    return <EditDialog
+      ref={rid}
+      name={name}
+      desc={desc}
+      onUpdate={this.props.handleFeatureChange}
+      onCancel={this.handleFeatureCancel.bind(this, rid)}
+      onRemove={this.handleFeatureRemove.bind(this, featureId, rid)}
+    />
   },
 
 
   renderFeatures() {
     return (
       this.props.features.toJS().map((feature, i) => {
+        let rid = `feature-${i}`;
         return (
-          <ListItem 
-            ref={`feature-${i}`}
+          <ListItem
+            ref={`${rid}-item`}
             key={i} 
             title={feature.name} 
-            id={`feature-${i}`} 
-            modalContent={this.createModalContent(feature.name, feature.desc)} 
-            onDismiss={this.handleDismiss.bind(this, `feature-${i}`)}
+            id={rid} 
+            modalContent={this.createModalContent(`feature-${i}`, feature.name, feature.desc, feature.id)} 
+            onDismiss={this.handleDismiss.bind(this, rid)}
           />
         )
       })

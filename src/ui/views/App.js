@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Immutable from 'immutable';
-import db from '../../api';
+
 import blankCharacter from '../data/blank';
 import blankPreferences from '../data/preferences';
 
@@ -30,9 +30,16 @@ export default React.createClass({
   displayName : "App",
 
 
+  propTypes: {
+    character_data: React.PropTypes.object.isRequired,
+    preferences_data: React.PropTypes.object.isRequired,
+    onNewState: React.PropTypes.func.isRequired
+  },
+
+
   getInitialState : function() {
     return ({
-      activePane : 0,
+      activePane : 1,
       loading : true,
       character : Immutable.fromJS(blankCharacter),
       preferences : Immutable.fromJS(blankPreferences)
@@ -43,39 +50,14 @@ export default React.createClass({
   // load character into immutable map
   componentWillMount : function() {
 
-    // /users/id/character/pushID must be the same pushId as /characters/pushID
-    // in order to write
-    //
-    // also need to give each entry an id to help with updating character state
-    if (this.props.characterUID !== 'noload') {
-      db.once('characters/' + this.props.characterUID).then((snap) => {
-        var character = snap.val();
-        var data;
-        var preferences;
+    // database stuff should be outside of this component.
+    let character = Immutable.fromJS(this.props.character_data);
+    let preferences = Immutable.fromJS(this.props.preferences_data);
 
-        data = JSON.parse(character.character_data);
-        preferences = JSON.parse(character.preference_data);
+    character = this.state.character.mergeDeep(character);
 
-        data = Immutable.fromJS(data);
-        preferences = Immutable.fromJS(preferences);
+    this.setState({ character, preferences, loading: false });
 
-        data = this.state.character.mergeDeep(data);
-
-        // TODO: remove
-        window.characterjs = data.toJS();
-        window.character = data;
-        window.preferences = preferences.toJS();
-
-        this.setState({ character : data, preferences : preferences, loading : false });
-      }).catch((err) => {
-        error(err.message);
-        error('using blank character');
-        this.setState({ loading : false });
-      })
-    }
-    else {
-      this.setState({ loading : false });
-    }
   },
 
 

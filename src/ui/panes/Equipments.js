@@ -15,7 +15,7 @@ export default React.createClass({
 
 
   renderEquipments : function() {
-    return this.props.equipment.get('otherEquipment').toJS().map((equip, i) => {
+    return this.props.equipment.get('items').toJS().map((equip, i) => {
       return (
         <ListItem title={equip.name} id={`equipments-${i}`} key={i} modalContent={<div>
           <div className='modal-header'>

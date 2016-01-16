@@ -5,7 +5,9 @@ import db from '../../api';
 import Router from '../router/Router';
 import Icon from '../components/Icon';
 import Menu from '../components/Menu';
-import dummy from '../dummy/profile';
+
+
+import dummy from '../../dummy-data/dummy-profile';
 
 
 export default React.createClass({

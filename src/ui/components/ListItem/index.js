@@ -12,7 +12,8 @@ export default React.createClass({
   getInitialState() {
     return {
       edit: false,
-      areYouSure: false
+      areYouSure: false,
+      resolve: null
     }
   },
 
@@ -59,21 +60,37 @@ export default React.createClass({
   },
 
 
+  confirmCancel() {
+    return new Promise(resolve => {
+      this.setState({ areYouSure: true, resolve });
+    })
+  },
+
+
   dismiss() {
     this.handleYes();
   },
 
 
   handleYes() {
-    this.setState({ 
+    if (this.state.resolve) {
+      this.state.resolve('yes');
+    }
+
+    this.setState({
       areYouSure: false,
-      edit: false
+      edit: false,
+      resolve: null
     });
   },
 
 
   handleNo() {
-    this.setState({ areYouSure: false });
+    if (this.state.resolve) {
+      this.state.resolve('no');
+    }
+
+    this.setState({ areYouSure: false, resolve: null });
   },
 
 

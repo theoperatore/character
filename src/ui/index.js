@@ -14,10 +14,20 @@ import User from './views/User';
 import StyleGuide from './views/StyleGuide';
 import HTML404 from './views/HTML404';
 
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Load dummy data
+//
+///////////////////////////////////////////////////////////////////////////////
+import { characters as dummyCharacters } from '../dummy-data/dummy-characters';
+///////////////////////////////////////////////////////////////////////////////
+
 let log = debug('app:router');
 let mount = document.querySelector('#mount');
 
 new FastClick(document.body);
+
 
 // default route
 Router.get('/', () => {
@@ -30,8 +40,48 @@ Router.get('/user/(:id)/character/(:uid)', (params) => {
   //   Router.nav('/login');
   //   return;
   // }
+
   log(`routing to character view: `, params);
-  ReactDOM.render(<App characterUID={params.uid} user={params.id} />, mount);
+
+  let characterUID = params.uid;
+  let character = dummyCharacters[characterUID].character_data;
+  let preference = dummyCharacters[characterUID].preference_data;
+
+  // /users/id/character/pushID must be the same pushId as /characters/pushID
+  // in order to write
+  //
+  // also need to give each entry an id to help with updating character state
+  // if (this.props.characterUID !== 'noload') {
+  //   db.once('characters/' + this.props.characterUID).then((snap) => {
+  //     var character = snap.val();
+  //     var data;
+  //     var preferences;
+
+  //     data = JSON.parse(character.character_data);
+  //     preferences = JSON.parse(character.preference_data);
+
+  //     data = Immutable.fromJS(data);
+  //     preferences = Immutable.fromJS(preferences);
+
+  //     data = this.state.character.mergeDeep(data);
+
+  //     // TODO: remove
+  //     window.characterjs = data.toJS();
+  //     window.character = data;
+  //     window.preferences = preferences.toJS();
+
+  //     this.setState({ character : data, preferences : preferences, loading : false });
+  //   }).catch((err) => {
+  //     error(err.message);
+  //     error('using blank character');
+  //     this.setState({ loading : false });
+  //   })
+  // }
+  // else {
+  //   this.setState({ loading : false });
+  // }
+
+  ReactDOM.render(<App character_data={character} preferences_data={preference} onNewState={handleNewState}/>, mount);
 })
 
 // user
@@ -75,12 +125,17 @@ Router.get('/style', () => {
 Router.init();
 
 
-
 // set up auth listnen
 // db.ref.onAuth((auth) => {
 //   if (!auth) {
 //     Router.nav('/login');
 //   }
 // })
+
+
+function handleNewState(newState, event) {
+  log('got new root state:', newState, event);
+}
+
 
 window.messages = require('debug');
