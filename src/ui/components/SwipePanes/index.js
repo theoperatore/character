@@ -11,12 +11,12 @@ module.exports = React.createClass({
 
 
   componentDidUpdate : function() {
-    let height = document.querySelector('.swiper-slide-active>.pane-container').getBoundingClientRect().height;
+    // let height = document.querySelector('.swiper-slide-active>.pane-container').getBoundingClientRect().height;
 
     swipe.slideTo(this.props.activeIdx);
 
-    document.querySelector('.swiper-container').style.height = `${height}px`;
-    document.querySelector('.swiper-wrapper').style.height = `${height}px`;
+    // document.querySelector('.swiper-container').style.height = `${height}px`;
+    // document.querySelector('.swiper-wrapper').style.height = `${height}px`;
   },
 
 
@@ -32,7 +32,10 @@ module.exports = React.createClass({
     let mount = ReactDOM.findDOMNode(this);
     let { activeIdx, ...opts } = this.props;
 
-    opts.onSlideChangeStart = this._slideChangeStart;
+    // opts.onSlideChangeStart = this._slideChangeStart;
+    let height = document.querySelector('.character-body').getBoundingClientRect().height;
+    document.querySelector('.swiper-container').style.height = `${height}px`;
+    document.querySelector('.swiper-wrapper').style.height = `${height}px`;
 
     swipe = new Swiper(mount, opts);
   },

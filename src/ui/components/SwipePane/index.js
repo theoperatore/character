@@ -7,7 +7,9 @@ module.exports = React.createClass({
   render : function() {
     return (
       <div className="swiper-slide">
-        {this.props.children}
+        <div className='base-pane-container'>
+          {this.props.children}
+        </div>
       </div>
     )
   }
