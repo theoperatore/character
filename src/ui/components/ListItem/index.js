@@ -13,7 +13,9 @@ export default React.createClass({
     return {
       edit: false,
       areYouSure: false,
-      resolve: null
+      resolve: null,
+      stayOpen: false,
+      confirmMessage: 'Do you really want to cancel and lose any unsaved changes?'
     }
   },
 
@@ -60,9 +62,9 @@ export default React.createClass({
   },
 
 
-  confirmCancel() {
+  confirmCancel(stayOpen = false, confirmMessage = 'Do you really want to cancel and lose any unsaved changes?') {
     return new Promise(resolve => {
-      this.setState({ areYouSure: true, resolve });
+      this.setState({ areYouSure: true, resolve, stayOpen, confirmMessage });
     })
   },
 
@@ -79,8 +81,9 @@ export default React.createClass({
 
     this.setState({
       areYouSure: false,
-      edit: false,
-      resolve: null
+      edit: this.state.stayOpen,
+      resolve: null,
+      stayOpen: false
     });
   },
 
@@ -101,7 +104,7 @@ export default React.createClass({
           <h3>Are You Sure?</h3>
         </div>
         <div className='modal-content'>
-          <p>Do you really want to cancel and lose any unsaved changes?</p>
+          <p>{this.state.confirmMessage}</p>
         </div>
         <div className='modal-footer'>
           <button onClick={this.handleYes} className='bg-green text-green'>

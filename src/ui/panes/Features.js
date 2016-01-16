@@ -15,15 +15,8 @@ export default React.createClass({
   },
 
 
-  // handleFeatureChange : function() {
-  //   var data = "some data";
-
-  //   this.props.handleFeatureChange(data);
-  // },
-
-
-  handleFeatureCancel(rid) {
-    this.refs[`${rid}-item`].confirmCancel();
+  handleFeatureCancel(rid, message) {
+    return this.refs[`${rid}-item`].confirmCancel(true, message);
   },
 
 
@@ -32,8 +25,8 @@ export default React.createClass({
   },
 
 
-  handleFeatureRemove(featureId, rid) {
-    this.refs[`${rid}-item`].confirmCancel().then(answer => {
+  handleFeatureRemove(featureId, rid, message) {
+    this.refs[`${rid}-item`].confirmCancel(false, message).then(answer => {
       if (answer === 'yes') {
         this.props.handleFeatureChange({
           type: 'FEATURE_DELETE',
@@ -44,14 +37,28 @@ export default React.createClass({
   },
 
 
-  createModalContent(rid, name, desc, featureId) {
+  createGlyph(type) {
+    switch (type) {
+      case 'PASSIVE':
+        return { icon: <Icon icon='fa fa-cube' />, style: ''};
+      case 'ATTACK':
+        return { icon: <Icon icon='icon-attack' />, style: 'text-red' };
+      case 'SPELL':
+        return { icon: <Icon icon='icon-repo' />, style: 'text-purple' };
+    }
+  },
+
+
+  createModalContent(rid, feature) {
     return <EditDialog
       ref={rid}
-      name={name}
-      desc={desc}
+      name={feature.name}
+      desc={feature.desc}
+      featureId={feature.id}
+      featureType={feature.type}
       onUpdate={this.props.handleFeatureChange}
       onCancel={this.handleFeatureCancel.bind(this, rid)}
-      onRemove={this.handleFeatureRemove.bind(this, featureId, rid)}
+      onRemove={this.handleFeatureRemove.bind(this, feature.id, rid)}
     />
   },
 
@@ -60,13 +67,17 @@ export default React.createClass({
     return (
       this.props.features.toJS().map((feature, i) => {
         let rid = `feature-${i}`;
+        let glyph = this.createGlyph(feature.type);
+
         return (
           <ListItem
             ref={`${rid}-item`}
             key={i} 
             title={feature.name} 
-            id={rid} 
-            modalContent={this.createModalContent(`feature-${i}`, feature.name, feature.desc, feature.id)} 
+            id={rid}
+            glyphCss={glyph.style}
+            glyph={glyph.icon}
+            modalContent={this.createModalContent(`feature-${i}`, feature)} 
             onDismiss={this.handleDismiss.bind(this, rid)}
           />
         )

@@ -217,7 +217,7 @@ module.exports = {
         "sp" : 300,
         "ep" : 400,
         "gp" : 500,
-        "pp" : 6000
+        "pp" : 600
       },
       "items" : [
         {
@@ -413,6 +413,18 @@ module.exports = {
         desc: 'Am I crazy? Or am I wise? That\'s up to you to find out and for me to know forever.',
         type: 'PASSIVE',
         id: 'ralf-feature-1'
+      },
+      {
+        name: 'Conjure Wand',
+        desc: 'The ability to produce a wand of fiery poops from Beard.',
+        type: 'SPELL',
+        id: 'ralf-feature-2'
+      },
+      {
+        name: 'Cane Thwak!',
+        desc: 'Produce a cane from Beard and use it to THWAK something',
+        type: 'ATTACK',
+        id: 'ralf-feature-3'
       }
     ]
   })

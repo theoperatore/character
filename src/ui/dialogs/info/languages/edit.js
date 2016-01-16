@@ -74,7 +74,7 @@ export default React.createClass({
           <h3>
           {
             this.state.editMode ? 
-            <input type='text' defaultValue={this.props.name} ref='newName' onChange={this.makeDirty}/> :
+            <input type='text' defaultValue={this.props.name} placeholder={this.props.name} ref='newName' onChange={this.makeDirty}/> :
             this.props.name
           }
           </h3>
@@ -82,7 +82,7 @@ export default React.createClass({
         <div className='modal-content'>
           {
             this.state.editMode ?
-            <textarea defaultValue={this.props.desc} ref='newDesc' onChange={this.makeDirty}/> :
+            <textarea defaultValue={this.props.desc} ref='newDesc' placeholder={this.props.desc} onChange={this.makeDirty}/> :
             <p>{this.props.desc}</p>
           }
         </div>

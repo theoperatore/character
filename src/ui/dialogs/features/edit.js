@@ -11,6 +11,8 @@ export default React.createClass({
   propTypes: {
     name: React.PropTypes.string.isRequired,
     desc: React.PropTypes.string.isRequired,
+    featureType: React.PropTypes.string.isRequired,
+    featureId: React.PropTypes.string.isRequired,
     onUpdate: React.PropTypes.func.isRequired,
     onCancel: React.PropTypes.func.isRequired,
     onRemove: React.PropTypes.func.isRequired
@@ -20,8 +22,14 @@ export default React.createClass({
   getInitialState() {
     return {
       dirty: false,
-      edit: false
+      edit: false,
+      typeSelected: ''
     }
+  },
+
+
+  componentWillMount() {
+    this.setState({ typeSelected: this.props.featureType })
   },
 
 
@@ -37,8 +45,38 @@ export default React.createClass({
   },
 
 
+  handleTypeSelect(newType) {
+    this.setState({ typeSelected: newType, dirty: true });
+  },
+
+
   editSave() {
 
+    // intent to start editing
+    if (!this.state.edit) {
+      this.setState({ edit: true });
+      return;
+    }
+
+    // save new stuffs
+    let newName = this.refs.newName.value.trim();
+    let newDesc = this.refs.newDesc.value.trim();
+    let newType = this.state.typeSelected;
+
+    let shouldUpdate = this.props.name !== newName ||
+                       this.props.desc !== newDesc ||
+                       this.props.featureType !== newType;
+
+     if (shouldUpdate) {
+      this.props.onUpdate({ type: 'FEATURE_EDIT', data: {
+        name: newName,
+        desc: newDesc,
+        type: newType,
+        id: this.props.featureId
+      }})
+     }
+
+     this.setState({ edit: false, dirty: false });
   },
 
 
@@ -46,7 +84,11 @@ export default React.createClass({
 
     // edit mode and dirty
     if (this.state.edit && this.state.dirty) {
-      this.props.onCancel();
+      this.props.onCancel().then(answer => {
+        if (answer === 'yes') {
+          this.setState({ edit: false, dirty: false, typeSelected: this.props.featureType });
+        }
+      });
       return;
     }
     
@@ -58,7 +100,7 @@ export default React.createClass({
 
     // remove item
     if (!this.state.edit) {
-      this.props.onRemove();
+      this.props.onRemove(`Are you sure you want to delete: ${this.props.name} ? `);
     }
   },
 
@@ -67,10 +109,41 @@ export default React.createClass({
     return (
       <section>
         <div className='modal-header'>
-          <h3>{this.props.name}</h3>
+          <h3>{
+            this.state.edit ? 
+            <input type='text' ref='newName' defaultValue={this.props.name} placeholder={this.props.name} onChange={this.makeDirty}/>
+            : this.props.name
+          }</h3>
         </div>
         <div className='modal-content'>
-          <p>{this.props.desc}</p>
+          <div>
+          {
+            this.state.edit ?
+            <textarea defaultValue={this.props.desc} ref='newDesc' placeholder={this.props.desc} onChange={this.makeDirty}/>
+            : <p>{this.props.desc}</p>
+          }
+          </div>
+          {
+            this.state.edit ?
+            <div className='row'>
+              <div className='col-1-3'>
+                <div onClick={this.handleTypeSelect.bind(this, 'PASSIVE')} className={`feature-type ${this.state.typeSelected === 'PASSIVE' ? 'selected' : ''}`}>
+                  <Icon icon='fa fa-cube'/>
+                </div>
+              </div>
+              <div className='col-1-3'>
+                <div onClick={this.handleTypeSelect.bind(this, 'ATTACK')} className={`feature-type text-red ${this.state.typeSelected === 'ATTACK' ? 'selected' : ''}`}>
+                  <Icon icon='icon-attack'/>
+                </div>
+              </div>
+              <div className='col-1-3'>
+                <div onClick={this.handleTypeSelect.bind(this, 'SPELL')} className={`feature-type text-purple ${this.state.typeSelected === 'SPELL' ? 'selected' : ''}`}>
+                  <Icon icon='icon-repo'/>
+                </div>
+              </div>
+            </div>
+            : null
+          }
         </div>
         <div className='modal-footer'>
           <button onClick={this.editSave} className={this.state.edit ? 'bg-green text-green' : ''}>

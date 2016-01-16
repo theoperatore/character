@@ -13,6 +13,7 @@ export default React.createClass({
 
 
   propTypes: {
+    active: React.PropTypes.bool.isRequired,
     id: React.PropTypes.string.isRequired,
     content: React.PropTypes.element.isRequired,
     onDismiss: React.PropTypes.func.isRequired
@@ -65,6 +66,11 @@ export default React.createClass({
   },
 
 
+  _dismiss() {
+    this.props.onDismiss();
+  },
+
+
   render() {
     let css = cn({
       'modal-overlay': true,
@@ -81,7 +87,7 @@ export default React.createClass({
       <Portal id={this.props.id}>
         <div ref='overlay' className={css} onClick={this.dismiss}>
           <div ref='content' className={container}>
-            {this.props.content}
+            {React.cloneElement(this.props.content, { parentDismiss: this._dismiss })}
           </div>
         </div>
       </Portal>
