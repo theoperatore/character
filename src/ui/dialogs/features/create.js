@@ -121,12 +121,12 @@ export default React.createClass({
                 </div>
               </div>
               <div className='col-1-3'>
-                <div onClick={this.handleTypeSelect.bind(this, 'ATTACK')} className={`feature-type text-red ${this.state.selectedType === 'ATTACK' ? 'selected' : ''}`}>
+                <div onClick={this.handleTypeSelect.bind(this, 'ATTACK')} className={`feature-type text-attack ${this.state.selectedType === 'ATTACK' ? 'selected' : ''}`}>
                   <Icon icon='icon-attack'/>
                 </div>
               </div>
               <div className='col-1-3'>
-                <div onClick={this.handleTypeSelect.bind(this, 'SPELL')} className={`feature-type text-purple ${this.state.selectedType === 'SPELL' ? 'selected' : ''}`}>
+                <div onClick={this.handleTypeSelect.bind(this, 'SPELL')} className={`feature-type text-spell ${this.state.selectedType === 'SPELL' ? 'selected' : ''}`}>
                   <Icon icon='icon-repo'/>
                 </div>
               </div>

@@ -75,9 +75,9 @@ export default React.createClass({
       case 'PASSIVE':
         return { icon: <Icon icon='fa fa-cube' />, style: ''};
       case 'ATTACK':
-        return { icon: <Icon icon='icon-attack' />, style: 'text-red' };
+        return { icon: <Icon icon='icon-attack' />, style: 'text-attack' };
       case 'SPELL':
-        return { icon: <Icon icon='icon-repo' />, style: 'text-purple' };
+        return { icon: <Icon icon='icon-repo' />, style: 'text-spell' };
     }
   },
 

@@ -115,28 +115,28 @@ module.exports = {
     ],
     "charAbilities" : {
       "str" : {
-        "score" : 0,
-        "mod" : 0
+        "score" : 14,
+        "mod" : 2
       },
       "dex" : {
-        "score" : 0,
-        "mod" : 0
+        "score" : 20,
+        "mod" : 5
       },
       "con" : {
-        "score" : 0,
-        "mod" : 0
+        "score" : 16,
+        "mod" : 3
       },
       "int" : {
-        "score" : 0,
-        "mod" : 0
+        "score" : 18,
+        "mod" : 4
       },
       "wis" : {
-        "score" : 0,
-        "mod" : 0
+        "score" : 16,
+        "mod" : 3
       },
       "cha" : {
-        "score" : 0,
-        "mod" : 0
+        "score" : 20,
+        "mod" : 5
       }
     },
     "charSavingThrows" : {
@@ -178,11 +178,11 @@ module.exports = {
       }
     },
     "charProficiencyBonus" : {
-      "score" : 0,
+      "score" : 4,
       "derivatives" : []
     },
     "charPassivePerception" : {
-      "score" : 0,
+      "score" : 10,
       "bonus": 0,
       "derivatives" : []
     },
