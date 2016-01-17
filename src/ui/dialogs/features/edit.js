@@ -126,19 +126,24 @@ export default React.createClass({
           {
             this.state.edit ?
             <div className='row'>
-              <div className='col-1-3'>
+              <div className='col-1-4'>
                 <div onClick={this.handleTypeSelect.bind(this, 'PASSIVE')} className={`feature-type ${this.state.typeSelected === 'PASSIVE' ? 'selected' : ''}`}>
                   <Icon icon='fa fa-cube'/>
                 </div>
               </div>
-              <div className='col-1-3'>
+              <div className='col-1-4'>
                 <div onClick={this.handleTypeSelect.bind(this, 'ATTACK')} className={`feature-type text-attack ${this.state.typeSelected === 'ATTACK' ? 'selected' : ''}`}>
                   <Icon icon='icon-attack'/>
                 </div>
               </div>
-              <div className='col-1-3'>
+              <div className='col-1-4'>
                 <div onClick={this.handleTypeSelect.bind(this, 'SPELL')} className={`feature-type text-spell ${this.state.typeSelected === 'SPELL' ? 'selected' : ''}`}>
                   <Icon icon='icon-repo'/>
+                </div>
+              </div>
+              <div className='col-1-4'>
+                <div onClick={this.handleTypeSelect.bind(this, 'DEFENSE')} className={`feature-type text-str ${this.state.typeSelected === 'DEFENSE' ? 'selected' : ''}`}>
+                  <Icon icon='icon-shield'/>
                 </div>
               </div>
             </div>

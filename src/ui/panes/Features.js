@@ -78,6 +78,8 @@ export default React.createClass({
         return { icon: <Icon icon='icon-attack' />, style: 'text-attack' };
       case 'SPELL':
         return { icon: <Icon icon='icon-repo' />, style: 'text-spell' };
+      case 'DEFENSE':
+        return { icon: <Icon icon='icon-shield' />, style: 'text-str' };
     }
   },
 

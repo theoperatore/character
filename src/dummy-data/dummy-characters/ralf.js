@@ -425,7 +425,13 @@ module.exports = {
         desc: 'Produce a cane from Beard and use it to THWAK something',
         type: 'ATTACK',
         id: 'ralf-feature-3'
-      }
+      },
+      {
+        name: 'Beard Shield',
+        desc: '+2 to AC because a Beard that is prehensile can help stop any sort of attack.',
+        type: 'DEFENSE',
+        id: 'ralf-feature-4'
+      },
     ]
   })
 }
