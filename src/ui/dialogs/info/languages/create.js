@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import uuid from 'node-uuid';
 import Icon from '../../../components/Icon';
 
 export default React.createClass({
@@ -26,8 +27,9 @@ export default React.createClass({
   handleCreate() {
     let name = this.refs.newName.value.trim();
     let desc = this.refs.newDesc.value.trim();
+    let id = uuid.v1();
 
-    this.props.onCreate({ type: 'LANGUAGE_CREATE', data: { name, desc }});
+    this.props.onCreate({ type: 'LANGUAGE_CREATE', data: { name, desc, id }});
   },
 
 
