@@ -35,9 +35,10 @@ module.exports = React.createClass({
     return (
       <div style={style}>
         <h1>Character</h1>
-        <p><Link href="/style">Style Guide</Link></p>
         <p><Link href={"/profile/" + this.state.profile}>Profile</Link></p>
       </div>
     )
   }
+
+  // <p><Link href="/style">Style Guide</Link></p>
 })

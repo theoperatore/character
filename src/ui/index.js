@@ -11,7 +11,7 @@ import Landing from './views/Landing';
 import App from './views/App';
 import Login from './views/Login';
 import User from './views/User';
-import StyleGuide from './views/StyleGuide';
+// import StyleGuide from './views/StyleGuide';
 import HTML404 from './views/HTML404';
 
 
@@ -117,9 +117,9 @@ Router.get('*', () => {
 })
 
 // style guide
-Router.get('/style', () => {
-  ReactDOM.render(<StyleGuide />, mount);
-})
+// Router.get('/style', () => {
+//   ReactDOM.render(<StyleGuide />, mount);
+// })
 
 // start routing!
 Router.init();
