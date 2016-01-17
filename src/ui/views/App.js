@@ -39,7 +39,7 @@ export default React.createClass({
 
   getInitialState : function() {
     return ({
-      activePane : 1,
+      activePane : 2,
       loading : true,
       character : Immutable.fromJS(blankCharacter),
       preferences : Immutable.fromJS(blankPreferences)
@@ -183,7 +183,12 @@ export default React.createClass({
           <Tabs activeIdx={this.state.activePane} onTabSelect={this.handleTabSelect}>
             <Tab><Icon icon="icon-crown" /></Tab>
             <Tab><Icon icon="icon-features" /></Tab>
+            <Tab><Icon icon="icon-chart" /></Tab>
+            <Tab><Icon icon="icon-shield" /></Tab>
+            <Tab><Icon icon="icon-attack" /></Tab>
+            <Tab><Icon icon="icon-repo" /></Tab>
             <Tab><Icon icon="icon-equipment"/></Tab>
+            
           </Tabs>
         </section>
 
@@ -199,15 +204,27 @@ export default React.createClass({
               <Features features={this.state.character.get('charFeatures')}
                         handleFeatureChange={this.handleFeatureChange}/>
             </SwipePane>
-            
-
-
+            <SwipePane>
+              <Abilities abilities={this.state.character.get('charAbilities')}
+                         skills={this.state.character.get('charSkills')}
+                         proficiencyBonus={this.state.character.get('charProficiencyBonus')}
+                         passivePerception={this.state.character.get('charPassivePerception')}
+                         handleAbilityChange={this.handleAbilityChange}/>
+            </SwipePane>
 
 
             <SwipePane>
-              <Equipments equipment={this.state.character.get('charEquipment')}
-                          handleEquipmentChange={this.handleEquipmentChange}/>
-            </SwipePane>
+              <h1>under construction</h1>
+            </SwipePane>            
+            <SwipePane>
+              <h1>under construction</h1>
+            </SwipePane>            
+            <SwipePane>
+              <h1>under construction</h1>
+            </SwipePane>            
+            <SwipePane>
+              <h1>under construction</h1>
+            </SwipePane>            
           </SwipePanes>
         </section>
         <Loading isLoading={this.state.loading} />
@@ -219,19 +236,14 @@ export default React.createClass({
 
 /*
 
-<Tab><Icon icon="icon-chart" /></Tab>
+
 <Tab><Icon icon="icon-shield" /></Tab>
 <Tab><Icon icon="icon-attack" /></Tab>
 <Tab><Icon icon="icon-repo" /></Tab>
+<Tab><Icon icon="icon-equipment"/></Tab>
             
 
-<SwipePane>
-  <Abilities abilities={this.state.character.get('charAbilities')}
-             skills={this.state.character.get('charSkills')}
-             proficiencyBonus={this.state.character.get('charProficiencyBonus')}
-             passivePerception={this.state.character.get('charPassivePerception')}
-             handleAbilityChange={this.handleAbilityChange}/>
-</SwipePane>
+
 <SwipePane>
   <Defenses hitPoints={this.state.character.get('charHitPoints')}
             speed={this.state.character.get('charSpeed')}
@@ -256,5 +268,9 @@ export default React.createClass({
           abilities={this.state.character.get('charAbilities')}
           proficiencyBonus={this.state.character.get('charProficiencyBonus')}
           handleSpellsChange={this.handleSpellsChange}/>
+</SwipePane>
+<SwipePane>
+  <Equipments equipment={this.state.character.get('charEquipment')}
+              handleEquipmentChange={this.handleEquipmentChange}/>
 </SwipePane>
 */
