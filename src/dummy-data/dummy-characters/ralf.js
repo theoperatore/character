@@ -259,7 +259,7 @@ module.exports = {
         "mod" : "dex",
         "trained" : false,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 5,
         "name" : "Acrobatics",
         "derivatives" : []
       },
@@ -267,15 +267,15 @@ module.exports = {
         "mod" : "wis",
         "trained" : false,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 3,
         "name" : "Animal Handling",
         "derivatives" : []
       },
       {
         "mod" : "int",
-        "trained" : false,
+        "trained" : true,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 8,
         "name" : "Arcana",
         "derivatives" : []
       },
@@ -283,7 +283,7 @@ module.exports = {
         "mod" : "str",
         "trained" : false,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 2,
         "name" : "Athletics",
         "derivatives" : []
       },
@@ -291,15 +291,15 @@ module.exports = {
         "mod" : "cha",
         "trained" : false,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 5,
         "name" : "Deception",
         "derivatives" : []
       },
       {
         "mod" : "int",
-        "trained" : false,
+        "trained" : true,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 8,
         "name" : "History",
         "derivatives" : []
       },
@@ -307,7 +307,7 @@ module.exports = {
         "mod" : "wis",
         "trained" : false,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 3,
         "name" : "Insight",
         "derivatives" : []
       },
@@ -315,7 +315,7 @@ module.exports = {
         "mod" : "cha",
         "trained" : false,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 5,
         "name" : "Intimidation",
         "derivatives" : []
       },
@@ -323,7 +323,7 @@ module.exports = {
         "mod" : "int",
         "trained" : false,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 4,
         "name" : "Investigation",
         "derivatives" : []
       },
@@ -331,15 +331,15 @@ module.exports = {
         "mod" : "wis",
         "trained" : false,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 3,
         "name" : "Medicine",
         "derivatives" : []
       },
       {
         "mod" : "int",
-        "trained" : false,
+        "trained" : true,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 8,
         "name" : "Nature",
         "derivatives" : []
       },
@@ -347,7 +347,7 @@ module.exports = {
         "mod" : "wis",
         "trained" : false,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 3,
         "name" : "Perception",
         "derivatives" : []
       },
@@ -355,23 +355,23 @@ module.exports = {
         "mod" : "cha",
         "trained" : false,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 5,
         "name" : "Performance",
         "derivatives" : []
       },
       {
         "mod" : "cha",
-        "trained" : false,
+        "trained" : true,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 9,
         "name" : "Persuasion",
         "derivatives" : []
       },
       {
         "mod" : "int",
-        "trained" : false,
+        "trained" : true,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 8,
         "name" : "Religion",
         "derivatives" : []
       },
@@ -379,7 +379,7 @@ module.exports = {
         "mod" : "dex",
         "trained" : false,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 5,
         "name" : "Sleight of Hand",
         "derivatives" : []
       },
@@ -387,7 +387,7 @@ module.exports = {
         "mod" : "dex",
         "trained" : false,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 5,
         "name" : "Stealth",
         "derivatives" : []
       },
@@ -395,7 +395,7 @@ module.exports = {
         "mod" : "wis",
         "trained" : false,
         "bonus" : 0,
-        "score" : 0,
+        "score" : 3,
         "name" : "Survival",
         "derivatives" : []
       }
