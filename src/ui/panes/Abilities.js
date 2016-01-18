@@ -10,20 +10,30 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      sort: 'default'
+      sort: 'a-z'
     }
   },
 
 
   sortData(data) {
-
+    switch (this.state.sort) {
+      case 'a-z':
+        return data;
+      case 'asc':
+        return data.sort((x, y) => x.score - y.score);
+      case 'desc':
+        return data.sort((x, y) => y.score - x.score);
+      default:
+        return data;
+    }
   },
 
 
   renderSkills() {
     let maxScore = this.props.skills.toJS().reduce((max, skill) => Math.max(max, skill.score), 0);
+    let data = this.sortData(this.props.skills.toJS())
 
-    return this.props.skills.toJS().map((skill, i) => {
+    return data.map((skill, i) => {
       return <SkillItem 
         key={i}
         name={skill.name}
@@ -117,7 +127,7 @@ export default React.createClass({
         
         <section className="info-section pane-padding">
           <div className='info-section-header'>
-            <h6>Skills</h6>
+            <h6>Skills &mdash; <span onClick={this.changeSort.bind(this, 'a-z')} className={`sort-link ${this.state.sort === 'a-z' ? 'active' : ''}`}>a-z</span> &middot; <span onClick={this.changeSort.bind(this, 'asc')} className={`sort-link ${this.state.sort === 'asc' ? 'active' : ''}`}>asc</span> &middot; <span onClick={this.changeSort.bind(this, 'desc')} className={`sort-link ${this.state.sort === 'desc' ? 'active' : ''}`}>desc</span></h6>
           </div>
           {this.renderSkills()}
         </section>
