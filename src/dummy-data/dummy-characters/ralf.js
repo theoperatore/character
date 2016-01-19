@@ -27,7 +27,7 @@ module.exports = {
   character: Object.assign({}, {
     "charName": 'Ralf McBeardsly',
     "charInfo" : {
-      "class" : "McBeardsly",
+      "class" : "Bard",
       "level" : 20,
       "background" : "Wizard?",
       "race" : "Gnome",
@@ -182,7 +182,7 @@ module.exports = {
       "derivatives" : []
     },
     "charPassivePerception" : {
-      "score" : 10,
+      "score" : 13,
       "bonus": 0,
       "derivatives" : []
     },

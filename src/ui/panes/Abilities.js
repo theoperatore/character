@@ -41,6 +41,7 @@ export default React.createClass({
         ability={skill.mod}
         trained={skill.trained}
         maxScore={maxScore}
+        onSkillChange={this.props.handleAbilityChange}
       />;
     })
   },
@@ -63,24 +64,17 @@ export default React.createClass({
 
 
   render() {
-    // var trained = false;
-    // var passivePerception = 0;
-    // var perception = this.props.skills.find((value) => {
-    //   return value.get('name') === 'Perception';
-    // });
-
-    // // this shouldn't be calculated here...it should be calculated by the user
-    // trained = perception.get('trained');
-    // passivePerception += trained ? this.props.proficiencyBonus.get('score') : 0;
-    // passivePerception += this.props.abilities.get(perception.get('mod')).get('mod');
-    // passivePerception += 10;
-    // <span className='ability-badge bg-str'>
+    let perceptionTrained = this.props.skills.find((value) => {
+      return value.get('name') === 'Perception';
+    }).get('trained');
 
     return (
       <div className="pane-container">
-        <section className="info-section pane-padding text-center">
-          
-            <div className='row'>
+        <section className="info-section pane-padding">
+            <div className='info-section-header'>
+              <h5>abilities</h5>
+            </div>
+            <div className='row text-center'>
               <div className='col-1-4 ability-stat-container'>
                 <h6 className='ability-stat-title underline-str'>str</h6>
                 <p className='ability-stat-mod'>{this.props.abilities.get('str').get('mod')}</p>
@@ -101,7 +95,7 @@ export default React.createClass({
                 <p className='ability-stat-mod'>{this.props.proficiencyBonus.get('score')}</p>
               </div>
             </div>
-            <div className='row'>
+            <div className='row text-center'>
               <div className='col-1-4 ability-stat-container'>
                 <h6 className='ability-stat-title underline-wis'>wis</h6>
                 <p className='ability-stat-mod'>{this.props.abilities.get('wis').get('mod')}</p>
@@ -117,7 +111,7 @@ export default React.createClass({
                 <p className='ability-stat-mod'>{this.props.abilities.get('cha').get('mod')}</p>
                 <h6 className='ability-stat-score'>{this.props.abilities.get('cha').get('score')}</h6>
               </div>
-              <div className='col-1-4 ability-stat-container'>
+              <div className={`col-1-4 ability-stat-container ${perceptionTrained ? 'proficient' : ''}`}>
                 <h6 className='ability-stat-title'>passive perception</h6>
                 <p className='ability-stat-mod'>{this.props.passivePerception.get('score')}</p>
               </div>
@@ -127,7 +121,7 @@ export default React.createClass({
         
         <section className="info-section pane-padding">
           <div className='info-section-header'>
-            <h6>Skills &mdash; <span onClick={this.changeSort.bind(this, 'a-z')} className={`sort-link ${this.state.sort === 'a-z' ? 'active' : ''}`}>a-z</span> &middot; <span onClick={this.changeSort.bind(this, 'asc')} className={`sort-link ${this.state.sort === 'asc' ? 'active' : ''}`}>asc</span> &middot; <span onClick={this.changeSort.bind(this, 'desc')} className={`sort-link ${this.state.sort === 'desc' ? 'active' : ''}`}>desc</span></h6>
+            <h5>Skills &mdash; <span onClick={this.changeSort.bind(this, 'a-z')} className={`sort-link ${this.state.sort === 'a-z' ? 'active' : ''}`}>a-z</span> &middot; <span onClick={this.changeSort.bind(this, 'asc')} className={`sort-link ${this.state.sort === 'asc' ? 'active' : ''}`}>asc</span> &middot; <span onClick={this.changeSort.bind(this, 'desc')} className={`sort-link ${this.state.sort === 'desc' ? 'active' : ''}`}>desc</span></h5>
           </div>
           {this.renderSkills()}
         </section>

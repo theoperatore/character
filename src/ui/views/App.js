@@ -136,6 +136,14 @@ export default React.createClass({
 
   handleAbilityChange : function(event) {
     log("ability event:", event);
+    switch (event.type) {
+      case 'SKILL_EDIT':
+        break;
+      case 'ABILITY_SCORE_EDIT':
+        break;
+      case 'PROFICIENCY_BONUS_EDIT':
+        break;
+    }
   },
 
 

@@ -134,7 +134,7 @@ export default React.createClass({
       <div className='pane-container'>
         <section className="info-section pane-padding">
           <div className='info-section-header interactable' onClick={this.openCreateFeature}>
-            <h3 className='info-section-title'>Features</h3>
+            <h5 className='info-section-title'>Features</h5>
             <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
           </div>
           {this.renderFeatures()}

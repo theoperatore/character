@@ -7,6 +7,7 @@ import Portal from '../Portal';
 
 // TODO: should require some constants to find config identifiers for html
 const appContainer = '.character-body';
+const paneContainer = '.swiper-slide-active>.base-pane-container';
 
 export default React.createClass({
   displayName: 'ModalV2',
@@ -39,6 +40,7 @@ export default React.createClass({
   componentWillReceiveProps(nextProps) {
     if (nextProps.active !== this.props.active && nextProps.active === true) {
       document.querySelector(appContainer).style.overflow = 'hidden';
+      document.querySelector(paneContainer).style.overflow = 'hidden';
       this.setState({ active: true, moving: true }, () => {
         setTimeout(() => {
           this.setState({ open: true, moving: false });
@@ -49,6 +51,7 @@ export default React.createClass({
       this.setState({ open: false, moving: true }, () => {
         setTimeout(() => {
           document.querySelector(appContainer).style.overflow = 'auto';
+          document.querySelector(paneContainer).style.overflow = 'auto';
           this.setState({ active: false, moving: false });
         }, 300);
       }) 

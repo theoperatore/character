@@ -212,13 +212,13 @@ module.exports = React.createClass({
         </section> 
         <section className="info-section pane-padding">
           <div className='info-section-header'>
-            <h3 className='info-section-title'>Traits</h3>
+            <h5 className='info-section-title'>Traits</h5>
           </div>
           {this.renderTraits()}
         </section>
         <section className="info-section pane-padding">
           <div className='info-section-header' onClick={this.openDialog.bind(this, 'prof')}>
-            <h3 className='info-section-title'>Proficiencies</h3>
+            <h5 className='info-section-title'>Proficiencies</h5>
             <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
           </div>
           {this.renderProficiencies()}
@@ -226,7 +226,7 @@ module.exports = React.createClass({
         </section>
         <section className="info-section pane-padding">
           <div className='info-section-header' onClick={this.openDialog.bind(this, 'lang')}>
-            <h3 className='info-section-title'>Languages</h3>
+            <h5 className='info-section-title'>Languages</h5>
             <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
           </div>
           {this.renderLanguages()}
