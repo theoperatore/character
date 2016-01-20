@@ -68,8 +68,8 @@ export default React.createClass({
           </div>
         </div>
         <div className='modal-footer'>
-          <button onClick={this.save} className='bg-green text-green'>
-            <p><Icon icon='fa fa-pencil' />Save</p>
+          <button onClick={this.handleSave} className='bg-green text-green'>
+            <p><Icon icon='fa fa-pencil' /> Save</p>
           </button>
         </div>
       </section>
@@ -112,7 +112,7 @@ export default React.createClass({
   },
 
 
-  save() {
+  handleSave() {
     let data = { 
       trained: this.refs.proficient.checked,
       name: this.props.name
