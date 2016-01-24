@@ -39,7 +39,7 @@ export default React.createClass({
 
   getInitialState : function() {
     return ({
-      activePane : 2,
+      activePane : 3,
       loading : true,
       character : Immutable.fromJS(blankCharacter),
       preferences : Immutable.fromJS(blankPreferences)
@@ -222,16 +222,22 @@ export default React.createClass({
 
 
             <SwipePane>
-              <h1>under construction</h1>
+              <Defenses hitPoints={this.state.character.get('charHitPoints')}
+                        speed={this.state.character.get('charSpeed')}
+                        initiative={this.state.character.get('charInitiative')}
+                        armorClass={this.state.character.get('charArmorClass')}
+                        savingThrows={this.state.character.get('charSavingThrows')}
+                        resistances={this.state.character.get('charResistances')}
+                        handleDefenseChange={this.handleDefenseChange}/>
+            </SwipePane>
+            <SwipePane>
+              <h1>Attacks Pane</h1>
             </SwipePane>            
             <SwipePane>
-              <h1>under construction</h1>
+              <h1>Spells Pane</h1>
             </SwipePane>            
             <SwipePane>
-              <h1>under construction</h1>
-            </SwipePane>            
-            <SwipePane>
-              <h1>under construction</h1>
+              <h1>Equipments Pane</h1>
             </SwipePane>            
           </SwipePanes>
         </section>
@@ -252,15 +258,7 @@ export default React.createClass({
             
 
 
-<SwipePane>
-  <Defenses hitPoints={this.state.character.get('charHitPoints')}
-            speed={this.state.character.get('charSpeed')}
-            initiative={this.state.character.get('charInitiative')}
-            armorClass={this.state.character.get('charArmorClass')}
-            savingThrows={this.state.character.get('charSavingThrows')}
-            resistances={this.state.character.get('charResistances')}
-            handleDefenseChange={this.handleDefenseChange}/>
-</SwipePane>
+
 <SwipePane>
   <Attacks attacks={this.state.character.get('charAttacks')}
            charges={this.state.character.get('charClassCharges')}

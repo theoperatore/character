@@ -199,11 +199,11 @@ module.exports = {
       "derivatives" : []
     },
     "charHitPoints" : {
-      "current" : 0,
-      "maximum" : 0,
+      "current" : 100,
+      "maximum" : 100,
       "temporary" : 0,
-      "hitDiceTotal" : "0",
-      "hitDiceCurrent" : 1,
+      "hitDiceTotal" : "20d8",
+      "hitDiceCurrent" : 20,
       "deathSaves" : {
         "successes" : 0,
         "failures" : 0
