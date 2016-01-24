@@ -149,6 +149,24 @@ export default React.createClass({
 
   handleDefenseChange : function(event) {
     log("defense event:", event);
+    switch (event.type) {
+      case 'SAVING_THROW_EDIT':
+        break;
+      case 'HIT_POINTS_EDIT':
+        break;
+      case 'SPEED_EDIT':
+        break;
+      case 'INITIATIVE_EDIT':
+        break;
+      case 'ARMOR_CLASS_EDIT':
+        break;
+      case 'RESISTANCES_CREATE':
+        break;
+      case 'RESISTANCES_EDIT':
+        break;
+      case 'RESISTANCES_DELETE':
+        break;
+    }
   },
 
 

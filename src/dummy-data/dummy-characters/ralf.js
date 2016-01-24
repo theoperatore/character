@@ -141,39 +141,39 @@ module.exports = {
     },
     "charSavingThrows" : {
       "str" : {
-        "score" : 0,
+        "score" : 2,
         "bonus" : 0,
         "proficient" : false,
         "derivatives" : []
       },
       "dex" : {
-        "score" : 0,
+        "score" : 5,
         "bonus" : 0,
         "proficient" : false,
         "derivatives" : []
       },
       "con" : {
-        "score" : 0,
+        "score" : 3,
         "bonus" : 0,
         "proficient" : false,
         "derivatives" : []
       },
       "int" : {
-        "score" : 0,
+        "score" : 8,
         "bonus" : 0,
-        "proficient" : false,
+        "proficient" : true,
         "derivatives" : []
       },
       "wis" : {
-        "score" : 0,
+        "score" : 3,
         "bonus" : 0,
         "proficient" : false,
         "derivatives" : []
       },
       "cha" : {
-        "score" : 0,
+        "score" : 9,
         "bonus" : 0,
-        "proficient" : false,
+        "proficient" : true,
         "derivatives" : []
       }
     },

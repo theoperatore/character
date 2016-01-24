@@ -3,10 +3,7 @@
 import React from 'react';
 
 import HPCounter from '../components/HPCounter';
-import Shield from '../components/Shield';
-import Switch from '../components/Switch';
-import Stat from '../components/Stat';
-import Panel from '../components/Panel';
+import SavingThrowItem from '../components/SavingThrowItem';
 
 export default React.createClass({
   displayName: 'PaneDefenses',
@@ -34,45 +31,40 @@ export default React.createClass({
   },
 
 
-  renderSuccesses : function() {
-    return (
-      <div className="grid">
-        <div className="row">
-          <div className="col-xs-4">
-            <Switch />
-          </div>
-          <div className="col-xs-4">
-            <Switch />
-          </div>
-          <div className="col-xs-4">
-            <Switch />
-          </div>
-        </div>
-      </div>
-    )
+  handleSavingThrowChange(event) {
+    this.props.handleDefenseChange(event);
   },
 
 
-  renderFailures : function() {
-    return (
-      <div className="grid">
-        <div className="row">
-          <div className="col-xs-4">
-            <Switch />
-          </div>
-          <div className="col-xs-4">
-            <Switch />
-          </div>
-          <div className="col-xs-4">
-            <Switch />
-          </div>
-        </div>
-      </div>
-    )
+  renderSavingThrows() {
+    return Object.keys(this.props.savingThrows.toJS()).map((abilityKey, i) => {
+      return <SavingThrowItem
+        key={i}
+        ability={abilityKey}
+        score={this.props.savingThrows.getIn([abilityKey, 'score'])}
+        proficient={this.props.savingThrows.getIn([abilityKey, 'proficient'])}
+        onSavingThrowChange={this.handleSavingThrowChange}
+      />
+    })
   },
 
 
-  renderResistances : function() {
+  renderSuccesses() {
+    let num = this.props.hitPoints.getIn(['deathSaves', 'successes']);
+    return [0,1,2].map(n => {
+      return <div key={n} className='col-1-6'>
+        <input type='checkbox' defaultChecked={n < num} />
+      </div>
+    })
+  },
+
+
+  renderFailures() {
+    return <span />
+  },
+
+
+  renderResistances() {
     return this.props.resistances.toJS().map((resistance, i) => {
       return (
         <Panel key={i} header={resistance.name}>
@@ -115,6 +107,10 @@ export default React.createClass({
               </div>
             </div>
           </div>
+        </section>
+        <section className='info-section pane-padding'>
+          <div className='info-section-header'><h5>Saving Throws</h5></div>
+          {this.renderSavingThrows()}
         </section>
       </div>
     )
