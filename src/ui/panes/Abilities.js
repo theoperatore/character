@@ -3,6 +3,8 @@
 import React from 'react';
 import Immutable from 'immutable';
 import SkillItem from '../components/SkillItem';
+import Modal from '../components/Modal';
+import EditScores from '../dialogs/abilities/EditAbilityScoresDialog';
 
 export default React.createClass({
   displayName: 'AbilitiesPane',
@@ -10,8 +12,21 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      sort: 'a-z'
+      sort: 'a-z',
+      editScores: false
     }
+  },
+
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.props.abilities !== nextProps.abilities ||
+      this.props.skills !== nextProps.skills ||
+      this.props.proficiencyBonus !== nextProps.proficiencyBonus ||
+      this.props.passivePerception !== nextProps.passivePerception ||
+      this.state.sort !== nextState.sort ||
+      this.state.editScores !== nextState.editScore
+    );
   },
 
 
@@ -26,6 +41,36 @@ export default React.createClass({
       default:
         return data;
     }
+  },
+
+
+  changeSort(option) {
+    this.setState({ sort: option });
+  },
+
+
+  handleEditScoresDismiss() {
+    this.refs.editScores.confirm().then(answer => {
+      if (answer === 'yes') {
+        this.setState({ editScores: false });
+      }
+    })
+  },
+
+
+  handleScoreEdit(event) {
+    this.setState({ editScores: false });
+    this.props.handleAbilityChange(event);
+  },
+
+
+  createEditContent() {
+    return <EditScores 
+        ref='editScores'
+        onSave={this.handleScoreEdit} 
+        abilities={this.props.abilities}
+        proficiency={this.props.proficiencyBonus}
+      />
   },
 
 
@@ -47,22 +92,6 @@ export default React.createClass({
   },
 
 
-  shouldComponentUpdate(nextProps, nextState) {
-      return (
-        this.props.abilities !== nextProps.abilities ||
-        this.props.skills !== nextProps.skills ||
-        this.props.proficiencyBonus !== nextProps.proficiencyBonus ||
-        this.props.passivePerception !== nextProps.passivePerception ||
-        this.state.sort !== nextState.sort
-      );
-  },
-
-
-  changeSort(option) {
-    this.setState({ sort: option });
-  },
-
-
   render() {
     let perceptionTrained = this.props.skills.find((value) => {
       return value.get('name') === 'Perception';
@@ -70,53 +99,53 @@ export default React.createClass({
 
     return (
       <div className="pane-container">
-        <section className="info-section pane-padding">
-            <div className='info-section-header'>
-              <h5>abilities</h5>
+        <section className="info-section pane-padding" onClick={() => { this.setState({ editScores: true })}}>
+          <div className='info-section-header'>
+            <h5>abilities</h5>
+          </div>
+          <div className='row text-center'>
+            <div className='col-1-4 ability-stat-container'>
+              <h6 className='ability-stat-title underline-str'>str</h6>
+              <p className='ability-stat-mod'>{this.props.abilities.get('str').get('mod')}</p>
+              <h6 className='ability-stat-score'>{this.props.abilities.get('str').get('score')}</h6>
             </div>
-            <div className='row text-center'>
-              <div className='col-1-4 ability-stat-container'>
-                <h6 className='ability-stat-title underline-str'>str</h6>
-                <p className='ability-stat-mod'>{this.props.abilities.get('str').get('mod')}</p>
-                <h6 className='ability-stat-score'>{this.props.abilities.get('str').get('score')}</h6>
-              </div>
-              <div className='col-1-4 ability-stat-container'>
-                <h6 className='ability-stat-title underline-dex'>dex</h6>
-                <p className='ability-stat-mod'>{this.props.abilities.get('dex').get('mod')}</p>
-                <h6 className='ability-stat-score'>{this.props.abilities.get('dex').get('score')}</h6>
-              </div>
-              <div className='col-1-4 ability-stat-container separate-right'>
-                <h6 className='ability-stat-title underline-con'>con</h6>
-                <p className='ability-stat-mod'>{this.props.abilities.get('con').get('mod')}</p>
-                <h6 className='ability-stat-score'>{this.props.abilities.get('con').get('score')}</h6>
-              </div>
-              <div className='col-1-4 ability-stat-container'>
-                <h6 className='ability-stat-title underline-proficient'>proficiency bonus</h6>
-                <p className='ability-stat-mod'>{this.props.proficiencyBonus.get('score')}</p>
-              </div>
+            <div className='col-1-4 ability-stat-container'>
+              <h6 className='ability-stat-title underline-dex'>dex</h6>
+              <p className='ability-stat-mod'>{this.props.abilities.get('dex').get('mod')}</p>
+              <h6 className='ability-stat-score'>{this.props.abilities.get('dex').get('score')}</h6>
             </div>
-            <div className='row text-center'>
-              <div className='col-1-4 ability-stat-container'>
-                <h6 className='ability-stat-title underline-wis'>wis</h6>
-                <p className='ability-stat-mod'>{this.props.abilities.get('wis').get('mod')}</p>
-                <h6 className='ability-stat-score'>{this.props.abilities.get('wis').get('score')}</h6>
-              </div>
-              <div className='col-1-4 ability-stat-container'>
-                <h6 className='ability-stat-title underline-int'>int</h6>
-                <p className='ability-stat-mod'>{this.props.abilities.get('int').get('mod')}</p>
-                <h6 className='ability-stat-score'>{this.props.abilities.get('int').get('score')}</h6>
-              </div>
-              <div className='col-1-4 ability-stat-container separate-right'>
-                <h6 className='ability-stat-title underline-cha'>cha</h6>
-                <p className='ability-stat-mod'>{this.props.abilities.get('cha').get('mod')}</p>
-                <h6 className='ability-stat-score'>{this.props.abilities.get('cha').get('score')}</h6>
-              </div>
-              <div className={`col-1-4 ability-stat-container ${perceptionTrained ? 'proficient' : ''}`}>
-                <h6 className='ability-stat-title'>passive perception</h6>
-                <p className='ability-stat-mod'>{this.props.passivePerception.get('score')}</p>
-              </div>
+            <div className='col-1-4 ability-stat-container separate-right'>
+              <h6 className='ability-stat-title underline-con'>con</h6>
+              <p className='ability-stat-mod'>{this.props.abilities.get('con').get('mod')}</p>
+              <h6 className='ability-stat-score'>{this.props.abilities.get('con').get('score')}</h6>
             </div>
-
+            <div className='col-1-4 ability-stat-container'>
+              <h6 className='ability-stat-title underline-proficient'>proficiency bonus</h6>
+              <p className='ability-stat-mod'>{this.props.proficiencyBonus.get('score')}</p>
+            </div>
+          </div>
+          <div className='row text-center'>
+            <div className='col-1-4 ability-stat-container'>
+              <h6 className='ability-stat-title underline-wis'>wis</h6>
+              <p className='ability-stat-mod'>{this.props.abilities.get('wis').get('mod')}</p>
+              <h6 className='ability-stat-score'>{this.props.abilities.get('wis').get('score')}</h6>
+            </div>
+            <div className='col-1-4 ability-stat-container'>
+              <h6 className='ability-stat-title underline-int'>int</h6>
+              <p className='ability-stat-mod'>{this.props.abilities.get('int').get('mod')}</p>
+              <h6 className='ability-stat-score'>{this.props.abilities.get('int').get('score')}</h6>
+            </div>
+            <div className='col-1-4 ability-stat-container separate-right'>
+              <h6 className='ability-stat-title underline-cha'>cha</h6>
+              <p className='ability-stat-mod'>{this.props.abilities.get('cha').get('mod')}</p>
+              <h6 className='ability-stat-score'>{this.props.abilities.get('cha').get('score')}</h6>
+            </div>
+            <div className={`col-1-4 ability-stat-container ${perceptionTrained ? 'proficient' : ''}`}>
+              <h6 className='ability-stat-title'>passive perception</h6>
+              <p className='ability-stat-mod'>{this.props.passivePerception.get('score')}</p>
+            </div>
+          </div>
+          <Modal id='edit-ability-scores' active={this.state.editScores} content={this.createEditContent()} onDismiss={this.handleEditScoresDismiss}/>
         </section>
         
         <section className="info-section pane-padding">
