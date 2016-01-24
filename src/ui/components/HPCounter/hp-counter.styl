@@ -1,0 +1,40 @@
+.hp-counter-container
+  text-align center
+  width 95%
+  margin 0 auto
+  
+  .hp-counter-header
+    font-style italic
+    font-weight bold
+  
+  .hp-counter-count
+    font-size 96px
+    margin-bottom 0
+    line-height 96px
+    
+  .hp-counter-progress-bar
+    border-bottom-width 9px
+    border-bottom-style solid
+    transition width 1000ms ease
+    
+  .hp-counter-stacked-progress-bar
+    border-top-width 15px
+    border-top-style solid
+    margin-top -5px
+    transition width 1000ms ease
+    
+  .pulse
+    animation-duration 1s
+    animation-name pulse
+    animation-iteration-count infinite
+    animation-direction alternate
+    
+@keyframes pulse {
+  from {
+    transform scale(1)
+  }
+  
+  to {
+    transform scale(1.1)
+  }
+}

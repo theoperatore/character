@@ -184,29 +184,31 @@ module.exports = React.createClass({
 
     return (
       <div className="pane-container">
-        <section className='info-container' onClick={this.openDialog.bind(this, 'levelXp')}>
-          <div className='level-container'>
-            <h6>level</h6>
-            <span className='level'>{this.props.info.get('level')}</span>
-            <h6>{this.props.info.get('xp')}</h6>
-            <Modal active={this.state.levelXpModal} id='edit-level-xp' content={this.buildLevelDialog()} onDismiss={this.handleNewDismiss.bind(this, 'levelXp')} />
-          </div>
-          <div className='info-stat-group'>
-            <div className='info-stat'>
-              <span className='header'>class</span>
-              <p className='content'>{this.props.info.get('class')}</p>
+        <section className='info-section pane-padding' onClick={this.openDialog.bind(this, 'levelXp')}>
+          <div className='row'>
+            <div className='col-2-3 level-container'>
+              <h6 className='level-header'>Level</h6>
+              <span className='level'>{this.props.info.get('level')}</span>
+              <h6>{this.props.info.get('xp')}</h6>
+              <Modal active={this.state.levelXpModal} id='edit-level-xp' content={this.buildLevelDialog()} onDismiss={this.handleNewDismiss.bind(this, 'levelXp')} />
             </div>
-            <div className='info-stat'>
-              <span className='header'>race</span>
-              <p className='content'>{this.props.info.get('race')}</p>
-            </div>
-            <div className='info-stat'>
-              <span className='header'>alignment</span>
-              <p className='content'>{this.props.info.get('alignment')}</p>
-            </div>
-            <div className='info-stat'>
-              <span className='header'>background</span>
-              <p className='content'>{this.props.info.get('background')}</p>
+            <div className='col-1-3'>
+              <div className='stat'>
+                <h6>Class</h6>
+                <p>{this.props.info.get('class')}</p>
+              </div>
+              <div className='stat'>
+                <h6>Race</h6>
+                <p>{this.props.info.get('race')}</p>
+              </div>
+              <div className='stat'>
+                <h6>Alignment</h6>
+                <p>{this.props.info.get('alignment')}</p>
+              </div>
+              <div className='stat'>
+                <h6>Background</h6>
+                <p>{this.props.info.get('background')}</p>
+              </div>
             </div>
           </div>
         </section> 

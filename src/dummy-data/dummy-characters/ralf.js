@@ -187,22 +187,23 @@ module.exports = {
       "derivatives" : []
     },
     "charArmorClass" : {
-      "score" : 0,
+      "score" : 22,
       "derivatives" : []
     },
     "charInitiative" : {
-      "score" : 0,
+      "score" : 5,
       "derivatives" : []
     },
     "charSpeed" : {
-      "score" : "0",
+      "score" : '20ft',
       "derivatives" : []
     },
     "charHitPoints" : {
-      "current" : 100,
-      "maximum" : 100,
+      "current" : 26,
+      "maximum" : 26,
       "temporary" : 0,
-      "hitDiceTotal" : "20d8",
+      "hitDiceType" : "d8",
+      "hitDiceMaximum": 20,
       "hitDiceCurrent" : 20,
       "deathSaves" : {
         "successes" : 0,

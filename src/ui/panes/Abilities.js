@@ -99,7 +99,7 @@ export default React.createClass({
 
     return (
       <div className="pane-container">
-        <section className="info-section pane-padding" onClick={() => { this.setState({ editScores: true })}}>
+        <section className="info-section pane-padding interactable" onClick={() => { this.setState({ editScores: true })}}>
           <div className='info-section-header'>
             <h5>Abilities</h5>
           </div>
