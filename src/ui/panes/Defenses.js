@@ -64,6 +64,24 @@ export default React.createClass({
   },
 
 
+  renderDeathThrows() {
+    return <div className='row death-saves'>
+      <div className='col-1-2'>
+        <span onClick={() => this.props.handleDefenseChange({ type: 'DEATH_SAVES_ADD', data: { successes: 1 } })}>
+          {this.props.hitPoints.getIn(['deathSaves', 'successes'])}
+        </span>
+        <h6>successes</h6>
+      </div>
+      <div className='col-1-2'>
+        <span onClick={() => this.props.handleDefenseChange({ type: 'DEATH_SAVES_ADD', data: { failures: 1 } })}>
+          {this.props.hitPoints.getIn(['deathSaves', 'failures'])}
+        </span>
+        <h6>failures</h6>
+      </div>
+    </div>
+  },
+
+
   renderResistances() {
     return this.props.resistances.toJS().map((resistance, i) => {
       return (
@@ -76,19 +94,21 @@ export default React.createClass({
 
 
   render() {
-    let max = this.props.hitPoints.get('maximum');
     return (
       <div className='pane-container'>
         <section className='info-section pane-padding'>
           <div className='row'>
-            <div className='col-2-3' onClick={() => { this.setState({ hp: Math.round(Math.random() * max), temp: Math.round(Math.random() * max) })}}>
+            <div className='col-2-3' onClick={() => this.setState({ hp: 0 })}>
               <HPCounter 
                 maximum={this.props.hitPoints.get('maximum')}
                 current={this.state.hp}
                 temporary={this.state.temp}
               />
+              {
+                this.state.hp <= 0 ? this.renderDeathThrows() : null
+              }
             </div>
-            <div className='col-1-3' onClick={() => this.setState({ temp: 0})}>
+            <div className='col-1-3' onClick={() => this.setState({ hp: this.props.hitPoints.get('maximum')})}>
               <div className='stat'>
                 <h6>Armor Class</h6>
                 <p>{this.props.armorClass.get('score')}</p>
@@ -117,20 +137,6 @@ export default React.createClass({
   }
 
 
-  // render() {
-  //   return (
-  //     <div className="pane-container">
-  //       <div className='info-section pane-padding'>
-  //         <HPCounter 
-  //           maximum={this.props.hitPoints.get('maximum')}
-  //           current={this.props.hitPoints.get('current')}
-  //           temporary={this.props.hitPoints.get('temporary')}
-  //         />
-  //       </div>
-
-  //       <section className="pane-section pane-border">
-  //         <Shield data={this.props.hitPoints} />
-  //       </section>
 
   //       <section className="pane-section pane-border">
   //         <div className="grid">
@@ -147,21 +153,9 @@ export default React.createClass({
   //         </div>
   //       </section>
 
-  //       <h3>Saving Throws</h3>
-  //       <section className="pane-section pane-border">
-  //         <Stat width={3} title={'STR'} trained={this.props.savingThrows.get('str').get('proficient')} background={true} score={this.props.savingThrows.get('str').get('score')}/>
-  //         <Stat width={3} title={'DEX'} trained={this.props.savingThrows.get('dex').get('proficient')} background={true} score={this.props.savingThrows.get('dex').get('score')}/>
-  //         <Stat width={3} title={'CON'} trained={this.props.savingThrows.get('con').get('proficient')} background={true} score={this.props.savingThrows.get('con').get('score')}/>
-  //         <Stat width={3} title={'INT'} trained={this.props.savingThrows.get('int').get('proficient')} background={true} score={this.props.savingThrows.get('int').get('score')}/>
-  //         <Stat width={3} title={'WIS'} trained={this.props.savingThrows.get('wis').get('proficient')} background={true} score={this.props.savingThrows.get('wis').get('score')}/>
-  //         <Stat width={3} title={'CHA'} trained={this.props.savingThrows.get('cha').get('proficient')} background={true} score={this.props.savingThrows.get('cha').get('score')}/>
-  //       </section>
-
   //       <h3>Resistances</h3>
   //       <section className="pane-section pane-padding">
   //         {this.renderResistances()}
   //       </section>
-  //     </div>
-  //   );
-  // }
+  
 })
