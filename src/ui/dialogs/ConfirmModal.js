@@ -15,11 +15,7 @@ export default React.createClass({
   },
 
 
-  getDefaultProps() {
-    return {
-      message: 'Cancel and lose any unsaved changes?'
-    }
-  },
+  defaultMessage: 'Cancel and lose any unsaved changes?',
 
 
   confirmChoice(choice) {
@@ -31,7 +27,7 @@ export default React.createClass({
     return (
       <section>
         <div className='modal-header'><h3>Are You Sure?</h3></div>
-        <div className='modal-content'>{this.props.message}</div>
+        <div className='modal-content'>{this.props.message || this.defaultMessage}</div>
         <div className='modal-footer'>
           <button onClick={this.confirmChoice.bind(this, 'yes')} className='text-green'>Yes</button>
           <button onClick={this.confirmChoice.bind(this, 'no')} className='text-red'>No</button>

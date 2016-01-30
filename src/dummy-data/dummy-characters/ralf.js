@@ -254,7 +254,38 @@ module.exports = {
         }
       ]
     },
-    "charResistances" : [],
+    "charResistances" : [
+      {
+        name: 'Resistance 1',
+        desc: 'A simple resistance 1',
+        id: 'res1'
+      },
+      {
+        name: 'Resistance 2',
+        desc: 'A simple resistance 2',
+        id: 'res2'
+      },
+      {
+        name: 'Resistance 3',
+        desc: 'A simple resistance 3',
+        id: 'res3'
+      },
+      {
+        name: 'Resistance 4',
+        desc: 'A simple resistance 4',
+        id: 'res4'
+      },
+      {
+        name: 'Resistance 5',
+        desc: 'A simple resistance 5',
+        id: 'res5'
+      },
+      {
+        name: 'Resistance 6',
+        desc: 'A simple resistance 6',
+        id: 'res6'
+      }
+    ],
     "charSkills" : [
       {
         "mod" : "dex",
