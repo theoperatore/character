@@ -1,8 +1,8 @@
 'use strict';
 
 import React from 'react';
-import Icon from '../Icon';
-import Modal from '../Modal';
+import Icon from '../../components/Icon';
+import Modal from '../../components/Modal';
 import ConfirmModal from '../../dialogs/ConfirmModal';
 import { AbilityScores } from '../../constants';
 

@@ -2,8 +2,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Icon from '../Icon';
-import Modal from '../Modal';
+import Icon from '../../components/Icon';
+import Modal from '../../components/Modal';
 
 import { AbilityScores } from '../../constants';
 

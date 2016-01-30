@@ -3,7 +3,9 @@
 import React from 'react';
 
 import HPCounter from '../components/HPCounter';
-import SavingThrowItem from '../components/SavingThrowItem';
+import Icon from '../components/Icon';
+import SavingThrowItem from '../composite-components/SavingThrowItem';
+import ResistanceItem from '../composite-components/ResistanceItem';
 
 export default React.createClass({
   displayName: 'PaneDefenses',
@@ -31,11 +33,6 @@ export default React.createClass({
   },
 
 
-  handleSavingThrowChange(event) {
-    this.props.handleDefenseChange(event);
-  },
-
-
   renderSavingThrows() {
     return Object.keys(this.props.savingThrows.toJS()).map((abilityKey, i) => {
       return <SavingThrowItem
@@ -43,24 +40,9 @@ export default React.createClass({
         ability={abilityKey}
         score={this.props.savingThrows.getIn([abilityKey, 'score'])}
         proficient={this.props.savingThrows.getIn([abilityKey, 'proficient'])}
-        onSavingThrowChange={this.handleSavingThrowChange}
+        onSavingThrowChange={this.props.handleDefenseChange}
       />
     })
-  },
-
-
-  renderSuccesses() {
-    let num = this.props.hitPoints.getIn(['deathSaves', 'successes']);
-    return [0,1,2].map(n => {
-      return <div key={n} className='col-1-6'>
-        <input type='checkbox' defaultChecked={n < num} />
-      </div>
-    })
-  },
-
-
-  renderFailures() {
-    return <span />
   },
 
 
@@ -85,9 +67,13 @@ export default React.createClass({
   renderResistances() {
     return this.props.resistances.toJS().map((resistance, i) => {
       return (
-        <Panel key={i} header={resistance.name}>
-          <p>{resistance.desc}</p>
-        </Panel>
+        <ResistanceItem 
+          key={i}
+          id={resistance.id}
+          name={resistance.name}
+          desc={resistance.desc}
+          onResistanceChange={this.props.handleDefenseChange} 
+        />
       )
     })
   },
@@ -132,30 +118,14 @@ export default React.createClass({
           <div className='info-section-header'><h5>Saving Throws</h5></div>
           {this.renderSavingThrows()}
         </section>
+        <section className='info-section pane-padding'>
+          <div className='info-section-header interactable' onClick={this.openCreateResistance}>
+            <h5 className='info-section-title'>Resistances</h5>
+            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
+          </div>
+          {this.renderResistances()}
+        </section>
       </div>
     )
   }
-
-
-
-  //       <section className="pane-section pane-border">
-  //         <div className="grid">
-  //           <div className="row">
-  //             <div className="col-xs-6 text-center">
-  //               <p>successes</p>
-  //               {this.renderSuccesses()}
-  //             </div>
-  //             <div className="col-xs-6 text-center">
-  //               <p>failures</p>
-  //               {this.renderFailures()}
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </section>
-
-  //       <h3>Resistances</h3>
-  //       <section className="pane-section pane-padding">
-  //         {this.renderResistances()}
-  //       </section>
-  
 })
