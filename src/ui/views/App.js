@@ -99,17 +99,10 @@ export default React.createClass({
       case 'TRAIT_EDIT':
         break;
       case 'PROFICIENCY_EDIT':
-        character.charOtherProficiencies.proficiencies[event.id].name = event.name;
-        character.charOtherProficiencies.proficiencies[event.id].desc = event.desc;
-        this.setState({ character: Immutable.fromJS(character) });
         break;
       case 'PROFICIENCY_DELETE':
-        character.charOtherProficiencies.proficiencies.splice(event.id, 1);
-        this.setState({ character: Immutable.fromJS(character) });
         break;
       case 'PROFICIENCY_CREATE':
-        character.charOtherProficiencies.proficiencies.push(event.data);
-        this.setState({ character: Immutable.fromJS(character) });
         break;
       case 'LANGUAGE_EDIT':
         break;
@@ -154,17 +147,17 @@ export default React.createClass({
         break;
       case 'HIT_POINTS_EDIT':
         break;
-      case 'SPEED_EDIT':
-        break;
-      case 'INITIATIVE_EDIT':
-        break;
-      case 'ARMOR_CLASS_EDIT':
+      case 'DEFENSES_EDIT':
         break;
       case 'RESISTANCES_CREATE':
         break;
       case 'RESISTANCES_EDIT':
         break;
       case 'RESISTANCES_DELETE':
+        break;
+      case 'LONG_REST':
+        break;
+      case 'SHORT_REST':
         break;
     }
   },

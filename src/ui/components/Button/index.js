@@ -3,18 +3,18 @@
 import React from 'react';
 import cn from 'classnames';
 
-module.exports = React.createClass({
+export default React.createClass({
   displayName : 'Button',
 
 
-  getDefaultProps : function() {
+  getDefaultProps() {
     return ({
       size : 'md'
     })
   },
 
 
-  render : function() {
+  render() {
     let { size, style, children, ...props } = this.props;
     let css = cn({
       'button' : true,
