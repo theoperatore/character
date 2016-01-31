@@ -6,6 +6,7 @@ import HPCounter from '../components/HPCounter';
 import Icon from '../components/Icon';
 import SavingThrowItem from '../composite-components/SavingThrowItem';
 import ResistanceItem from '../composite-components/ResistanceItem';
+import CreateResistance from '../dialogs/defenses/resistances/create';
 
 export default React.createClass({
   displayName: 'PaneDefenses',
@@ -19,6 +20,7 @@ export default React.createClass({
       this.props.armorClass !== nextProps.armorClass ||
       this.props.savingThrows !== nextProps.savingThrows ||
       this.props.resistances !== nextProps.resistances ||
+      this.state.create !== nextState.create ||
       this.state.hp !== nextState.hp || 
       this.state.temp !== nextState.temp
     );
@@ -27,6 +29,7 @@ export default React.createClass({
 
   getInitialState() {
     return {
+      create: false,
       hp: this.props.hitPoints.get('current'),
       temp: this.props.hitPoints.get('temporary')
     }
@@ -119,9 +122,10 @@ export default React.createClass({
           {this.renderSavingThrows()}
         </section>
         <section className='info-section pane-padding'>
-          <div className='info-section-header interactable' onClick={this.openCreateResistance}>
+          <div className='info-section-header interactable' onClick={() => this.setState({ create: true })}>
             <h5 className='info-section-title'>Resistances</h5>
             <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
+            <CreateResistance active={this.state.create} onCancel={() => this.setState({ create: false })} onCreate={this.props.handleDefenseChange} />
           </div>
           {this.renderResistances()}
         </section>
