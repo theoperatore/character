@@ -192,6 +192,7 @@ module.exports = {
     },
     "charInitiative" : {
       "score" : 5,
+      "bonus": 0,
       "derivatives" : []
     },
     "charSpeed" : {

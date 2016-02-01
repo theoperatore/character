@@ -143,9 +143,11 @@ export default React.createClass({
                 active={this.state.defenseDialog}
                 dismiss={() => this.setState({ defenseDialog: false })}
                 onChange={this.props.handleDefenseChange}
+                hp={this.props.hitPoints.get('maximum')}
                 armorClass={this.props.armorClass.get('score')}
                 speed={this.props.speed.get('score')}
-                initiative={this.props.initiative.get('score')}
+                initiative={this.props.initiative.get('bonus')}
+                hitDiceType={this.props.hitPoints.get('hitDiceType')}
               />
             </div>
           </div>
