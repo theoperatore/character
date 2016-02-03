@@ -1,0 +1,34 @@
+.attack-bonus-item-container
+  display block
+  width 100%
+  border-top 1px solid #ddd
+  
+  &:last-of-type
+    border-bottom 1px solid $base-border-color
+  
+  &:after
+    clear both
+    content ""
+    display table
+    
+  .attack-bonus-item-number
+    display inline-block
+    height 50px
+    width 50px
+    text-align center
+    color #fff
+    
+    span
+      display inline
+      font-size 36px
+      line-height 50px
+    
+  .attack-bonus-item-content
+    display inline-block
+    padding-left $base-padding
+    
+    .attack-bonus-item-title
+      line-height 20px
+    .attack-bonus-item-subtitle
+      line-height 0.8em
+      font-size 0.8em

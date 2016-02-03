@@ -6,22 +6,31 @@ module.exports = {
       {
         abil : "str",
         prof : false,
-        desc : "Attack Bonus",
-        id: 'ralf-atkBubble-1'
+        name : "Attack Bonus",
+        id: 'ralf-atkBubble-1',
+        score: 2
+      },
+      {
+        abil : "cha",
+        prof : true,
+        name : "Beard Weapons",
+        id: 'ralf-atkBubble-2',
+        score: 9
       }
     ],
     spellBubbles : [
       {
         abil : "wis",
         prof : false,
-        desc : "Spell Attack Bonus",
-        id: 'ralf-spellBubble-1'
+        name : "Spell Attack Bonus",
+        id: 'ralf-spellBubble-1',
+        score: 4
       }
     ],
     spellDC : {
       abil : "wis",
       prof : true,
-      desc : "Spell Save DC"
+      name : "Spell Save DC"
     }
   },
   character: Object.assign({}, {
@@ -212,7 +221,33 @@ module.exports = {
       },
       "derivatives" : []
     },
-    "charAttacks" : [],
+    "charAttacks" : [
+      {
+        id: 'attack-1',
+        name: 'Beard Attack',
+        desc: '2d8 + STR mod for whacking with a prehensile beard'
+      },
+      {
+        id: 'attack-2',
+        name: 'Special Attack 2',
+        desc: 'A simple testing attack 2'
+      },
+      {
+        id: 'attack-3',
+        name: 'Special Attack 3',
+        desc: 'A simple testing attack 3'
+      },
+      {
+        id: 'attack-4',
+        name: 'Special Attack 4',
+        desc: 'A simple testing attack 4'
+      },
+      {
+        id: 'attack-5',
+        name: 'Special Attack 5',
+        desc: 'A simple testing attack 5'
+      }
+    ],
     "charEquipment" : {
       "money" : {
         "cp" : 200,

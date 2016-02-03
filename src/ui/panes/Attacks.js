@@ -1,45 +1,45 @@
 'use strict';
 
-var React = require('react');
-var Panel = require('../components/Panel');
-var Stat = require('../components/Stat');
-var Switch = require('../components/Switch');
+import React from 'react';
+import AttackBonusItem from '../composite-components/AttackBonusItem';
+import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog';
+import Icon from '../components/Icon';
+import Switch from '../components/Switch';
 
-module.exports = React.createClass({
-  displayName : 'PaneAttacks',
+export default React.createClass({
+  displayName: 'PaneAttacks',
 
 
-  shouldComponentUpdate : function(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
       return (
         this.props.attacks !== nextProps.attacks ||
         this.props.charges !== nextProps.charges ||
-        this.props.abilities !== nextProps.abilities ||
-        this.props.proficiencyBonus !== nextProps.proficiencyBonus ||
-        this.props.bubbles !== nextProps.bubbles
+        this.props.bubbles !== nextProps.bubbles ||
+        this.state.createAttackBonus !== nextState.createAttackBonus
       )
   },
 
 
-  renderAttackBubbles : function() {
-    var width = this.props.bubbles.size > 3 ? 3 : this.props.bubbles.size;
+  getInitialState() {
+    return {
+      createAttackBonus: false
+    }
+  },
 
-    var bubbles = this.props.bubbles.toJS().map((bubble, i) => {
-      var score = 0;
-      var subtitle = bubble.abil;
 
-      score += this.props.abilities.get(bubble.abil).get('mod');
-      score += bubble.prof ? this.props.proficiencyBonus.get('score') : 0;
-
-      subtitle += bubble.prof ? " + prof" : "";
-
-      return (<Stat title={bubble.desc} subtitle={subtitle} width={width} score={score} background={true} trained={bubble.prof} key={i} />);
+  renderAttackBonuses() {
+    return this.props.bubbles.toJS().map((bonus, i) => {
+      return <AttackBonusItem
+        key={i}
+        id={bonus.id}
+        score={bonus.score}
+        title={bonus.name}
+        subtitle={`${bonus.abil}${bonus.prof ? ' - proficient' : ''}`}
+        ability={bonus.abil}
+        proficient={bonus.prof}
+        onChange={this.props.handlePreferencesChange}
+      />
     })
-
-    return (
-      <section className="pane-section pane-border">
-        {bubbles}
-      </section>
-    )
   },
 
 
@@ -66,21 +66,29 @@ module.exports = React.createClass({
   renderAttacks : function() {
     return this.props.attacks.toJS().map((attack, i) => {
       return (
-        <Panel key={i} header={attack.name}>
-          <p>{attack.desc}</p>
-        </Panel>
+        <p key={i}>{attack.name}</p>
       )
     })
   },
 
 
-  render : function() {
+  render() {
     return (
       <div className="pane-container">
-        <h3>Attacks</h3>
-        {this.renderAttackBubbles()}
-        {this.renderClassCharges()}
-        {this.renderAttacks()}
+        <section className='info-section pane-padding'>
+          <div className='info-section-header interactable' onClick={() => this.setState({ createAttackBonus: true })}>
+            <h5 className='info-section-title'>Attack Bonuses</h5>
+            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
+            <CreateAttackBonusDialog active={this.state.createAttackBonus} dismiss={() => this.setState({ createAttackBonus: false })} onCreate={this.props.handlePreferencesChange}/>
+          </div>
+          {this.renderAttackBonuses()}
+        </section>
+        <section className='info-section pane-padding'>
+          <div className='info-section-header'>
+            <h5 className='info-section-title'>Attacks</h5>
+          </div>
+          {this.renderAttacks()}
+        </section>
       </div>
     );
   }

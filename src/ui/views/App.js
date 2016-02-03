@@ -37,9 +37,9 @@ export default React.createClass({
   },
 
 
-  getInitialState : function() {
+  getInitialState() {
     return ({
-      activePane : 3,
+      activePane : 4,
       loading : true,
       character : Immutable.fromJS(blankCharacter),
       preferences : Immutable.fromJS(blankPreferences)
@@ -48,7 +48,7 @@ export default React.createClass({
 
 
   // load character into immutable map
-  componentWillMount : function() {
+  componentWillMount() {
 
     // database stuff should be outside of this component.
     let character = Immutable.fromJS(this.props.character_data);
@@ -65,17 +65,17 @@ export default React.createClass({
   // TODO: might run into a problem...swiping between panes is going to trigger
   // a state update. this means that each pane is going to need to explicitly
   // handle it's own `shouldComponentUpdate` function.
-  shouldComponentUpdate : function(nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     return true;
   },
 
 
-  handlePaneSwipe : function(ev) {
+  handlePaneSwipe(ev) {
     this.setState({ activePane : ev.activeIndex });
   },
 
 
-  handleTabSelect : function(idx) {
+  handleTabSelect(idx) {
     this.setState({ activePane : idx });
   },
 
@@ -114,7 +114,7 @@ export default React.createClass({
   },
 
 
-  handleFeatureChange : function(event) {
+  handleFeatureChange(event) {
     log("feaure event", event);
     switch (event.type) {
       case 'FEATURE_CREATE':
@@ -127,7 +127,7 @@ export default React.createClass({
   },
 
 
-  handleAbilityChange : function(event) {
+  handleAbilityChange(event) {
     log("ability event:", event);
     switch (event.type) {
       case 'SKILL_EDIT':
@@ -140,7 +140,7 @@ export default React.createClass({
   },
 
 
-  handleDefenseChange : function(event) {
+  handleDefenseChange(event) {
     log("defense event:", event);
     switch (event.type) {
       case 'SAVING_THROW_EDIT':
@@ -163,17 +163,17 @@ export default React.createClass({
   },
 
 
-  handleAttacksChange : function(event) {
+  handleAttacksChange(event) {
     log("attacks event:", event);
   },
 
 
-  handleSpellsChange : function(event) {
+  handleSpellsChange(event) {
     log("spells event:", event);
   },
 
 
-  handleEquipmentChange : function(event) {
+  handleEquipmentChange(event) {
     log("equipment event:", event);
     switch (event.type) {
       case 'EQUIPMENT_CREATE':
@@ -187,9 +187,22 @@ export default React.createClass({
     }
   },
 
+
+  handlePreferencesChange(event) {
+    log('preferences event', event);
+    switch (event.type) {
+      case 'ATTACK_BONUS_CREATE':
+        break;
+      case 'ATTACK_BONUS_EDIT':
+        break;
+      case 'ATTACK_BONUS_DELETE':
+        break;
+    }
+  },
+
   /////////////////////////////////////////////////////////////////////////////
 
-  render : function() {
+  render() {
     return (
       <div className="character-container">
         <section ref="header" className="character-header">
@@ -207,42 +220,53 @@ export default React.createClass({
             <Tab><Icon icon="icon-attack" /></Tab>
             <Tab><Icon icon="icon-repo" /></Tab>
             <Tab><Icon icon="icon-equipment"/></Tab>
-            
           </Tabs>
         </section>
 
         <section className="character-body">
           <SwipePanes onSlideChangeEnd={this.handlePaneSwipe} activeIdx={this.state.activePane} initialSlide={this.state.activePane}>
             <SwipePane>
-              <Info info={this.state.character.get('charInfo')}
-                    traits={this.state.character.get('charTraits')}
-                    proficiencies={this.state.character.get('charOtherProficiencies')}
-                    handleInfoChange={this.handleInfoChange}/>
+              <Info 
+                info={this.state.character.get('charInfo')}
+                traits={this.state.character.get('charTraits')}
+                proficiencies={this.state.character.get('charOtherProficiencies')}
+                handleInfoChange={this.handleInfoChange}
+              />
             </SwipePane>
             <SwipePane>
-              <Features features={this.state.character.get('charFeatures')}
-                        handleFeatureChange={this.handleFeatureChange}/>
+              <Features 
+                features={this.state.character.get('charFeatures')}
+                handleFeatureChange={this.handleFeatureChange}
+              />
             </SwipePane>
             <SwipePane>
-              <Abilities abilities={this.state.character.get('charAbilities')}
-                         skills={this.state.character.get('charSkills')}
-                         proficiencyBonus={this.state.character.get('charProficiencyBonus')}
-                         passivePerception={this.state.character.get('charPassivePerception')}
-                         handleAbilityChange={this.handleAbilityChange}/>
-            </SwipePane>
-
-
-            <SwipePane>
-              <Defenses hitPoints={this.state.character.get('charHitPoints')}
-                        speed={this.state.character.get('charSpeed')}
-                        initiative={this.state.character.get('charInitiative')}
-                        armorClass={this.state.character.get('charArmorClass')}
-                        savingThrows={this.state.character.get('charSavingThrows')}
-                        resistances={this.state.character.get('charResistances')}
-                        handleDefenseChange={this.handleDefenseChange}/>
+              <Abilities
+                abilities={this.state.character.get('charAbilities')}
+                skills={this.state.character.get('charSkills')}
+                proficiencyBonus={this.state.character.get('charProficiencyBonus')}
+                passivePerception={this.state.character.get('charPassivePerception')}
+                handleAbilityChange={this.handleAbilityChange}
+               />
             </SwipePane>
             <SwipePane>
-              <h1>Attacks Pane</h1>
+              <Defenses 
+                hitPoints={this.state.character.get('charHitPoints')}
+                speed={this.state.character.get('charSpeed')}
+                initiative={this.state.character.get('charInitiative')}
+                armorClass={this.state.character.get('charArmorClass')}
+                savingThrows={this.state.character.get('charSavingThrows')}
+                resistances={this.state.character.get('charResistances')}
+                handleDefenseChange={this.handleDefenseChange}
+              />
+            </SwipePane>
+            <SwipePane>
+              <Attacks 
+                attacks={this.state.character.get('charAttacks')}
+                charges={this.state.character.get('charClassCharges')}
+                bubbles={this.state.preferences.get('atkBubbles')}
+                handleAttacksChange={this.handleAttacksChange}
+                handlePreferencesChange={this.handlePreferencesChange}
+              />
             </SwipePane>            
             <SwipePane>
               <h1>Spells Pane</h1>
@@ -260,24 +284,6 @@ export default React.createClass({
 
 
 /*
-
-
-<Tab><Icon icon="icon-shield" /></Tab>
-<Tab><Icon icon="icon-attack" /></Tab>
-<Tab><Icon icon="icon-repo" /></Tab>
-<Tab><Icon icon="icon-equipment"/></Tab>
-            
-
-
-
-<SwipePane>
-  <Attacks attacks={this.state.character.get('charAttacks')}
-           charges={this.state.character.get('charClassCharges')}
-           abilities={this.state.character.get('charAbilities')}
-           proficiencyBonus={this.state.character.get('charProficiencyBonus')}
-           bubbles={this.state.preferences.get('atkBubbles')}
-           handleAttacksChange={this.handleAttacksChange}/>
-</SwipePane>
 <SwipePane>
   <Spells bubbles={this.state.preferences.get('spellBubbles')}
           spellDC={this.state.preferences.get('spellDC')}
