@@ -4,6 +4,7 @@ import React from 'react';
 import AttackBonusItem from '../composite-components/AttackBonusItem';
 import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog';
 import Icon from '../components/Icon';
+import ListItem from '../components/ListItem/v2';
 import Switch from '../components/Switch';
 
 export default React.createClass({
@@ -63,10 +64,15 @@ export default React.createClass({
   },
 
 
-  renderAttacks : function() {
+  renderAttacks() {
     return this.props.attacks.toJS().map((attack, i) => {
       return (
-        <p key={i}>{attack.name}</p>
+        <ListItem
+          key={i}
+          name={attack.name}
+          glyph={<Icon icon='icon-attack' />}
+          glyphCss={'text-attack'}
+        />
       )
     })
   },
