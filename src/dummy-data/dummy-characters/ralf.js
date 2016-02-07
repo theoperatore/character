@@ -8,6 +8,7 @@ module.exports = {
         prof : false,
         name : "Attack Bonus",
         id: 'ralf-atkBubble-1',
+        bonus: 0,
         score: 2
       },
       {
@@ -15,6 +16,15 @@ module.exports = {
         prof : true,
         name : "Beard Weapons",
         id: 'ralf-atkBubble-2',
+        bonus: 0,
+        score: 9
+      },
+      {
+        abil : "int",
+        prof : true,
+        name : "+1 Wand of Beard",
+        id: 'ralf-atkBubble-3',
+        bonus: 1,
         score: 9
       }
     ],

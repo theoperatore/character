@@ -38,6 +38,7 @@ export default React.createClass({
         subtitle={`${bonus.abil}${bonus.prof ? ' - proficient' : ''}`}
         ability={bonus.abil}
         proficient={bonus.prof}
+        bonus={bonus.bonus}
         onChange={this.props.handlePreferencesChange}
       />
     })

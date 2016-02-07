@@ -5,6 +5,7 @@ module.exports = {
       abil : "str",
       prof : false,
       desc : "Attack Bonus",
+      bonus: 0,
       score: 0
     }
   ],

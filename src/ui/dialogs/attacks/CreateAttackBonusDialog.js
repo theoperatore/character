@@ -20,8 +20,24 @@ export default React.createClass({
 
   getInitialState() {
     return {
+      bonus: 0,
       confirm: false,
       dirty: false
+    }
+  },
+
+
+  validateBonus(ev) {
+    this.makeDirty();
+
+    if (ev.target.value === '-' || ev.target.value === '') {
+      this.setState({ bonus: ev.target.value });
+      return;
+    }
+
+    let val = Number(ev.target.value);
+    if (!isNaN(val) && val !== Infinity) {
+      this.setState({ bonus: val });
     }
   },
 
@@ -61,7 +77,8 @@ export default React.createClass({
       let abil = this.refs.ability.value;
       let prof = this.refs.prof.checked;
       let id = uuid.v1();
-      let data = { abil, prof, id, name };
+      let bonus = this.state.bonus === '' || this.state.bonus === '-' ? 0 : this.state.bonus;
+      let data = { abil, prof, id, name, bonus };
 
       this.props.onCreate({ type: 'ATTACK_BONUS_CREATE', data });
       this.setState({ confirm: false, dirty: false, edit: false });
@@ -92,6 +109,10 @@ export default React.createClass({
         <div className='inputs'>
           <input id='attackBonusProficient' ref='prof' type='checkbox' onChange={this.makeDirty}/>
           <label htmlFor='attackBonusProficient'>Proficient</label>
+        </div>
+        <div className='inputs'>
+          <label htmlFor='bonusInput'>Bonuses</label>
+          <input type='text' id='bonusInput' value={this.state.bonus} placeholder='attack bonus' onChange={this.validateBonus}/>
         </div>
       </div>
       <div className='modal-footer'>

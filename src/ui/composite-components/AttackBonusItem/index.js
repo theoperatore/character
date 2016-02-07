@@ -14,6 +14,7 @@ export default React.createClass({
     score: React.PropTypes.number.isRequired,
     ability: React.PropTypes.string.isRequired,
     proficient: React.PropTypes.bool.isRequired,
+    bonus: React.PropTypes.number.isRequired,
     title: React.PropTypes.string.isRequired,
     subtitle: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired
@@ -22,6 +23,7 @@ export default React.createClass({
 
   getInitialState() {
     return {
+      bonus: this.props.bonus,
       confirmMessage: null,
       willRemove: false,
       confirm: false,
@@ -34,6 +36,21 @@ export default React.createClass({
   makeDirty() {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
+    }
+  },
+
+
+  validateBonus(ev) {
+    this.makeDirty();
+
+    if (ev.target.value === '-' || ev.target.value === '') {
+      this.setState({ bonus: ev.target.value });
+      return;
+    }
+
+    let val = Number(ev.target.value);
+    if (!isNaN(val) && val !== Infinity) {
+      this.setState({ bonus: val });
     }
   },
 
@@ -65,9 +82,11 @@ export default React.createClass({
     let title = this.refs.newTitle.value.trim();
     let prof = this.refs.prof.checked;
     let abil = this.refs.ability.value;
+    let bonus = this.state.bonus;
 
-    if (title !== this.props.title || prof !== this.props.proficient || abil !== this.props.ability) {
-      this.props.onChange({ type: 'ATTACK_BONUS_EDIT', data: { title, prof, abil, id: this.props.id }})
+    if ((title !== this.props.title || prof !== this.props.proficient || abil !== this.props.ability || bonus !== this.props.bonus)
+        && bonus !== '' && bonus !== '-') {
+      this.props.onChange({ type: 'ATTACK_BONUS_EDIT', data: { title, prof, abil, id: this.props.id, bonus }})
     }
 
     this.setState({ edit: false, dirty: false, confirm: false, willRemove: false, confirmMessage: null });
@@ -106,6 +125,10 @@ export default React.createClass({
           <input id='attackBonusProficient' ref='prof' type='checkbox' defaultChecked={this.props.proficient} onChange={this.makeDirty}/>
           <label htmlFor='attackBonusProficient'>Proficient</label>
         </div>
+        <div className='inputs'>
+          <label htmlFor='bonusInput'>Bonuses</label>
+          <input type='text' id='bonusInput' value={this.state.bonus} placeholder={this.props.bonus} onChange={this.validateBonus}/>
+        </div>
       </div>
       <div className='modal-footer'>
         <button onClick={this.save} className='text-green'><Icon icon='fa fa-pencil'/> Save</button>
@@ -117,7 +140,7 @@ export default React.createClass({
 
   render() {
     return (
-      <div className='attack-bonus-item-container' onClick={() => this.setState({ edit: true })}>
+      <div className='attack-bonus-item-container' onClick={() => this.setState({ edit: true, bonus: this.props.bonus })}>
         <div className={`attack-bonus-item-number bg-attack`}>
           <span>{this.props.score}</span>
         </div>
