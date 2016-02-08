@@ -5,6 +5,7 @@ import AttackBonusItem from '../composite-components/AttackBonusItem';
 import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog';
 import Icon from '../components/Icon';
 import ListItem from '../components/ListItem/v2';
+import SegmentedProgressBar from '../components/SegmentedProgressBar';
 import Switch from '../components/Switch';
 
 export default React.createClass({
@@ -28,6 +29,15 @@ export default React.createClass({
   },
 
 
+  useClassCharge(id) {
+    let event = {
+      type: 'CLASS_CHARGE_USE',
+      data: id
+    }
+    this.props.handleAttacksChange(event);
+  },
+
+
   renderAttackBonuses() {
     return this.props.bubbles.toJS().map((bonus, i) => {
       return <AttackBonusItem
@@ -45,22 +55,14 @@ export default React.createClass({
   },
 
 
-  renderClassCharges : function() {
+  renderClassCharges() {
     return this.props.charges.toJS().map((charge, i) => {
-      var charges = [];
 
-      for (var idx = 0; idx < charge.charges; idx++) {
-        charges.push(
-          <Switch active={idx < charge.used} width={10} key={idx} />
-        )
-      }
 
-      return (
-        <section key={i} className='pane-section pane-border'>
-          <p className='text-center'>{charge.display}</p>
-          {charges}
-        </section>
-      )
+      return <div onClick={this.useClassCharge.bind(this, charge.id)} className='class-charges-container' key={i}>
+        <h6>{charge.name}<small>{charge.current}/{charge.charges}</small></h6>
+        <SegmentedProgressBar segments={charge.charges} current={charge.current} />
+      </div>
     })
   },
 
@@ -82,7 +84,7 @@ export default React.createClass({
   render() {
     return (
       <div className="pane-container">
-        <section className='info-section pane-padding'>
+        <section className='info-section'>
           <div className='info-section-header interactable' onClick={() => this.setState({ createAttackBonus: true })}>
             <h5 className='info-section-title'>Attack Bonuses</h5>
             <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
@@ -90,7 +92,10 @@ export default React.createClass({
           </div>
           {this.renderAttackBonuses()}
         </section>
-        <section className='info-section pane-padding'>
+        <section className='info-section'>
+          {this.renderClassCharges()}
+        </section>
+        <section className='info-section'>
           <div className='info-section-header'>
             <h5 className='info-section-title'>Attacks</h5>
           </div>

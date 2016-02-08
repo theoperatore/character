@@ -165,6 +165,16 @@ export default React.createClass({
 
   handleAttacksChange(event) {
     log("attacks event:", event);
+    switch(event.type) {
+      case 'CLASS_CHARGE_USE':
+        break;
+      case 'ATTACK_EDIT':
+        break;
+      case 'ATTACK_DELETE':
+        break;
+      case 'ATTACK_CREATE':
+        break;
+    }
   },
 
 

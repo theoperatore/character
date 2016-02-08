@@ -14,18 +14,10 @@ module.exports = {
       {
         abil : "cha",
         prof : true,
-        name : "Beard Weapons",
-        id: 'ralf-atkBubble-2',
-        bonus: 0,
-        score: 9
-      },
-      {
-        abil : "int",
-        prof : true,
         name : "+1 Wand of Beard",
         id: 'ralf-atkBubble-3',
         bonus: 1,
-        score: 9
+        score: 10
       }
     ],
     spellBubbles : [
@@ -69,7 +61,38 @@ module.exports = {
     //  charges: number of charges
     //  used: number of used charges
     //  name: display name of charges
-    "charClassCharges" : [],
+    "charClassCharges" : [
+      {
+        id: 'ralf-class-charge-0',
+        charges: 20,
+        current: 12,
+        name: 'Beard Whips'
+      },
+      {
+        id: 'ralf-class-charge-1',
+        charges: 1,
+        current: 1,
+        name: 'Class Charge Test 1'
+      },
+      {
+        id: 'ralf-class-charge-2',
+        charges: 7,
+        current: 5,
+        name: 'Class Charge Test 2'
+      },
+      {
+        id: 'ralf-class-charge-3',
+        charges: 2,
+        current: 1,
+        name: 'Class Charge Test 3'
+      },
+      {
+        id: 'ralf-class-charge-4',
+        charges: 2,
+        current: 2,
+        name: 'Class Charge Test 4'
+      }
+    ],
     "charSpells" : [
       {
         "name" : "Cantrips",
@@ -510,6 +533,13 @@ module.exports = {
         type: 'DEFENSE',
         id: 'ralf-feature-4'
       },
+      {
+        name: 'Prehensile Beard',
+        desc: 'Gains ability to grab things with beard. Also allows to use Beard Whips class charges. Number of Charges = character level',
+        type: 'ATTACK',
+        id: 'ralf-feature-5',
+        classChargesId: 'ralf-class-charge-0'
+      }
     ]
   })
 }

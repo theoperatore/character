@@ -1,0 +1,18 @@
+.segmented-progress-bar-container
+  height 10px
+  background-color tint($base-border-color, 60%)
+  &:after
+    content ""
+    display table
+    clear both
+  
+  .segment
+    float left
+    height 100%
+    border-left 1px solid tint($base-border-color, 100%)
+    
+    &:first-of-type
+      border-left 0
+      
+    &.filled
+      background-color $text-blue
