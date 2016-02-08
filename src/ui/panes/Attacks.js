@@ -2,6 +2,7 @@
 
 import React from 'react';
 import AttackBonusItem from '../composite-components/AttackBonusItem';
+import CreateAttackDialog from '../dialogs/attacks/CreateAttackDialog';
 import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog';
 import Icon from '../components/Icon';
 import ListItem from '../components/ListItem/v2';
@@ -17,14 +18,16 @@ export default React.createClass({
         this.props.attacks !== nextProps.attacks ||
         this.props.charges !== nextProps.charges ||
         this.props.bubbles !== nextProps.bubbles ||
-        this.state.createAttackBonus !== nextState.createAttackBonus
+        this.state.createAttackBonus !== nextState.createAttackBonus ||
+        this.state.createAttack !== nextState.createAttack
       )
   },
 
 
   getInitialState() {
     return {
-      createAttackBonus: false
+      createAttackBonus: false,
+      createAttack: false
     }
   },
 
@@ -57,8 +60,6 @@ export default React.createClass({
 
   renderClassCharges() {
     return this.props.charges.toJS().map((charge, i) => {
-
-
       return <div onClick={this.useClassCharge.bind(this, charge.id)} className='class-charges-container' key={i}>
         <h6>{charge.name}<small>{charge.current}/{charge.charges}</small></h6>
         <SegmentedProgressBar segments={charge.charges} current={charge.current} />
@@ -96,8 +97,10 @@ export default React.createClass({
           {this.renderClassCharges()}
         </section>
         <section className='info-section'>
-          <div className='info-section-header'>
+          <div className='info-section-header interactable' onClick={() => this.setState({ createAttack: true })}>
             <h5 className='info-section-title'>Attacks</h5>
+            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
+            <CreateAttackDialog active={this.state.createAttack} dismiss={() => this.setState({ createAttack: false })} onCreate={this.props.handleAttacksChange}/>
           </div>
           {this.renderAttacks()}
         </section>

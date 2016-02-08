@@ -10,7 +10,7 @@ const appContainer = '.character-body';
 const paneContainer = '.swiper-slide-active>.base-pane-container';
 
 export default React.createClass({
-  displayName: 'ModalV2',
+  displayName: 'Modal',
 
 
   propTypes: {
