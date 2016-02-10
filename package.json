@@ -4,7 +4,7 @@
   "description": "A smarter mobile tabel-top character sheet",
   "main": "index.js",
   "scripts": {
-    "js": "browserify -d src/ui/index.js -o build/bundle.js",
+    "js": "time browserify -d src/ui/index.js -o build/bundle.js",
     "js-min": "uglifyjs build/bundle.js -o build/bundle.js --compress --mangle",
     "js-prod": "npm run js && npm run js-min",
     "watch-js": "watchify -d src/ui/index.js -o build/bundle.js -v",
@@ -17,7 +17,8 @@
     "deploy": "scp -r build/* root@ci.cmonocle.link:~/public/",
     "build": "npm run clean && npm run statics && npm run css && npm run js",
     "build-prod": "npm run clean && npm run statics && npm run css-min && npm run js-prod",
-    "build-deploy": "npm run build-prod && npm run deploy"
+    "build-deploy": "npm run build-prod && npm run deploy",
+    "time-build-prod": "time npm run build-prod"
   },
   "author": "Alex Petersen <theoperatore@gmail.com> (http://anpetersen.me)",
   "license": "MIT",
@@ -38,7 +39,7 @@
     "moment": "^2.10.3",
     "node-uuid": "^1.4.7",
     "page": "^1.6.3",
-    "react": "^0.13.3",
+    "react": "^0.14.7",
     "react-dom": "^0.14.3",
     "swiper": "^3.2.5",
     "url-pattern": "^0.9.0"
