@@ -10,7 +10,6 @@
 var config = require('../config');
 var Firebase = require('firebase');
 var log = require('debug')('app:api');
-var Promise = require('es6-promise').Promise;
 
 var db = new Firebase(config.dbroot);
 var info = new Firebase(config.dbinfo);

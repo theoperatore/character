@@ -4,11 +4,20 @@
   "description": "A smarter mobile tabel-top character sheet",
   "main": "index.js",
   "scripts": {
-    "watch": "gulp watch",
+    "js": "browserify -d src/ui/index.js -o build/bundle.js",
+    "js-min": "uglifyjs build/bundle.js -o build/bundle.js --compress --mangle",
+    "js-prod": "npm run js && npm run js-min",
+    "watch-js": "watchify -d src/ui/index.js -o build/bundle.js -v",
+    "css": "stylus src/ui/style --line-numbers --out build/style.css --compress -u nib --import src/ui/style/base",
+    "css-min": "stylus src/ui/style --out build/style.css --compress -u nib --import src/ui/style/base.styl",
+    "watch-css": "stylus -w src/ui/style --line-numbers --out build/style.css --compress -u nib --import src/ui/style/base",
+    "statics": "cp -R src/ui/statics/ build",
+    "clean": "rm -rf build",
     "start": "beefy --cwd build",
-    "build": "gulp build",
     "deploy": "scp -r build/* root@ci.cmonocle.link:~/public/",
-    "build-deploy": "gulp build-production && npm run deploy"
+    "build": "npm run clean && npm run statics && npm run css && npm run js",
+    "build-prod": "npm run clean && npm run statics && npm run css-min && npm run js-prod",
+    "build-deploy": "npm run build-prod && npm run deploy"
   },
   "author": "Alex Petersen <theoperatore@gmail.com> (http://anpetersen.me)",
   "license": "MIT",
@@ -16,11 +25,13 @@
     "type": "git",
     "url": "https://github.com/ClockworkMonocle/character"
   },
+  "browserify": {
+    "transform": "babelify"
+  },
   "dependencies": {
     "classnames": "^2.1.1",
     "d3": "^3.5.5",
     "debug": "^2.2.0",
-    "es6-promise": "^2.1.1",
     "fastclick": "^1.0.6",
     "firebase": "^2.2.4",
     "immutable": "^3.7.2",
@@ -29,7 +40,6 @@
     "page": "^1.6.3",
     "react": "^0.13.3",
     "react-dom": "^0.14.3",
-    "request": "^2.55.0",
     "swiper": "^3.2.5",
     "url-pattern": "^0.9.0"
   },
@@ -39,22 +49,11 @@
     "babel-preset-stage-0": "^6.1.18",
     "babelify": "^7.2.0",
     "beefy": "^2.1.5",
-    "browserify": "^10.1.3",
+    "browserify": "^13.0.0",
     "chalk": "^1.1.1",
-    "del": "^1.2.0",
-    "gulp": "^3.9.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-minify-css": "^1.2.1",
-    "gulp-print": "^2.0.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-stylus": "^2.1.0",
-    "gulp-uglify": "^1.5.1",
-    "gulp-util": "^3.0.7",
     "nib": "^1.1.0",
-    "utils-merge": "^1.0.0",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.6.1"
+    "stylus": "^0.53.0",
+    "uglify-js": "^2.6.1",
+    "watchify": "^3.7.0"
   }
 }

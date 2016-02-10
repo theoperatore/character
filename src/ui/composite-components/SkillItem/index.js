@@ -142,7 +142,7 @@ export default React.createClass({
 
     return (
       <div className={`container-list-item ${this.props.trained ? 'proficient' : ''}`} onClick={this.openEditModal}>
-        <span className={`skill-item-bar border-${this.props.ability}`} style={style} ></span>
+        <span className={`skill-item-bar text-${this.props.ability}`} style={style} ></span>
         <div className={`container-list-item-glyph text-${this.props.ability}`}>
           <Icon icon='fa fa-cube' />
         </div>
