@@ -15,12 +15,13 @@
     "watch-css": "stylus -w src/ui/style --line-numbers --out build/style.css --compress -u nib --import src/ui/style/base",
     "statics": "cp -R src/ui/statics/ build",
     "clean": "rm -rf build",
-    "start": "beefy --cwd build",
     "deploy": "scp -r build/* root@ci.cmonocle.link:~/public/",
     "build": "npm run clean && npm run statics && npm run css && npm run js-vendor && npm run js",
     "timeable-build-prod": "npm run clean && npm run statics && npm run css-min && npm run js-prod",
     "build-prod": "NODE_ENV=production time npm run timeable-build-prod",
-    "build-deploy": "npm run build-prod && npm run deploy"
+    "build-deploy": "npm run build-prod && npm run deploy",
+    "start": "beefy --cwd build",
+    "reload": "browser-sync start --files 'src/ui/statics/*.html, build/bundle.js, build/style.css' --browser chrome --server build --port 9966 --reload-debounce 500 --no-notify --no-open"
   },
   "author": "Alex Petersen <theoperatore@gmail.com> (http://anpetersen.me)",
   "license": "MIT",
@@ -52,6 +53,7 @@
     "babel-preset-stage-0": "^6.1.18",
     "babelify": "^7.2.0",
     "beefy": "^2.1.5",
+    "browser-sync": "^2.11.1",
     "browserify": "^13.0.0",
     "chalk": "^1.1.1",
     "nib": "^1.1.0",
