@@ -30,6 +30,11 @@ function logFinish() {
 }
 
 
+function logError(err) {
+  console.log(chalk.red('[ERROR]'), chalk.yellow(err.message));
+}
+
+
 function rebundle(ids) {
   if (ids) {
     ids.forEach(function (id) {
@@ -40,7 +45,10 @@ function rebundle(ids) {
   var writeStream = fs.createWriteStream(outdir + '/bundle.js');
   writeStream.on('finish', logFinish);
 
-  b.external(deps).bundle().pipe(writeStream);
+  b.external(deps)
+    .bundle()
+    .on('error', logError)
+    .pipe(writeStream);
 }
 
 
