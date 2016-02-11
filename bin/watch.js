@@ -31,7 +31,7 @@ function logFinish() {
 
 
 function logError(err) {
-  console.log(chalk.red('[ERROR]'), chalk.yellow(err.message));
+  console.log(chalk.red('[ERROR] ' + err.message));
 }
 
 
