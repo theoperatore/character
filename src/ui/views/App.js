@@ -20,8 +20,8 @@ import Features from '../panes/Features';
 import Abilities from '../panes/Abilities';
 import Defenses from '../panes/Defenses';
 import Attacks from '../panes/Attacks';
-import Spells from '../panes/Spells';
-import Equipments from '../panes/Equipments';
+// import Spells from '../panes/Spells';
+// import Equipments from '../panes/Equipments';
 
 let error = debug('app:error');
 let log = debug('app:index');

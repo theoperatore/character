@@ -101,7 +101,7 @@ export default React.createClass({
       <div className="pane-container">
         <section className="info-section pane-padding interactable" onClick={() => { this.setState({ editScores: true })}}>
           <div className='info-section-header'>
-            <h5>Abilities</h5>
+            <h5 className='info-section-title'>Abilities</h5>
           </div>
           <div className='row text-center'>
             <div className='col-1-4 ability-stat-container'>
@@ -150,7 +150,7 @@ export default React.createClass({
         
         <section className="info-section pane-padding">
           <div className='info-section-header'>
-            <h5>Skills &mdash; <span onClick={this.changeSort.bind(this, 'a-z')} className={`sort-link ${this.state.sort === 'a-z' ? 'active' : ''}`}>a-z</span> &middot; <span onClick={this.changeSort.bind(this, 'asc')} className={`sort-link ${this.state.sort === 'asc' ? 'active' : ''}`}>asc</span> &middot; <span onClick={this.changeSort.bind(this, 'desc')} className={`sort-link ${this.state.sort === 'desc' ? 'active' : ''}`}>desc</span></h5>
+            <h5 className='info-section-title'>Skills &mdash; <span onClick={this.changeSort.bind(this, 'a-z')} className={`sort-link ${this.state.sort === 'a-z' ? 'active' : ''}`}>a-z</span> &middot; <span onClick={this.changeSort.bind(this, 'asc')} className={`sort-link ${this.state.sort === 'asc' ? 'active' : ''}`}>asc</span> &middot; <span onClick={this.changeSort.bind(this, 'desc')} className={`sort-link ${this.state.sort === 'desc' ? 'active' : ''}`}>desc</span></h5>
           </div>
           {this.renderSkills()}
         </section>

@@ -153,7 +153,7 @@ export default React.createClass({
           </div>
         </section>
         <section className='info-section pane-padding'>
-          <div className='info-section-header'><h5>Saving Throws</h5></div>
+          <div className='info-section-header'><h5 className='info-section-title'>Saving Throws</h5></div>
           {this.renderSavingThrows()}
         </section>
         <section className='info-section pane-padding'>

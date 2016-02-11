@@ -68,30 +68,30 @@ module.exports = {
         current: 12,
         name: 'Beard Whips'
       },
-      {
-        id: 'ralf-class-charge-1',
-        charges: 1,
-        current: 1,
-        name: 'Class Charge Test 1'
-      },
-      {
-        id: 'ralf-class-charge-2',
-        charges: 7,
-        current: 5,
-        name: 'Class Charge Test 2'
-      },
-      {
-        id: 'ralf-class-charge-3',
-        charges: 2,
-        current: 1,
-        name: 'Class Charge Test 3'
-      },
-      {
-        id: 'ralf-class-charge-4',
-        charges: 2,
-        current: 2,
-        name: 'Class Charge Test 4'
-      }
+      // {
+      //   id: 'ralf-class-charge-1',
+      //   charges: 1,
+      //   current: 1,
+      //   name: 'Class Charge Test 1'
+      // },
+      // {
+      //   id: 'ralf-class-charge-2',
+      //   charges: 7,
+      //   current: 5,
+      //   name: 'Class Charge Test 2'
+      // },
+      // {
+      //   id: 'ralf-class-charge-3',
+      //   charges: 2,
+      //   current: 1,
+      //   name: 'Class Charge Test 3'
+      // },
+      // {
+      //   id: 'ralf-class-charge-4',
+      //   charges: 2,
+      //   current: 2,
+      //   name: 'Class Charge Test 4'
+      // }
     ],
     "charSpells" : [
       {

@@ -94,6 +94,12 @@ export default React.createClass({
           {this.renderAttackBonuses()}
         </section>
         <section className='info-section'>
+          {
+            this.props.charges.size === 0 ? null :
+            <div className='info-section-header'>
+              <h5 className='info-section-title'>Class Charges</h5>
+            </div>
+          }
           {this.renderClassCharges()}
         </section>
         <section className='info-section'>
