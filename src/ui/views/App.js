@@ -39,7 +39,7 @@ export default React.createClass({
 
   getInitialState() {
     return ({
-      activePane : 1,
+      activePane : 4,
       loading : true,
       character : Immutable.fromJS(blankCharacter),
       preferences : Immutable.fromJS(blankPreferences)

@@ -107,6 +107,7 @@ export default React.createClass({
             <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
             <CreateAttackDialog active={this.state.createAttack} dismiss={() => this.setState({ createAttack: false })} onCreate={this.props.handleAttacksChange}/>
           </div>
+          {this.renderAttacks()}
         </section>
       </div>
     );

@@ -141,7 +141,7 @@ export default React.createClass({
   render() {
     return (
       <div className='attack-bonus-item-container' onClick={() => this.setState({ edit: true, bonus: this.props.bonus })}>
-        <div className={`attack-bonus-item-number bg-attack`}>
+        <div className={`attack-bonus-item-number bg-${this.props.ability}`}>
           <span>{this.props.score}</span>
         </div>
         <div className='attack-bonus-item-content'>
