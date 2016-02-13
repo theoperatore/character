@@ -7,7 +7,6 @@ import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog'
 import Icon from '../components/Icon';
 import ListItem from '../components/ListItem/v2';
 import SegmentedProgressBar from '../components/SegmentedProgressBar';
-import Switch from '../components/Switch';
 
 export default React.createClass({
   displayName: 'PaneAttacks',

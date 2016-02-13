@@ -5,26 +5,26 @@ import uuid from 'node-uuid';
 
 import Icon from '../../components/Icon';
 import Modal from '../../components/Modal';
+import ConfirmModal from '../ConfirmModal';
 
 export default React.createClass({
   displayName: 'CreateNewFeatureDialog',
 
   propTypes: {
+    active: React.PropTypes.bool.isRequired,
+    dismiss: React.PropTypes.func.isRequired,
     onCreate: React.PropTypes.func.isRequired
   },
 
-  noop() {},
+
   getInitialState() {
     return {
       dirty: false,
       confirm: false,
-      selectedType: 'PASSIVE'
+      selectedType: 'PASSIVE',
+      hasCharges: false,
+      cctotal: ''
     }
-  },
-
-
-  isDirty() {
-    return this.state.isDirty;
   },
 
 
@@ -35,42 +35,41 @@ export default React.createClass({
   },
 
 
-  confirm() {
-    this.setState({ confirm: true });
-  },
-
-
-  createConfirmDialog() {
-    return (
-      <section>
-        <div className='modal-header'><h3>Are You Sure?</h3></div>
-        <div className='modal-content'>
-          <p>Cancel and lose any unsaved changes?</p>
-        </div>
-        <div className='modal-footer'>
-          <button onClick={this.handleYes} className='bg-green text-green'>
-            <p>Yes</p>
-          </button>
-          <button onClick={this.handleNo} className='bg-red text-red'>
-            <p>No</p>
-          </button>
-        </div>
-      </section>
-    )
+  confirm(answer) {
+    switch (answer) {
+      case 'yes':
+        this.setState({ confirm: false, dirty: false, selectedType: 'PASSIVE', hasCharges: false, cctotal: '' });
+        this.props.dismiss();
+        break;
+      case 'no':
+        this.setState({ confirm: false });
+        break;
+    }
   },
 
 
   handleCreate() {
     let data = {
-      name: this.refs.newName.value.trim(),
-      desc: this.refs.newDesc.value.trim(),
-      type: this.state.selectedType,
-      id: uuid.v1()
+      feature: {
+        name: this.refs.newName.value.trim(),
+        desc: this.refs.newDesc.value.trim(),
+        type: this.state.selectedType,
+        id: uuid.v1()
+      }
     }
 
-    if (data.name !== "") {
+    if (this.state.hasCharges && this.refs.ccname.value.trim() !== '') {
+      data.classCharge = {};
+      data.classCharge.name = this.refs.ccname.value.trim();
+      data.classCharge.charges = this.state.cctotal !== '' ? this.state.cctotal : 0;
+      data.classCharge.current = this.state.cctotal !== '' ? this.state.cctotal : 0;
+      data.classCharge.id = uuid.v1();
+      data.feature.classChargesId = data.classCharge.id;
+    }
+
+    if (data.feature.name !== '') {
       this.props.onCreate({ type: 'FEATURE_CREATE', data });
-      this.props.parentDismiss();
+      this.props.dismiss();
     }
   },
 
@@ -81,7 +80,8 @@ export default React.createClass({
       return;
     }
 
-    this.props.parentDismiss();
+    this.setState({ confirm: false, dirty: false, selectedType: 'PASSIVE', hasCharges: false, cctotal: '' });
+    this.props.dismiss();
   },
 
 
@@ -90,19 +90,21 @@ export default React.createClass({
   },
 
 
-  handleYes() {
-    this.setState({ confirm: false}, () => {
-      this.props.parentDismiss();
-    })
+  validateNumber(ev) {
+    if (ev.target.value.trim() === '') {
+      this.setState({ cctotal: ev.target.value.trim(), dirty: true });
+      return;
+    }
+
+    let num = Number(ev.target.value);
+
+    if (!isNaN(num)) {
+      this.setState({ cctotal: num, dirty: true });
+    }
   },
 
 
-  handleNo() {
-    this.setState({ confirm: false });
-  },
-
-
-  render() {
+  content() {
     return (
       <section>
         <div className='modal-header'>
@@ -114,6 +116,7 @@ export default React.createClass({
           <div>
             <textarea ref='newDesc' placeholder='Feature Description' onChange={this.makeDirty}></textarea>
           </div>
+          <label>Feature Type</label>
           <div className='row'>
             <div className='col-1-4'>
                 <div onClick={this.handleTypeSelect.bind(this, 'PASSIVE')} className={`feature-type ${this.state.selectedType === 'PASSIVE' ? 'selected' : ''}`}>
@@ -136,17 +139,36 @@ export default React.createClass({
                 </div>
               </div>
           </div>
+          <div className='inputs'>
+            <input id='class-charge' type='checkbox' checked={this.state.hasCharges} onChange={(ev) => this.setState({ hasCharges: ev.target.checked, dirty: true })}/>
+            <label htmlFor='class-charge'>Enables a class charge</label>
+          </div>
+          {
+            this.state.hasCharges ? 
+            <div>
+              <div className='inputs'>
+                <input ref='ccname' type='text' placeholder='display name' onChange={this.makeDirty}/>
+              </div>
+              <div className='inputs'>
+                <input ref='cctotal' type='text'  value={this.state.cctotal} placeholder='number of charges' onChange={this.validateNumber}/>
+              </div>
+            </div>
+            : null
+          }
         </div>
         <div className='modal-footer'>
-          <button onClick={this.handleCreate} className='bg-green text-green'>
-            <p><Icon icon='fa fa-pencil' /> Save</p>
-          </button>
-          <button onClick={this.handleCancel} className='bg-red text-red'>
-            <p><Icon icon='fa fa-remove' /> Cancel</p>
-          </button>
+          <button onClick={this.handleCreate} className='bg-green text-green'><Icon icon='fa fa-pencil' /> Save</button>
+          <button onClick={this.handleCancel} className='bg-red text-red'><Icon icon='fa fa-remove' /> Cancel</button>
         </div>
-        <Modal id='feature-create-dialog' content={this.createConfirmDialog()} onDismiss={this.noop} active={this.state.confirm} />
       </section>
     )
+  },
+
+
+  render() {
+    return <span>
+      <Modal active={this.props.active} id='create-new-feature' content={this.content()} onDismiss={this.handleCancel} />
+      <ConfirmModal active={this.state.confirm} onConfirm={this.confirm} />
+    </span>
   }
 })

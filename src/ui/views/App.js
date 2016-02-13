@@ -39,7 +39,7 @@ export default React.createClass({
 
   getInitialState() {
     return ({
-      activePane : 4,
+      activePane : 1,
       loading : true,
       character : Immutable.fromJS(blankCharacter),
       preferences : Immutable.fromJS(blankPreferences)
@@ -246,6 +246,7 @@ export default React.createClass({
             <SwipePane>
               <Features 
                 features={this.state.character.get('charFeatures')}
+                charges={this.state.character.get('charClassCharges')}
                 handleFeatureChange={this.handleFeatureChange}
               />
             </SwipePane>

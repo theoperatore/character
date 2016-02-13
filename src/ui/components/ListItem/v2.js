@@ -22,17 +22,18 @@ export default React.createClass({
 
 
   render() {
-
-    let glyph = this.props.glyph || <Icon icon='fa fa-cube' />;
+    let { glyph, glyphCss, name, children, ...props } = this.props;
+    glyph = glyph || <Icon icon='fa fa-cube' />;
 
     return (
-      <div className='container-list-item'>
-        <div className={`container-list-item-glyph ${this.props.glyphCss}`}>
+      <div className='container-list-item' {...props}>
+        <div className={`container-list-item-glyph ${glyphCss}`}>
           {glyph}
         </div>
         <div className='container-list-item-content'>
-          <p>{this.props.name}</p>
+          <p>{name}</p>
         </div>
+        {children}
       </div>
     )
   }
