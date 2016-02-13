@@ -2,6 +2,7 @@
 
 import React from 'react';
 import AttackBonusItem from '../composite-components/AttackBonusItem';
+import AttackItem from '../composite-components/AttackItem';
 import CreateAttackDialog from '../dialogs/attacks/CreateAttackDialog';
 import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog';
 import Icon from '../components/Icon';
@@ -70,11 +71,12 @@ export default React.createClass({
   renderAttacks() {
     return this.props.attacks.toJS().map((attack, i) => {
       return (
-        <ListItem
+        <AttackItem
           key={i}
           name={attack.name}
-          glyph={<Icon icon='icon-attack' />}
-          glyphCss={'text-attack'}
+          desc={attack.desc}
+          id={attack.id}
+          onChange={this.props.handleAttacksChange}
         />
       )
     })
