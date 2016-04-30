@@ -10,28 +10,42 @@ export default React.createClass({
   propTypes: {
     glyphCss: React.PropTypes.string,
     glyph: React.PropTypes.element,
-    name: React.PropTypes.string.isRequired
+    name: React.PropTypes.node.isRequired,
+    subtext: React.PropTypes.node,
   },
 
 
   getDefaultProps() {
     return {
-      glyphCss: ''
+      glyphCss: '',
+      // glyph: <Icon icon='fa fa-cube' />
     }
   },
 
 
   render() {
-    let { glyph, glyphCss, name, children, ...props } = this.props;
-    glyph = glyph || <Icon icon='fa fa-cube' />;
+    let { 
+      glyph,
+      glyphCss,
+      name,
+      subtext,
+      children,
+      className,
+      ...props
+    } = this.props;
 
     return (
-      <div className='container-list-item' {...props}>
-        <div className={`container-list-item-glyph ${glyphCss}`}>
-          {glyph}
-        </div>
+      <div className={`container-list-item ${className}`} {...props}>
+        {
+          glyph 
+          ? <div className={`container-list-item-glyph ${glyphCss}`}>
+              {glyph}
+            </div>
+          : null
+        }
         <div className='container-list-item-content'>
-          <p>{name}</p>
+          <p className='list-item-text'>{name}</p>
+          <p className='list-item-subtext'>{subtext}</p>
         </div>
         {children}
       </div>

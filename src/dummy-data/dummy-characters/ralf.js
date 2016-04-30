@@ -93,66 +93,142 @@ module.exports = {
       //   name: 'Class Charge Test 4'
       // }
     ],
+
+    // each spell should be of the form:
+    // {
+    //   id,
+    //   name,
+    //   desc,
+    //   cast,
+    //   range,
+    //   cmp,
+    //   dur,
+    //   prepared
+    // }
     "charSpells" : [
       {
         "name" : "Cantrips",
         "slots" : 0,
         "used" : 0,
-        "spells" : []
+        "spells" : [
+          {
+            id: 'ralf-cantrip-0',
+            name: "Chill Touch",
+            desc: "4d8 necro damage (ranged). Target can't heal until start of my next turn. Undead have DIS on Atk rolls until end of my next turn.",
+            cast: "1 action",
+            range: "120 ft/ 24 sq",
+            cmp: "V,S",
+            dur: "Instant",
+            prepared: false
+          },
+          {
+            "id": "ralf-cantrip-1",
+            "name": "Fire Bolt",
+            "desc": "4d10 fire damage (ranged). Ignites non-held/worn flammable items.",
+            "cast": "1 action",
+            "range": "120 ft/24 sq",
+            "dur": "Instant",
+            "cmp": "VS",
+            "prepared": false
+          }
+        ]
       },
       {
         "name" : "1st",
-        "slots" : 0,
+        "slots" : 9,
         "used" : 0,
         "spells" : []
       },
       {
         "name" : "2nd",
-        "slots" : 0,
+        "slots" : 8,
         "used" : 0,
-        "spells" : []
+        "spells" : [
+          {
+            "id": 'ralf-spell-level-2-0',
+            "name": "Mirror Image",
+            "desc": "Makes 3 illusions w/ AC of 10 + [Dex] mod, can use Action to dismiss illusions.  Switch places with an illusion when being attacked, need to roll 6/8/11 or higher to switch w/ an illusion (3/2/1 illusions remaining). An illusion is destroyed when hit by an attack, ignores all other damage/effects.  Spell has no effect on blindsight/truesight creatures.",
+            "cast": "1 action",
+            "range": "Self",
+            "cmp": "V,S",
+            "dur": "1 minute",
+            "prepared": false
+          }
+        ]
       },
       {
         "name" : "3rd",
-        "slots" : 0,
+        "slots" : 7,
         "used" : 0,
-        "spells" : []
+        "spells" : [
+          {
+            "id": 'ralf-spell-level-3-0',
+            "name": "Fireball",
+            "desc": "8d6 fire damage vs Dex save for half dmg. Ignites non-held/worn flammable objects.Fire spreads around corners.",
+            "cast": "1 action",
+            "range": "150 ft/30 sq, 20 ft/4 sq radius sphere",
+            "cmp": "V,S,M (bat guano, sulfur)",
+            "dur": "Instant",
+            "prepared": true
+          },
+          {
+            "id": 'ralf-spell-level-3-1',
+            "name": "Fly",
+            "desc": "Fly speed of 60",
+            "cast": "Instant",
+            "range": "Touch",
+            "dur": "10 minutes (concentration)",
+            "cmp": "V, S, M (wing feather)",
+            "prepared": false
+          }
+        ]
       },
       {
         "name" : "4th",
-        "slots" : 0,
+        "slots" : 6,
         "used" : 0,
         "spells" : []
       },
       {
         "name" : "5th",
-        "slots" : 0,
+        "slots" : 5,
         "used" : 0,
         "spells" : []
       },
       {
         "name" : "6th",
-        "slots" : 0,
+        "slots" : 4,
         "used" : 0,
         "spells" : []
       },
       {
         "name" : "7th",
-        "slots" : 0,
+        "slots" : 3,
         "used" : 0,
         "spells" : []
       },
       {
         "name" : "8th",
-        "slots" : 0,
+        "slots" : 2,
         "used" : 0,
         "spells" : []
       },
       {
         "name" : "9th",
-        "slots" : 0,
+        "slots" : 1,
         "used" : 0,
-        "spells" : []
+        "spells" : [
+          {
+            id: 'ralf-spell-level-9-0',
+            name: 'Beard',
+            desc: 'Call upon the mighty Beard gods for any beard-ly good or favor',
+            cast: '1 action',
+            range: 'self',
+            cmp: 'Have a really cool beard equiped',
+            dur: 'Instant',
+            prepared: true
+          }
+        ]
       }
     ],
     "charAbilities" : {

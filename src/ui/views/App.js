@@ -20,7 +20,7 @@ import Features from '../panes/Features';
 import Abilities from '../panes/Abilities';
 import Defenses from '../panes/Defenses';
 import Attacks from '../panes/Attacks';
-// import Spells from '../panes/Spells';
+import Spells from '../panes/Spells';
 // import Equipments from '../panes/Equipments';
 
 let error = debug('app:error');
@@ -39,7 +39,7 @@ export default React.createClass({
 
   getInitialState() {
     return ({
-      activePane : 4,
+      activePane : 5,
       loading : true,
       character : Immutable.fromJS(blankCharacter),
       preferences : Immutable.fromJS(blankPreferences)
@@ -280,7 +280,12 @@ export default React.createClass({
               />
             </SwipePane>            
             <SwipePane>
-              <h1>Spells Pane</h1>
+              <Spells 
+                bubbles={this.state.preferences.get('spellBubbles')}
+                spellDC={this.state.preferences.get('spellDC')}
+                spells={this.state.character.get('charSpells')}
+                handleSpellsChange={this.handleSpellsChange}
+              />
             </SwipePane>            
             <SwipePane>
               <h1>Equipments Pane</h1>
@@ -295,14 +300,6 @@ export default React.createClass({
 
 
 /*
-<SwipePane>
-  <Spells bubbles={this.state.preferences.get('spellBubbles')}
-          spellDC={this.state.preferences.get('spellDC')}
-          spells={this.state.character.get('charSpells')}
-          abilities={this.state.character.get('charAbilities')}
-          proficiencyBonus={this.state.character.get('charProficiencyBonus')}
-          handleSpellsChange={this.handleSpellsChange}/>
-</SwipePane>
 <SwipePane>
   <Equipments equipment={this.state.character.get('charEquipment')}
               handleEquipmentChange={this.handleEquipmentChange}/>
