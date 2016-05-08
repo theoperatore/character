@@ -37,7 +37,7 @@
     "d3": "^3.5.5",
     "debug": "^2.2.0",
     "fastclick": "^1.0.6",
-    "firebase": "^2.2.4",
+    "firebase": "^2.4.2",
     "immutable": "^3.7.2",
     "moment": "^2.10.3",
     "node-uuid": "^1.4.7",

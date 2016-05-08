@@ -2,18 +2,52 @@
 
 import React from 'react';
 import Spell from '../composite-components/Spell';
+import SpellSlotsModal from '../dialogs/spells/spell-slots/edit';
 import Icon from '../components/Icon';
 
 export default React.createClass({
   displayName: "PaneSpells",
+
+  propTypes: {
+    spells: React.PropTypes.object.isRequired,
+    spellDC: React.PropTypes.object.isRequired,
+    bubbles: React.PropTypes.array.isRequired,
+    handleSpellsChange: React.PropTypes.func.isRequired,
+  },
 
 
   shouldComponentUpdate(nextProps, nextState) {
     return (
       this.props.bubbles !== nextProps.bubbles ||
       this.props.spellDC !== nextProps.spellDC ||
-      this.props.spells !== nextProps.spells
+      this.props.spells !== nextProps.spells ||
+      this.state.flattenedSpells !== nextState.flattenedSpells ||
+      this.state.viewSpellSlots !== nextState.viewSpellSlots
     )
+  },
+
+
+  getInitialState() {
+    return {
+      flattenedSpells: [],
+      viewSpellSlots: false,
+    }
+  },
+
+
+  componentWillReceiveProps(nextProps) {
+    let flattenedSpells = nextProps.spells.toJS().reduce((flattened, level, levelId) => {
+      level.spells.forEach(spell => {
+        flattened.push(
+          Object.assign(
+            { levelId },
+            spell)
+        );
+      })
+      return flattened;
+    }, []);
+
+    this.setState({ flattenedSpells });
   },
 
 
@@ -65,27 +99,33 @@ export default React.createClass({
   //   })
   // },
 
+  renderSpellSlots() {
+    return this.props.spells.toJS()
+      .slice(1)
+      .map((level, i) => {
+      return (
+        <div className='spell-slots-item' key={i}>
+          <p className='spell-slots-title'>{`lvl ${i + 1}`}</p>
+          <p className='spell-slots-count'>{level.slots - level.used}</p>
+        </div>
+      )
+    })
+  },
+
 
   renderSpells() {
-    var levels = this.props.spells.toJS();
-
-    return levels.reduce((flattened, level, levelIndex) => {
-      level.spells.forEach(spell => {
-        flattened.push(
-          <Spell 
-            key={spell.id}
-            spell={spell}
-            spellLevel={levelIndex}
-          />
-        );
-      });
-
-      return flattened;
-    }, []);
+    return this.state.flattenedSpells.map(spell => {
+      return (<Spell 
+        key={spell.id}
+        spell={spell}
+        spellLevel={spell.levelId}
+      />)
+    })
   },
 
 
   render() {
+
     return (
       <div className="pane-container">
         <section className='info-section'>
@@ -93,8 +133,19 @@ export default React.createClass({
             <h5 className='info-section-title'>Spells</h5>
             <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
           </div>
-          { this.renderSpells() }
+          <div className='spell-slots-container' onClick={() => this.setState({ viewSpellSlots: true })}>
+            { this.renderSpellSlots() }
+          </div>
+          <div className='spells-container'>
+            { this.renderSpells() }
+          </div>
         </section>
+        <SpellSlotsModal
+          slots={this.props.spells.toJS()}
+          active={this.state.viewSpellSlots}
+          onDismiss={() => this.setState({ viewSpellSlots: false })}
+          onSpellSlotsChange={this.props.handleSpellsChange}
+        />
       </div>
     );
   }

@@ -36,6 +36,7 @@ module.exports = {
     }
   },
   character: Object.assign({}, {
+    "charId": 'test-char-0',
     "charName": 'Ralf McBeardsly',
     "charInfo" : {
       "class" : "Bard",
@@ -135,13 +136,13 @@ module.exports = {
       },
       {
         "name" : "1st",
-        "slots" : 9,
+        "slots" : 1,
         "used" : 0,
         "spells" : []
       },
       {
         "name" : "2nd",
-        "slots" : 8,
+        "slots" : 5,
         "used" : 0,
         "spells" : [
           {
@@ -158,7 +159,7 @@ module.exports = {
       },
       {
         "name" : "3rd",
-        "slots" : 7,
+        "slots" : 3,
         "used" : 0,
         "spells" : [
           {
@@ -185,31 +186,31 @@ module.exports = {
       },
       {
         "name" : "4th",
-        "slots" : 6,
+        "slots" : 0,
         "used" : 0,
         "spells" : []
       },
       {
         "name" : "5th",
-        "slots" : 5,
+        "slots" : 0,
         "used" : 0,
         "spells" : []
       },
       {
         "name" : "6th",
-        "slots" : 4,
+        "slots" : 0,
         "used" : 0,
         "spells" : []
       },
       {
         "name" : "7th",
-        "slots" : 3,
+        "slots" : 0,
         "used" : 0,
         "spells" : []
       },
       {
         "name" : "8th",
-        "slots" : 2,
+        "slots" : 0,
         "used" : 0,
         "spells" : []
       },

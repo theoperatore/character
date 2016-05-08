@@ -180,6 +180,10 @@ export default React.createClass({
 
   handleSpellsChange(event) {
     log("spells event:", event);
+    switch(event.type) {
+      case 'SPELL_SLOTS_EDIT':
+        break;
+    }
   },
 
 
