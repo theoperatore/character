@@ -29,11 +29,12 @@ module.exports = {
         score: 4
       }
     ],
-    spellDC : {
-      abil : "wis",
-      prof : true,
-      name : "Spell Save DC"
-    }
+
+    // currently not used, but preferences should be for displaying, hiding, 
+    // customizing the views... like showing/hiding spell DC
+    spellDC : { 
+      display: true 
+    },
   },
   character: Object.assign({}, {
     "charId": 'test-char-0',
@@ -94,6 +95,15 @@ module.exports = {
       //   name: 'Class Charge Test 4'
       // }
     ],
+
+    "charSpellSaveDC": {
+      abil : "wis",
+      prof : true,
+      name : "Spell Save DC",
+      id: 'ralf-spell-save-dc',
+      score: 15, // 8 + wis + prof
+      bonus: 0,
+    },
 
     // each spell should be of the form:
     // {

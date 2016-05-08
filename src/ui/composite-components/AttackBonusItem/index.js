@@ -17,7 +17,8 @@ export default React.createClass({
     bonus: React.PropTypes.number.isRequired,
     title: React.PropTypes.string.isRequired,
     subtitle: React.PropTypes.string,
-    onChange: React.PropTypes.func.isRequired
+    onChange: React.PropTypes.func.isRequired,
+    removable: React.PropTypes.bool,
   },
 
 
@@ -32,6 +33,11 @@ export default React.createClass({
     }
   },
 
+  getDefaultProps() {
+    return {
+      removable: true,
+    }
+  },
 
   makeDirty() {
     if (!this.state.dirty) {
@@ -132,7 +138,11 @@ export default React.createClass({
       </div>
       <div className='modal-footer'>
         <button onClick={this.save} className='text-green'><Icon icon='fa fa-pencil'/> Save</button>
-        <button onClick={this.delete} className='text-red'><Icon icon='fa fa-remove'/> Delete</button>
+        {
+          this.props.removable
+          ? <button onClick={this.delete} className='text-red'><Icon icon='fa fa-remove'/> Delete</button>
+          : null
+        }
       </div>
     </section>
   },

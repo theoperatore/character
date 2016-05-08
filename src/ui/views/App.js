@@ -183,6 +183,8 @@ export default React.createClass({
     switch(event.type) {
       case 'SPELL_SLOTS_EDIT':
         break;
+      case 'SPELL_DC_EDIT':
+        break;
     }
   },
 
@@ -228,8 +230,8 @@ export default React.createClass({
 
           <Tabs activeIdx={this.state.activePane} onTabSelect={this.handleTabSelect}>
             <Tab><Icon icon="icon-crown" /></Tab>
-            <Tab><Icon icon="icon-features" /></Tab>
-            <Tab><Icon icon="icon-chart" /></Tab>
+            <Tab><Icon icon="fa fa-sitemap" /></Tab>
+            <Tab><Icon icon="fa fa-tasks" /></Tab>
             <Tab><Icon icon="icon-shield" /></Tab>
             <Tab><Icon icon="icon-attack" /></Tab>
             <Tab><Icon icon="icon-repo" /></Tab>
@@ -286,7 +288,7 @@ export default React.createClass({
             <SwipePane>
               <Spells 
                 bubbles={this.state.preferences.get('spellBubbles')}
-                spellDC={this.state.preferences.get('spellDC')}
+                spellDC={this.state.character.get('charSpellSaveDC')}
                 spells={this.state.character.get('charSpells')}
                 handleSpellsChange={this.handleSpellsChange}
               />
@@ -304,6 +306,8 @@ export default React.createClass({
 
 
 /*
+<Tab><Icon icon="icon-features" /></Tab>
+<Tab><Icon icon="icon-chart" /></Tab>
 <SwipePane>
   <Equipments equipment={this.state.character.get('charEquipment')}
               handleEquipmentChange={this.handleEquipmentChange}/>

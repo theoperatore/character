@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Spell from '../composite-components/Spell';
+import AttackBonusItem from '../composite-components/AttackBonusItem';
 import SpellSlotsModal from '../dialogs/spells/spell-slots/edit';
 import Icon from '../components/Icon';
 
@@ -11,7 +12,7 @@ export default React.createClass({
   propTypes: {
     spells: React.PropTypes.object.isRequired,
     spellDC: React.PropTypes.object.isRequired,
-    bubbles: React.PropTypes.array.isRequired,
+    bubbles: React.PropTypes.object.isRequired,
     handleSpellsChange: React.PropTypes.func.isRequired,
   },
 
@@ -99,6 +100,28 @@ export default React.createClass({
   //   })
   // },
 
+  onSpellDCChange(event) {
+    let updatedEvent = Object.assign({}, event, {
+      type: 'SPELL_DC_EDIT'
+    });
+
+    this.props.handleSpellsChange(updatedEvent);
+  },
+
+  renderSpellDC() {
+    return <AttackBonusItem
+      removable={false}
+      id={this.props.spellDC.get('id')}
+      score={this.props.spellDC.get('score')}
+      ability={this.props.spellDC.get('abil')}
+      proficient={this.props.spellDC.get('prof')}
+      bonus={this.props.spellDC.get('bonus')}
+      title={this.props.spellDC.get('name')}
+      onChange={this.onSpellDCChange}
+    />
+  },
+
+
   renderSpellSlots() {
     return this.props.spells.toJS()
       .slice(1)
@@ -128,6 +151,13 @@ export default React.createClass({
 
     return (
       <div className="pane-container">
+        <section className='info-section'>
+          <div className='info-section-header interactable'>
+            <h5 className='info-section-title'>Spellcasting Bonuses</h5>
+            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
+          </div>
+          { this.renderSpellDC() }
+        </section>
         <section className='info-section'>
           <div className='info-section-header interactable'>
             <h5 className='info-section-title'>Spells</h5>
