@@ -213,6 +213,12 @@ export default React.createClass({
         break;
       case 'ATTACK_BONUS_DELETE':
         break;
+      case 'SPELL_ATTACK_BONUS_CREATE':
+        break;
+      case 'SPELL_ATTACK_BONUS_EDIT':
+        break;
+      case 'SPELL_ATTACK_BONUS_DELETE':
+        break;
     }
   },
 
@@ -291,6 +297,7 @@ export default React.createClass({
                 spellDC={this.state.character.get('charSpellSaveDC')}
                 spells={this.state.character.get('charSpells')}
                 handleSpellsChange={this.handleSpellsChange}
+                handlePreferencesChange={this.handlePreferencesChange}
               />
             </SwipePane>            
             <SwipePane>

@@ -4,6 +4,7 @@ import React from 'react';
 import Spell from '../composite-components/Spell';
 import AttackBonusItem from '../composite-components/AttackBonusItem';
 import SpellSlotsModal from '../dialogs/spells/spell-slots/edit';
+import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog';
 import Icon from '../components/Icon';
 
 export default React.createClass({
@@ -14,6 +15,7 @@ export default React.createClass({
     spellDC: React.PropTypes.object.isRequired,
     bubbles: React.PropTypes.object.isRequired,
     handleSpellsChange: React.PropTypes.func.isRequired,
+    handlePreferencesChange: React.PropTypes.func.isRequired,
   },
 
 
@@ -23,7 +25,8 @@ export default React.createClass({
       this.props.spellDC !== nextProps.spellDC ||
       this.props.spells !== nextProps.spells ||
       this.state.flattenedSpells !== nextState.flattenedSpells ||
-      this.state.viewSpellSlots !== nextState.viewSpellSlots
+      this.state.viewSpellSlots !== nextState.viewSpellSlots ||
+      this.state.createSpellAttackBonus !== nextState.createSpellAttackBonus
     )
   },
 
@@ -32,6 +35,7 @@ export default React.createClass({
     return {
       flattenedSpells: [],
       viewSpellSlots: false,
+      createSpellAttackBonus: false,
     }
   },
 
@@ -51,54 +55,13 @@ export default React.createClass({
     this.setState({ flattenedSpells });
   },
 
+  onSpellAttackBonusChange(event) {
+    let updatedEvent = Object.assign({}, event, {
+      type: 'SPELL_' + event.type
+    });
 
-  // renderSpellDC() {
-  //   var subtitle = this.props.spellDC.get('abil') + (this.props.spellDC.get('prof') ? ' + prof' : '');
-  //   var score = 10;
-
-  //   // score += this.props.abilities.get(this.props.spellDC.get('abil')).get('mod');
-  //   // score += this.props.spellDC.get('prof') ? this.props.proficiencyBonus.get('score') : 0;
-
-  //   return (
-  //     <ListItem score={score + ""} name={this.props.spellDC.get('name')} />
-  //   )
-  // },
-
-
-  // renderBubbles : function() {
-  //   return this.props.bubbles.toJS().map((bubble, i) => {
-  //     var width = this.props.bubbles.size > 3 ? 3 : this.props.bubbles.size;
-  //     var subtitle = bubble.abil + (bubble.prof ? " + prof" : "");
-  //     var score = 0;
-
-  //     score += this.props.abilities.get(bubble.abil).get('mod');
-  //     score += bubble.prof ? this.props.proficiencyBonus.get('score') : 0;
-
-  //     return (
-  //       <ListItem key={i} name={bubble.name} />
-  //     )
-  //   }, this)
-  // },
-
-
-  // renderSpellSlots : function() {
-  //   return this.props.spells.toJS().slice(1).map((level, i) => {
-  //     var slots = [];
-
-  //     for (var idx = 0; idx < level.slots; idx++) {
-  //       slots.push(
-  //         <Switch active={idx < level.used} key={idx} width={10}/>
-  //       )
-  //     }
-
-  //     return (
-  //       <section key={i} className='pane-section pane-border'>
-  //         <p className='text-center'>{level.name + " level spell slots"}</p>
-  //         {slots}
-  //       </section>
-  //     )
-  //   })
-  // },
+    this.props.handlePreferencesChange(updatedEvent);
+  },
 
   onSpellDCChange(event) {
     let updatedEvent = Object.assign({}, event, {
@@ -109,6 +72,12 @@ export default React.createClass({
   },
 
   renderSpellDC() {
+    let subtitle = this.props.spellDC.get('abil');
+
+    subtitle = this.props.spellDC.get('prof')
+      ? subtitle + ' - proficient'
+      : subtitle;
+
     return <AttackBonusItem
       removable={false}
       id={this.props.spellDC.get('id')}
@@ -117,10 +86,32 @@ export default React.createClass({
       proficient={this.props.spellDC.get('prof')}
       bonus={this.props.spellDC.get('bonus')}
       title={this.props.spellDC.get('name')}
+      subtitle={subtitle}
       onChange={this.onSpellDCChange}
     />
   },
 
+  renderSpellAttackBonuses() {
+    return this.props.bubbles.toJS().map(bubble => {
+      let subtitle = bubble.abil;
+
+      subtitle = bubble.prof
+        ? subtitle + ' - proficient'
+        : subtitle;
+
+      return <AttackBonusItem
+        key={bubble.id}
+        id={bubble.id}
+        score={bubble.score}
+        ability={bubble.abil}
+        proficient={bubble.prof}
+        bonus={bubble.bonus}
+        title={bubble.name}
+        subtitle={subtitle}
+        onChange={this.onSpellAttackBonusChange}
+      />
+    })
+  },
 
   renderSpellSlots() {
     return this.props.spells.toJS()
@@ -135,7 +126,6 @@ export default React.createClass({
     })
   },
 
-
   renderSpells() {
     return this.state.flattenedSpells.map(spell => {
       return (<Spell 
@@ -146,17 +136,22 @@ export default React.createClass({
     })
   },
 
-
   render() {
 
     return (
       <div className="pane-container">
         <section className='info-section'>
-          <div className='info-section-header interactable'>
+          <div className='info-section-header interactable' onClick={() => this.setState({ createSpellAttackBonus: true })}>
             <h5 className='info-section-title'>Spellcasting Bonuses</h5>
             <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
+            <CreateAttackBonusDialog
+              active={this.state.createSpellAttackBonus}
+              dismiss={() => this.setState({ createSpellAttackBonus: false })}
+              onCreate={this.onSpellAttackBonusChange}
+            />
           </div>
           { this.renderSpellDC() }
+          { this.renderSpellAttackBonuses() }
         </section>
         <section className='info-section'>
           <div className='info-section-header interactable'>

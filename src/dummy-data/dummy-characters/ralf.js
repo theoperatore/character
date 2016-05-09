@@ -22,11 +22,12 @@ module.exports = {
     ],
     spellBubbles : [
       {
-        abil : "wis",
+        abil : "cha",
         prof : false,
         name : "Spell Attack Bonus",
         id: 'ralf-spellBubble-1',
-        score: 4
+        bonus: 0,
+        score: 5,
       }
     ],
 
