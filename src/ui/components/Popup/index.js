@@ -1,18 +1,16 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import cn from 'classnames';
 import Portal from '../Portal';
 
-// TODO: should require some constants to find config identifiers for html
-// also see Popup/index.js
+// TODO: should require some constants to find config identifiers for html;
+// also see Modal/index.js
 const appContainer = '.character-body';
 const paneContainer = '.swiper-slide-active>.base-pane-container';
 
 export default React.createClass({
-  displayName: 'Modal',
-
+  displayName: 'Popup',
 
   propTypes: {
     active: React.PropTypes.bool.isRequired,
@@ -21,22 +19,19 @@ export default React.createClass({
     onDismiss: React.PropTypes.func.isRequired
   },
 
-
   getInitialState() {
     return {
       active: false,
+      moving: false,
       open: false,
-      moving: false
-    }
+    };
   },
-
 
   getDefaultProps() {
     return {
-      active: false
+      active: false,
     }
   },
-
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.active !== this.props.active && nextProps.active === true) {
@@ -59,42 +54,28 @@ export default React.createClass({
     }
   },
 
-
-  dismiss(ev) {
-    if (ev.target === ReactDOM.findDOMNode(this.refs.overlay)) {
-      ev.preventDefault();
-      ev.stopPropagation();
-
-      this.props.onDismiss();
-    }
-  },
-
-
-  _dismiss() {
-    this.props.onDismiss();
-  },
-
-
   render() {
-    let css = cn({
+    let { id, content } = this.props;
+
+    let overlay = cn({
       'modal-overlay': true,
       'modal-overlay-active': this.state.open
     })
 
     let container = cn({
-      'modal-content-container': true,
-      'modal-content-transitioning': this.state.moving,
-      'modal-content-active': this.state.open
+      'popup-container': true,
+      'popup-moving': this.state.moving,
+      'popup-active': this.state.open,
     })
 
-    return (this.state.active ?
-      <Portal id={this.props.id}>
-        <div ref='overlay' className={css} onClick={this.dismiss}>
-          <div ref='content' className={container}>
-            {React.cloneElement(this.props.content, { parentDismiss: this._dismiss })}
+    return this.state.active 
+      ? <Portal id={id}>
+          <div className={overlay}>
+            <div className={container}>
+              { content }
+            </div>
           </div>
-        </div>
-      </Portal>
-      : null)
+        </Portal>
+      : null;
   }
 })
