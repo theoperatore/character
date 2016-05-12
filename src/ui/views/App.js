@@ -21,7 +21,7 @@ import Abilities from '../panes/Abilities';
 import Defenses from '../panes/Defenses';
 import Attacks from '../panes/Attacks';
 import Spells from '../panes/Spells';
-// import Equipments from '../panes/Equipments';
+import Equipments from '../panes/Equipments';
 
 let error = debug('app:error');
 let log = debug('app:index');
@@ -39,7 +39,7 @@ export default React.createClass({
 
   getInitialState() {
     return ({
-      activePane : 5,
+      activePane : 6,
       loading : true,
       character : Immutable.fromJS(blankCharacter),
       preferences : Immutable.fromJS(blankPreferences)
@@ -198,11 +198,17 @@ export default React.createClass({
   handleEquipmentChange(event) {
     log("equipment event:", event);
     switch (event.type) {
-      case 'EQUIPMENT_CREATE':
+      case 'EQUIPMENT_ITEM_CREATE':
         break;
-      case 'EQUIPMENT_EDIT':
+      case 'EQUIPMENT_ITEM_EDIT':
         break;
-      case 'EQUIPMENT_DELETE':
+      case 'EQUIPMENT_ITEM_DELETE':
+        break;
+      case 'EQUIPMENT_CONTAINER_CREATE':
+        break;
+      case 'EQUIPMENT_CONTAINER_EDIT':
+        break;
+      case 'EQUIPMENT_CONTAINER_DELETE':
         break;
       case 'MONEY_EDIT':
         break;
@@ -307,7 +313,10 @@ export default React.createClass({
               />
             </SwipePane>            
             <SwipePane>
-              <h1>Equipments Pane</h1>
+              <Equipments
+                equipment={this.state.character.get('charEquipment')}
+                handleEquipmentChange={this.handleEquipmentChange}
+              />
             </SwipePane>            
           </SwipePanes>
         </section>
@@ -321,8 +330,4 @@ export default React.createClass({
 /*
 <Tab><Icon icon="icon-features" /></Tab>
 <Tab><Icon icon="icon-chart" /></Tab>
-<SwipePane>
-  <Equipments equipment={this.state.character.get('charEquipment')}
-              handleEquipmentChange={this.handleEquipmentChange}/>
-</SwipePane>
 */

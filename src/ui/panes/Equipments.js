@@ -1,41 +1,66 @@
 'use strict';
 
 import React from 'react';
-import MoneyChart from '../components/MoneyChart';
-import ListItem from '../components/ListItem';
+import ListItem from '../components/ListItem/v2';
 import Icon from '../components/Icon';
 
 export default React.createClass({
   displayName : 'PaneEquipments',
 
-
-  shouldComponentUpdate : function(nextProps) {
-    return nextProps.equipment !== this.props.equipment;
+  propTypes: {
+    equipment: React.PropTypes.object.isRequired,
+    handleEquipmentChange: React.PropTypes.func.isRequired,
   },
 
-
-  renderEquipments : function() {
-    return this.props.equipment.get('items').toJS().map((equip, i) => {
-      return (
-        <ListItem title={equip.name} id={`equipments-${i}`} key={i} modalContent={<div>
-          <div className='modal-header'>
-            <h3>{equip.name}</h3>
-          </div>
-          <div className='modal-content'>
-            <p>{equip.desc}</p>
-          </div>
-        </div>}/>
-      )
-    })
+  getInitialState() {
+    return {
+      groupedItems: [],
+    }
   },
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.equipment !== this.props.equipment ||
+           nextState.groupedItems !== this.state.groupedItems;
+  },
 
-  render : function() {
+  componentWillReceiveProps(nextProps) {
+    let groupedItems = nextProps.equipment.get('items').reduce((obj, item) => {
+      if (!obj.hasOwnProperty(item.get('containerId'))) {
+        obj[item.get('containerId')] = [];
+      }
+
+      obj[item.get('containerId')].push(item);
+      return obj;
+    }, {});
+
+    this.setState({ groupedItems });
+  },
+
+  renderEquipments() {
+    return this.props.equipment.get('containers').map(container => {
+      let itemsInContainer = this.state.groupedItems[container.get('id')];
+
+      let count = itemsInContainer
+        ? itemsInContainer.length
+        : 0;
+
+      return <ListItem
+        key={container.get('id')}
+        name={container.get('name')}
+        subtext={`${count} items`}
+      />;
+    }).toJS();
+  },
+
+  render() {
     return (
       <div className="pane-container">
-        <h3>Equipments</h3>
-        <MoneyChart data={this.props.equipment.get('money')} />
-        {this.renderEquipments()}
+        <section className='info-section'>
+          <div className='info-section-header interactable'>
+            <h5 className='info-section-title'>Inventory</h5>
+          </div>
+          { this.renderEquipments() }
+        </section>
       </div>
     );
   }

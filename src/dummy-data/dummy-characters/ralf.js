@@ -377,11 +377,30 @@ module.exports = {
         "gp" : 500,
         "pp" : 600
       },
+      "containers": [
+        {
+          id: 'ralf-container-1',
+          name: 'Backpack',
+        }
+      ],
       "items" : [
         {
           name: 'Prehensile Beard',
           desc: 'Can be used to grab onto things and is basically just another hand',
-          id: 'ralf-equipment-1'
+          containerId: 'ralf-container-1',
+          id: 'ralf-equipment-1',
+        },
+        {
+          name: 'Lute',
+          desc: 'For the most awesomest of beard-ly songs',
+          containerId: 'ralf-container-1',
+          id: 'ralf-equipment-2',
+        },
+        {
+          name: 'Wand of Fiery Poops',
+          desc: 'For exactly that.',
+          containerId: 'ralf-container-2',
+          id: 'ralf-equipment-3',
         }
       ]
     },
