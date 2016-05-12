@@ -3,6 +3,8 @@
 import React from 'react';
 import ListItem from '../../components/ListItem/v2';
 import Modal from '../../components/Modal';
+import ConfirmModal from '../../dialogs/ConfirmModal';
+import EditSpell from '../../dialogs/spells/create';
 import Icon from '../../components/Icon';
 
 export default React.createClass({
@@ -20,31 +22,64 @@ export default React.createClass({
       prepared: React.PropTypes.bool.isRequired,
     }),
     spellLevel: React.PropTypes.number.isRequired,
+    onSpellChange: React.PropTypes.func.isRequired,
   },
 
   getInitialState() {
     return {
       showDetails: false,
       editSpell: false,
+      confirm: false,
+      message: null,
     }
   },
 
-  handleCancel() {
-    this.setState({ showDetails: false });
+  handleConfirm(answer) {
+    switch (answer) {
+      case 'yes':
+        this.props.onSpellChange({ 
+          type: 'SPELL_DELETE',
+          data: this.props.spell.id
+        });
+        this.setState({
+          confirm: false,
+          showDetails: false,
+          editSpell: false,
+        });
+        break;
+      case 'no':
+        this.setState({
+          confirm: false,
+        });
+        break;
+    }
   },
 
-  getEditDetailContent() {
-    return (<section>
-      <div className='modal-header'>
-        <h3><input type='text' defaultValue={this.props.spell.name} placeholder={this.props.spell.name}/></h3>
-      </div>
-      <div className='modal-content'>
-      </div>
-      <div className='modal-footer'>
-        <button className='text-green'><Icon icon='fa fa-pencil'/> Save</button>
-        <button className='text-red'><Icon icon='fa fa-remove'/> Cancel</button>
-      </div>
-    </section>);
+  handleDelete() {
+    this.setState({
+      confirm: true,
+      message: `Are you sure you want to delete the spell: ${this.props.spell.name}?`
+    });
+  },
+
+  handleEditCancel() {
+    this.setState({
+      editSpell: false,
+    });
+  },
+
+  handleDetailCancel() {
+    this.setState({ 
+      showDetails: false,
+    });
+  },
+
+  prepareSpell() {
+    let data = Object.assign({}, this.props.spell, {
+      prepared: !this.props.spell.prepared,
+    });
+
+    this.props.onSpellChange({ type: 'SPELL_EDIT', data });
   },
 
   getDetailContent() {
@@ -58,27 +93,48 @@ export default React.createClass({
       prepared,
     } = this.props.spell;
 
+    let icon = `fa fa-bookmark${prepared ? '' : '-o'}`;
+
     return (<section>
-      <div className='modal-header'>
-        <h3>{name}</h3>
+      <div className='modal-header cf'>
+        <h3 className='left'>{name}</h3>
+        <h3 
+          className='right text-purple prepare-spell-icon'
+          onClick={this.prepareSpell}
+        ><Icon icon={icon}/></h3>
       </div>
-      <div className='modal-content'>
+      <div className='modal-content row'>
         <p>{desc}</p>
-        <hr/>
-        <dl className='dl-horizontal'>
-          <dt><strong>Casting Time</strong></dt>
-          <dd>{cast}</dd>
-          <dt><strong>Range</strong></dt>
-          <dd>{range}</dd>
-          <dt><strong>Components</strong></dt>
-          <dd>{cmp}</dd>
-          <dt><strong>Duration</strong></dt>
-          <dd>{dur}</dd>
-        </dl>
+        <hr />
+        <div className='col-1-2'>
+          <div className='spell-detail'>
+            <p><strong>Casting Time</strong></p>
+            <p>{cast}</p>
+          </div>
+          <div className='spell-detail'>
+            <p><strong>Range</strong></p>
+            <p>{range}</p>
+          </div>
+        </div>
+        <div className='col-1-2'>
+          <div className='spell-detail'>
+            <p><strong>Components</strong></p>
+            <p>{cmp}</p>
+          </div>
+          <div className='spell-detail'>
+            <p><strong>Duration</strong></p>
+            <p>{dur}</p>
+          </div>
+        </div>
       </div>
       <div className='modal-footer'>
-        <button className='text-green'><Icon icon='fa fa-pencil'/> Edit</button>
-        <button className='text-red'><Icon icon='fa fa-remove'/> Delete</button>
+        <button className='text-green'
+          onClick={() => this.setState({ editSpell: true })}
+        ><Icon icon='fa fa-pencil'/> Edit</button>
+        <button
+          className='text-red'
+          onClick={this.handleDelete}
+        ><Icon icon='fa fa-remove'/> Delete</button>
       </div>
     </section>);
   },
@@ -101,13 +157,22 @@ export default React.createClass({
         onClick={() => this.setState({ showDetails: true })}
       >
         <Modal
-          id={this.props.spell.id}
+          id={spell.id}
           active={this.state.showDetails}
-          onDismiss={this.handleCancel}
+          onDismiss={this.handleDetailCancel}
           content={this.state.editSpell
-            ? this.getEditDetailContent()
+            ? <EditSpell
+                spell={this.props.spell}
+                onChange={this.props.onSpellChange}
+                onCancel={this.handleEditCancel}
+              />
             : this.getDetailContent()
           }
+        />
+        <ConfirmModal
+          active={this.state.confirm}
+          onConfirm={this.handleConfirm}
+          message={this.state.message}
         />
       </ListItem>
     )

@@ -4,8 +4,10 @@ import React from 'react';
 import Spell from '../composite-components/Spell';
 import AttackBonusItem from '../composite-components/AttackBonusItem';
 import SpellSlotsModal from '../dialogs/spells/spell-slots/edit';
+import CreateSpellContent from '../dialogs/spells/create';
 import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog';
 import Icon from '../components/Icon';
+import Modal from '../components/Modal';
 
 export default React.createClass({
   displayName: "PaneSpells",
@@ -26,19 +28,19 @@ export default React.createClass({
       this.props.spells !== nextProps.spells ||
       this.state.flattenedSpells !== nextState.flattenedSpells ||
       this.state.viewSpellSlots !== nextState.viewSpellSlots ||
-      this.state.createSpellAttackBonus !== nextState.createSpellAttackBonus
+      this.state.createSpellAttackBonus !== nextState.createSpellAttackBonus ||
+      this.state.createNewSpell !== nextState.createNewSpell
     )
   },
-
 
   getInitialState() {
     return {
       flattenedSpells: [],
       viewSpellSlots: false,
       createSpellAttackBonus: false,
+      createNewSpell: false,
     }
   },
-
 
   componentWillReceiveProps(nextProps) {
     let flattenedSpells = nextProps.spells.toJS().reduce((flattened, level, levelId) => {
@@ -69,6 +71,10 @@ export default React.createClass({
     });
 
     this.props.handleSpellsChange(updatedEvent);
+  },
+
+  handleCreateCancel() {
+    this.setState({ createNewSpell: false });
   },
 
   renderSpellDC() {
@@ -132,6 +138,7 @@ export default React.createClass({
         key={spell.id}
         spell={spell}
         spellLevel={spell.levelId}
+        onSpellChange={this.props.handleSpellsChange}
       />)
     })
   },
@@ -154,7 +161,7 @@ export default React.createClass({
           { this.renderSpellAttackBonuses() }
         </section>
         <section className='info-section'>
-          <div className='info-section-header interactable'>
+          <div className='info-section-header interactable' onClick={() => this.setState({ createNewSpell: true })}>
             <h5 className='info-section-title'>Spells</h5>
             <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
           </div>
@@ -164,6 +171,12 @@ export default React.createClass({
           <div className='spells-container'>
             { this.renderSpells() }
           </div>
+          <Modal
+            id='create-new-spell'
+            active={this.state.createNewSpell}
+            onDismiss={this.handleCreateCancel}
+            content={<CreateSpellContent onChange={this.props.handleSpellsChange} onCancel={this.handleCreateCancel}/>}
+          />
         </section>
         <SpellSlotsModal
           slots={this.props.spells.toJS()}

@@ -185,6 +185,12 @@ export default React.createClass({
         break;
       case 'SPELL_DC_EDIT':
         break;
+      case 'SPELL_EDIT':
+        break;
+      case 'SPELL_DELETE':
+        break;
+      case 'SPELL_CREATE':
+        break;
     }
   },
 
