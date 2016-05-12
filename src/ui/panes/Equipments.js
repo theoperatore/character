@@ -3,6 +3,7 @@
 import React from 'react';
 import ListItem from '../components/ListItem/v2';
 import Icon from '../components/Icon';
+import EquipmentContainer from '../composite-components/EquipmentContainer';
 
 export default React.createClass({
   displayName : 'PaneEquipments',
@@ -38,16 +39,13 @@ export default React.createClass({
 
   renderEquipments() {
     return this.props.equipment.get('containers').map(container => {
-      let itemsInContainer = this.state.groupedItems[container.get('id')];
+      let itemsInContainer = this.state.groupedItems[container.get('id')] || [];
 
-      let count = itemsInContainer
-        ? itemsInContainer.length
-        : 0;
-
-      return <ListItem
+      return <EquipmentContainer
         key={container.get('id')}
-        name={container.get('name')}
-        subtext={`${count} items`}
+        container={container}
+        itemsInContainer={itemsInContainer}
+        onContainerChange={this.props.handleEquipmentChange}
       />;
     }).toJS();
   },
