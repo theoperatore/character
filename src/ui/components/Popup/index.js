@@ -16,7 +16,6 @@ export default React.createClass({
     active: React.PropTypes.bool.isRequired,
     id: React.PropTypes.string.isRequired,
     content: React.PropTypes.element.isRequired,
-    onDismiss: React.PropTypes.func.isRequired
   },
 
   getInitialState() {
