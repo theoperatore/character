@@ -3,6 +3,7 @@
 import FastClick from 'fastclick';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Immutable from 'immutable';
 import debug from 'debug';
 import Router from './router/Router';
 import db from '../api';
@@ -14,6 +15,8 @@ import User from './views/User';
 // import StyleGuide from './views/StyleGuide';
 import HTML404 from './views/HTML404';
 
+import { createCharacterState } from './state';
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -24,7 +27,9 @@ import { characters as dummyCharacters } from '../dummy-data/dummy-characters';
 ///////////////////////////////////////////////////////////////////////////////
 
 let log = debug('app:router');
+let stateLog = debug('app:state');
 let mount = document.querySelector('#mount');
+let subscribedStateChange = null;
 
 new FastClick(document.body);
 
@@ -43,9 +48,27 @@ Router.get('/user/(:id)/character/(:uid)', (params) => {
 
   log(`routing to character view: `, params);
 
+  // remove any previous event listeners on state change
+  if (subscribedStateChange) {
+    subscribedStateChange();
+  }
+
   let characterUID = params.uid;
-  let character = dummyCharacters[characterUID].character_data;
-  let preference = dummyCharacters[characterUID].preference_data;
+  let loadedCharacter = Immutable.fromJS(dummyCharacters[characterUID].character_data);
+  let loadedPreferences = Immutable.fromJS(dummyCharacters[characterUID].preference_data);
+
+  let store = createCharacterState(loadedCharacter, loadedPreferences);
+  let { character, preferences } = store.getState();
+
+  function updateState(action) {
+    stateLog(action);
+    store.dispatch(action);
+  }
+
+  subscribedStateChange = store.subscribe(function rerender() {
+    let { character, preferences } = store.getState();
+    ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState}/>, mount);
+  });
 
   // /users/id/character/pushID must be the same pushId as /characters/pushID
   // in order to write
@@ -81,7 +104,7 @@ Router.get('/user/(:id)/character/(:uid)', (params) => {
   //   this.setState({ loading : false });
   // }
 
-  ReactDOM.render(<App character_data={character} preferences_data={preference} onNewState={handleNewState}/>, mount);
+  ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState}/>, mount);
 })
 
 // user
@@ -92,12 +115,23 @@ Router.get('/profile/(:id)', (params) => {
   // }
 
   log(`routing to profile view: `, params);
+
+  // remove any previous event listeners on state change
+  if (subscribedStateChange) {
+    subscribedStateChange();
+  }
+
   ReactDOM.render(<User id={params.id} />, mount);
 })
 
 // login
 Router.get('/login/(:id)', (params) => {
   var user = db.ref.getAuth();
+
+  // remove any previous event listeners on state change
+  if (subscribedStateChange) {
+    subscribedStateChange();
+  }
 
   // if the user is already logged in, then redirect to profile page
   if (user) {
@@ -113,17 +147,17 @@ Router.get('/login/(:id)', (params) => {
 
 // Not found
 Router.get('*', () => {
+
+  // remove any previous event listeners on state change
+  if (subscribedStateChange) {
+    subscribedStateChange();
+  }
+
   ReactDOM.render(<HTML404 />, mount);
 })
 
-// style guide
-// Router.get('/style', () => {
-//   ReactDOM.render(<StyleGuide />, mount);
-// })
-
 // start routing!
 Router.init();
-
 
 // set up auth listnen
 // db.ref.onAuth((auth) => {
@@ -131,11 +165,3 @@ Router.init();
 //     Router.nav('/login');
 //   }
 // })
-
-
-function handleNewState(newState, event) {
-  log('got new root state:', newState, event);
-}
-
-
-window.messages = require('debug');

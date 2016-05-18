@@ -2,35 +2,6 @@
 
 module.exports = {
   preference: {
-    atkBubbles : [
-      {
-        abil : "str",
-        prof : false,
-        name : "Attack Bonus",
-        id: 'ralf-atkBubble-1',
-        bonus: 0,
-        score: 2
-      },
-      {
-        abil : "cha",
-        prof : true,
-        name : "+1 Wand of Beard",
-        id: 'ralf-atkBubble-3',
-        bonus: 1,
-        score: 10
-      }
-    ],
-    spellBubbles : [
-      {
-        abil : "cha",
-        prof : false,
-        name : "Spell Attack Bonus",
-        id: 'ralf-spellBubble-1',
-        bonus: 0,
-        score: 5,
-      }
-    ],
-
     // currently not used, but preferences should be for displaying, hiding, 
     // customizing the views... like showing/hiding spell DC
     spellDC : { 
@@ -95,6 +66,35 @@ module.exports = {
       //   current: 2,
       //   name: 'Class Charge Test 4'
       // }
+    ],
+
+    "charAttackBubbles": [
+      {
+        abil : "str",
+        prof : false,
+        name : "Attack Bonus",
+        id: 'ralf-atkBubble-1',
+        bonus: 0,
+        score: 2
+      },
+      {
+        abil : "cha",
+        prof : true,
+        name : "+1 Wand of Beard",
+        id: 'ralf-atkBubble-3',
+        bonus: 1,
+        score: 10
+      }
+    ],
+    "charSpellBubbles": [
+      {
+        abil : "cha",
+        prof : false,
+        name : "Spell Attack Bonus",
+        id: 'ralf-spellBubble-1',
+        bonus: 0,
+        score: 5,
+      }
     ],
 
     "charSpellSaveDC": {

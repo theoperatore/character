@@ -1,23 +1,35 @@
-module.exports = {
-  "charName" : "_",
+export default {
+  "charName" : "",
   "charInfo" : {
-    "class" : "_",
+    "class" : "",
     "level" : 1,
-    "background" : "_",
-    "race" : "_",
-    "alignment" : "_",
+    "background" : "",
+    "race" : "",
+    "alignment" : "",
     "xp" : 0,
-    "deity" : "_",
+    "deity" : "",
     "weight": 0,
-    "height" : "_",
-    "description" : "_"
+    "height" : "",
+    "description" : ""
   },
   "charTraits" : {
-    "personalityTraits" : "_",
-    "ideals" : "_",
-    "bonds" : "_",
-    "flaws" : "_"
+    "personalityTraits" : "",
+    "ideals" : "",
+    "bonds" : "",
+    "flaws" : ""
   },
+
+  "charSpellSaveDC": {
+    abil : "wis",
+    prof : true,
+    name : "Spell Save DC",
+    id: 'spell-save-dc',
+    score: 8, // 8 + ABIL_MOD + PROF
+    bonus: 0,
+  },
+
+  "charAttackBubbles": [],
+  "charSpellBubbles": [],
 
   // each object needs:
   //  id: used to link class charges to feature
@@ -191,7 +203,7 @@ module.exports = {
       "cp" : 0,
       "sp" : 0,
       "ep" : 0,
-      "gp" : 100,
+      "gp" : 0,
       "pp" : 0
     },
     "items" : []

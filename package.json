@@ -21,7 +21,7 @@
     "build-prod": "NODE_ENV=production time npm run timeable-build-prod",
     "build-deploy": "npm run build-prod && npm run deploy",
     "start": "beefy --cwd build",
-    "reload": "browser-sync start --files 'src/ui/statics/*.html, build/bundle.js, build/style.css' --browser chrome --server build --port 9966 --reload-debounce 500 --no-notify --no-open"
+    "test": "tape -r babel-register ./tests/*.test.js | tap-spec"
   },
   "author": "Alex Petersen <theoperatore@gmail.com> (http://anpetersen.me)",
   "license": "MIT",
@@ -52,13 +52,15 @@
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-react": "^6.1.18",
     "babel-preset-stage-0": "^6.1.18",
+    "babel-register": "^6.8.0",
     "babelify": "^7.2.0",
     "beefy": "^2.1.5",
-    "browser-sync": "^2.11.1",
     "browserify": "^13.0.0",
     "chalk": "^1.1.1",
     "nib": "^1.1.0",
     "stylus": "^0.53.0",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.5.1",
     "uglify-js": "^2.6.1",
     "watchify": "^3.7.0"
   }

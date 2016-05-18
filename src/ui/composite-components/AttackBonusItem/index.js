@@ -92,7 +92,7 @@ export default React.createClass({
 
     if ((title !== this.props.title || prof !== this.props.proficient || abil !== this.props.ability || bonus !== this.props.bonus)
         && bonus !== '' && bonus !== '-') {
-      this.props.onChange({ type: 'ATTACK_BONUS_EDIT', data: { title, prof, abil, id: this.props.id, bonus }})
+      this.props.onChange({ type: 'ATTACK_BONUS_EDIT', data: { name: title, prof, abil, id: this.props.id, bonus }})
     }
 
     this.setState({ edit: false, dirty: false, confirm: false, willRemove: false, confirmMessage: null });

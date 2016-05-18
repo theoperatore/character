@@ -1,12 +1,6 @@
 "use strict";
 
 import React from 'react';
-import Immutable from 'immutable';
-
-import blankCharacter from '../data/blank';
-import blankPreferences from '../data/preferences';
-
-import debug from 'debug';
 
 import SwipePanes from '../components/SwipePanes';
 import SwipePane from '../components/SwipePane';
@@ -23,41 +17,22 @@ import Attacks from '../panes/Attacks';
 import Spells from '../panes/Spells';
 import Equipments from '../panes/Equipments';
 
-let error = debug('app:error');
-let log = debug('app:index');
-
 export default React.createClass({
   displayName : "App",
 
 
   propTypes: {
-    character_data: React.PropTypes.object.isRequired,
-    preferences_data: React.PropTypes.object.isRequired,
-    onNewState: React.PropTypes.func.isRequired
+    character: React.PropTypes.object.isRequired,
+    preferences: React.PropTypes.object.isRequired,
+    updateState: React.PropTypes.func.isRequired,
   },
 
 
   getInitialState() {
     return ({
       activePane : 6,
-      loading : true,
-      character : Immutable.fromJS(blankCharacter),
-      preferences : Immutable.fromJS(blankPreferences)
+      loading : false, // TODO: figure this out...
     })
-  },
-
-
-  // load character into immutable map
-  componentWillMount() {
-
-    // database stuff should be outside of this component.
-    let character = Immutable.fromJS(this.props.character_data);
-    let preferences = Immutable.fromJS(this.props.preferences_data);
-
-    character = this.state.character.mergeDeep(character);
-
-    this.setState({ character, preferences, loading: false });
-
   },
 
 
@@ -78,174 +53,25 @@ export default React.createClass({
   handleTabSelect(idx) {
     this.setState({ activePane : idx });
   },
-
-
-  /////////////////////////////////////////////////////////////////////////////
-  // 
-  // These functions should call a service that interacts with the api service
-  // and then possibly set state.
-  //
-  // these should all be events with at least a 'type' property. the rest
-  // can be tailored to each pane specifically
-  //
-  /////////////////////////////////////////////////////////////////////////////
-  handleInfoChange(event) {
-    log(event);
-    let character = this.state.character.toJS();
-
-    switch (event.type) {
-      case 'BASIC_INFO_EDIT':
-        break;
-      case 'TRAIT_EDIT':
-        break;
-      case 'PROFICIENCY_EDIT':
-        break;
-      case 'PROFICIENCY_DELETE':
-        break;
-      case 'PROFICIENCY_CREATE':
-        break;
-      case 'LANGUAGE_EDIT':
-        break;
-      case 'LANGUAGE_DELETE':
-        break;
-      case 'LANGUAGE_CREATE':
-        break;
-    }
-  },
-
-
-  handleFeatureChange(event) {
-    log("feaure event", event);
-    switch (event.type) {
-      case 'FEATURE_CREATE':
-        break;
-      case 'FEATURE_EDIT':
-        break;
-      case 'FEATURE_DELETE':
-        break;
-    }
-  },
-
-
-  handleAbilityChange(event) {
-    log("ability event:", event);
-    switch (event.type) {
-      case 'SKILL_EDIT':
-        break;
-      case 'ABILITY_SCORE_EDIT':
-        break;
-      case 'PROFICIENCY_BONUS_EDIT':
-        break;
-    }
-  },
-
-
-  handleDefenseChange(event) {
-    log("defense event:", event);
-    switch (event.type) {
-      case 'SAVING_THROW_EDIT':
-        break;
-      case 'HIT_POINTS_EDIT':
-        break;
-      case 'DEFENSES_EDIT':
-        break;
-      case 'RESISTANCES_CREATE':
-        break;
-      case 'RESISTANCES_EDIT':
-        break;
-      case 'RESISTANCES_DELETE':
-        break;
-      case 'LONG_REST':
-        break;
-      case 'SHORT_REST':
-        break;
-    }
-  },
-
-
-  handleAttacksChange(event) {
-    log("attacks event:", event);
-    switch(event.type) {
-      case 'CLASS_CHARGE_USE':
-        break;
-      case 'ATTACK_EDIT':
-        break;
-      case 'ATTACK_DELETE':
-        break;
-      case 'ATTACK_CREATE':
-        break;
-    }
-  },
-
-
-  handleSpellsChange(event) {
-    log("spells event:", event);
-    switch(event.type) {
-      case 'SPELL_SLOTS_EDIT':
-        break;
-      case 'SPELL_DC_EDIT':
-        break;
-      case 'SPELL_EDIT':
-        break;
-      case 'SPELL_DELETE':
-        break;
-      case 'SPELL_CREATE':
-        break;
-    }
-  },
-
-
-  handleEquipmentChange(event) {
-    log("equipment event:", event);
-    switch (event.type) {
-      case 'EQUIPMENT_ITEM_CREATE':
-        break;
-      case 'EQUIPMENT_ITEM_EDIT':
-        break;
-      case 'EQUIPMENT_ITEM_DELETE':
-        break;
-      case 'EQUIPMENT_CONTAINER_CREATE':
-        break;
-      case 'EQUIPMENT_CONTAINER_EDIT':
-        break;
-      case 'EQUIPMENT_CONTAINER_DELETE':
-        break;
-      case 'MONEY_EDIT':
-        break;
-    }
-  },
-
-
-  handlePreferencesChange(event) {
-    log('preferences event', event);
-    switch (event.type) {
-      case 'ATTACK_BONUS_CREATE':
-        break;
-      case 'ATTACK_BONUS_EDIT':
-        break;
-      case 'ATTACK_BONUS_DELETE':
-        break;
-      case 'SPELL_ATTACK_BONUS_CREATE':
-        break;
-      case 'SPELL_ATTACK_BONUS_EDIT':
-        break;
-      case 'SPELL_ATTACK_BONUS_DELETE':
-        break;
-    }
-  },
+  
 
   /////////////////////////////////////////////////////////////////////////////
 
   render() {
+    let {
+      character,
+      preferences,
+      updateState
+    } = this.props;
+
     return (
       <div className="character-container">
         <section ref="header" className="character-header">
           <header>
             <div>
-              <h5>{this.state.character.get('charName')}</h5>
+              <h5>{character.get('charName')}</h5>
             </div>
           </header>
-
           <Tabs activeIdx={this.state.activePane} onTabSelect={this.handleTabSelect}>
             <Tab><Icon icon="icon-crown" /></Tab>
             <Tab><Icon icon="fa fa-sitemap" /></Tab>
@@ -256,66 +82,65 @@ export default React.createClass({
             <Tab><Icon icon="icon-equipment"/></Tab>
           </Tabs>
         </section>
-
         <section className="character-body">
           <SwipePanes onSlideChangeEnd={this.handlePaneSwipe} activeIdx={this.state.activePane} initialSlide={this.state.activePane}>
             <SwipePane>
               <Info 
-                info={this.state.character.get('charInfo')}
-                traits={this.state.character.get('charTraits')}
-                proficiencies={this.state.character.get('charOtherProficiencies')}
-                handleInfoChange={this.handleInfoChange}
+                info={character.get('charInfo')}
+                traits={character.get('charTraits')}
+                proficiencies={character.get('charOtherProficiencies')}
+                handleInfoChange={updateState}
               />
             </SwipePane>
             <SwipePane>
               <Features 
-                features={this.state.character.get('charFeatures')}
-                charges={this.state.character.get('charClassCharges')}
-                handleFeatureChange={this.handleFeatureChange}
+                features={character.get('charFeatures')}
+                charges={character.get('charClassCharges')}
+                handleFeatureChange={updateState}
               />
             </SwipePane>
             <SwipePane>
               <Abilities
-                abilities={this.state.character.get('charAbilities')}
-                skills={this.state.character.get('charSkills')}
-                proficiencyBonus={this.state.character.get('charProficiencyBonus')}
-                passivePerception={this.state.character.get('charPassivePerception')}
-                handleAbilityChange={this.handleAbilityChange}
+                abilities={character.get('charAbilities')}
+                skills={character.get('charSkills')}
+                proficiencyBonus={character.get('charProficiencyBonus')}
+                passivePerception={character.get('charPassivePerception')}
+                handleAbilityChange={updateState}
                />
             </SwipePane>
             <SwipePane>
               <Defenses 
-                hitPoints={this.state.character.get('charHitPoints')}
-                speed={this.state.character.get('charSpeed')}
-                initiative={this.state.character.get('charInitiative')}
-                armorClass={this.state.character.get('charArmorClass')}
-                savingThrows={this.state.character.get('charSavingThrows')}
-                resistances={this.state.character.get('charResistances')}
-                handleDefenseChange={this.handleDefenseChange}
+                hitPoints={character.get('charHitPoints')}
+                speed={character.get('charSpeed')}
+                initiative={character.get('charInitiative')}
+                armorClass={character.get('charArmorClass')}
+                savingThrows={character.get('charSavingThrows')}
+                resistances={character.get('charResistances')}
+                handleDefenseChange={updateState}
               />
             </SwipePane>
             <SwipePane>
               <Attacks 
-                attacks={this.state.character.get('charAttacks')}
-                charges={this.state.character.get('charClassCharges')}
-                bubbles={this.state.preferences.get('atkBubbles')}
-                handleAttacksChange={this.handleAttacksChange}
-                handlePreferencesChange={this.handlePreferencesChange}
+                attacks={character.get('charAttacks')}
+                charges={character.get('charClassCharges')}
+                bubbles={character.get('charAttackBubbles')}
+                handleAttacksChange={updateState}
+                handlePreferencesChange={updateState}
               />
             </SwipePane>            
             <SwipePane>
               <Spells 
-                bubbles={this.state.preferences.get('spellBubbles')}
-                spellDC={this.state.character.get('charSpellSaveDC')}
-                spells={this.state.character.get('charSpells')}
-                handleSpellsChange={this.handleSpellsChange}
-                handlePreferencesChange={this.handlePreferencesChange}
+                bubbles={character.get('charSpellBubbles')}
+                spellDC={character.get('charSpellSaveDC')}
+                spells={character.get('charSpells')}
+                handleSpellsChange={updateState}
+                handlePreferencesChange={updateState}
               />
             </SwipePane>            
             <SwipePane>
               <Equipments
-                equipment={this.state.character.get('charEquipment')}
-                handleEquipmentChange={this.handleEquipmentChange}
+                equipment={character.get('charEquipment')}
+                handleEquipmentChange={updateState}
               />
             </SwipePane>            
           </SwipePanes>
@@ -324,10 +149,4 @@ export default React.createClass({
       </div>
     );
   }
-})
-
-
-/*
-<Tab><Icon icon="icon-features" /></Tab>
-<Tab><Icon icon="icon-chart" /></Tab>
-*/
+});
