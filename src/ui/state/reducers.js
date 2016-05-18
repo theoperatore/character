@@ -13,7 +13,9 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     // info
     case 'BASIC_INFO_EDIT':
-      break;
+      return state.update('charInfo', charInfo => {
+        return charInfo.merge(action.data);
+      });
     case 'TRAIT_EDIT':
       break;
     case 'PROFICIENCY_EDIT':

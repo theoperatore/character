@@ -30,7 +30,7 @@ export default React.createClass({
   },
 
 
-  refNames: ['newLevel', 'newXp', 'newClass', 'newRace', 'newAlignment', 'newBackground'],
+  refNames: ['level', 'xp', 'class', 'race', 'alignment', 'background'],
 
 
   isDirty() {
@@ -49,6 +49,9 @@ export default React.createClass({
     let infos = this.refNames
       .map(refName => ({[refName]: this.refs[refName].value}))
       .reduce((obj, ref) => Object.assign(obj, ref), {});
+
+    infos.xp = Number(infos.xp);
+    infos.level = Number(infos.level);
     
     this.props.onSave({ type: 'BASIC_INFO_EDIT', data: infos });
   },
@@ -70,30 +73,30 @@ export default React.createClass({
           <div className='col-1-2'>
             <div className='inputs'>
               <label htmlFor='newLevel'>level</label>
-              <input id='newLevel' type='text' defaultValue={this.props.currLevel} ref='newLevel' onChange={this.makeDirty}/>
+              <input id='newLevel' type='text' defaultValue={this.props.currLevel} ref='level' onChange={this.makeDirty}/>
             </div>
             <div className='inputs'>
               <label htmlFor='newXp'>xp</label>
-              <input id='newXp' type='text' defaultValue={this.props.currXp} ref='newXp' onChange={this.makeDirty}/>
+              <input id='newXp' type='text' defaultValue={this.props.currXp} ref='xp' onChange={this.makeDirty}/>
             </div>
             <div className='inputs'>
               <label htmlFor='newClass'>class</label>
-              <input id='newClass' type='text' defaultValue={this.props.currClass} ref='newClass' onChange={this.makeDirty}/>
+              <input id='newClass' type='text' defaultValue={this.props.currClass} ref='class' onChange={this.makeDirty}/>
             </div>
           </div>
 
           <div className='col-1-2'>
             <div className='inputs'>
               <label htmlFor='newRace'>race</label>
-              <input id='newRace' type='text' defaultValue={this.props.currRace} ref='newRace' onChange={this.makeDirty}/>
+              <input id='newRace' type='text' defaultValue={this.props.currRace} ref='race' onChange={this.makeDirty}/>
             </div>
             <div className='inputs'>
               <label htmlFor='newAlignment'>alignment</label>
-              <input id='newAlignment' type='text' defaultValue={this.props.currAlign} ref='newAlignment' onChange={this.makeDirty}/>
+              <input id='newAlignment' type='text' defaultValue={this.props.currAlign} ref='alignment' onChange={this.makeDirty}/>
             </div>
             <div className='inputs'>
               <label htmlFor='newBackground'>background</label>
-              <input id='newBackground' type='text' defaultValue={this.props.currBackground} ref='newBackground' onChange={this.makeDirty}/>
+              <input id='newBackground' type='text' defaultValue={this.props.currBackground} ref='background' onChange={this.makeDirty}/>
             </div>
           </div>
         </div>
