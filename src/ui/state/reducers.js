@@ -49,6 +49,30 @@ export function character(state = DEFAULT_CHARACTER, action) {
     case 'SAVING_THROW_EDIT':
       break;
     case 'HIT_POINTS_EDIT':
+      switch (action.data.type) {
+        case 'damage':
+          return state.update('charHitPoints', hitPoints => {
+            return hitPoints.set('current', hitPoints.get('current') - action.data.value);
+          });
+        case 'heal':
+          return state.update('charHitPoints', hitPoints => {
+            let newValue = hitPoints.get('current') + action.data.value;
+
+            newValue = newValue > hitPoints.get('maximum')
+              ? hitPoints.get('maximum')
+              : newValue;
+
+            return hitPoints.set('current', newValue);
+          });
+        case 'temporary':
+          return state.update('charHitPoints', hitPoints => {
+            return hitPoints.set('temporary', hitPoints.get('temporary') + action.data.value);
+          });
+        default:
+          return state;
+      }
+
+    case 'DEATH_SAVES_ADD':
       break;
     case 'DEFENSES_EDIT':
       break;
