@@ -32,7 +32,7 @@ export default React.createClass({
       let shouldUpdate = desc !== this.props.desc;
 
       if (shouldUpdate) {
-        this.props.onTraitChange({ type: 'TRAIT_EDIT', desc, id: this.props.id });  
+        this.props.onTraitChange({ type: 'TRAIT_EDIT', data: { desc, id: this.props.id }});
       }
     }
 

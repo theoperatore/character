@@ -16,8 +16,12 @@ export function character(state = DEFAULT_CHARACTER, action) {
       return state.update('charInfo', charInfo => {
         return charInfo.merge(action.data);
       });
+
     case 'TRAIT_EDIT':
-      break;
+      return state.update('charTraits', charTraits => {
+        return charTraits.set(action.data.id, action.data.desc);
+      });
+
     case 'PROFICIENCY_EDIT':
       break;
     case 'PROFICIENCY_DELETE':
