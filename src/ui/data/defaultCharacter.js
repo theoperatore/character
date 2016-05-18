@@ -25,6 +25,7 @@ export default {
     name : "Spell Save DC",
     id: 'spell-save-dc',
     score: 8, // 8 + ABIL_MOD + PROF
+    base: 8,
     bonus: 0,
   },
 

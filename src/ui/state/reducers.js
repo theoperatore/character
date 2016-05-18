@@ -77,7 +77,18 @@ export function character(state = DEFAULT_CHARACTER, action) {
     case 'SPELL_SLOTS_EDIT':
       break;
     case 'SPELL_DC_EDIT':
-      break;
+      return state.update('charSpellSaveDC', spellSaveDC => {
+        let score = state.getIn(['charAbilities', action.data.abil, 'mod'])
+          + state.getIn(['charSpellSaveDC', 'base'])
+          + action.data.bonus;
+
+        score += action.data.prof
+          ? state.getIn(['charProficiencyBonus', 'score'])
+          : 0;
+
+        return spellSaveDC.merge(action.data, { score });
+      });
+
     case 'SPELL_EDIT':
       break;
     case 'SPELL_DELETE':

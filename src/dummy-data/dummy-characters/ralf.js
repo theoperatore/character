@@ -101,8 +101,9 @@ module.exports = {
       abil : "wis",
       prof : true,
       name : "Spell Save DC",
-      id: 'ralf-spell-save-dc',
+      id: 'spell-save-dc',
       score: 15, // 8 + wis + prof
+      base: 8,
       bonus: 0,
     },
 
