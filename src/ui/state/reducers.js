@@ -52,7 +52,14 @@ export function character(state = DEFAULT_CHARACTER, action) {
       switch (action.data.type) {
         case 'damage':
           return state.update('charHitPoints', hitPoints => {
-            return hitPoints.set('current', hitPoints.get('current') - action.data.value);
+            let tempDmg = action.data.value - hitPoints.get('temporary');
+
+            if (tempDmg <= 0) {
+              return hitPoints.set('temporary', Math.abs(tempDmg));
+            }
+
+            let tmp = hitPoints.set('temporary', 0);
+            return tmp.set('current', hitPoints.get('current') - tempDmg);
           });
         case 'heal':
           return state.update('charHitPoints', hitPoints => {
