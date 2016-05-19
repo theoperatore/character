@@ -45,7 +45,13 @@ export default React.createClass({
       let shouldUpdate = name !== this.props.name || desc !== this.props.desc;
 
       if (shouldUpdate) {
-        this.props.onProficiencyChange({ type: 'PROFICIENCY_EDIT', name, desc, id: this.props.id });  
+        let data = {
+          id: this.props.id,
+          name,
+          desc,
+        };
+
+        this.props.onProficiencyChange({ type: 'PROFICIENCY_EDIT', data });  
       }
     }
 
@@ -61,7 +67,7 @@ export default React.createClass({
 
     let result = window.confirm(`Delete Proficiency: ${this.props.name}?`);
     if (result) {
-      this.props.onProficiencyChange({ type: 'PROFICIENCY_DELETE', id: this.props.id });
+      this.props.onProficiencyChange({ type: 'PROFICIENCY_DELETE', data: { id: this.props.id }});
     }
   },
 

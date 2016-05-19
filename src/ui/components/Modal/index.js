@@ -75,6 +75,12 @@ export default React.createClass({
   },
 
 
+  componentWillUnmount() {
+    document.querySelector(appContainer).style.overflow = 'auto';
+    document.querySelector(paneContainer).style.overflow = 'auto';
+  },
+
+
   render() {
     let css = cn({
       'modal-overlay': true,

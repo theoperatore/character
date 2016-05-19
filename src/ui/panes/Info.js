@@ -106,7 +106,7 @@ module.exports = React.createClass({
 
   renderProficiencies() {
     return this.props.proficiencies.get('proficiencies').toJS().map((prof, i) => {
-      let mc = <EditProficiency ref={`profs-${i}`} name={prof.name} desc={prof.desc} id={`${i}`} onProficiencyChange={this.handleChange.bind(this, `prof-${i}`)} />;
+      let mc = <EditProficiency ref={`profs-${i}`} name={prof.name} desc={prof.desc} id={prof.id} onProficiencyChange={this.handleChange.bind(this, `prof-${i}`)} />;
       return (
         <ListItem ref={`prof-${i}`} key={i} title={prof.name} id={`proficiencies-${i}`} modalContent={mc} onDismiss={this.handleDirtyCheck.bind(this, `profs-${i}`)}/>
       )

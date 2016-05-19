@@ -11,23 +11,35 @@ const DEFAULT_PREFERENCES = Immutable.fromJS(defaultPreferences);
 export function character(state = DEFAULT_CHARACTER, action) {
   switch (action.type) {
 
-    // info
+    // charInfo
     case 'BASIC_INFO_EDIT':
       return state.update('charInfo', charInfo => {
         return charInfo.merge(action.data);
       });
 
+    // charTraits
     case 'TRAIT_EDIT':
       return state.update('charTraits', charTraits => {
         return charTraits.set(action.data.id, action.data.desc);
       });
 
+    // charOtherProficiencies
     case 'PROFICIENCY_EDIT':
-      break;
+      return state.updateIn(['charOtherProficiencies', 'proficiencies'], proficiencies => {
+        let idx = proficinecies.findIndex(prof => prof.id === action.data.id);
+        return proficiencies.update(idx, prof => prof.merge(action.data));
+      });
+
     case 'PROFICIENCY_DELETE':
-      break;
+      return state.updateIn(['charOtherProficiencies', 'proficiencies'], proficiencies => {
+        return proficiencies.filter(prof => prof.get('id') !== action.data.id);
+      });
+
     case 'PROFICIENCY_CREATE':
-      break;
+      return state.updateIn(['charOtherProficiencies', 'proficiencies'], proficiencies => {
+        return proficiencies.push(Immutable.Map(action.data));
+      });
+
     case 'LANGUAGE_EDIT':
       break;
     case 'LANGUAGE_DELETE':
