@@ -171,6 +171,7 @@ export default {
   "charPassivePerception" : {
     "score" : 0,
     "bonus": 0,
+    "base": 10,
     "derivatives" : []
   },
   "charArmorClass" : {
@@ -179,6 +180,7 @@ export default {
   },
   "charInitiative" : {
     "score" : 0,
+    "bonus": 0,
     "derivatives" : []
   },
   "charSpeed" : {

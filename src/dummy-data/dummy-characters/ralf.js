@@ -315,6 +315,7 @@ module.exports = {
     "charPassivePerception" : {
       "score" : 13,
       "bonus": 0,
+      "base": 10,
       "derivatives" : []
     },
     "charArmorClass" : {
@@ -322,7 +323,7 @@ module.exports = {
       "derivatives" : []
     },
     "charInitiative" : {
-      "score" : 5,
+      "score" : 5, // dex mod
       "bonus": 0,
       "derivatives" : []
     },

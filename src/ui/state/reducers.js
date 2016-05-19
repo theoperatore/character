@@ -1,12 +1,12 @@
 'use strict';
 
-import Immutable from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import defaultCharacter from '../data/defaultCharacter';
 import defaultPreferences from '../data/defaultPreferences';
 
-const DEFAULT_CHARACTER = Immutable.fromJS(defaultCharacter);
-const DEFAULT_PREFERENCES = Immutable.fromJS(defaultPreferences);
+const DEFAULT_CHARACTER = fromJS(defaultCharacter);
+const DEFAULT_PREFERENCES = fromJS(defaultPreferences);
 
 export function character(state = DEFAULT_CHARACTER, action) {
   switch (action.type) {
@@ -37,7 +37,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     case 'PROFICIENCY_CREATE':
       return state.updateIn(['charOtherProficiencies', 'proficiencies'], proficiencies => {
-        return proficiencies.push(Immutable.Map(action.data));
+        return proficiencies.push(Map(action.data));
       });
 
     case 'LANGUAGE_EDIT':
@@ -59,7 +59,92 @@ export function character(state = DEFAULT_CHARACTER, action) {
     case 'SKILL_EDIT':
       break;
     case 'ABILITY_SCORE_EDIT':
-      break;
+      let abilityScoreKeys = Object.keys(action.data).filter(key => key !== 'proficiency');
+      let abilityScoreMods = abilityScoreKeys.reduce((obj, key) => {
+        obj[key] = Math.floor((action.data[key] - 10) / 2);
+        return obj;
+      }, {});
+
+      let partialState = state
+        .update('charAbilities', charAbilities => {
+          return abilityScoreKeys
+            .reduce((outAbil, abilKey) => {
+              return outAbil
+                .setIn([abilKey, 'score'], action.data[abilKey])
+                .setIn([abilKey, 'mod'], abilityScoreMods[abilKey]);
+            }, charAbilities);
+        })
+        .update('charProficiencyBonus', charProficiencyBonus => {
+          return charProficiencyBonus.set('score', action.data.proficiency);
+        })
+        .update('charAttackBubbles', charAttackBubbles => {
+          return charAttackBubbles.map(bubble => {
+            let newScore = abilityScoreMods[bubble.get('abil')] + bubble.get('bonus');
+
+            newScore += bubble.get('prof')
+              ? action.data.proficiency
+              : 0;
+
+            return bubble.set('score', newScore);
+          });
+        })
+        .update('charSpellBubbles', charSpellBubbles => {
+          return charSpellBubbles.map(bubble => {
+            let newScore = abilityScoreMods[bubble.get('abil')] + bubble.get('bonus');
+
+            newScore += bubble.get('prof')
+              ? action.data.proficiency
+              : 0;
+
+            return bubble.set('score', newScore);
+          });
+        })
+        .update('charSpellSaveDC', charSpellSaveDC => {
+          let newScore = charSpellSaveDC.get('base')
+            + charSpellSaveDC.get('bonus')
+            + abilityScoreMods[charSpellSaveDC.get('abil')];
+
+          newScore += charSpellSaveDC.get('prof')
+            ? action.data.proficiency 
+            : 0;
+
+          return charSpellSaveDC.set('score', newScore);
+        })
+        .update('charInitiative', charInitiative => {
+          let newScore = charInitiative.get('bonus') + abilityScoreMods.dex;
+          return charInitiative.set('score', newScore);
+        })
+        .update('charSavingThrows', charSavingThrows => {
+          return abilityScoreKeys
+            .reduce((outSavingThrows, abilKey) => {
+              let newScore = abilityScoreMods[abilKey];
+
+              newScore += outSavingThrows.getIn([abilKey, 'proficient'])
+                ? action.data.proficiency
+                : 0;
+
+              return outSavingThrows.setIn([abilKey, 'score'], newScore);
+            }, charSavingThrows);
+        })
+        .update('charSkills', charSkills => {
+          return charSkills.map(skill => {
+            let newScore = skill.get('bonus') + abilityScoreMods[skill.get('mod')];
+
+            newScore += skill.get('trained')
+              ? action.data.proficiency
+              : 0;
+
+            return skill.set('score', newScore);
+          })
+        })
+
+      return partialState
+        .update('charPassivePerception', charPassivePerception => {
+          let perceptionSkill = partialState.get('charSkills').find(itm => itm.get('name') === 'Perception');
+          let newScore = charPassivePerception.get('bonus') + perceptionSkill.get('score') + charPassivePerception.get('base');
+          return charPassivePerception.set('score', newScore);
+        });
+      
     case 'PROFICIENCY_BONUS_EDIT':
       break;
 
@@ -170,7 +255,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
           ? state.getIn(['charProficiencyBonus', 'score'])
           : 0;
 
-        let newBubble = Immutable.Map(Object.assign({}, action.data, { score }));
+        let newBubble = Map(Object.assign({}, action.data, { score }));
         return charAttackBubbles.push(newBubble);
       });
       
@@ -202,7 +287,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
           ? state.getIn(['charProficiencyBonus', 'score'])
           : 0;
 
-        let newSpellBubble = Immutable.Map(Object.assign({}, action.data, { score }));
+        let newSpellBubble = Map(Object.assign({}, action.data, { score }));
         return charSpellBubbles.push(newSpellBubble);
       });
 
