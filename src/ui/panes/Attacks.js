@@ -72,6 +72,7 @@ export default React.createClass({
 
   renderAttacks() {
     return this.props.attacks.toJS().map((attack, i) => {
+      console.log(attack.id);
       return (
         <AttackItem
           key={i}

@@ -329,11 +329,22 @@ export function character(state = DEFAULT_CHARACTER, action) {
       })
 
     case 'ATTACK_EDIT':
-      break;
+      return state.update('charAttacks', charAttacks => {
+        let idx = charAttacks.findIndex(atk => atk.get('id') === action.data.id);
+        return charAttacks.update(idx, attack => {
+          return attack.merge(action.data);
+        });
+      });
+      
     case 'ATTACK_DELETE':
-      break;
+      return state.update('charAttacks', charAttacks => {
+        return charAttacks.filter(attack => attack.get('id') !== action.data.id);
+      });
+
     case 'ATTACK_CREATE':
-      break;
+      return state.update('charAttacks', charAttacks => {
+        return charAttacks.push(Map(action.data));
+      });
 
     // spells
     case 'SPELL_SLOTS_EDIT':
