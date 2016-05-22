@@ -317,7 +317,17 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     // attacks
     case 'CLASS_CHARGE_USE':
-      break;
+      return state.update('charClassCharges', charClassCharges => {
+        let idx = charClassCharges.findIndex(charge => charge.get('id') === action.data.id);
+        return charClassCharges.update(idx, charge => {
+          let newCurrent = charge.get('current') - 1;
+
+          newCurrent = newCurrent < 0 ? 0 : newCurrent;
+
+          return charge.set('current', newCurrent);
+        });
+      })
+
     case 'ATTACK_EDIT':
       break;
     case 'ATTACK_DELETE':

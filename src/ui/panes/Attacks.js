@@ -35,7 +35,9 @@ export default React.createClass({
   useClassCharge(id) {
     let event = {
       type: 'CLASS_CHARGE_USE',
-      data: id
+      data: {
+        id,
+      },
     }
     this.props.handleAttacksChange(event);
   },
