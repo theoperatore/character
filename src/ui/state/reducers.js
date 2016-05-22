@@ -367,9 +367,13 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     // spells
     case 'SPELL_SLOTS_EDIT':
-      break;
-    case 'SPELL_SLOTS_RECHARGE':
-      break;
+      return state.update('charSpells', charSpells => {
+        return charSpells.map((spell, idx) => {
+          return spell
+            .set('slots', action.data.slots[idx].max)
+            .set('used', action.data.slots[idx].max - action.data.slots[idx].curr);
+        });
+      });
     case 'SPELL_DC_EDIT':
       return state.update('charSpellSaveDC', spellSaveDC => {
         let score = state.getIn(['charAbilities', action.data.abil, 'mod'])
