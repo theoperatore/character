@@ -114,7 +114,7 @@ export default React.createClass({
         maxHp: hp,
         armorClass: ac,
         speed,
-        initativeBonus: initiative
+        initiativeBonus: initiative
       }
 
       this.props.onChange({ type: 'DEFENSES_EDIT', data });

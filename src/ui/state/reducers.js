@@ -276,7 +276,21 @@ export function character(state = DEFAULT_CHARACTER, action) {
         });
       });
     case 'DEFENSES_EDIT':
-      break;
+      return state
+        .update('charArmorClass', charArmorClass => {
+          return charArmorClass.set('score', action.data.armorClass);
+        })
+        .update('charInitiative', charInitiative => {
+          let newScore = action.data.initiativeBonus + state.getIn(['charAbilities', 'dex', 'mod']);
+          return charInitiative.set('score', newScore).set('bonus', action.data.initiativeBonus);
+        })
+        .update('charSpeed', charSpeed => {
+          return charSpeed.set('score', action.data.speed);
+        })
+        .update('charHitPoints', charHitPoints => {
+          return charHitPoints.set('maximum', action.data.maxHp);
+        });
+      
     case 'RESISTANCES_CREATE':
       break;
     case 'RESISTANCES_EDIT':
