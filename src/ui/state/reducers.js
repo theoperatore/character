@@ -322,7 +322,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
       break;
 
     // attacks
-    case 'CLASS_CHARGE_USE':
+    case 'CLASS_CHARGE_DECREMENT':
       return state.update('charClassCharges', charClassCharges => {
         let idx = charClassCharges.findIndex(charge => charge.get('id') === action.data.id);
         return charClassCharges.update(idx, charge => {
@@ -333,6 +333,19 @@ export function character(state = DEFAULT_CHARACTER, action) {
           return charge.set('current', newCurrent);
         });
       })
+    case 'CLASS_CHARGE_INCREMENT':
+      return state.update('charClassCharges', charClassCharges => {
+        let idx = charClassCharges.findIndex(charge => charge.get('id') === action.data.id);
+        return charClassCharges.update(idx, charge => {
+          let newCurrent = charge.get('current') + 1;
+
+          newCurrent = newCurrent > charge.get('charges')
+            ? charge.get('charges')
+            : newCurrent;
+
+          return charge.set('current', newCurrent);
+        });
+      }); 
 
     case 'ATTACK_EDIT':
       return state.update('charAttacks', charAttacks => {
@@ -354,6 +367,8 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     // spells
     case 'SPELL_SLOTS_EDIT':
+      break;
+    case 'SPELL_SLOTS_RECHARGE':
       break;
     case 'SPELL_DC_EDIT':
       return state.update('charSpellSaveDC', spellSaveDC => {

@@ -34,7 +34,7 @@ export default React.createClass({
 
   useClassCharge(id) {
     let event = {
-      type: 'CLASS_CHARGE_USE',
+      type: 'CLASS_CHARGE_DECREMENT',
       data: {
         id,
       },
