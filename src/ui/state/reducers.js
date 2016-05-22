@@ -218,7 +218,18 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     // defenses
     case 'SAVING_THROW_EDIT':
-      break;
+      return state.updateIn(['charSavingThrows', action.data.ability], savingThrow => {
+        let newScore = savingThrow.get('bonus') + state.getIn(['charAbilities', action.data.ability, 'mod']);
+
+        newScore += action.data.proficient
+          ? state.getIn(['charProficiencyBonus', 'score'])
+          : 0;
+
+        return savingThrow
+          .set('proficient', action.data.proficient)
+          .set('score', newScore);
+      });
+
     case 'HIT_POINTS_EDIT':
       switch (action.data.type) {
         case 'damage':
