@@ -117,7 +117,18 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     // ability
     case 'SKILL_EDIT':
-      break;
+      return state.update('charSkills', charSkills => {
+        let idx = charSkills.findIndex(skill => skill.get('name') === action.data.name);
+        return charSkills.update(idx, skill => {
+          let newScore = skill.get('bonus') + state.getIn(['charAbilities', skill.get('mod'), 'mod']);
+
+          newScore += action.data.trained 
+            ? state.getIn(['charProficiencyBonus', 'score'])
+            : 0;
+
+          return skill.set('trained', action.data.trained).set('score', newScore);
+        });
+      });
     case 'ABILITY_SCORE_EDIT':
       let abilityScoreKeys = Object.keys(action.data).filter(key => key !== 'proficiency');
       let abilityScoreMods = abilityScoreKeys.reduce((obj, key) => {
