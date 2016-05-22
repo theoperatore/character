@@ -275,6 +275,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
           return save += action.data[Object.keys(action.data)[0]];
         });
       });
+
     case 'DEFENSES_EDIT':
       return state
         .update('charArmorClass', charArmorClass => {
@@ -292,11 +293,23 @@ export function character(state = DEFAULT_CHARACTER, action) {
         });
       
     case 'RESISTANCES_CREATE':
-      break;
+      return state.update('charResistances', charResistances => {
+        return charResistances.push(Map(action.data));
+      });
+
     case 'RESISTANCES_EDIT':
-      break;
+      return state.update('charResistances', charResistances => {
+        let idx = charResistances.findIndex(res => res.get('id') === action.data.id);
+        return charResistances.update(idx, res => {
+          return res.merge(action.data);
+        });
+      });
+
     case 'RESISTANCES_DELETE':
-      break;
+      return state.update('charResistances', charResistances => {
+        return charResistances.filter(res => res.get('id') !== action.data.id);
+      });
+
     case 'LONG_REST':
       break;
     case 'SHORT_REST':
@@ -333,6 +346,8 @@ export function character(state = DEFAULT_CHARACTER, action) {
     case 'SPELL_DELETE':
       break;
     case 'SPELL_CREATE':
+      break;
+    case 'SPELL_CAST':
       break;
 
     // equipments
