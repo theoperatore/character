@@ -24,8 +24,10 @@ export default React.createClass({
       return <div key={i} style={segmentStyle} className={`segment ${i < this.props.current ? 'filled' : ''}`}></div>
     })
 
+    let { className } = this.props;
+
     return (
-      <div className='segmented-progress-bar-container'>
+      <div className={`${className} segmented-progress-bar-container`}>
         {segments}
       </div>
     )

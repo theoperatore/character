@@ -3,6 +3,7 @@
 import React from 'react';
 import AttackBonusItem from '../composite-components/AttackBonusItem';
 import AttackItem from '../composite-components/AttackItem';
+import ClassChargeItem from '../composite-components/ClassChargeItem';
 import CreateAttackDialog from '../dialogs/attacks/CreateAttackDialog';
 import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog';
 import Icon from '../components/Icon';
@@ -62,17 +63,20 @@ export default React.createClass({
 
   renderClassCharges() {
     return this.props.charges.toJS().map((charge, i) => {
-      return <div onClick={this.useClassCharge.bind(this, charge.id)} className='class-charges-container' key={i}>
-        <h6>{charge.name}<small>{charge.current}/{charge.charges}</small></h6>
-        <SegmentedProgressBar segments={charge.charges} current={charge.current} />
-      </div>
+      return <ClassChargeItem
+        key={charge.id}
+        id={charge.id}
+        name={charge.name}
+        charges={charge.charges}
+        current={charge.current}
+        onChange={this.props.handleAttacksChange}
+      />
     })
   },
 
 
   renderAttacks() {
     return this.props.attacks.toJS().map((attack, i) => {
-      console.log(attack.id);
       return (
         <AttackItem
           key={i}
@@ -98,12 +102,6 @@ export default React.createClass({
           {this.renderAttackBonuses()}
         </section>
         <section className='info-section'>
-          {
-            this.props.charges.size === 0 ? null :
-            <div className='info-section-header'>
-              <h5 className='info-section-title'>Class Charges</h5>
-            </div>
-          }
           {this.renderClassCharges()}
         </section>
         <section className='info-section'>
