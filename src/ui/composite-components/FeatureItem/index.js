@@ -110,7 +110,7 @@ export default React.createClass({
       let desc = this.refs.newDesc.value.trim();
       let type = this.state.typeSelected;
       let id = this.props.id;
-      let feature = { name, desc, type, id };
+      let feature = { name, desc, type, id, classChargesId: this.props.classChargesId };
 
       if (name === '') { return; }
 
@@ -127,6 +127,7 @@ export default React.createClass({
         feature.classChargesId = isNewClassCharge ? uuid.v1() : this.props.classChargesId;
         classCharge.id = isNewClassCharge ? feature.classChargesId : this.props.classChargesId;
         data.classCharge = classCharge;
+        data.isNewClassCharge = isNewClassCharge;
       }
 
       this.props.onChange({ type: 'FEATURE_EDIT', data });

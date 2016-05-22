@@ -26,7 +26,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
     // charOtherProficiencies
     case 'PROFICIENCY_EDIT':
       return state.updateIn(['charOtherProficiencies', 'proficiencies'], proficiencies => {
-        let idx = proficinecies.findIndex(prof => prof.id === action.data.id);
+        let idx = proficinecies.findIndex(prof => prof.get('id') === action.data.id);
         return proficiencies.update(idx, prof => prof.merge(action.data));
       });
 
@@ -41,19 +41,79 @@ export function character(state = DEFAULT_CHARACTER, action) {
       });
 
     case 'LANGUAGE_EDIT':
-      break;
+      return state.updateIn(['charOtherProficiencies', 'languages'], languages => {
+        let idx = languages.findINdx(lang => lang.get('id') === action.data.id);
+        return languages.update(idx, lang => lang.merge(action.data));
+      });
+      
     case 'LANGUAGE_DELETE':
-      break;
+      return state.updateIn(['charOtherProficiencies', 'languages'], languages => {
+        return languages.filter(lang => lang.get('id') !== action.data.id);
+      });
+
     case 'LANGUAGE_CREATE':
-      break;
+      return state.updateIn(['charOtherProficiencies', 'languages'], languages => {
+        return languages.push(Map(action.data));
+      });
 
     // features
     case 'FEATURE_CREATE':
-      break;
+      let createsClassCharge = !!action.data.classCharge;
+
+      let partialStateFeat = state.update('charFeatures', charFeatures => {
+        return charFeatures.push(Map(action.data.feature));
+      });
+
+      return createsClassCharge
+        ? partialStateFeat.update('charClassCharges', charClassCharges => {
+            return charClassCharges.push(Map(action.data.classCharge));
+          })
+        : partialStateFeat
+
     case 'FEATURE_EDIT':
-      break;
+      let createClassCharge = action.data.isNewClassCharge;
+      let removeClassCharge = action.data.feature.classChargesId && !action.data.classCharge;
+      let editClassCharge = action.data.feature.classChargesId && action.data.classCharge;
+
+      let partialStateFeatEdit = state.update('charFeatures', charFeatures => {
+        let idx = charFeatures.findIndex(feat => feat.get('id') === action.data.feature.id);
+        return charFeatures.update(idx, feature => {
+          if (removeClassCharge) {
+            return feature.merge(action.data.feature).delete('classChargesId');
+          }
+
+          return feature.merge(action.data.feature);
+        });
+      });
+
+      return createClassCharge || removeClassCharge || editClassCharge
+        ? partialStateFeatEdit.update('charClassCharges', charClassCharges => {
+            if (action.data.isNewClassCharge) {
+              return charClassCharges.push(Map(action.data.classCharge));
+            }
+
+            if (action.data.feature.classChargesId && !action.data.classCharge) {
+              return charClassCharges.filter(charge => charge.get('id') !== action.data.feature.classChargesId);
+            }
+
+            let idx = charClassCharges.findIndex(charge => charge.get('id') === action.data.classCharge.id);
+            return charClassCharges.update(idx, charge => charge.merge(action.data.classCharge));
+
+          })
+        : partialStateFeatEdit;
+
+      
     case 'FEATURE_DELETE':
-      break;
+      let hasClassCharge = !!action.data.classChargesId;
+      let partialStateFeatDelete = state.update('charFeatures', charFeatures => {
+        return charFeatures.filter(feat => feat.get('id') !== action.data.id);
+      });
+
+      return hasClassCharge
+        ? partialStateFeatDelete.update('charClassCharges', charClassCharges => {
+            return charClassCharges.filter(charge => charge.get('id') !== action.data.classChargesId);
+          })
+        : partialStateFeatDelete;
 
     // ability
     case 'SKILL_EDIT':
@@ -144,9 +204,6 @@ export function character(state = DEFAULT_CHARACTER, action) {
           let newScore = charPassivePerception.get('bonus') + perceptionSkill.get('score') + charPassivePerception.get('base');
           return charPassivePerception.set('score', newScore);
         });
-      
-    case 'PROFICIENCY_BONUS_EDIT':
-      break;
 
     // defenses
     case 'SAVING_THROW_EDIT':
