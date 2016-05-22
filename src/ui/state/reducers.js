@@ -245,13 +245,21 @@ export function character(state = DEFAULT_CHARACTER, action) {
           });
         case 'heal':
           return state.update('charHitPoints', hitPoints => {
-            let newValue = hitPoints.get('current') + action.data.value;
+            let isNegative = hitPoints.get('current') < 0;
+            let newValue = isNegative
+              ? 0 + action.data.value
+              : hitPoints.get('current') + action.data.value;
 
             newValue = newValue > hitPoints.get('maximum')
               ? hitPoints.get('maximum')
               : newValue;
 
-            return hitPoints.set('current', newValue);
+            return isNegative
+              ? hitPoints
+                  .set('current', newValue)
+                  .setIn(['deathSaves', 'successes'], 0)
+                  .setIn(['deathSaves', 'failures'], 0)
+              : hitPoints.set('current', newValue);
           });
         case 'temporary':
           return state.update('charHitPoints', hitPoints => {
@@ -262,7 +270,11 @@ export function character(state = DEFAULT_CHARACTER, action) {
       }
 
     case 'DEATH_SAVES_ADD':
-      break;
+      return state.update('charHitPoints', charHitPoints => {
+        return charHitPoints.updateIn(['deathSaves', Object.keys(action.data)[0]], save => {
+          return save += action.data[Object.keys(action.data)[0]];
+        });
+      });
     case 'DEFENSES_EDIT':
       break;
     case 'RESISTANCES_CREATE':
