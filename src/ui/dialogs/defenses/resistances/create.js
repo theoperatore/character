@@ -65,7 +65,7 @@ export default React.createClass({
     let desc = this.refs.desc.value.trim();
 
     if (name !== '') {
-      let id = uuid.v1();
+      let id = `resistance-${uuid.v1()}`;
       let data = { name, desc, id }
       this.props.onCreate({ type: 'RESISTANCES_CREATE', data });
     }

@@ -27,7 +27,7 @@ export default React.createClass({
   handleCreate() {
     let name = this.refs.newName.value.trim();
     let desc = this.refs.newDesc.value.trim();
-    let id = uuid.v1();
+    let id = `lang-${uuid.v1()}`;
 
     this.props.onCreate({ type: 'LANGUAGE_CREATE', data: { name, desc, id }});
   },

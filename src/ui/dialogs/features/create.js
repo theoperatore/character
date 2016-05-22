@@ -54,7 +54,7 @@ export default React.createClass({
         name: this.refs.newName.value.trim(),
         desc: this.refs.newDesc.value.trim(),
         type: this.state.selectedType,
-        id: uuid.v1()
+        id: `feature-${uuid.v1()}`,
       }
     }
 
@@ -63,7 +63,7 @@ export default React.createClass({
       data.classCharge.name = this.refs.ccname.value.trim();
       data.classCharge.charges = this.state.cctotal !== '' ? this.state.cctotal : 0;
       data.classCharge.current = this.state.cctotal !== '' ? this.state.cctotal : 0;
-      data.classCharge.id = uuid.v1();
+      data.classCharge.id = `classCharge-${uuid.v1()}`;
       data.feature.classChargesId = data.classCharge.id;
     }
 

@@ -59,7 +59,7 @@ export default React.createClass({
     if (this.refs.name.value.trim() !== '') {
       let name = this.refs.name.value.trim();
       let desc = this.refs.desc.value.trim();
-      let id = uuid.v1();
+      let id = `attack-${uuid.v1()}`;
       let data = { name, desc, id };
 
       this.props.onCreate({ type: 'ATTACK_CREATE', data});

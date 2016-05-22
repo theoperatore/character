@@ -76,7 +76,7 @@ export default React.createClass({
     if (name !== '') {
       let abil = this.refs.ability.value;
       let prof = this.refs.prof.checked;
-      let id = uuid.v1();
+      let id = `atkBonus-${uuid.v1()}`;
       let bonus = this.state.bonus === '' || this.state.bonus === '-' ? 0 : this.state.bonus;
       let data = { abil, prof, id, name, bonus };
 

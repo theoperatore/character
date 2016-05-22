@@ -34,7 +34,7 @@ export default React.createClass({
 
   getEditedSpell() {
     return {
-      id: this.props.spell ? this.props.spell.id : uuid.v1(),
+      id: this.props.spell ? this.props.spell.id : `spell-${uuid.v1()}`,
       name: this.nameInput.value.trim(),
       desc: this.descInput.value.trim(),
       cast: this.castInput.value.trim(),

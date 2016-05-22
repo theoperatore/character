@@ -27,7 +27,7 @@ export default React.createClass({
   handleCreate() {
     let name = this.refs.newName.value.trim();
     let desc = this.refs.newDesc.value.trim();
-    let id = uuid.v1();
+    let id = `prof-${uuid.v1()}`;
 
     this.props.onCreate({ type: 'PROFICIENCY_CREATE', data: { name, desc, id }});
   },
