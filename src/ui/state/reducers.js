@@ -13,9 +13,15 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     // charInfo
     case 'BASIC_INFO_EDIT':
-      return state.update('charInfo', charInfo => {
-        return charInfo.merge(action.data);
-      });
+      return state
+        .update('charInfo', charInfo => {
+          return charInfo.merge(action.data);
+        })
+        .update('charHitPoints', charHitPoints => {
+          return charHitPoints
+            .set('charHitDiceMaximum', action.data.level)
+            .set('charHitDiceCurrent', action.data.level);
+        });
 
     // charTraits
     case 'TRAIT_EDIT':
@@ -335,7 +341,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
           return attack.merge(action.data);
         });
       });
-      
+
     case 'ATTACK_DELETE':
       return state.update('charAttacks', charAttacks => {
         return charAttacks.filter(attack => attack.get('id') !== action.data.id);
