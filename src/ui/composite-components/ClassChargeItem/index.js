@@ -36,7 +36,7 @@ export default React.createClass({
       <div className='class-charges-container'>
         <h6>{name}<small>{`${current} / ${charges}`}</small></h6>
         <div className='flex'>
-          <div className='p1' onClick={this.useCharge}>
+          <div className='p1 pr3' onClick={this.useCharge}>
             <Icon icon='fa fa-chevron-left'/>
           </div>
           <SegmentedProgressBar
@@ -44,7 +44,7 @@ export default React.createClass({
             segments={charges}
             current={current}
           />
-          <div className='p1' onClick={this.addCharge}>
+          <div className='p1 pl3' onClick={this.addCharge}>
             <Icon icon='fa fa-chevron-right'/>
           </div>
         </div>
