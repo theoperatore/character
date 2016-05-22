@@ -80,10 +80,10 @@ export default React.createClass({
 
   renderEditSpellSlot(slot, idx) {
     let style = { width: '5em', marginLeft: '5px', color: '#333' };
-    let labelStyle = { display: 'block', color: '#bbb' };
+    let labelStyle = { display: 'block', color: '#bbb', marginBottom: '2px' };
 
     return (
-      <label style={labelStyle} key={idx}>
+      <div style={labelStyle} key={idx}>
         <span>{`lvl ${idx + 1}`}</span>
         <input
           style={style}
@@ -100,7 +100,7 @@ export default React.createClass({
           placeholder={this.props.slots[idx + 1].slots}
           onChange={this.handleMaxChange.bind(this, idx + 1)}
         />
-      </label>
+      </div>
     )
   },
 
