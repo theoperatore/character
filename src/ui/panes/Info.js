@@ -116,7 +116,7 @@ module.exports = React.createClass({
 
   renderLanguages() {
     return this.props.proficiencies.get('languages').toJS().map((lang, i) => {
-      let modalContent = <EditLanguage ref={`langs-${i}`} name={lang.name} desc={lang.desc} id={`${i}`} onLanguageChange={this.handleChange.bind(this, `lang-${i}`)} />;
+      let modalContent = <EditLanguage ref={`langs-${i}`} name={lang.name} desc={lang.desc} id={lang.id} onLanguageChange={this.handleChange.bind(this, `lang-${i}`)} />;
       return (
         <ListItem ref={`lang-${i}`} key={i} title={lang.name} id={`languages-${i}`} modalContent={modalContent} onDismiss={this.handleDirtyCheck.bind(this, `langs-${i}`)}/>
       )
