@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Immutable from 'immutable';
-import SkillItem from '../composite-components/SkillItem';
+import SkillItem from '../containers/SkillItem';
 import Modal from '../components/Modal';
 import EditScores from '../dialogs/abilities/EditAbilityScoresDialog';
 

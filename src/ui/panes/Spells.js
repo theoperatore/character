@@ -1,8 +1,8 @@
 'use strict';
 
 import React from 'react';
-import Spell from '../composite-components/Spell';
-import AttackBonusItem from '../composite-components/AttackBonusItem';
+import Spell from '../containers/Spell';
+import AttackBonusItem from '../containers/AttackBonusItem';
 import SpellSlotsModal from '../dialogs/spells/spell-slots/edit';
 import CreateSpellContent from '../dialogs/spells/create';
 import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog';

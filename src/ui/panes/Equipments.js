@@ -3,7 +3,7 @@
 import React from 'react';
 import ListItem from '../components/ListItem/v2';
 import Icon from '../components/Icon';
-import EquipmentContainer from '../composite-components/EquipmentContainer';
+import EquipmentContainer from '../containers/EquipmentContainer';
 
 export default React.createClass({
   displayName : 'PaneEquipments',

@@ -6,7 +6,7 @@ import Icon from '../components/Icon';
 import Modal from '../components/Modal';
 
 import CreateNewFeature from '../dialogs/features/create';
-import FeatureItem from '../composite-components/FeatureItem';
+import FeatureItem from '../containers/FeatureItem';
 
 export default React.createClass({
   displayName : 'PaneFeatures',

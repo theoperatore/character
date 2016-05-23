@@ -1,9 +1,9 @@
 'use strict';
 
 import React from 'react';
-import AttackBonusItem from '../composite-components/AttackBonusItem';
-import AttackItem from '../composite-components/AttackItem';
-import ClassChargeItem from '../composite-components/ClassChargeItem';
+import AttackBonusItem from '../containers/AttackBonusItem';
+import AttackItem from '../containers/AttackItem';
+import ClassChargeItem from '../containers/ClassChargeItem';
 import CreateAttackDialog from '../dialogs/attacks/CreateAttackDialog';
 import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog';
 import Icon from '../components/Icon';
