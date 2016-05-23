@@ -29,13 +29,15 @@ export default React.createClass({
       this.state.flattenedSpells !== nextState.flattenedSpells ||
       this.state.viewSpellSlots !== nextState.viewSpellSlots ||
       this.state.createSpellAttackBonus !== nextState.createSpellAttackBonus ||
-      this.state.createNewSpell !== nextState.createNewSpell
-    )
+      this.state.createNewSpell !== nextState.createNewSpell ||
+      this.state.slotsPerLevel !== nextState.slotsPerLevel
+    );
   },
 
   getInitialState() {
     return {
       flattenedSpells: [],
+      slotsPerLevel: [],
       viewSpellSlots: false,
       createSpellAttackBonus: false,
       createNewSpell: false,
@@ -43,7 +45,8 @@ export default React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    let flattenedSpells = nextProps.spells.toJS().reduce((flattened, level, levelId) => {
+    let spells = nextProps.spells.toJS();
+    let flattenedSpells = spells.reduce((flattened, level, levelId) => {
       level.spells.forEach(spell => {
         flattened.push(
           Object.assign(
@@ -54,7 +57,15 @@ export default React.createClass({
       return flattened;
     }, []);
 
-    this.setState({ flattenedSpells });
+    let slotsPerLevel = spells.map((lvl, idx) => {
+      return {
+        idx,
+        slots: lvl.slots,
+        used: lvl.used,
+      }
+    });
+
+    this.setState({ flattenedSpells, slotsPerLevel });
   },
 
   onSpellAttackBonusChange(event) {
@@ -142,6 +153,7 @@ export default React.createClass({
         key={spell.id}
         spell={spell}
         spellLevel={spell.levelId}
+        slotsPerLevel={this.state.slotsPerLevel}
         onSpellChange={this.props.handleSpellsChange}
       />)
     })

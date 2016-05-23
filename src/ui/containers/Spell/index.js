@@ -5,6 +5,7 @@ import ListItem from '../../components/ListItem/v2';
 import Modal from '../../components/Modal';
 import ConfirmModal from '../../dialogs/ConfirmModal';
 import EditSpell from '../../dialogs/spells/edit';
+import CastSpell from '../../dialogs/spells/cast';
 import Icon from '../../components/Icon';
 
 export default React.createClass({
@@ -23,6 +24,7 @@ export default React.createClass({
     }),
     spellLevel: React.PropTypes.number.isRequired,
     onSpellChange: React.PropTypes.func.isRequired,
+    slotsPerLevel: React.PropTypes.array.isRequired,
   },
 
   getInitialState() {
@@ -31,6 +33,7 @@ export default React.createClass({
       editSpell: false,
       confirm: false,
       message: null,
+      castSpell: false,
     }
   },
 
@@ -140,7 +143,8 @@ export default React.createClass({
           onClick={() => this.setState({ editSpell: true })}
         ><Icon icon='fa fa-pencil'/> Edit</button>
         <button className='text-purple'
-          onClick={() => {}}
+          disabled={this.props.spellLevel === 0}
+          onClick={() => this.setState({ castSpell: true })}
         ><Icon icon='icon-repo'/> Cast</button>
         <button
           className='text-red'
@@ -180,6 +184,14 @@ export default React.createClass({
               />
             : this.getDetailContent()
           }
+        />
+        <CastSpell
+          active={this.state.castSpell}
+          spellId={this.props.spell.id}
+          initialSpellLevel={this.props.spellLevel}
+          slotsPerLevel={this.props.slotsPerLevel}
+          onCast={this.props.onSpellChange}
+          onDismiss={() => this.setState({ castSpell: false })}
         />
         <ConfirmModal
           active={this.state.confirm}

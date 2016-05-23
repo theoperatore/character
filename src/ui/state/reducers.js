@@ -429,7 +429,9 @@ export function character(state = DEFAULT_CHARACTER, action) {
       });
 
     case 'SPELL_CAST':
-      break;
+      return state.updateIn(['charSpells', action.data.levelSelected], level => {
+        return level.set('used', level.get('used') + action.data.slotsUsed);
+      });
 
     // equipments
     case 'EQUIPMENT_ITEM_CREATE':
