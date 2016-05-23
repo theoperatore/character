@@ -30,7 +30,7 @@ export default React.createClass({
 
   getInitialState() {
     return ({
-      activePane : 5,
+      activePane : 6,
       loading : false, // TODO: figure this out...perhaps a thunk?
     })
   },
