@@ -44,8 +44,12 @@ export default React.createClass({
       levelSelected: Number(this.lvlSelect.value),
     };
 
-    this.props.onCast({ type, data });
-    this.props.onDismiss();
+    let { slots, used } = this.props.slotsPerLevel[data.levelSelected];
+
+    if (used + data.slotsUsed <= slots) {
+      this.props.onCast({ type, data });
+      this.props.onDismiss();
+    }
   },
 
   getContent() {
