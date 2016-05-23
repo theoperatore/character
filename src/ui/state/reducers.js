@@ -123,7 +123,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     // ability
     case 'SKILL_EDIT':
-      return state.update('charSkills', charSkills => {
+      let partialSkillState = state.update('charSkills', charSkills => {
         let idx = charSkills.findIndex(skill => skill.get('name') === action.data.name);
         return charSkills.update(idx, skill => {
           let newScore = skill.get('bonus') + state.getIn(['charAbilities', skill.get('mod'), 'mod']);
@@ -133,8 +133,16 @@ export function character(state = DEFAULT_CHARACTER, action) {
             : 0;
 
           return skill.set('trained', action.data.trained).set('score', newScore);
-        });
+        })
       });
+
+      return partialSkillState
+        .update('charPassivePerception', charPassivePerception => {
+          let perceptionSkill = partialSkillState.get('charSkills').find(itm => itm.get('name') === 'Perception');
+          let newScore = charPassivePerception.get('bonus') + perceptionSkill.get('score') + charPassivePerception.get('base');
+          return charPassivePerception.set('score', newScore);
+        });
+
     case 'ABILITY_SCORE_EDIT':
       let abilityScoreKeys = Object.keys(action.data).filter(key => key !== 'proficiency');
       let abilityScoreMods = abilityScoreKeys.reduce((obj, key) => {
