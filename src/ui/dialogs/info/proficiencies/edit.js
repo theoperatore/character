@@ -3,6 +3,7 @@
 import React from 'react';
 
 import Icon from '../../../components/Icon';
+import ConfirmModal from '../../ConfirmModal';
 
 export default React.createClass({
   displayName: 'EditProficiencies',
@@ -11,7 +12,9 @@ export default React.createClass({
   getInitialState() {
     return ({
       editMode: false,
-      dirty: false
+      dirty: false,
+      confirm: false,
+      message: null,
     })
   },
 
@@ -65,9 +68,17 @@ export default React.createClass({
       return;
     }
 
-    let result = window.confirm(`Delete Proficiency: ${this.props.name}?`);
-    if (result) {
-      this.props.onProficiencyChange({ type: 'PROFICIENCY_DELETE', data: { id: this.props.id }});
+    this.setState({ confirm: true, message: `Delete Proficiency: ${this.props.name}?` });
+  },
+
+  handleAnswer(choice) {
+    switch(choice) {
+      case 'yes':
+        this.props.onProficiencyChange({ type: 'PROFICIENCY_DELETE', data: { id: this.props.id }});
+        break;
+      case 'no':
+        this.setState({ confirm: false });
+        break;
     }
   },
 
@@ -93,13 +104,18 @@ export default React.createClass({
           }
         </div>
         <div className='modal-footer'>
-          <button onClick={this.editSave} className={this.state.editMode ? 'bg-green text-green' : ''}>
+          <button onClick={this.editSave} className={'bg-green text-green'}>
             <p><Icon icon='fa fa-pencil' /> {this.state.editMode ? 'Save' : 'Edit'}</p>
           </button>
-          <button onClick={this.handleRemove} className={this.state.editMode ? 'bg-red text-red' : ''}>
+          <button onClick={this.handleRemove} className={'bg-red text-red'}>
             <p><Icon icon='fa fa-remove' /> {this.state.editMode ? 'Cancel' : 'Remove'}</p>
           </button>
         </div>
+        <ConfirmModal
+          active={this.state.confirm}
+          message={this.state.message}
+          onConfirm={this.handleAnswer}
+        />
       </section>
     )
   }
