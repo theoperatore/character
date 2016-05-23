@@ -56,7 +56,7 @@ export default React.createClass({
       <div className='modal-content'>
         <label className='block inputs'>
           <p>Spell Level</p>
-          <select ref={ref => this.lvlSelect = ref} defaultValue={this.props.initialSpellLevel} disabled={this.props.initialSpellLevel === 0}>
+          <select ref={ref => this.lvlSelect = ref} defaultValue={this.props.initialSpellLevel}>
             {
               this.props.slotsPerLevel
                 .filter(lvl => lvl.slots - lvl.used > 0)
@@ -70,7 +70,6 @@ export default React.createClass({
           <p>Number of spell slots to use</p>
           <input
             type='text'
-            disabled={this.props.initialSpellLevel === 0}
             defautlValue='1'
             value={this.state.numSpellSlots}
             placeholder='1'

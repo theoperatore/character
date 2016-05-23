@@ -142,10 +142,13 @@ export default React.createClass({
         <button className='text-green'
           onClick={() => this.setState({ editSpell: true })}
         ><Icon icon='fa fa-pencil'/> Edit</button>
-        <button className='text-purple'
-          disabled={this.props.spellLevel === 0}
-          onClick={() => this.setState({ castSpell: true })}
-        ><Icon icon='icon-repo'/> Cast</button>
+        {
+          this.props.spellLevel !== 0
+            ? <button className='text-purple'
+                onClick={() => this.setState({ castSpell: true })}
+              ><Icon icon='icon-repo'/> Cast</button>
+            : null
+        }
         <button
           className='text-red'
           onClick={this.handleDelete}
