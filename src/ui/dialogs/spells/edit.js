@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import uuid from 'node-uuid';
 import Icon from '../../components/Icon';
 
 const NEW_SPELL = {
@@ -14,9 +13,20 @@ const NEW_SPELL = {
 }
 
 export default React.createClass({
-  displayName: 'CreateSpell',
+  displayName: 'EditSpell',
 
   propTypes: {
+    spell: React.PropTypes.shape({
+      id: React.PropTypes.string.isRequired,
+      name: React.PropTypes.string.isRequired,
+      desc: React.PropTypes.string.isRequired,
+      cast: React.PropTypes.string.isRequired,
+      range: React.PropTypes.string.isRequired,
+      cmp: React.PropTypes.string.isRequired,
+      dur: React.PropTypes.string.isRequired,
+      prepared: React.PropTypes.bool.isRequired,
+    }),
+    level: React.PropTypes.number.isRequired,
     onChange: React.PropTypes.func.isRequired,
     onCancel: React.PropTypes.func.isRequired,
   },
@@ -24,21 +34,21 @@ export default React.createClass({
   getSpellInput() {
     return {
       spell: {
-        id: `spell-${uuid.v1()}`,
+        id: this.props.spell.id,
         name: this.nameInput.value.trim(),
         desc: this.descInput.value.trim(),
         cast: this.castInput.value.trim(),
         range: this.rangeInput.value.trim(),
         cmp: this.cmpInput.value.trim(),
         dur: this.durInput.value.trim(),
-        prepared: false,
+        prepared: this.props.spell.prepared,
       },
       level: Number(this.levelInput.value),
     }
   },
 
   handleSave() {
-    let type = 'SPELL_CREATE';
+    let type = 'SPELL_EDIT';
     let data = this.getSpellInput();
 
     if (data.name !== '') {
@@ -52,16 +62,25 @@ export default React.createClass({
   },
 
   render() {
+    let {
+      name,
+      desc,
+      cast,
+      range,
+      cmp,
+      dur,
+      prepared,
+    } = this.props.spell;
 
     return (
       <section className='create-edit-spell-container'>
         <div className='modal-header'>
-          <h3><input type='text' ref={ref => this.nameInput = ref} placeholder={NEW_SPELL.name}/></h3>
+          <h3><input type='text' ref={ref => this.nameInput = ref} defaultValue={name} placeholder={name}/></h3>
         </div>
         <div className='modal-content row inputs'>
-          <textarea ref={ref => this.descInput = ref} placeholder={NEW_SPELL.desc}></textarea>
+          <textarea ref={ref => this.descInput = ref} defaultValue={desc} placeholder={desc}></textarea>
           <p><strong>Spell Level</strong></p>
-          <select ref={ref => this.levelInput = ref} defaultValue='1'>
+          <select ref={ref => this.levelInput = ref} defaultValue={this.props.level} disabled={true}>
             <option value='1'>Level 1</option>
             <option value='2'>Level 2</option>
             <option value='3'>Level 3</option>
@@ -76,13 +95,13 @@ export default React.createClass({
             <div>
               <label>
                 <p><strong>Casting Time</strong></p>
-                <input type='text' ref={ref => this.castInput = ref} placeholder={NEW_SPELL.cast}/>
+                <input type='text' ref={ref => this.castInput = ref} defaultValue={cast} placeholder={cast}/>
               </label>
             </div>
             <div>
               <label>
                 <p><strong>Range</strong></p>
-                <input type='text' ref={ref => this.rangeInput = ref} placeholder={NEW_SPELL.range}/>
+                <input type='text' ref={ref => this.rangeInput = ref} defaultValue={range} placeholder={range}/>
               </label>
             </div>
           </div>
@@ -90,13 +109,13 @@ export default React.createClass({
             <div>
               <label>
                 <p><strong>Components</strong></p>
-                <input type='text' ref={ref => this.cmpInput = ref} placeholder={NEW_SPELL.cmp}/>
+                <input type='text' ref={ref => this.cmpInput = ref} defaultValue={cmp} placeholder={cmp}/>
               </label>
             </div>
             <div>
               <label>
                 <p><strong>Duration</strong></p>
-                <input type='text' ref={ref => this.durInput = ref} placeholder={NEW_SPELL.dur}/>
+                <input type='text' ref={ref => this.durInput = ref} defaultValue={dur} placeholder={dur}/>
               </label>
             </div>
           </div>

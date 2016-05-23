@@ -4,7 +4,7 @@ import React from 'react';
 import ListItem from '../../components/ListItem/v2';
 import Modal from '../../components/Modal';
 import ConfirmModal from '../../dialogs/ConfirmModal';
-import EditSpell from '../../dialogs/spells/create';
+import EditSpell from '../../dialogs/spells/edit';
 import Icon from '../../components/Icon';
 
 export default React.createClass({
@@ -39,7 +39,10 @@ export default React.createClass({
       case 'yes':
         this.props.onSpellChange({ 
           type: 'SPELL_DELETE',
-          data: this.props.spell.id
+          data: {
+            id: this.props.spell.id,
+            level: this.props.spellLevel,
+          }
         });
         this.setState({
           confirm: false,
@@ -75,11 +78,16 @@ export default React.createClass({
   },
 
   prepareSpell() {
-    let data = Object.assign({}, this.props.spell, {
-      prepared: !this.props.spell.prepared,
-    });
+    let type = this.props.spell.prepared
+      ? 'SPELL_UNPREPARE'
+      : 'SPELL_PREPARE';
 
-    this.props.onSpellChange({ type: 'SPELL_EDIT', data });
+    let data = {
+      level: this.props.spellLevel,
+      id: this.props.spell.id,  
+    };
+
+    this.props.onSpellChange({ type, data });
   },
 
   getDetailContent() {
@@ -131,6 +139,9 @@ export default React.createClass({
         <button className='text-green'
           onClick={() => this.setState({ editSpell: true })}
         ><Icon icon='fa fa-pencil'/> Edit</button>
+        <button className='text-purple'
+          onClick={() => {}}
+        ><Icon icon='icon-repo'/> Cast</button>
         <button
           className='text-red'
           onClick={this.handleDelete}
@@ -163,6 +174,7 @@ export default React.createClass({
           content={this.state.editSpell
             ? <EditSpell
                 spell={this.props.spell}
+                level={spellLevel}
                 onChange={this.props.onSpellChange}
                 onCancel={this.handleEditCancel}
               />

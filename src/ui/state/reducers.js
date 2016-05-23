@@ -374,6 +374,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
             .set('used', action.data.slots[idx].max - action.data.slots[idx].curr);
         });
       });
+
     case 'SPELL_DC_EDIT':
       return state.update('charSpellSaveDC', spellSaveDC => {
         let score = state.getIn(['charAbilities', action.data.abil, 'mod'])
@@ -388,11 +389,37 @@ export function character(state = DEFAULT_CHARACTER, action) {
       });
 
     case 'SPELL_EDIT':
-      break;
+      return state.updateIn(['charSpells', action.data.level, 'spells'], spells => {
+        let idx = spells.findIndex(spell => spell.get('id') === action.data.spell.id);
+        return spells.update(idx, spell => spell.merge(action.data.spell))
+      });
+
     case 'SPELL_DELETE':
-      break;
+      return state.updateIn(['charSpells', action.data.level, 'spells'], spells => {
+        return spells.filter(spell => spell.get('id') !== action.data.id);
+      });
+
     case 'SPELL_CREATE':
-      break;
+      return state.updateIn(['charSpells', action.data.level, 'spells'], spells => {
+        return spells.push(Map(action.data.spell));
+      });
+
+    case 'SPELL_PREPARE':
+      return state.updateIn(['charSpells', action.data.level, 'spells'], spells => {
+        let idx = spells.findIndex(spell => spell.get('id') === action.data.id);
+        return spells.update(idx, spell => {
+          return spell.set('prepared', true);
+        });
+      });
+
+    case 'SPELL_UNPREPARE':
+      return state.updateIn(['charSpells', action.data.level, 'spells'], spells => {
+        let idx = spells.findIndex(spell => spell.get('id') === action.data.id);
+        return spells.update(idx, spell => {
+          return spell.set('prepared', false);
+        });
+      });
+
     case 'SPELL_CAST':
       break;
 
