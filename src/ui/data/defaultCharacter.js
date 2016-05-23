@@ -209,6 +209,13 @@ export default {
       "gp" : 0,
       "pp" : 0
     },
+    "containers": [
+      {
+        id: 'default-backpack',
+        name: 'Backpack',
+        items: [],
+      }
+    ],
     "items" : []
   },
   "charOtherProficiencies" : {

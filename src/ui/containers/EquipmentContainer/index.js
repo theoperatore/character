@@ -9,7 +9,7 @@ export default React.createClass({
 
   propTypes: {
     container: React.PropTypes.object.isRequired,
-    itemsInContainer: React.PropTypes.array.isRequired,
+    items: React.PropTypes.object.isRequired,
     onContainerChange: React.PropTypes.func.isRequired,
   },
 
@@ -20,7 +20,7 @@ export default React.createClass({
   },
 
   getItemDetails() {
-    let items = this.props.itemsInContainer.map(itm => {
+    let items = this.props.items.map(itm => {
       return (
         <ListItem
           key={itm.get('id')}
@@ -42,17 +42,14 @@ export default React.createClass({
   },
 
   render() {
-    let { container, itemsInContainer } = this.props;
-    
-    let count = itemsInContainer
-      ? itemsInContainer.length
-      : 0;
+    let { container } = this.props;
+    let count = container.get('items').size;
 
     return (
       <ListItem
         name={container.get('name')}
         subtext={`${count} Items`}
-        onClick={() => this.props.itemsInContainer.length > 0 ? this.setState({ viewContents: true }) : null}
+        onClick={() => count > 0 ? this.setState({ viewContents: true }) : null}
       >
         <Popup
           id={`view-${container.get('id')}-items`}

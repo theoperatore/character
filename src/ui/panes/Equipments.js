@@ -13,38 +13,20 @@ export default React.createClass({
     handleEquipmentChange: React.PropTypes.func.isRequired,
   },
 
-  getInitialState() {
-    return {
-      groupedItems: [],
-    }
-  },
-
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.equipment !== this.props.equipment ||
-           nextState.groupedItems !== this.state.groupedItems;
-  },
-
-  componentWillReceiveProps(nextProps) {
-    let groupedItems = nextProps.equipment.get('items').reduce((obj, item) => {
-      if (!obj.hasOwnProperty(item.get('containerId'))) {
-        obj[item.get('containerId')] = [];
-      }
-
-      obj[item.get('containerId')].push(item);
-      return obj;
-    }, {});
-
-    this.setState({ groupedItems });
+    return nextProps.equipment !== this.props.equipment;
   },
 
   renderEquipments() {
     return this.props.equipment.get('containers').map(container => {
-      let itemsInContainer = this.state.groupedItems[container.get('id')] || [];
+      let mappedItems = container.get('items').map(id => {
+        return this.props.equipment.getIn(['items', id]);
+      });
 
       return <EquipmentContainer
         key={container.get('id')}
         container={container}
-        itemsInContainer={itemsInContainer}
+        items={mappedItems}
         onContainerChange={this.props.handleEquipmentChange}
       />;
     }).toJS();
