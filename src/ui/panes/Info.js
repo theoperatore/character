@@ -105,6 +105,10 @@ module.exports = React.createClass({
 
 
   renderProficiencies() {
+    if (this.props.proficiencies.get('proficiencies').size === 0) {
+      return <p className='subtext text-center border-top'>Add a proficiency by tapping on the 'plus' icon.<Icon icon='fa fa-level-up' /></p>
+    }
+
     return this.props.proficiencies.get('proficiencies').toJS().map((prof, i) => {
       let mc = <EditProficiency ref={`profs-${i}`} name={prof.name} desc={prof.desc} id={prof.id} onProficiencyChange={this.handleChange.bind(this, `prof-${i}`)} />;
       return (
@@ -115,6 +119,10 @@ module.exports = React.createClass({
 
 
   renderLanguages() {
+    if (this.props.proficiencies.get('languages').size === 0) {
+      return <p className='subtext text-center border-top'>Add a language by tapping on the 'plus' icon.<Icon icon='fa fa-level-up' /></p>
+    }
+
     return this.props.proficiencies.get('languages').toJS().map((lang, i) => {
       let modalContent = <EditLanguage ref={`langs-${i}`} name={lang.name} desc={lang.desc} id={lang.id} onLanguageChange={this.handleChange.bind(this, `lang-${i}`)} />;
       return (

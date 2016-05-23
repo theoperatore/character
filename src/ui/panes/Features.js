@@ -34,6 +34,10 @@ export default React.createClass({
 
 
   renderFeatures() {
+    if (this.props.features.size === 0) {
+      return <p className='subtext text-center border-top'>Add a feature by tapping on the 'plus' icon.<Icon icon='fa fa-level-up' /></p>
+    }
+
     return (
       this.props.features.toJS().map((feature, i) => {
         let charge = this.props.charges.find(itm => itm.get('id') === feature.classChargesId);

@@ -45,6 +45,10 @@ export default React.createClass({
 
 
   renderAttackBonuses() {
+    if (this.props.bubbles.size === 0) {
+      return <p className='subtext text-center border-top'>Add an attack bonus by tapping on the 'plus' icon.<Icon icon='fa fa-level-up' /></p>
+    }
+
     return this.props.bubbles.toJS().map((bonus, i) => {
       return <AttackBonusItem
         key={i}
@@ -76,6 +80,10 @@ export default React.createClass({
 
 
   renderAttacks() {
+    if (this.props.attacks.size === 0) {
+      return <p className='subtext text-center border-top'>Add an attack by tapping on the 'plus' icon.<Icon icon='fa fa-level-up' /></p>
+    }
+
     return this.props.attacks.toJS().map((attack, i) => {
       return (
         <AttackItem

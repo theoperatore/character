@@ -74,6 +74,10 @@ export default React.createClass({
 
 
   renderResistances() {
+    if (this.props.resistances.size === 0) {
+      return <p className='subtext text-center border-top'>Add a resistance by tapping on the 'plus' icon.<Icon icon='fa fa-level-up' /></p>
+    }
+
     return this.props.resistances.toJS().map((resistance, i) => {
       return (
         <ResistanceItem 

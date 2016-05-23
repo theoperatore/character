@@ -133,6 +133,10 @@ export default React.createClass({
   },
 
   renderSpells() {
+    if (this.state.flattenedSpells.length === 0) {
+      return <p className='subtext text-center border-top'>Add a spell by tapping on the 'plus' icon.<Icon icon='fa fa-level-up' /></p>
+    }
+
     return this.state.flattenedSpells.map(spell => {
       return (<Spell 
         key={spell.id}
