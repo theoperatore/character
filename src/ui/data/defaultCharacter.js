@@ -216,7 +216,7 @@ export default {
         items: [],
       }
     ],
-    "items" : []
+    "allItems": {},
   },
   "charOtherProficiencies" : {
     "languages" : [],

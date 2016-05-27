@@ -20,7 +20,7 @@ export default React.createClass({
   renderEquipments() {
     return this.props.equipment.get('containers').map(container => {
       let mappedItems = container.get('items').map(id => {
-        return this.props.equipment.getIn(['items', id]);
+        return this.props.equipment.getIn(['allItems', id]);
       });
 
       return <EquipmentContainer

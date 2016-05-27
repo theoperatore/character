@@ -390,7 +390,7 @@ module.exports = {
           ],
         }
       ],
-      "items" : {
+      "allItems" : {
         'ralf-equipment-1': {
           name: 'Prehensile Beard',
           desc: 'Can be used to grab onto things and is basically just another hand',

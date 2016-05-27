@@ -111,7 +111,7 @@ export default React.createClass({
         if (this.state.willRemove) {
           this.props.onResistanceChange({ type: 'RESISTANCES_DELETE', data: { id: this.props.id }});
         }
-        this.setState({ edit: false, dirty: false, confirm: false, willRemove: false });
+        this.setState({ edit: false, dirty: false, details:false, confirm: false, willRemove: false });
         break;
       case 'no':
         this.setState({ confirm: false });
