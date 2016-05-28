@@ -502,7 +502,13 @@ export function character(state = DEFAULT_CHARACTER, action) {
       break;
 
     case 'EQUIPMENT_CONTAINER_EDIT':
-      break;
+      let editContainerIdx = state
+        .getIn(['charEquipment', 'containers'])
+        .findIndex(container => container.get('id') === action.data.id);
+
+      return state.updateIn(['charEquipment', 'containers', editContainerIdx], container => {
+        return container.merge(action.data);
+      });
 
     case 'EQUIPMENT_CONTAINER_DELETE':
       let editContainers = state.getIn(['charEquipment', 'containers']);

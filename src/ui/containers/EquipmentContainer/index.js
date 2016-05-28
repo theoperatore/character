@@ -5,6 +5,7 @@ import ListItem from '../../components/ListItem/v2';
 import Popup from '../../components/Popup';
 import EquipmentItem from '../../containers/EquipmentItem';
 import CreateItem from '../../dialogs/equipment/create';
+import EditEquipmentContainer from './EditEquipmentContainer';
 import ConfirmModal from '../../dialogs/ConfirmModal';
 import Icon from '../../components/Icon';
 
@@ -83,12 +84,20 @@ export default React.createClass({
               </div>
             : null
         }
+        <EditEquipmentContainer
+          active={this.state.editContainer}
+          id={this.props.container.get('id')}
+          name={this.props.container.get('name')}
+          onDismiss={() => this.setState({ editContainer: false })}
+          onChange={this.props.onContainerChange}
+        />
         <CreateItem
           active={this.state.createItem}
           containerId={this.props.container.get('id')}
           onDismiss={() => this.setState({ createItem: false })}
           onCreate={this.props.onContainerChange}
         />
+
       </section>
     );
   },
