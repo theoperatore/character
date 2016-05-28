@@ -435,8 +435,22 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     // equipments
     case 'EQUIPMENT_ITEM_CREATE':
-      break;
-      
+      let createItemPartialState = state
+        .updateIn(['charEquipment', 'allItems'], allItems => {
+          return allItems.set(action.data.item.id, Map(action.data.item));
+        });
+
+      let containerIdx = state
+        .getIn(['charEquipment', 'containers'])
+        .findIndex(container => container.get('id') === action.data.container.id);
+
+      return createItemPartialState
+        .updateIn(['charEquipment', 'containers', containerIdx], container => {
+          return container.update('items', items => {
+            return items.push(action.data.item.id);
+          });
+        });
+
     case 'EQUIPMENT_ITEM_EDIT':
       let editItemPartialState = state
         .updateIn(['charEquipment', 'allItems', action.data.item.id], itm => {

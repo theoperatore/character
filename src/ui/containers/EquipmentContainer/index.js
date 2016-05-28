@@ -4,6 +4,7 @@ import React from 'react';
 import ListItem from '../../components/ListItem/v2';
 import Popup from '../../components/Popup';
 import EquipmentItem from '../../containers/EquipmentItem';
+import CreateItem from '../../dialogs/equipment/create';
 import Icon from '../../components/Icon';
 
 export default React.createClass({
@@ -50,6 +51,12 @@ export default React.createClass({
             onClick={() => this.setState({ createItem: true })}
           ><Icon icon='fa fa-plus' /> Create a new item</p>
         </div>
+        <CreateItem
+          active={this.state.createItem}
+          containerId={this.props.container.get('id')}
+          onDismiss={() => this.setState({ createItem: false })}
+          onCreate={this.props.onContainerChange}
+        />
       </section>
     );
   },
