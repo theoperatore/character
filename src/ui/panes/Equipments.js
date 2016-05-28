@@ -3,6 +3,7 @@
 import React from 'react';
 import ListItem from '../components/ListItem/v2';
 import Icon from '../components/Icon';
+import CreateEquipmentContainer from '../dialogs/equipment/createEquipmentContainer';
 import EquipmentContainer from '../containers/EquipmentContainer';
 
 export default React.createClass({
@@ -14,7 +15,8 @@ export default React.createClass({
   },
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.equipment !== this.props.equipment;
+    return nextProps.equipment !== this.props.equipment ||
+           nextState.createContainer !== this.state.createContainer
   },
 
   getInitialState() {
@@ -58,6 +60,11 @@ export default React.createClass({
             className='subtext text-center p2 interactable'
             onClick={() => this.setState({ createContainer: true })}
           ><Icon icon='fa fa-plus' /> Create a new equipment container</p>
+        <CreateEquipmentContainer
+          active={this.state.createContainer}
+          onDismiss={() => this.setState({ createContainer: false })}
+          onCreate={this.props.handleEquipmentChange}
+        />
         </section>
       </div>
     );

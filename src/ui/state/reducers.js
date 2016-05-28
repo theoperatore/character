@@ -1,6 +1,6 @@
 'use strict';
 
-import { fromJS, Map } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
 
 import defaultCharacter from '../data/defaultCharacter';
 import defaultPreferences from '../data/defaultPreferences';
@@ -499,7 +499,9 @@ export function character(state = DEFAULT_CHARACTER, action) {
       });
 
     case 'EQUIPMENT_CONTAINER_CREATE':
-      break;
+      return state.updateIn(['charEquipment', 'containers'], containers => {
+        return containers.push(Map(Object.assign({}, action.data, { items: List([]) })))
+      });
 
     case 'EQUIPMENT_CONTAINER_EDIT':
       let editContainerIdx = state

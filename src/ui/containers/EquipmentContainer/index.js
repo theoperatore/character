@@ -4,7 +4,7 @@ import React from 'react';
 import ListItem from '../../components/ListItem/v2';
 import Popup from '../../components/Popup';
 import EquipmentItem from '../../containers/EquipmentItem';
-import CreateItem from '../../dialogs/equipment/create';
+import CreateItem from '../../dialogs/equipment/createItem';
 import EditEquipmentContainer from './EditEquipmentContainer';
 import ConfirmModal from '../../dialogs/ConfirmModal';
 import Icon from '../../components/Icon';
