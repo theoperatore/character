@@ -82,6 +82,12 @@ export default React.createClass({
 
     if (name === '') return;
 
+    if (name === this.props.name &&
+        desc === this.props.desc &&
+        !hasMoved) {
+      return this.setState({ editDetails: false, dirty: false });
+    }
+
     let data = {
       item: {
         id: this.props.id,

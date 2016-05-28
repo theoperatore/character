@@ -388,11 +388,14 @@ module.exports = {
             'ralf-equipment-1',
             'ralf-equipment-2',
           ],
+          default: true,
         },
         {
           id: 'ralf-container-2',
           name: 'Belt Pouch',
-          items: [],
+          items: [
+            'ralf-equipment-4',
+          ],
         },
       ],
       "allItems" : {
@@ -410,7 +413,12 @@ module.exports = {
           name: 'Wand of Fiery Poops',
           desc: 'For exactly that.',
           id: 'ralf-equipment-3',
-        }
+        },
+        'ralf-equipment-4': {
+          name: 'Yoshi Doll',
+          desc: 'Won from a crane game',
+          id: 'ralf-equipment-4'
+        },
       }
     },
     "charOtherProficiencies" : {

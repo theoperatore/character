@@ -9,7 +9,10 @@ export default React.createClass({
 
 
   propTypes: {
-    message: React.PropTypes.string,
+    message: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.element,
+    ]),
     onConfirm: React.PropTypes.func.isRequired,
     active: React.PropTypes.bool.isRequired
   },

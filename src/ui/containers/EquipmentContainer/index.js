@@ -5,6 +5,7 @@ import ListItem from '../../components/ListItem/v2';
 import Popup from '../../components/Popup';
 import EquipmentItem from '../../containers/EquipmentItem';
 import CreateItem from '../../dialogs/equipment/create';
+import ConfirmModal from '../../dialogs/ConfirmModal';
 import Icon from '../../components/Icon';
 
 export default React.createClass({
@@ -21,6 +22,23 @@ export default React.createClass({
     return {
       viewContents: false,
       createItem: false,
+      editContainer: false,
+      confirmDelete: false,
+    }
+  },
+
+  handleDeleteConfirm(answer) {
+    switch (answer) {
+      case 'no':
+        return this.setState({ confirmDelete: false });
+      case 'yes':
+        this.props.onContainerChange({
+          type: 'EQUIPMENT_CONTAINER_DELETE',
+          data: {
+            id: this.props.container.get('id'),
+          }
+        });
+        this.setState({ confirmDelete: false, viewContents: false });
     }
   },
 
@@ -51,10 +69,20 @@ export default React.createClass({
             onClick={() => this.setState({ createItem: true })}
           ><Icon icon='fa fa-plus' /> Create a new item</p>
         </div>
-        <div className='popup-footer'>
-          <button className='text-green'><Icon icon='fa fa-pencil'/> Edit Container</button>
-          <button className='text-red'><Icon icon='fa fa-remove'/> Remove Container</button>
-        </div>
+        {
+          !this.props.container.get('default')
+            ? <div className='popup-footer'>
+                <button
+                  className='text-green'
+                  onClick={() => this.setState({ editContainer: true })}
+                ><Icon icon='fa fa-pencil'/> Edit Container</button>
+                <button
+                  className='text-red'
+                  onClick={() => this.setState({ confirmDelete: true })}
+                ><Icon icon='fa fa-remove'/> Remove Container</button>
+              </div>
+            : null
+        }
         <CreateItem
           active={this.state.createItem}
           containerId={this.props.container.get('id')}
@@ -79,6 +107,14 @@ export default React.createClass({
           id={`view-${container.get('id')}-items`}
           active={this.state.viewContents}
           content={this.getItemDetails()}
+        />
+        <ConfirmModal
+          active={this.state.confirmDelete}
+          message={<div>
+            <p>{`Delete container: ${container.get('name')} ?`}</p>
+            <p className='subtext'>Note: all items in this container will be moved to your Backpack</p>
+          </div>}
+          onConfirm={this.handleDeleteConfirm}
         />
       </ListItem>
     );

@@ -4,9 +4,11 @@ import { fromJS, Map } from 'immutable';
 
 import defaultCharacter from '../data/defaultCharacter';
 import defaultPreferences from '../data/defaultPreferences';
+import defaultDefinitions from '../data/defaultDefinitions';
 
 const DEFAULT_CHARACTER = fromJS(defaultCharacter);
 const DEFAULT_PREFERENCES = fromJS(defaultPreferences);
+const DEFAULT_DEFINITIONS = fromJS(defaultDefinitions);
 
 export function character(state = DEFAULT_CHARACTER, action) {
   switch (action.type) {
@@ -498,10 +500,39 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     case 'EQUIPMENT_CONTAINER_CREATE':
       break;
+
     case 'EQUIPMENT_CONTAINER_EDIT':
       break;
+
     case 'EQUIPMENT_CONTAINER_DELETE':
-      break;
+      let editContainers = state.getIn(['charEquipment', 'containers']);
+
+      let fromContainerIdx = editContainers
+        .findIndex(containers => containers.get('id') === action.data.id);
+
+      let toContainerIdx = editContainers
+        .findIndex(containers => !!containers.get('default') === true);
+
+      // cannot delete default container
+      if (fromContainerIdx === toContainerIdx) return state;
+
+      let deletedItems = editContainers.getIn([fromContainerIdx, 'items']);
+
+      let deletedContainersPartialState = state.updateIn(['charEquipment', 'containers'], containers => {
+        return containers.filter(container => container.get('id') !== action.data.id);
+      });
+
+      // get the default id again because it could be different
+      // after deleting the id
+      toContainerIdx = deletedContainersPartialState
+        .getIn(['charEquipment', 'containers'])
+        .findIndex(containers => !!containers.get('default') === true);
+
+      return deletedContainersPartialState
+        .updateIn(['charEquipment', 'containers', toContainerIdx, 'items'], items => {
+          return items.concat(deletedItems);
+        });
+
     case 'MONEY_EDIT':
       break;
 
@@ -581,4 +612,11 @@ export function preferences(state = DEFAULT_PREFERENCES, action) {
     default:
       return state;
   }
+}
+
+
+// to handle every create and update of an item with an ID
+// to help with migration to a normalized character state
+export function definitions(state = DEFAULT_DEFINITIONS, action) {
+  return state;
 }

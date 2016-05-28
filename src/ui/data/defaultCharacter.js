@@ -214,6 +214,7 @@ export default {
         id: 'default-backpack',
         name: 'Backpack',
         items: [],
+        default: true,
       }
     ],
     "allItems": {},
