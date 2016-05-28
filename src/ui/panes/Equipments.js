@@ -17,7 +17,20 @@ export default React.createClass({
     return nextProps.equipment !== this.props.equipment;
   },
 
+  getInitialState() {
+    return {
+      createContainer: false,
+    }
+  },
+
   renderEquipments() {
+    let simpleContainers = this.props.equipment.get('containers').map(c => {
+      return {
+        id: c.get('id'),
+        name: c.get('name'),
+      }
+    }).toJS();
+
     return this.props.equipment.get('containers').map(container => {
       let mappedItems = container.get('items').map(id => {
         return this.props.equipment.getIn(['allItems', id]);
@@ -26,6 +39,7 @@ export default React.createClass({
       return <EquipmentContainer
         key={container.get('id')}
         container={container}
+        containers={simpleContainers}
         items={mappedItems}
         onContainerChange={this.props.handleEquipmentChange}
       />;
@@ -40,6 +54,10 @@ export default React.createClass({
             <h5 className='info-section-title'>Inventory</h5>
           </div>
           { this.renderEquipments() }
+          <p 
+            className='subtext text-center p2 interactable'
+            onClick={() => this.setState({ createContainer: true })}
+          ><Icon icon='fa fa-plus' /> Create a new equipment container</p>
         </section>
       </div>
     );

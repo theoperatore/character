@@ -436,10 +436,52 @@ export function character(state = DEFAULT_CHARACTER, action) {
     // equipments
     case 'EQUIPMENT_ITEM_CREATE':
       break;
+      
     case 'EQUIPMENT_ITEM_EDIT':
-      break;
+      let editItemPartialState = state
+        .updateIn(['charEquipment', 'allItems', action.data.item.id], itm => {
+          return itm.merge(action.data.item);
+        });
+
+      if (action.data.hasMoved) {
+        let containers = editItemPartialState
+          .getIn(['charEquipment', 'containers']);
+
+        let fromContainerIdx = containers
+          .findIndex(cont => cont.get('id') === action.data.container.originalContainerId);
+        let toContainerIdx = containers
+          .findIndex(cont => cont.get('id') === action.data.container.id);
+
+        editItemPartialState = editItemPartialState
+          .updateIn(['charEquipment', 'containers'], containers => {
+            return containers.update(fromContainerIdx, cont => {
+              return cont.update('items', itms => {
+                return itms.filter(itm => itm !== action.data.item.id);
+              });
+            });
+          })
+          .updateIn(['charEquipment', 'containers'], containers => {
+            return containers.update(toContainerIdx, cont => {
+              return cont.update('items', itms => {
+                return itms.push(action.data.item.id);
+              });
+            });
+          });
+      }
+
+      return editItemPartialState;
+
     case 'EQUIPMENT_ITEM_DELETE':
-      break;
+      let containerIdxOfItemToDelete = state
+        .getIn(['charEquipment', 'containers'])
+        .findIndex(containers => containers.get('id') === action.data.containerId);
+
+      return state.updateIn(['charEquipment', 'containers', containerIdxOfItemToDelete], container => {
+        return container.update('items', items => {
+          return items.filter(itm => itm !== action.data.id);
+        });
+      });
+
     case 'EQUIPMENT_CONTAINER_CREATE':
       break;
     case 'EQUIPMENT_CONTAINER_EDIT':

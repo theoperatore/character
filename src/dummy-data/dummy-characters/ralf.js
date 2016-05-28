@@ -388,7 +388,12 @@ module.exports = {
             'ralf-equipment-1',
             'ralf-equipment-2',
           ],
-        }
+        },
+        {
+          id: 'ralf-container-2',
+          name: 'Belt Pouch',
+          items: [],
+        },
       ],
       "allItems" : {
         'ralf-equipment-1': {

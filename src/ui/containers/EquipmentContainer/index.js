@@ -3,11 +3,14 @@
 import React from 'react';
 import ListItem from '../../components/ListItem/v2';
 import Popup from '../../components/Popup';
+import EquipmentItem from '../../containers/EquipmentItem';
+import Icon from '../../components/Icon';
 
 export default React.createClass({
   displayName: 'EquipmentContainer',
 
   propTypes: {
+    containers: React.PropTypes.array.isRequired,
     container: React.PropTypes.object.isRequired,
     items: React.PropTypes.object.isRequired,
     onContainerChange: React.PropTypes.func.isRequired,
@@ -16,26 +19,36 @@ export default React.createClass({
   getInitialState() {
     return {
       viewContents: false,
+      createItem: false,
     }
   },
 
   getItemDetails() {
     let items = this.props.items.map(itm => {
       return (
-        <ListItem
+        <EquipmentItem
           key={itm.get('id')}
+          id={itm.get('id')}
           name={itm.get('name')}
+          desc={itm.get('desc')}
+          containerId={this.props.container.get('id')}
+          containers={this.props.containers}
+          onChange={this.props.onContainerChange}
         />
       )
     });
 
     return (
       <section>
-        <div className='popup-header equipment-list' onClick={() => this.setState({ viewContents: false })}>
-          <p>{this.props.container.get('name')}</p>
+        <div className='popup-header equipment-list interactable' onClick={() => this.setState({ viewContents: false })}>
+          <p>{this.props.container.get('name')} <Icon icon='fa fa-chevron-down' /></p>
         </div>
         <div className='popup-content'>
           { items }
+          <p 
+            className='subtext text-center p2 interactable'
+            onClick={() => this.setState({ createItem: true })}
+          ><Icon icon='fa fa-plus' /> Create a new item</p>
         </div>
       </section>
     );
@@ -49,7 +62,7 @@ export default React.createClass({
       <ListItem
         name={container.get('name')}
         subtext={`${count} Items`}
-        onClick={() => count > 0 ? this.setState({ viewContents: true }) : null}
+        onClick={() => this.setState({ viewContents: true })}
       >
         <Popup
           id={`view-${container.get('id')}-items`}
