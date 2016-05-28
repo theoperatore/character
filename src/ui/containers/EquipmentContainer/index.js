@@ -41,7 +41,7 @@ export default React.createClass({
 
     return (
       <section>
-        <div className='popup-header equipment-list interactable' onClick={() => this.setState({ viewContents: false })}>
+        <div className='popup-header text-center interactable' onClick={() => this.setState({ viewContents: false })}>
           <p>{this.props.container.get('name')} <Icon icon='fa fa-chevron-down' /></p>
         </div>
         <div className='popup-content'>
@@ -50,6 +50,10 @@ export default React.createClass({
             className='subtext text-center p2 interactable'
             onClick={() => this.setState({ createItem: true })}
           ><Icon icon='fa fa-plus' /> Create a new item</p>
+        </div>
+        <div className='popup-footer'>
+          <button className='text-green'><Icon icon='fa fa-pencil'/> Edit Container</button>
+          <button className='text-red'><Icon icon='fa fa-remove'/> Remove Container</button>
         </div>
         <CreateItem
           active={this.state.createItem}

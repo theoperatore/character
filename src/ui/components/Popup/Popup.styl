@@ -4,12 +4,56 @@
   width 100%
   background-color $base-background-color
   
+  > *:first-child
+    display flex
+    flex-flow column
+    height 100%
+  
   .popup-header
     padding $base-padding
     background-color #333
     color $base-background-color
     border-bottom 2px solid #000
-
+    
+  .popup-content
+    flex 1
+    -webkit-overflow-scrolling touch
+    overflow-y scroll
+    
+  .popup-footer
+    background-color $base-background-color
+    border-top 1px solid $base-border-color
+    text-align center
+    
+    button
+      height 30px
+      appearance none
+      border 0
+      display inline-block
+      outline none
+      background-color $base-background-color
+      
+      &:first-child:nth-last-child(1)
+        width 100%
+        
+      &:first-child:nth-last-child(2),
+      &:first-child:nth-last-child(2) ~ button
+        width 50%
+        
+      &:first-child:nth-last-child(3),
+      &:first-child:nth-last-child(3) ~ button
+        width 33.333333333333%
+        
+      &:first-child:nth-last-child(4),
+      &:first-child:nth-last-child(4) ~ button
+        width 25%
+      
+      &:active 
+        background-color #ddd
+      
+      p
+        font-size 13px
+ 
 .popup-container.popup-moving
   transform translateY(100%)
   
