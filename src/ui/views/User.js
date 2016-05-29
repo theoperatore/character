@@ -4,7 +4,6 @@ import React from 'react';
 import db from '../../api';
 import Router from '../router/Router';
 import Icon from '../components/Icon';
-import Menu from '../components/Menu';
 
 
 import dummy from '../../dummy-data/dummy-profile';
@@ -91,13 +90,6 @@ export default React.createClass({
       <div className="profile-container">
         <div className="profile-header">
           <p className="profile-header-name left">{this.props.id}</p>
-          <div className="right">
-            <Menu anchor={<Icon icon="icon-cog"/>} right={true}>
-              <p>new character</p>
-              <p onClick={this.logout}>logout</p>
-            </Menu>
-          </div>
-
         </div>
         <div className="profile-content">
           <ul className="profile-list-characters">
