@@ -188,12 +188,12 @@ export default {
     "derivatives" : []
   },
   "charHitPoints" : {
-    "current" : 0,
-    "maximum" : 0,
+    "current" : 1,
+    "maximum" : 1,
     "temporary" : 0,
     "hitDiceType" : "d4",
-    "hitDiceMaximum": 0,
-    "hitDiceCurrent" : 0,
+    "hitDiceMaximum": 1,
+    "hitDiceCurrent" : 1,
     "deathSaves" : {
       "successes" : 0,
       "failures" : 0

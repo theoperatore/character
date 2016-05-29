@@ -14,5 +14,13 @@ module.exports = [
     createdDate : 123456789,
     deathDate : 123456789,
     characterUID: 'ralf'
+  },
+  {
+    characterName: 'Blank',
+    characterLevel: 1,
+    characterClass: 'A blank character',
+    createdDate : 123456789,
+    deathDate : 123456789,
+    characterUID: 'blank',
   }
 ];

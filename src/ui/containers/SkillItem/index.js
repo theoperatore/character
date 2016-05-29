@@ -139,7 +139,6 @@ export default React.createClass({
       width: Math.floor((this.props.score / this.props.maxScore) * this.state.maxWidth)
     }
 
-
     return (
       <div className={`container-list-item ${this.props.trained ? 'proficient' : ''}`} onClick={this.openEditModal}>
         <span className={`skill-item-bar text-${this.props.ability}`} style={style} ></span>

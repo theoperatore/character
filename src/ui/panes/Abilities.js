@@ -78,6 +78,10 @@ export default React.createClass({
     let maxScore = this.props.skills.toJS().reduce((max, skill) => Math.max(max, skill.score), 0);
     let data = this.sortData(this.props.skills.toJS())
 
+    maxScore = maxScore === 0
+      ? 1
+      : maxScore;
+
     return data.map((skill, i) => {
       return <SkillItem 
         key={i}
