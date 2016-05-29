@@ -84,7 +84,7 @@ export default React.createClass({
             <h5 className='info-section-title'>Inventory</h5>
           </div>
           { this.renderEquipments() }
-          <p 
+          <p
             className='subtext text-center p2 interactable'
             onClick={() => this.setState({ createContainer: true })}
           ><Icon icon='fa fa-plus' /> Create a new equipment container</p>

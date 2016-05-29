@@ -144,10 +144,6 @@ export default React.createClass({
   },
 
   renderSpells() {
-    if (this.state.flattenedSpells.length === 0) {
-      return <p className='subtext text-center border-top'>Add a spell by tapping on the 'plus' icon.<Icon icon='fa fa-level-up' /></p>
-    }
-
     return this.state.flattenedSpells.map(spell => {
       return (<Spell 
         key={spell.id}
@@ -164,9 +160,8 @@ export default React.createClass({
     return (
       <div className="pane-container">
         <section className='info-section'>
-          <div className='info-section-header interactable' onClick={() => this.setState({ createSpellAttackBonus: true })}>
+          <div className='info-section-header'>
             <h5 className='info-section-title'>Spellcasting Bonuses</h5>
-            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
             <CreateAttackBonusDialog
               active={this.state.createSpellAttackBonus}
               dismiss={() => this.setState({ createSpellAttackBonus: false })}
@@ -175,17 +170,24 @@ export default React.createClass({
           </div>
           { this.renderSpellDC() }
           { this.renderSpellAttackBonuses() }
+          <p
+            className='subtext text-center p2 interactable'
+            onClick={() => this.setState({ createSpellAttackBonus: true })}
+          ><Icon icon='fa fa-plus' /> Create a new spell attack bonus</p>
         </section>
         <section className='info-section'>
-          <div className='info-section-header interactable' onClick={() => this.setState({ createNewSpell: true })}>
+          <div className='info-section-header'>
             <h5 className='info-section-title'>Spells</h5>
-            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
           </div>
           <div className='spell-slots-container' onClick={() => this.setState({ viewSpellSlots: true })}>
             { this.renderSpellSlots() }
           </div>
           <div className='spells-container'>
             { this.renderSpells() }
+            <p
+            className='subtext text-center p2 interactable'
+            onClick={() => this.setState({ createNewSpell: true })}
+          ><Icon icon='fa fa-plus' /> Create a new spell</p>
           </div>
           <Modal
             id='create-new-spell'

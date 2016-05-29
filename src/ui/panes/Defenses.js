@@ -74,10 +74,6 @@ export default React.createClass({
 
 
   renderResistances() {
-    if (this.props.resistances.size === 0) {
-      return <p className='subtext text-center border-top'>Add a resistance by tapping on the 'plus' icon.<Icon icon='fa fa-level-up' /></p>
-    }
-
     return this.props.resistances.toJS().map((resistance, i) => {
       return (
         <ResistanceItem 
@@ -161,12 +157,15 @@ export default React.createClass({
           {this.renderSavingThrows()}
         </section>
         <section className='info-section pane-padding'>
-          <div className='info-section-header interactable' onClick={() => this.setState({ create: true })}>
+          <div className='info-section-header'>
             <h5 className='info-section-title'>Resistances</h5>
-            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
             <CreateResistance active={this.state.create} onCancel={() => this.setState({ create: false })} onCreate={this.props.handleDefenseChange} />
           </div>
           {this.renderResistances()}
+          <p
+            className='subtext text-center p2 interactable'
+            onClick={() => this.setState({ create: true })}
+          ><Icon icon='fa fa-plus' /> Create a new resistance</p>
         </section>
       </div>
     )

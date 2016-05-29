@@ -45,10 +45,6 @@ export default React.createClass({
 
 
   renderAttackBonuses() {
-    if (this.props.bubbles.size === 0) {
-      return <p className='subtext text-center border-top'>Add an attack bonus by tapping on the 'plus' icon.<Icon icon='fa fa-level-up' /></p>
-    }
-
     return this.props.bubbles.toJS().map((bonus, i) => {
       return <AttackBonusItem
         key={i}
@@ -80,10 +76,6 @@ export default React.createClass({
 
 
   renderAttacks() {
-    if (this.props.attacks.size === 0) {
-      return <p className='subtext text-center border-top'>Add an attack by tapping on the 'plus' icon.<Icon icon='fa fa-level-up' /></p>
-    }
-
     return this.props.attacks.toJS().map((attack, i) => {
       return (
         <AttackItem
@@ -102,23 +94,29 @@ export default React.createClass({
     return (
       <div className="pane-container">
         <section className='info-section'>
-          <div className='info-section-header interactable' onClick={() => this.setState({ createAttackBonus: true })}>
+          <div className='info-section-header'>
             <h5 className='info-section-title'>Attack Bonuses</h5>
-            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
             <CreateAttackBonusDialog active={this.state.createAttackBonus} dismiss={() => this.setState({ createAttackBonus: false })} onCreate={this.props.handlePreferencesChange}/>
           </div>
           {this.renderAttackBonuses()}
+          <p
+            className='subtext text-center p2 interactable'
+            onClick={() => this.setState({ createAttackBonus: true })}
+          ><Icon icon='fa fa-plus' /> Create a new attack bonus</p>
         </section>
         <section className='info-section'>
           {this.renderClassCharges()}
         </section>
         <section className='info-section'>
-          <div className='info-section-header interactable' onClick={() => this.setState({ createAttack: true })}>
+          <div className='info-section-header'>
             <h5 className='info-section-title'>Attacks</h5>
-            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
             <CreateAttackDialog active={this.state.createAttack} dismiss={() => this.setState({ createAttack: false })} onCreate={this.props.handleAttacksChange}/>
           </div>
           {this.renderAttacks()}
+          <p
+            className='subtext text-center p2 interactable'
+            onClick={() => this.setState({ createAttack: true })}
+          ><Icon icon='fa fa-plus' /> Create a new attack</p>
         </section>
       </div>
     );

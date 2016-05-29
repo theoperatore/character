@@ -105,10 +105,6 @@ module.exports = React.createClass({
 
 
   renderProficiencies() {
-    if (this.props.proficiencies.get('proficiencies').size === 0) {
-      return <p className='subtext text-center border-top'>Add a proficiency by tapping on the 'plus' icon.<Icon icon='fa fa-level-up' /></p>
-    }
-
     return this.props.proficiencies.get('proficiencies').toJS().map((prof, i) => {
       let mc = <EditProficiency ref={`profs-${i}`} name={prof.name} desc={prof.desc} id={prof.id} onProficiencyChange={this.handleChange.bind(this, `prof-${i}`)} />;
       return (
@@ -119,10 +115,6 @@ module.exports = React.createClass({
 
 
   renderLanguages() {
-    if (this.props.proficiencies.get('languages').size === 0) {
-      return <p className='subtext text-center border-top'>Add a language by tapping on the 'plus' icon.<Icon icon='fa fa-level-up' /></p>
-    }
-
     return this.props.proficiencies.get('languages').toJS().map((lang, i) => {
       let modalContent = <EditLanguage ref={`langs-${i}`} name={lang.name} desc={lang.desc} id={lang.id} onLanguageChange={this.handleChange.bind(this, `lang-${i}`)} />;
       return (
@@ -227,19 +219,25 @@ module.exports = React.createClass({
           {this.renderTraits()}
         </section>
         <section className="info-section pane-padding">
-          <div className='info-section-header' onClick={this.openDialog.bind(this, 'prof')}>
+          <div className='info-section-header'>
             <h5 className='info-section-title'>Proficiencies</h5>
-            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
           </div>
           {this.renderProficiencies()}
+          <p
+            className='subtext text-center p2 interactable'
+            onClick={this.openDialog.bind(this, 'prof')}
+          ><Icon icon='fa fa-plus' /> Create a new proficiency</p>
           <Modal active={this.state.profModal} id='new-proficiency' content={createProf}  onDismiss={this.handleNewDismiss.bind(this, 'prof')}/>
         </section>
         <section className="info-section pane-padding">
-          <div className='info-section-header' onClick={this.openDialog.bind(this, 'lang')}>
+          <div className='info-section-header'>
             <h5 className='info-section-title'>Languages</h5>
-            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
           </div>
           {this.renderLanguages()}
+          <p
+            className='subtext text-center p2 interactable'
+            onClick={this.openDialog.bind(this, 'lang')}
+          ><Icon icon='fa fa-plus' /> Create a new language</p>
           <Modal active={this.state.langModal} id='new-language' content={createLang}  onDismiss={this.handleNewDismiss.bind(this, 'lang')}/>
         </section>
         <Modal active={this.state.areYouSure} id='are-you-sure' content={this.areYouSureContent()} onDismiss={() => {}} />

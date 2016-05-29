@@ -34,10 +34,6 @@ export default React.createClass({
 
 
   renderFeatures() {
-    if (this.props.features.size === 0) {
-      return <p className='subtext text-center border-top'>Add a feature by tapping on the 'plus' icon.<Icon icon='fa fa-level-up' /></p>
-    }
-
     return (
       this.props.features.toJS().map((feature, i) => {
         let charge = this.props.charges.find(itm => itm.get('id') === feature.classChargesId);
@@ -63,12 +59,15 @@ export default React.createClass({
     return (
       <div className='pane-container'>
         <section className="info-section pane-padding">
-          <div className='info-section-header interactable' onClick={() => this.setState({ createFeature: true })}>
+          <div className='info-section-header'>
             <h5 className='info-section-title'>Features</h5>
-            <p className='info-section-addon'><Icon icon='fa fa-plus'/></p>
             <CreateNewFeature active={this.state.createFeature} onCreate={this.props.handleFeatureChange} dismiss={() => this.setState({ createFeature: false })} />
           </div>
           {this.renderFeatures()}
+          <p
+            className='subtext text-center p2 interactable'
+            onClick={() => this.setState({ createFeature: true })}
+          ><Icon icon='fa fa-plus' /> Create a new feature</p>
         </section>
       </div>
     );
