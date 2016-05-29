@@ -541,8 +541,17 @@ export function character(state = DEFAULT_CHARACTER, action) {
           return items.concat(deletedItems);
         });
 
-    case 'MONEY_EDIT':
-      break;
+    case 'WEALTH_EDIT':
+      return state.updateIn(['charEquipment', 'money', action.data.wealthType], type => {
+        switch (action.data.actionType) {
+          case 'add':
+            return type + action.data.value;
+          case 'subtract':
+            return type - action.data.value;
+          default:
+            return type;
+        }
+      })
 
     // attack bonuses
     case 'ATTACK_BONUS_CREATE':

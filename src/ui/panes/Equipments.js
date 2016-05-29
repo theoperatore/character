@@ -4,6 +4,7 @@ import React from 'react';
 import ListItem from '../components/ListItem/v2';
 import Icon from '../components/Icon';
 import CreateEquipmentContainer from '../dialogs/equipment/createEquipmentContainer';
+import ManageWealth from '../dialogs/equipment/manageWealth';
 import EquipmentContainer from '../containers/EquipmentContainer';
 
 export default React.createClass({
@@ -16,12 +17,14 @@ export default React.createClass({
 
   shouldComponentUpdate(nextProps, nextState) {
     return nextProps.equipment !== this.props.equipment ||
-           nextState.createContainer !== this.state.createContainer
+           nextState.createContainer !== this.state.createContainer |
+           nextState.manageWealth !== this.state.manageWealth
   },
 
   getInitialState() {
     return {
       createContainer: false,
+      manageWealth: false,
     }
   },
 
@@ -65,11 +68,16 @@ export default React.createClass({
   render() {
     return (
       <div className="pane-container">
-        <section className='info-section interactable'>
+        <section className='info-section interactable' onClick={() => this.setState({ manageWealth: true })}>
           <div className='info-section-header'>
             <h5 className='info-section-title'>Wealth</h5>
           </div>
           { this.renderWealth() }
+          <ManageWealth
+            active={this.state.manageWealth}
+            onDismiss={() => this.setState({ manageWealth: false })}
+            onChange={this.props.handleEquipmentChange}
+          />
         </section>
         <section className='info-section'>
           <div className='info-section-header'>
