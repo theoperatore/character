@@ -25,6 +25,20 @@ export default React.createClass({
     }
   },
 
+  renderWealth() {
+    return this.props.equipment.get('money').entrySeq().map(entry => {
+      let [ moneyType, moneyAmount ] = entry;
+
+      return <div
+        key={moneyType}
+        className='money'
+        >
+          <p><small>{moneyType}</small></p>
+          <p>{moneyAmount}</p>
+        </div>
+    })
+  },
+
   renderEquipments() {
     let simpleContainers = this.props.equipment.get('containers').map(c => {
       return {
@@ -51,8 +65,14 @@ export default React.createClass({
   render() {
     return (
       <div className="pane-container">
+        <section className='info-section interactable'>
+          <div className='info-section-header'>
+            <h5 className='info-section-title'>Wealth</h5>
+          </div>
+          { this.renderWealth() }
+        </section>
         <section className='info-section'>
-          <div className='info-section-header interactable'>
+          <div className='info-section-header'>
             <h5 className='info-section-title'>Inventory</h5>
           </div>
           { this.renderEquipments() }
