@@ -6,8 +6,13 @@ module.exports = React.createClass({
   displayName : "Icon",
 
   render : function() {
-    var { icon, ...others } = this.props;
+    var { icon, className, ...others } = this.props;
 
-    return (<span {...others} className={`icon ${icon}`}></span>);
+    return (
+      <span
+        {...others}
+        className={`icon ${icon} ${className || ''}`}
+      ></span>
+    );
   }
 })

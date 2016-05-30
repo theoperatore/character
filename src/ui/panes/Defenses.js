@@ -11,6 +11,7 @@ import CreateResistance from '../dialogs/defenses/resistances/create';
 import RestDialog from '../dialogs/defenses/RestDialog';
 import EditHpDialog from '../dialogs/defenses/EditHpDialog';
 import EditDefenseStatDialog from '../dialogs/defenses/EditDefenseStatDialog';
+import ManageHitDice from '../dialogs/defenses/ManageHitDice';
 
 export default React.createClass({
   displayName: 'PaneDefenses',
@@ -27,7 +28,8 @@ export default React.createClass({
       this.state.create !== nextState.create ||
       this.state.hpDialog !== nextState.hpDialog || 
       this.state.defenseDialog !== nextState.defenseDialog ||
-      this.state.restDialog !== nextState.restDialog
+      this.state.restDialog !== nextState.restDialog ||
+      this.state.manageHitDice !== nextState.manageHitDice
     );
   },
 
@@ -37,7 +39,8 @@ export default React.createClass({
       create: false,
       hpDialog: false,
       defenseDialog: false,
-      restDialog: false
+      restDialog: false,
+      manageHitDice: false,
     }
   },
 
@@ -134,7 +137,7 @@ export default React.createClass({
                 </div>
               </div>
               <div className='defenses-group'>
-                <div className='stat interactable'>
+                <div className='stat interactable' onClick={() => this.setState({ manageHitDice: true })}>
                   <h6>Hit Dice</h6>
                   { this.renderHitDice() }
                 </div>
@@ -142,6 +145,13 @@ export default React.createClass({
                   <Button onClick={() => this.setState({ restDialog: true })} style='blue' size='md'>Rest</Button>
                 </div>
               </div>
+              <ManageHitDice
+                active={this.state.manageHitDice}
+                onDismiss={() => this.setState({ manageHitDice: false })}
+                hitDice={this.props.hitPoints.get('hitDice')}
+                hitDiceDefinitions={this.props.hitPoints.get('hitDiceDefinitions')}
+                onChange={this.props.handleDefenseChange}
+              />
               <RestDialog 
                 active={this.state.restDialog}
                 onDismiss={() => this.setState({ restDialog: false })}

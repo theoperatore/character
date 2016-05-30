@@ -25,3 +25,13 @@ exports.isTargetInRoot = function(target, root) {
 
   return false;
 }
+
+exports.debounce = function createDebouncedFn(fn, time) {
+  let id;
+  return function debounced(...args) {
+    clearTimeout(id);
+    id = setTimeout(() => {
+      return fn.apply(null, args);
+    }, time);
+  }
+}

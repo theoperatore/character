@@ -1,20 +1,15 @@
 'use strict';
 
 import { fromJS, Map, List } from 'immutable';
+import uuid from 'node-uuid';
 
 import defaultCharacter from '../data/defaultCharacter';
 import defaultPreferences from '../data/defaultPreferences';
 import defaultDefinitions from '../data/defaultDefinitions';
 
-import { dieTypeToInt } from '../constants';
-
 const DEFAULT_CHARACTER = fromJS(defaultCharacter);
 const DEFAULT_PREFERENCES = fromJS(defaultPreferences);
 const DEFAULT_DEFINITIONS = fromJS(defaultDefinitions);
-
-function hitDiceSorter(a, b) {
-  return dieTypeToInt[a.get('type')] - dieTypeToInt[b.get('type')];
-}
 
 export function character(state = DEFAULT_CHARACTER, action) {
   switch (action.type) {
@@ -334,11 +329,29 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     // hit dice
     case 'HIT_DICE_EDIT':
-      break;
+      return state.updateIn(['charHitPoints', 'hitDiceDefinitions', action.data.id], def => {
+        return def.merge(action.data);
+      });
+
     case 'HIT_DICE_DELETE':
-      break;
+      return state.updateIn(['charHitPoints', 'hitDice'], hitDice => {
+        return hitDice.filter(die => die !== action.data.id);
+      });
+
     case 'HIT_DICE_CREATE':
-      break;
+      let newHitDieId = `hit-die-${uuid.v1()}`;
+      return state
+        .updateIn(['charHitPoints', 'hitDice'], hitDice => {
+          return hitDice.push(newHitDieId);
+        })
+        .updateIn(['charHitPoints', 'hitDiceDefinitions'], defs => {
+          return defs.set(newHitDieId, Map({
+            id: newHitDieId,
+            type: 'd4',
+            current: 1,
+            maximum: 1
+          }));
+        });
 
     case 'LONG_REST':
       return state.update('charHitPoints', charHitPoints => {
