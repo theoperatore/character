@@ -5,12 +5,13 @@
   background-color $base-background-color
   border-radius $base-border-radius
   display inline-block
-  margin-right $base-component-margin
   margin-bottom $base-component-margin
   padding-top $base-padding-sm
   padding-bottom $base-padding-sm
   padding-left $base-padding-lg
   padding-right $base-padding-lg
+  &:first-of-type
+    margin-right $base-component-margin
   &:active
     background-color darken($base-background-color, 15%)
     box-shadow inset 0px 0px 3px 1px rgba(0,0,0,0.1)

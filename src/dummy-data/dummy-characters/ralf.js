@@ -335,9 +335,24 @@ module.exports = {
       "current" : 26,
       "maximum" : 26,
       "temporary" : 0,
-      "hitDiceType" : "d8",
-      "hitDiceMaximum": 20,
-      "hitDiceCurrent" : 20,
+      "hitDice": [
+        'ralf-hit-dice-0',
+        'ralf-hit-dice-1',
+      ],
+      "hitDiceDefinitions": {
+        'ralf-hit-dice-0': {
+          id: 'ralf-hit-dice-0',
+          type: 'd8',
+          maximum: 12,
+          current: 1,
+        },
+        'ralf-hit-dice-1': {
+          id: 'ralf-hit-dice-1',
+          type: 'd6',
+          maximum: 8,
+          current: 7,
+        },
+      },
       "deathSaves" : {
         "successes" : 0,
         "failures" : 0

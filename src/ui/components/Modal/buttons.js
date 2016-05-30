@@ -38,3 +38,12 @@ export function createCancelBtn(clickHandler) {
     ><Icon icon='fa fa-remove'/> Cancel</button>
   );
 }
+
+export function createRestBtn(clickHandler) {
+  return (
+    <button
+      onClick={clickHandler}
+      className='text-green'
+    ><Icon icon='fa fa-bed'/> Rest</button>
+  );
+}

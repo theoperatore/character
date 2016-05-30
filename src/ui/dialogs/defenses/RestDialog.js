@@ -2,97 +2,120 @@
 
 import React from 'react';
 import Modal from '../../components/Modal';
-import Icon from '../../components/Icon';
+import Tabs from '../../components/Tabs';
+import Tab from '../../components/Tab';
+import { createRestBtn, createCancelBtn } from '../../components/Modal/buttons';
 
 export default React.createClass({
   displayName: 'RestDialog',
 
-
   propTypes: {
     active: React.PropTypes.bool.isRequired,
-    dismiss: React.PropTypes.func.isRequired,
+    onDismiss: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired,
-    hitDice: React.PropTypes.number.isRequired,
-    hitDiceType: React.PropTypes.string.isRequired
+    hitDice: React.PropTypes.object.isRequired,
+    hitDiceDefinitions: React.PropTypes.object.isRequired,
   },
-
 
   getInitialState() {
     return {
-      short: false,
-      roll: ''
+      restType: 0, // short rest === 0
     }
   },
 
+  handleShortRest() {
+
+  },
+
+  handleLongRest() {
+    let inputValues = this.props.hitDice
+      .map((id, i) => ({ref: `typeInput${i}`, id }))
+      .map(datum => Object.assign({}, datum, { value: Number(this[datum.ref].value.trim()) }))
+      .reduce((agg, datum) => {
+        agg[datum.id] = {
+          valueToAdd: datum.value
+        };
+
+        return agg;
+      }, {});
+
+    this.props.onChange({
+      type: 'LONG_REST',
+      data: inputValues,
+    });
+
+    this.setState({ restType: 0 });
+    this.props.onDismiss();
+  },
+
+  longRestContent() {
+    return <div>
+      <p>A <span className='text-blue'>Long Rest</span> will restore all of your hit points and give you the ability to restore spent hit dice.</p>
+      <label className='block mt1'>Regain how many hit dice per type?</label>
+      {
+        this.props.hitDice
+          .map(id => this.props.hitDiceDefinitions.get(id))
+          .map((hitDice, i) => {
+            return (
+              <div key={hitDice.get('id')} className='inline-block m1'>
+                <label className='labeled-input'>
+                  <input
+                    ref={ref => this[`typeInput${i}`] = ref}
+                    placeholder='amount to add'
+                    defaultValue={0}
+                  />
+                  { hitDice.get('type') }
+                </label>
+              </div>
+            );
+          })
+      }
+    </div>
+  },
+
+  shortRestContent() {
+    return <div>
+      <p>A <span className='text-blue'>Short Rest</span> will allow you to spend hit dice to regain lost hit points.</p>
+    </div>
+  },
 
   getContent() {
     return <section className='rest-dialog'>
       <div className='modal-header'><h3>Take a Rest?</h3></div>
       <div className='modal-content'>
-        <p>Take a <span className='text-green'>Long Rest</span> to regain all hit points and 1/2 total hit dice. Take a <span className='text-blue'>Short Rest</span> to spend some hit dice and regain some hp.</p>
+        <label>Rest Type</label>
+        <Tabs
+          className='basic-tabs'
+          activeIdx={this.state.restType}
+          onTabSelect={idx => this.setState({ restType: idx })}
+        >
+          <Tab>Short Rest</Tab>
+          <Tab>Long Rest</Tab>
+        </Tabs>
+
+        {
+          this.state.restType === 0
+            ? this.shortRestContent()
+            : this.longRestContent()
+        }
       </div>
       <div className='modal-footer'>
-        <button className='text-green' onClick={this.longRest}>Long Rest</button>
-        <button className='text-blue' onClick={() => this.setState({ short: true })}>Short Rest</button>
+        {
+          this.state.restType === 0
+            ? createRestBtn(this.handleShortRest)
+            : createRestBtn(this.handleLongRest)
+        }
+        { createCancelBtn(this.props.onDismiss) }
       </div>
     </section>
   },
-
-
-  shortRestContent() {
-    return <section className='rest-dialog'>
-      <div className='modal-header'><h3>Short Rest</h3></div>
-      <div className='modal-content'>
-        <p>A hit die will be spent each time you <em className='text-blue'>Use Hit Dice</em>.</p>
-        <p>You have <strong><em>{this.props.hitDice}</em></strong> hit dice remaining of type(s) <strong><em>{this.props.hitDiceType}</em></strong>.</p>
-        <div className='inputs'>
-          <input type='text' placeholder='hit die roll value' id='hitDiceValue' value={this.state.roll} onChange={this.validateInput}/>
-        </div>
-      </div>
-      <div className='modal-footer'>
-        <button className='text-blue' onClick={this.shortRest}>Use Hit Die</button>
-        <button className='text-red' onClick={this.dismiss}>Stop Resting</button>
-      </div>
-    </section>
-  },
-
-
-  validateInput(ev) {
-    let roll = Number(ev.target.value);
-    if (roll === '' || (!isNaN(roll) && roll !== Infinity)) {
-      this.setState({ roll });
-    }
-  },
-
-
-  dismiss() {
-    this.setState({ short: false, roll: '' });
-    this.props.dismiss();
-  },
-
-
-  shortRest() {
-    if (!isNaN(this.state.roll) && this.state.roll !== '') {
-      let data = {
-        hpGained: this.state.roll
-      }
-
-      this.props.onChange({ type: 'SHORT_REST', data });
-      this.setState({ roll: '' });
-    }
-  },
-
-
-  longRest() {
-    this.props.onChange({ type: 'LONG_REST' });
-    this.dismiss();
-  },
-
 
   render() {
-    return <span>
-      <Modal id='rest-dialog' active={this.props.active} content={this.getContent()} onDismiss={this.dismiss} />
-      <Modal id='short-rest-dialog' active={this.state.short} content={this.shortRestContent()} onDismiss={() => this.setState({ short: false })} />
-    </span>
+    return <Modal
+      id='rest-dialog'
+      active={this.props.active}
+      content={this.getContent()}
+      onDismiss={this.props.onDismiss}
+    />
   }
 })

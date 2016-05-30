@@ -51,8 +51,12 @@ module.exports = React.createClass({
   },
 
   render : function() {
+    let {
+      className
+    } = this.props;
+    
     return (
-      <div className={"tabs-container"}>
+      <div className={`tabs-container ${className || ''}`}>
         {this.renderChildren()}
       </div>
     );

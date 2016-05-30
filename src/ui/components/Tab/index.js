@@ -13,14 +13,14 @@ module.exports = React.createClass({
 
 
   render : function() {
-    var { active } = this.props;
+    var { active, className } = this.props;
     var css = classnames({
       'tab-container' : true,
       'active' : active
     });
 
     return (
-      <div className={css} onClick={this.handleClick}>
+      <div className={`${css} ${ className ? className: ''}`} onClick={this.handleClick}>
         <a>{this.props.children}</a>
       </div>
     );

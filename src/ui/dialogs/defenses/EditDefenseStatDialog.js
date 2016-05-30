@@ -17,7 +17,6 @@ export default React.createClass({
     armorClass: React.PropTypes.number.isRequired,
     speed: React.PropTypes.string.isRequired,
     initiative: React.PropTypes.number.isRequired,
-    hitDiceType: React.PropTypes.string.isRequired
   },
 
 

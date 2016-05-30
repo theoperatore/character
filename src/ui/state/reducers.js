@@ -6,9 +6,15 @@ import defaultCharacter from '../data/defaultCharacter';
 import defaultPreferences from '../data/defaultPreferences';
 import defaultDefinitions from '../data/defaultDefinitions';
 
+import { dieTypeToInt } from '../constants';
+
 const DEFAULT_CHARACTER = fromJS(defaultCharacter);
 const DEFAULT_PREFERENCES = fromJS(defaultPreferences);
 const DEFAULT_DEFINITIONS = fromJS(defaultDefinitions);
+
+function hitDiceSorter(a, b) {
+  return dieTypeToInt[a.get('type')] - dieTypeToInt[b.get('type')];
+}
 
 export function character(state = DEFAULT_CHARACTER, action) {
   switch (action.type) {
@@ -326,8 +332,34 @@ export function character(state = DEFAULT_CHARACTER, action) {
         return charResistances.filter(res => res.get('id') !== action.data.id);
       });
 
-    case 'LONG_REST':
+    // hit dice
+    case 'HIT_DICE_EDIT':
       break;
+    case 'HIT_DICE_DELETE':
+      break;
+    case 'HIT_DICE_CREATE':
+      break;
+
+    case 'LONG_REST':
+      return state.update('charHitPoints', charHitPoints => {
+
+        let partialState = charHitPoints
+          .set('current', charHitPoints.get('maximum'))
+          .set('temporary', 0);
+
+        return Object.keys(action.data).reduce((state, hitDiceId) => {
+          return state.updateIn(['hitDiceDefinitions', hitDiceId], hdDef => {
+            let newValue = hdDef.get('current') + action.data[hitDiceId].valueToAdd;
+
+            newValue = newValue > hdDef.get('maximum')
+              ? hdDef.get('maximum')
+              : newValue;
+
+            return hdDef.set('current', newValue)
+          })
+        }, partialState);
+      })
+      
     case 'SHORT_REST':
       break;
 

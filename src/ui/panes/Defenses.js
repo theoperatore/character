@@ -41,6 +41,14 @@ export default React.createClass({
     }
   },
 
+  renderHitDice() {
+    return this.props.hitPoints.get('hitDice')
+      .map(hitDiceId => this.props.hitPoints.getIn(['hitDiceDefinitions', hitDiceId]))
+      .map((hitDice, i) => {
+        return <p key={i}>{`${hitDice.get('current')} / ${hitDice.get('maximum')} ${hitDice.get('type')}`}</p>
+      });
+  },
+
 
   renderSavingThrows() {
     return Object.keys(this.props.savingThrows.toJS()).map((abilityKey, i) => {
@@ -111,7 +119,7 @@ export default React.createClass({
               }
             </div>
             <div className='col-1-3'>
-              <div onClick={() => this.setState({ defenseDialog: true })} className='defenses-group'>
+              <div onClick={() => this.setState({ defenseDialog: true })} className='defenses-group interactable'>
                 <div className='stat'>
                   <h6>Armor Class</h6>
                   <p>{this.props.armorClass.get('score')}</p>
@@ -124,21 +132,23 @@ export default React.createClass({
                   <h6>Initiative</h6>
                   <p>{this.props.initiative.get('score')}</p>
                 </div>
-                <div className='stat'>
+              </div>
+              <div className='defenses-group'>
+                <div className='stat interactable'>
                   <h6>Hit Dice</h6>
-                  <p>{`${this.props.hitPoints.get('hitDiceCurrent')} / ${this.props.hitPoints.get('hitDiceMaximum')}${this.props.hitPoints.get('hitDiceType')}`}</p>
+                  { this.renderHitDice() }
+                </div>
+                <div className='stat rest'>
+                  <Button onClick={() => this.setState({ restDialog: true })} style='blue' size='md'>Rest</Button>
                 </div>
               </div>
-              <div className='stat rest'>
-                <Button onClick={() => this.setState({ restDialog: true })} style='blue' size='md'>Rest</Button>
-                <RestDialog 
-                  active={this.state.restDialog}
-                  dismiss={() => this.setState({ restDialog: false })}
-                  onChange={this.props.handleDefenseChange}
-                  hitDice={this.props.hitPoints.get('hitDiceCurrent')}
-                  hitDiceType={this.props.hitPoints.get('hitDiceType')}
-                />
-              </div>
+              <RestDialog 
+                active={this.state.restDialog}
+                onDismiss={() => this.setState({ restDialog: false })}
+                onChange={this.props.handleDefenseChange}
+                hitDice={this.props.hitPoints.get('hitDice')}
+                hitDiceDefinitions={this.props.hitPoints.get('hitDiceDefinitions')}
+              />
               <EditDefenseStatDialog 
                 active={this.state.defenseDialog}
                 dismiss={() => this.setState({ defenseDialog: false })}
@@ -147,7 +157,6 @@ export default React.createClass({
                 armorClass={this.props.armorClass.get('score')}
                 speed={this.props.speed.get('score')}
                 initiative={this.props.initiative.get('bonus')}
-                hitDiceType={this.props.hitPoints.get('hitDiceType')}
               />
             </div>
           </div>
