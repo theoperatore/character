@@ -18,19 +18,103 @@ export default React.createClass({
   },
 
   getInitialState() {
+    let longRestInputs = this.props.hitDice
+      .map((d, i) => {
+        return `lrInput${i}`
+      })
+      .reduce((agg, id) => {
+        agg[id] = 0;
+        return agg;
+      }, {});
+
+    let shortRestInputs = this.props.hitDice
+      .map((d, i) => {
+        return `srInput${i}`
+      })
+      .reduce((agg, id) => {
+        agg[id] = 0;
+        return agg;
+      }, {});
+
     return {
       restType: 0, // short rest === 0
+      longRestInputs,
+      shortRestInputs,
+      regainHp: 0,
     }
   },
 
-  handleShortRest() {
+  componentWillReceiveProps(nextProps) {
+    let longRestInputs = this.props.hitDice
+      .map((d, i) => {
+        return `lrInput${i}`
+      })
+      .reduce((agg, id) => {
+        agg[id] = 0;
+        return agg;
+      }, {});
 
+    let shortRestInputs = this.props.hitDice
+      .map((d, i) => {
+        return `srInput${i}`
+      })
+      .reduce((agg, id) => {
+        agg[id] = 0;
+        return agg;
+      }, {});
+
+    this.setState({ longRestInputs, shortRestInputs, regainHp: 0, restType: 0 });
+  },
+
+  validateInput(inputType, inputId, ev) {
+    let num = Number(ev.target.value.trim());
+
+    if (isNaN(num)) return;
+
+    let inputState = Object.assign({}, this.state[inputType], {
+      [`${inputId}`]: num
+    });
+
+    let newState = Object.assign({}, this.state, {
+      [`${inputType}`]: inputState
+    })
+
+    this.setState(newState);
+  },
+
+  validateHp(ev) {
+    let num = Number(ev.target.value);
+
+    if (isNaN(num)) return;
+
+    this.setState({ regainHp: num });
+  },
+
+  handleShortRest() {
+    let diceUsed = this.props.hitDice
+      .map((id, i) => ({ ref: `srInput${i}`, id }))
+      .map(datum => Object.assign({}, datum, { value: this.state.shortRestInputs[datum.ref] }))
+      .reduce((agg, datum) => {
+        agg[datum.id] = {
+          num: datum.value
+        }
+
+        return agg;
+      }, {});
+
+    this.props.onChange({
+      type: 'SHORT_REST',
+      data: {
+        hpRegained: this.state.regainHp,
+        diceUsed,
+      }
+    })
   },
 
   handleLongRest() {
     let inputValues = this.props.hitDice
-      .map((id, i) => ({ref: `typeInput${i}`, id }))
-      .map(datum => Object.assign({}, datum, { value: Number(this[datum.ref].value.trim()) }))
+      .map((id, i) => ({ref: `lrInput${i}`, id }))
+      .map(datum => Object.assign({}, datum, { value: this.state.longRestInputs[datum.ref] }))
       .reduce((agg, datum) => {
         agg[datum.id] = {
           valueToAdd: datum.value
@@ -44,13 +128,12 @@ export default React.createClass({
       data: inputValues,
     });
 
-    this.setState({ restType: 0 });
     this.props.onDismiss();
   },
 
   longRestContent() {
     return <div>
-      <p>A <span className='text-blue'>Long Rest</span> will restore all of your hit points and give you the ability to restore spent hit dice.</p>
+      <p className='subtext'>A <span className='text-blue'>Long Rest</span> will restore all of your hit points and some spent hit dice.</p>
       <label className='block mt1'>Regain how many hit dice per type?</label>
       {
         this.props.hitDice
@@ -60,11 +143,10 @@ export default React.createClass({
               <div key={hitDice.get('id')} className='inline-block m1'>
                 <label className='labeled-input'>
                   <input
-                    ref={ref => this[`typeInput${i}`] = ref}
-                    placeholder='amount to add'
-                    defaultValue={0}
+                    value={this.state.longRestInputs[`lrInput${i}`]}
+                    onChange={this.validateInput.bind(this, 'longRestInputs', `lrInput${i}`)}
                   />
-                  { hitDice.get('type') }
+                  { `${hitDice.get('type')} (${hitDice.get('current')} / ${hitDice.get('maximum')})` }
                 </label>
               </div>
             );
@@ -75,7 +157,34 @@ export default React.createClass({
 
   shortRestContent() {
     return <div>
-      <p>A <span className='text-blue'>Short Rest</span> will allow you to spend hit dice to regain lost hit points.</p>
+      <p className='subtext'>A <span className='text-blue'>Short Rest</span> will allow you to spend hit dice to regain lost hit points.</p>
+      <label className='block mt1'>Use how many hit dice?</label>
+      {
+        this.props.hitDice
+          .map(id => this.props.hitDiceDefinitions.get(id))
+          .map((hitDice, i) => {
+            return (
+              <div key={hitDice.get('id')} className='inline-block m1'>
+                <label className='labeled-input'>
+                  <input
+                    value={this.state.shortRestInputs[`srInput${i}`]}
+                    onChange={this.validateInput.bind(this, 'shortRestInputs', `srInput${i}`)}
+                  />
+                  { `${hitDice.get('type')} (${hitDice.get('current')} / ${hitDice.get('maximum')})` }
+                </label>
+              </div>
+            );
+          })
+      }
+      <label className='block mt1' htmlFor='regainHpInput'>Regain how many hit points?</label>
+      <input
+        id='regainHpInput'
+        type='text'
+        className='block mb1'
+        value={this.state.regainHp}
+        onChange={this.validateHp}
+      />
+      <p className='subtext'>Enter the total number of hit points to regain across all dice rolls and modifiers.</p>
     </div>
   },
 

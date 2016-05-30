@@ -349,7 +349,9 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
         return Object.keys(action.data).reduce((state, hitDiceId) => {
           return state.updateIn(['hitDiceDefinitions', hitDiceId], hdDef => {
-            let newValue = hdDef.get('current') + action.data[hitDiceId].valueToAdd;
+            let newValue = hdDef.get('current') < 0 ? 0 : hdDef.get('current');
+
+            newValue += action.data[hitDiceId].valueToAdd;
 
             newValue = newValue > hdDef.get('maximum')
               ? hdDef.get('maximum')
@@ -361,7 +363,27 @@ export function character(state = DEFAULT_CHARACTER, action) {
       })
       
     case 'SHORT_REST':
-      break;
+      return state.update('charHitPoints', charHitPoints => {
+        let newHitPoints = charHitPoints.get('current') < 0 
+          ? 0
+          : charHitPoints.get('current');
+
+        newHitPoints += action.data.hpRegained;
+
+        newHitPoints = newHitPoints > charHitPoints.get('maximum')
+          ? charHitPoints.get('maximum')
+          : newHitPoints;
+
+        let partialState = charHitPoints.set('current', newHitPoints);
+
+        return Object.keys(action.data.diceUsed).reduce((state, hitDiceId) => {
+          return state.updateIn(['hitDiceDefinitions', hitDiceId], hdDef => {
+            let newValue = hdDef.get('current') - action.data.diceUsed[hitDiceId].num;
+
+            return hdDef.set('current', newValue);
+          })
+        }, partialState);
+      });
 
     // attacks
     case 'CLASS_CHARGE_DECREMENT':

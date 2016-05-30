@@ -191,8 +191,15 @@ export default {
     "current" : 1,
     "maximum" : 1,
     "temporary" : 0,
-    "hitDice": [],
-    "hitDiceDefinitions": {},
+    "hitDice": [ 'hit-dice-0' ],
+    "hitDiceDefinitions": {
+      'hit-dice-0': {
+        id: 'hit-dice-0',
+        type: 'd4',
+        maximum: 1,
+        current: 1,
+      }
+    },
     "deathSaves" : {
       "successes" : 0,
       "failures" : 0
