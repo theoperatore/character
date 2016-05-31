@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import { Map, List } from 'immutable';
 import ListItem from '../components/ListItem';
 import Modal from '../components/Modal';
 
@@ -105,6 +106,10 @@ module.exports = React.createClass({
 
 
   renderProficiencies() {
+    if (!this.props.proficiencies || !this.props.proficiencies.get('proficiencies')) {
+      return null;
+    }
+
     return this.props.proficiencies.get('proficiencies').toJS().map((prof, i) => {
       let mc = <EditProficiency ref={`profs-${i}`} name={prof.name} desc={prof.desc} id={prof.id} onProficiencyChange={this.handleChange.bind(this, `prof-${i}`)} />;
       return (
@@ -115,6 +120,10 @@ module.exports = React.createClass({
 
 
   renderLanguages() {
+    if (!this.props.proficiencies || !this.props.proficiencies.get('languages')) {
+      return null;
+    }
+
     return this.props.proficiencies.get('languages').toJS().map((lang, i) => {
       let modalContent = <EditLanguage ref={`langs-${i}`} name={lang.name} desc={lang.desc} id={lang.id} onLanguageChange={this.handleChange.bind(this, `lang-${i}`)} />;
       return (

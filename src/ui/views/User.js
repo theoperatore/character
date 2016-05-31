@@ -4,6 +4,7 @@ import React from 'react';
 import db from '../../api';
 import Router from '../router/Router';
 import Icon from '../components/Icon';
+import Loading from '../components/Loading';
 
 
 import dummy from '../../dummy-data/dummy-profile';
@@ -15,7 +16,8 @@ export default React.createClass({
 
   getInitialState : function() {
     return ({
-      characters : dummy
+      characters : [],
+      profileName: '',
     })
   },
 
@@ -28,7 +30,7 @@ export default React.createClass({
 
   componentWillMount : function() {
     if (db.ref.getAuth()) {
-      db.once('/users/' + db.ref.getAuth().uid).then((snap) => {
+      db.ref.child('/users/' + db.ref.getAuth().uid).once('value').then((snap) => {
         var val = snap.val();
         var out = [];
 
@@ -37,19 +39,22 @@ export default React.createClass({
             var curr = val.characters[idx];
             var obj = {};
 
-            obj.characterName = curr['character_name'];
-            obj.characterLevel = curr['character_lvl'];
-            obj.characterClass = curr['character_class'];
-            obj.createdDate = curr['created_date'];
-            obj.deathDate = curr['death_date'];
-            obj.characterUID = curr['character_data'];
+            obj.characterName = curr['characterName'];
+            obj.characterLevel = curr['characterLevel'];
+            obj.characterClass = curr['characterClass'];
+            obj.createdDate = curr['createdDate'];
+            obj.deathDate = curr['deathDate'];
+            obj.characterUID = curr['characterId'];
 
             out.push(obj);
           })
-
-          this.setState({ characters : out });
         }
+
+        this.setState({ characters : out, profileName: val.profileName });
       })
+    }
+    else {
+      this.setState({ characters: dummy, profileName: 'Test Profile' });
     }
   },
 
@@ -63,6 +68,7 @@ export default React.createClass({
     href += character.characterUID;
 
     Router.nav(href);
+    this.setState({ isLoading: true });
   },
 
 
@@ -89,13 +95,14 @@ export default React.createClass({
     return (
       <div className="profile-container">
         <div className="profile-header">
-          <p className="profile-header-name left">{this.props.id}</p>
+          <p className="profile-header-name left">{this.state.profileName}</p>
         </div>
         <div className="profile-content">
           <ul className="profile-list-characters">
             {list}
           </ul>
         </div>
+        <Loading isLoading={this.state.isLoading}/>
       </div>
     );
   }

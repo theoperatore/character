@@ -4,29 +4,72 @@ var React = require('react');
 var Link = require('../router/Link');
 var db = require('../../api');
 
+import { characters } from '../../dummy-data/dummy-characters';
+
 module.exports = React.createClass({
-  displayName : 'Landing',
+  displayName: 'Landing',
 
-
-  getInitialState : function() {
+  getInitialState() {
     return ({
-      profile : ''
+      profileId : null,
+      unauthed: true,
+      authenticating: false,
+      err: '',
+      msg: '',
     })
   },
 
+  componentWillMount() {
+    // let auth = db.ref.getAuth();
 
-  componentWillMount : function() {
-    var auth = db.ref.getAuth();
-
-    if (auth) {
-      db.once('/users/' + auth.uid).then((snap) => {
-        this.setState({ profile : snap.val()['profile_name'] });
-      })
-    }
+    // if (auth) {
+    //   this.setState({ unauthed: false, profileId: auth.uid });
+    // }
+    db.ref.unauth();
   },
 
+  testLogin() {
+    this.setState({ authenticating: true })
+    db
+      .auth('theoperatore@gmail.com', 'ralfralf')
+      .then(() => {
+        let auth = db.ref.getAuth();
 
-  render : function() {
+        if (auth) {
+          this.setState({ unauthed: false, profileId: auth.uid });
+        }
+        else {
+          this.setState({ err: 'auth is still null' });
+        }
+      })
+      .catch(err => {
+        this.setState({ err: err.message });
+      });
+  },
+
+  uploadRalf() {
+    let auth = db.ref.getAuth();
+    let ralfId = characters.ralf.character_data.charId;
+    let ralfName = characters.ralf.character_data.charName;
+    let ralfInfo = characters.ralf.character_data.charInfo;
+    let ralfClass = ralfInfo.class;
+    let ralfLevel = ralfInfo.level;
+
+    db.ref.child(`users/${auth.uid}/characters/${ralfId}`).set({
+      characterId: ralfId,
+      characterName: ralfName,
+      characterClass: ralfClass,
+      characterLevel: ralfLevel,
+    }).then(() => {
+      return db.ref.child(`characters/${ralfId}`).set(characters.ralf.character_data);
+    }).then(() => {
+      this.setState({ msg: 'OK!' });
+    }).catch(err => {
+      this.setState({ err: err.message });
+    })
+  },
+
+  render() {
     var style = {
       "maxWidth" : 225,
       "padding" : 5
@@ -35,7 +78,31 @@ module.exports = React.createClass({
     return (
       <div style={style}>
         <h1>Character</h1>
-        <p><Link href={"/profile/" + this.state.profile}>Profile</Link></p>
+        {
+          this.state.err !== ''
+            ? <p style={{ color: 'red' }}>{this.state.err}</p>
+            : null
+        }
+        {
+          this.state.msg !== ''
+            ? <p style={{ color: 'green' }}>{this.state.msg}</p>
+            : null
+        }
+        { 
+          this.state.unauthed
+            ? <button
+                disabled={this.state.authenticating}
+                onClick={this.testLogin}>{this.state.authenticating ? 'logging you in...' : 'Test Authenticate'}</button>
+            : <p><Link href={"/profile/" + this.state.profileId}>Go To Profile</Link></p>
+        }
+        <hr />
+        {
+          this.state.unauthed
+            ? <p>log in to upload ralf character</p>
+            : <button
+                onClick={this.uploadRalf}
+              >Re-Upload Ralf</button>
+        }
       </div>
     )
   }

@@ -18,7 +18,9 @@ export function character(state = DEFAULT_CHARACTER, action) {
     case 'BASIC_INFO_EDIT':
       return state
         .update('charInfo', charInfo => {
-          return charInfo.merge(action.data);
+          return charInfo
+            ? charInfo.merge(action.data)
+            : Map(action.data);
         })
         .update('charHitPoints', charHitPoints => {
           return charHitPoints
@@ -46,7 +48,9 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     case 'PROFICIENCY_CREATE':
       return state.updateIn(['charOtherProficiencies', 'proficiencies'], proficiencies => {
-        return proficiencies.push(Map(action.data));
+        return proficiencies
+          ? proficiencies.push(Map(action.data))
+          : List([ Map(action.data) ]);
       });
 
     case 'LANGUAGE_EDIT':
@@ -62,7 +66,9 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     case 'LANGUAGE_CREATE':
       return state.updateIn(['charOtherProficiencies', 'languages'], languages => {
-        return languages.push(Map(action.data));
+        return languages
+          ? languages.push(Map(action.data))
+          : List([ Map(action.data) ]);
       });
 
     // features
@@ -70,12 +76,16 @@ export function character(state = DEFAULT_CHARACTER, action) {
       let createsClassCharge = !!action.data.classCharge;
 
       let partialStateFeat = state.update('charFeatures', charFeatures => {
-        return charFeatures.push(Map(action.data.feature));
+        return charFeatures
+          ? charFeatures.push(Map(action.data.feature))
+          : List([ Map(action.data.feature) ]);
       });
 
       return createsClassCharge
         ? partialStateFeat.update('charClassCharges', charClassCharges => {
-            return charClassCharges.push(Map(action.data.classCharge));
+            return charClassCharges
+              ? charClassCharges.push(Map(action.data.classCharge))
+              : List([ Map(action.data.classCharge) ]);
           })
         : partialStateFeat
 
@@ -166,6 +176,10 @@ export function character(state = DEFAULT_CHARACTER, action) {
           return charProficiencyBonus.set('score', action.data.proficiency);
         })
         .update('charAttackBubbles', charAttackBubbles => {
+          if (!charAttackBubbles) {
+            return List([]);
+          }
+
           return charAttackBubbles.map(bubble => {
             let newScore = abilityScoreMods[bubble.get('abil')] + bubble.get('bonus');
 
@@ -177,6 +191,10 @@ export function character(state = DEFAULT_CHARACTER, action) {
           });
         })
         .update('charSpellBubbles', charSpellBubbles => {
+          if (!charSpellBubbles) {
+            return List([]);
+          }
+
           return charSpellBubbles.map(bubble => {
             let newScore = abilityScoreMods[bubble.get('abil')] + bubble.get('bonus');
 
@@ -311,7 +329,9 @@ export function character(state = DEFAULT_CHARACTER, action) {
       
     case 'RESISTANCES_CREATE':
       return state.update('charResistances', charResistances => {
-        return charResistances.push(Map(action.data));
+        return charResistances
+          ? charResistances.push(Map(action.data))
+          : List([ Map(action.data) ]);
       });
 
     case 'RESISTANCES_EDIT':
@@ -342,15 +362,24 @@ export function character(state = DEFAULT_CHARACTER, action) {
       let newHitDieId = `hit-die-${uuid.v1()}`;
       return state
         .updateIn(['charHitPoints', 'hitDice'], hitDice => {
-          return hitDice.push(newHitDieId);
+          return hitDice
+            ? hitDice.push(newHitDieId)
+            : List([ newHitDieId ]);
         })
         .updateIn(['charHitPoints', 'hitDiceDefinitions'], defs => {
-          return defs.set(newHitDieId, Map({
-            id: newHitDieId,
-            type: 'd4',
-            current: 1,
-            maximum: 1
-          }));
+          return defs
+            ? defs.set(newHitDieId, Map({
+              id: newHitDieId,
+              type: 'd4',
+              current: 1,
+              maximum: 1
+            }))
+            : Map({ [`${newHitDieId}`]: Map({
+              id: newHitDieId,
+              type: 'd4',
+              current: 1,
+              maximum: 1
+            })})
         });
 
     case 'LONG_REST':
@@ -375,6 +404,10 @@ export function character(state = DEFAULT_CHARACTER, action) {
           }, partialState);
         })
         .update('charClassCharges', charClassCharges => {
+          if (!charClassCharges) {
+            return List([]);
+          }
+
           return charClassCharges.map(charge => {
             return charge.set('current', charge.get('charges'));
           });
@@ -449,7 +482,9 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     case 'ATTACK_CREATE':
       return state.update('charAttacks', charAttacks => {
-        return charAttacks.push(Map(action.data));
+        return charAttacks
+          ? charAttacks.push(Map(action.data))
+          : List([ Map(action.data) ]);
       });
 
     // spells
@@ -488,7 +523,9 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     case 'SPELL_CREATE':
       return state.updateIn(['charSpells', action.data.level, 'spells'], spells => {
-        return spells.push(Map(action.data.spell));
+        return spells
+          ? spells.push(Map(action.data.spell))
+          : List([ Map(action.data.spell) ]);
       });
 
     case 'SPELL_PREPARE':
@@ -516,7 +553,11 @@ export function character(state = DEFAULT_CHARACTER, action) {
     case 'EQUIPMENT_ITEM_CREATE':
       let createItemPartialState = state
         .updateIn(['charEquipment', 'allItems'], allItems => {
-          return allItems.set(action.data.item.id, Map(action.data.item));
+          return allItems
+            ? allItems.set(action.data.item.id, Map(action.data.item))
+            : Map({
+              [`${action.data.item.id}`]: Map(action.data.item)
+            });
         });
 
       let containerIdx = state
@@ -640,7 +681,9 @@ export function character(state = DEFAULT_CHARACTER, action) {
           : 0;
 
         let newBubble = Map(Object.assign({}, action.data, { score }));
-        return charAttackBubbles.push(newBubble);
+        return charAttackBubbles
+          ? charAttackBubbles.push(newBubble)
+          : List([ newBubble ]);
       });
       
     case 'ATTACK_BONUS_EDIT':
@@ -672,7 +715,9 @@ export function character(state = DEFAULT_CHARACTER, action) {
           : 0;
 
         let newSpellBubble = Map(Object.assign({}, action.data, { score }));
-        return charSpellBubbles.push(newSpellBubble);
+        return charSpellBubbles
+          ? charSpellBubbles.push(newSpellBubble)
+          : List([ newSpellBubble ]);
       });
 
     case 'SPELL_ATTACK_BONUS_EDIT':

@@ -14,56 +14,12 @@ var log = require('debug')('app:api');
 var db = new Firebase(config.dbroot);
 var info = new Firebase(config.dbinfo);
 
-// wrap Firebase `once` read in a promise
-function once(path, type) {
-  path = path || "./";
-  type = type || "value";
-
-  return new Promise((resolve, reject) => {
-    db.child(path).once(type,
-      (snapshot) => {
-        log(`resolving: ${path} with data`, snapshot.val());
-        resolve(snapshot);
-      },
-      (err) => {
-        log(`error resolving ${path}`);
-        reject(err);
-      })
-  });
-};
-
-// wrap Firebase 'on' read in a promise
-function on(path, type) {
-  path = path || "./";
-  type = type || "value";
-
-  return new Promise((resolve, reject) => {
-    db.child(path).on(type,
-      (snapshot) => {
-        log(`resolving: ${path}`, snapshot.val());
-        resolve(snapshot);
-      },
-      (err) => {
-        reject(err);
-      })
-  });
-};
-
 // auth wrapper
 function auth(email, token) {
-  return new Promise((resolve, reject) => {
-    db.authWithPassword({
-      email : email,
-      password : token
-    }, (err, payload) => {
-      if (err) {
-        reject(err);
-      }
-      else {
-        resolve(payload);
-      }
-    });
-  })
+  return db.authWithPassword({
+    email : email,
+    password : token
+  });
 };
 
 // create a new user
@@ -134,10 +90,10 @@ function push(path, data) {
 
 // create random password
 function generatePass() {
-  var chars = "0123456789abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  var pass = "";
+  let chars = "0123456789abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let pass = "";
 
-  for (var i = 0; i < 32; i++) {
+  for (let i = 0; i < 32; i++) {
     pass += chars[Math.floor(Math.random() * chars.length)];
   }
 
@@ -177,9 +133,5 @@ exports.update = update;
 exports.token = token;
 exports.create = create;
 exports.auth = auth;
-exports.on = on;
-exports.once = once;
 exports.login = login;
 exports.push = push;
-
-window.db = db;

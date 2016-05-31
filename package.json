@@ -36,7 +36,7 @@
     "classnames": "^2.1.1",
     "debug": "^2.2.0",
     "fastclick": "^1.0.6",
-    "firebase": "^2.4.2",
+    "firebase": "^3.0.3",
     "immutable": "^3.7.2",
     "node-uuid": "^1.4.7",
     "page": "^1.6.3",

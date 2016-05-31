@@ -47,13 +47,15 @@ export default React.createClass({
   componentWillReceiveProps(nextProps) {
     let spells = nextProps.spells.toJS();
     let flattenedSpells = spells.reduce((flattened, level, levelId) => {
-      level.spells.forEach(spell => {
-        flattened.push(
-          Object.assign(
-            { levelId },
-            spell)
-        );
-      })
+      if (level.spells) {
+        level.spells.forEach(spell => {
+          flattened.push(
+            Object.assign(
+              { levelId },
+              spell)
+          );
+        })
+      }
       return flattened;
     }, []);
 

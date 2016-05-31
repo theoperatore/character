@@ -1,22 +1,22 @@
 export default {
-  "charName" : "",
+  "charName" : "-",
   "charInfo" : {
-    "class" : "",
+    "class" : "-",
     "level" : 1,
-    "background" : "",
+    "background" : "-",
     "race" : "",
-    "alignment" : "",
+    "alignment" : "-",
     "xp" : 0,
-    "deity" : "",
+    "deity" : "-",
     "weight": 0,
-    "height" : "",
-    "description" : ""
+    "height" : "-",
+    "description" : "-"
   },
   "charTraits" : {
-    "personalityTraits" : "",
-    "ideals" : "",
-    "bonds" : "",
-    "flaws" : ""
+    "personalityTraits" : "-",
+    "ideals" : "-",
+    "bonds" : "-",
+    "flaws" : "-"
   },
 
   "charSpellSaveDC": {
@@ -184,7 +184,7 @@ export default {
     "derivatives" : []
   },
   "charSpeed" : {
-    "score" : "0",
+    "score" : "0ft",
     "derivatives" : []
   },
   "charHitPoints" : {

@@ -12,22 +12,14 @@ import Landing from './views/Landing';
 import App from './views/App';
 import Login from './views/Login';
 import User from './views/User';
-// import StyleGuide from './views/StyleGuide';
 import HTML404 from './views/HTML404';
 
 import { createCharacterState } from './state';
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-// Load dummy data
-//
-///////////////////////////////////////////////////////////////////////////////
-import { characters as dummyCharacters } from '../dummy-data/dummy-characters';
-///////////////////////////////////////////////////////////////////////////////
+import defaultPreferences from './data/defaultPreferences';
 
 let log = debug('app:router');
 let stateLog = debug('app:state');
+let saveLog = debug('app:save');
 let mount = document.querySelector('#mount');
 let subscribedStateChange = null;
 
@@ -38,6 +30,44 @@ new FastClick(document.body);
 Router.get('/', () => {
   ReactDOM.render(<Landing />, mount);
 })
+
+
+function loadCharacter(id) {
+  return db.ref.child(`characters/${id}`).once('value').then(snapshot => {
+    log('got character info: %o', snapshot.val());
+    return snapshot.val();
+  });
+}
+
+function renderApp({ loadedCharacter, loadedPreferences, characterId }) {
+  let store = createCharacterState(loadedCharacter, loadedPreferences);
+  let { character, preferences } = store.getState();
+
+  function updateState(action) {
+    stateLog(action);
+    store.dispatch(action);
+  }
+
+  subscribedStateChange = store.subscribe(function rerender() {
+    let { character, preferences } = store.getState();
+
+    let characterToSave = character.toJS();
+
+    // save character to DB?
+    db.ref.child(`characters/${characterId}`)
+      .set(characterToSave)
+      .then(() => {
+        saveLog('saved new character state: %o', characterToSave);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+
+    ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState}/>, mount);
+  });
+
+  ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState}/>, mount);
+}
 
 // view a character
 Router.get('/user/(:id)/character/(:uid)', (params) => {
@@ -53,58 +83,20 @@ Router.get('/user/(:id)/character/(:uid)', (params) => {
     subscribedStateChange();
   }
 
-  let characterUID = params.uid;
-  let loadedCharacter = Immutable.fromJS(dummyCharacters[characterUID].character_data);
-  let loadedPreferences = Immutable.fromJS(dummyCharacters[characterUID].preference_data);
+  let characterId = params.uid;
 
-  let store = createCharacterState(loadedCharacter, loadedPreferences);
-  let { character, preferences } = store.getState();
-
-  function updateState(action) {
-    stateLog(action);
-    store.dispatch(action);
-  }
-
-  subscribedStateChange = store.subscribe(function rerender() {
-    let { character, preferences } = store.getState();
-    ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState}/>, mount);
-  });
-
-  // /users/id/character/pushID must be the same pushId as /characters/pushID
-  // in order to write
-  //
-  // also need to give each entry an id to help with updating character state
-  // if (this.props.characterUID !== 'noload') {
-  //   db.once('characters/' + this.props.characterUID).then((snap) => {
-  //     var character = snap.val();
-  //     var data;
-  //     var preferences;
-
-  //     data = JSON.parse(character.character_data);
-  //     preferences = JSON.parse(character.preference_data);
-
-  //     data = Immutable.fromJS(data);
-  //     preferences = Immutable.fromJS(preferences);
-
-  //     data = this.state.character.mergeDeep(data);
-
-  //     // TODO: remove
-  //     window.characterjs = data.toJS();
-  //     window.character = data;
-  //     window.preferences = preferences.toJS();
-
-  //     this.setState({ character : data, preferences : preferences, loading : false });
-  //   }).catch((err) => {
-  //     error(err.message);
-  //     error('using blank character');
-  //     this.setState({ loading : false });
-  //   })
-  // }
-  // else {
-  //   this.setState({ loading : false });
-  // }
-
-  ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState}/>, mount);
+  loadCharacter(characterId)
+    .then(characterData => { 
+      return {
+        loadedCharacter: Immutable.fromJS(characterData),
+        loadedPreferences: Immutable.fromJS(defaultPreferences),
+        characterId,
+      };
+    })
+    .then(renderApp)
+    .catch(err => {
+      console.error(err);
+    })
 })
 
 // user
