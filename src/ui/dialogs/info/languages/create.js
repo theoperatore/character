@@ -49,11 +49,11 @@ export default React.createClass({
       <section>
         <div className='modal-header'>  
           <h3>
-            <input type='text' defaultValue='New Language' ref='newName' onChange={this.makeDirty}/>
+            <input type='text' placeholder='New Language' ref='newName' onChange={this.makeDirty}/>
           </h3>
         </div>
         <div className='modal-content'>
-          <textarea defaultValue='description...' ref='newDesc' onChange={this.makeDirty}/>
+          <textarea placeholder='description...' ref='newDesc' onChange={this.makeDirty}/>
         </div>
         <div className='modal-footer'>
           <button onClick={this.handleCreate} className='bg-green text-green'>
