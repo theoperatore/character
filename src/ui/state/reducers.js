@@ -354,26 +354,36 @@ export function character(state = DEFAULT_CHARACTER, action) {
         });
 
     case 'LONG_REST':
-      return state.update('charHitPoints', charHitPoints => {
+      return state
+        .update('charHitPoints', charHitPoints => {
+          let partialState = charHitPoints
+            .set('current', charHitPoints.get('maximum'))
+            .set('temporary', 0);
 
-        let partialState = charHitPoints
-          .set('current', charHitPoints.get('maximum'))
-          .set('temporary', 0);
+          return Object.keys(action.data).reduce((state, hitDiceId) => {
+            return state.updateIn(['hitDiceDefinitions', hitDiceId], hdDef => {
+              let newValue = hdDef.get('current') < 0 ? 0 : hdDef.get('current');
 
-        return Object.keys(action.data).reduce((state, hitDiceId) => {
-          return state.updateIn(['hitDiceDefinitions', hitDiceId], hdDef => {
-            let newValue = hdDef.get('current') < 0 ? 0 : hdDef.get('current');
+              newValue += action.data[hitDiceId].valueToAdd;
 
-            newValue += action.data[hitDiceId].valueToAdd;
+              newValue = newValue > hdDef.get('maximum')
+                ? hdDef.get('maximum')
+                : newValue;
 
-            newValue = newValue > hdDef.get('maximum')
-              ? hdDef.get('maximum')
-              : newValue;
-
-            return hdDef.set('current', newValue)
+              return hdDef.set('current', newValue)
+            })
+          }, partialState);
+        })
+        .update('charClassCharges', charClassCharges => {
+          return charClassCharges.map(charge => {
+            return charge.set('current', charge.get('charges'));
+          });
+        })
+        .update('charSpells', spells => {
+          return spells.map(spellLevel => {
+            return spellLevel.set('used', 0);
           })
-        }, partialState);
-      })
+        })
       
     case 'SHORT_REST':
       return state.update('charHitPoints', charHitPoints => {
