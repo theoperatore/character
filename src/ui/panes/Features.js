@@ -34,9 +34,17 @@ export default React.createClass({
 
 
   renderFeatures() {
+    if (!this.props.features) {
+      return null;
+    }
+    
     return (
       this.props.features.toJS().map((feature, i) => {
-        let charge = this.props.charges.find(itm => itm.get('id') === feature.classChargesId);
+
+        let charge = this.props.charge
+          ? this.props.charges.find(itm => itm.get('id') === feature.classChargesId)
+          : null;
+
         return (
           <FeatureItem
             key={i}

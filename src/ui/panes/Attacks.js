@@ -45,6 +45,8 @@ export default React.createClass({
 
 
   renderAttackBonuses() {
+    if (!this.props.bubbles) return null;
+
     return this.props.bubbles.toJS().map((bonus, i) => {
       return <AttackBonusItem
         key={i}
@@ -62,6 +64,8 @@ export default React.createClass({
 
 
   renderClassCharges() {
+    if (!this.props.charges) return null;
+    
     return this.props.charges.toJS().map((charge, i) => {
       return <ClassChargeItem
         key={charge.id}
@@ -76,6 +80,8 @@ export default React.createClass({
 
 
   renderAttacks() {
+    if (!this.props.attacks) return null;
+
     return this.props.attacks.toJS().map((attack, i) => {
       return (
         <AttackItem

@@ -111,6 +111,8 @@ export default React.createClass({
   },
 
   renderSpellAttackBonuses() {
+    if (!this.props.bubbles) return null;
+
     return this.props.bubbles.toJS().map(bubble => {
       let subtitle = bubble.abil;
 

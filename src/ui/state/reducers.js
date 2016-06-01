@@ -567,7 +567,9 @@ export function character(state = DEFAULT_CHARACTER, action) {
       return createItemPartialState
         .updateIn(['charEquipment', 'containers', containerIdx], container => {
           return container.update('items', items => {
-            return items.push(action.data.item.id);
+            return items
+              ? items.push(action.data.item.id)
+              : List([ action.data.item.id ])
           });
         });
 

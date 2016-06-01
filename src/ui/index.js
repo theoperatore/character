@@ -45,6 +45,9 @@ function renderApp({ loadedCharacter, loadedPreferences, characterId }) {
 
   function updateState(action) {
     stateLog(action);
+
+    // db.ref.child(`actions/${characterId}`).push(action);
+
     store.dispatch(action);
   }
 
@@ -61,6 +64,12 @@ function renderApp({ loadedCharacter, loadedPreferences, characterId }) {
       })
       .catch(err => {
         console.error(err);
+      });
+
+    db.ref.child(`users/${db.ref.getAuth().uid}/characters/${characterId}`)
+      .update({
+        characterClass: characterToSave.charInfo.class,
+        characterLevel: characterToSave.charInfo.level,
       });
 
     ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState}/>, mount);
@@ -86,7 +95,11 @@ Router.get('/user/(:id)/character/(:uid)', (params) => {
   let characterId = params.uid;
 
   loadCharacter(characterId)
-    .then(characterData => { 
+    .then(characterData => {
+      if (!characterData) {
+        // do something cool like tell the user
+      }
+
       return {
         loadedCharacter: Immutable.fromJS(characterData),
         loadedPreferences: Immutable.fromJS(defaultPreferences),

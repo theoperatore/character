@@ -4,7 +4,9 @@ var React = require('react');
 var Link = require('../router/Link');
 var db = require('../../api');
 
+import uuid from 'node-uuid';
 import { characters } from '../../dummy-data/dummy-characters';
+import defaultCharacter from '../data/defaultCharacter';
 
 module.exports = React.createClass({
   displayName: 'Landing',
@@ -69,6 +71,32 @@ module.exports = React.createClass({
     })
   },
 
+  uploadBlank() {
+    let auth = db.ref.getAuth();
+    let characterId = uuid.v1();
+    let characterName = this.nameInput.value.trim() || 'Blank Character';
+    let characterClass = defaultCharacter.charInfo.class;
+    let characterLevel = defaultCharacter.charInfo.level;
+    let createdOn = Date.now();
+    let characterData = Object.assign({}, defaultCharacter, {
+      charName: characterName,
+    });
+
+    db.ref.child(`users/${auth.uid}/characters/${characterId}`).set({
+      characterId,
+      characterName,
+      characterClass,
+      characterLevel,
+      createdOn,
+    }).then(() => {
+      return db.ref.child(`characters/${characterId}`).set(characterData);
+    }).then(() => {
+      this.setState({ msg: 'CHARACTER_OK!' });
+    }).catch(err => {
+      this.setState({ err: err.message });
+    });
+  },
+
   render() {
     var style = {
       "maxWidth" : 225,
@@ -102,6 +130,21 @@ module.exports = React.createClass({
             : <button
                 onClick={this.uploadRalf}
               >Re-Upload Ralf</button>
+        }
+        <hr />
+        {
+          this.state.unauthed
+            ? null
+            : <div>
+                <input
+                  type='text'
+                  ref={ref => this.nameInput = ref}
+                  placeholder='new character name'
+                />
+                <button
+                  onClick={this.uploadBlank}
+                >Upload new character</button>
+              </div>
         }
       </div>
     )

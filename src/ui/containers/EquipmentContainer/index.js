@@ -104,7 +104,9 @@ export default React.createClass({
 
   render() {
     let { container } = this.props;
-    let count = container.get('items').size;
+    let count = container.get('items')
+      ? container.get('items').size
+      : 0;
 
     return (
       <ListItem

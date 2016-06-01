@@ -85,6 +85,8 @@ export default React.createClass({
 
 
   renderResistances() {
+    if (!this.props.resistances) return null;
+
     return this.props.resistances.toJS().map((resistance, i) => {
       return (
         <ResistanceItem 

@@ -51,9 +51,11 @@ export default React.createClass({
     }).toJS();
 
     return this.props.equipment.get('containers').map(container => {
-      let mappedItems = container.get('items').map(id => {
-        return this.props.equipment.getIn(['allItems', id]);
-      });
+      let mappedItems = container.get('items') 
+        ? container.get('items').map(id => {
+          return this.props.equipment.getIn(['allItems', id]);
+        })
+        : [];
 
       return <EquipmentContainer
         key={container.get('id')}
