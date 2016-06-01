@@ -13,8 +13,10 @@ export default React.createClass({
 
   getInitialState() {
     return ({
-      dirty: false
-    })
+      dirty: false,
+      level: this.props.currLevel,
+      xp: this.props.currXp,
+    });
   },
 
 
@@ -29,9 +31,7 @@ export default React.createClass({
     onCancel: React.PropTypes.func.isRequired
   },
 
-
   refNames: ['level', 'xp', 'class', 'race', 'alignment', 'background'],
-
 
   isDirty() {
     return this.state.dirty;
@@ -50,8 +50,8 @@ export default React.createClass({
       .map(refName => ({[refName]: this.refs[refName].value}))
       .reduce((obj, ref) => Object.assign(obj, ref), {});
 
-    infos.xp = Number(infos.xp);
-    infos.level = Number(infos.level);
+    infos.xp = this.state.xp;
+    infos.level = this.state.level;
     
     this.props.onSave({ type: 'BASIC_INFO_EDIT', data: infos });
   },
@@ -59,6 +59,13 @@ export default React.createClass({
 
   handleCancel() {
     this.props.onCancel();
+  },
+
+  validateNumber(type, ev) {
+    let num = Number(ev.target.value);
+    if (isNaN(num)) return;
+
+    this.setState({ [`${type}`]: num, dirty: true });
   },
 
 
@@ -73,11 +80,11 @@ export default React.createClass({
           <div className='col-1-2'>
             <div className='inputs'>
               <label htmlFor='newLevel'>level</label>
-              <input id='newLevel' type='text' defaultValue={this.props.currLevel} ref='level' onChange={this.makeDirty}/>
+              <input id='newLevel' type='text' value={this.state.level} placeholder={this.props.currLevel} ref='level' onChange={this.validateNumber.bind(this, 'level')}/>
             </div>
             <div className='inputs'>
               <label htmlFor='newXp'>xp</label>
-              <input id='newXp' type='text' defaultValue={this.props.currXp} ref='xp' onChange={this.makeDirty}/>
+              <input id='newXp' type='text' value={this.state.xp} placeholder={this.props.currXp} ref='xp' onChange={this.validateNumber.bind(this, 'xp')}/>
             </div>
             <div className='inputs'>
               <label htmlFor='newClass'>class</label>
