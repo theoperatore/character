@@ -2,8 +2,8 @@
 
 var React = require('react');
 var Link = require('../router/Link');
-var db = require('../../api');
 
+import { db, ref } from '../../api';
 import uuid from 'node-uuid';
 import { characters } from '../../dummy-data/dummy-characters';
 import defaultCharacter from '../data/defaultCharacter';
@@ -22,27 +22,16 @@ module.exports = React.createClass({
   },
 
   componentWillMount() {
-    // let auth = db.ref.getAuth();
-
-    // if (auth) {
-    //   this.setState({ unauthed: false, profileId: auth.uid });
-    // }
-    db.ref.unauth();
+    db.auth().signOut();
   },
 
   testLogin() {
     this.setState({ authenticating: true })
     db
-      .auth('theoperatore@gmail.com', 'ralfralf')
-      .then(() => {
-        let auth = db.ref.getAuth();
-
-        if (auth) {
-          this.setState({ unauthed: false, profileId: auth.uid });
-        }
-        else {
-          this.setState({ err: 'auth is still null' });
-        }
+      .auth()
+      .signInWithEmailAndPassword('theoperatore@gmail.com', 'ralfralf')
+      .then(user => {
+        this.setState({ unauthed: false, profileId: user.uid });
       })
       .catch(err => {
         this.setState({ err: err.message });
@@ -50,7 +39,7 @@ module.exports = React.createClass({
   },
 
   uploadRalf() {
-    let auth = db.ref.getAuth();
+    let auth = db.auth().currentUser;
     let ralfId = characters.ralf.character_data.charId;
     let ralfName = characters.ralf.character_data.charName;
     let ralfInfo = characters.ralf.character_data.charInfo;
@@ -63,7 +52,7 @@ module.exports = React.createClass({
       characterClass: ralfClass,
       characterLevel: ralfLevel,
     }).then(() => {
-      return db.ref.child(`characters/${ralfId}`).set(characters.ralf.character_data);
+      return ref.child(`characters/${ralfId}`).set(characters.ralf.character_data);
     }).then(() => {
       this.setState({ msg: 'OK!' });
     }).catch(err => {
@@ -72,7 +61,7 @@ module.exports = React.createClass({
   },
 
   uploadBlank() {
-    let auth = db.ref.getAuth();
+    let auth = db.auth().currentUser;
     let characterId = uuid.v1();
     let characterName = this.nameInput.value.trim() || 'Blank Character';
     let characterClass = defaultCharacter.charInfo.class;
@@ -82,14 +71,14 @@ module.exports = React.createClass({
       charName: characterName,
     });
 
-    db.ref.child(`users/${auth.uid}/characters/${characterId}`).set({
+    ref.child(`users/${auth.uid}/characters/${characterId}`).set({
       characterId,
       characterName,
       characterClass,
       characterLevel,
       createdOn,
     }).then(() => {
-      return db.ref.child(`characters/${characterId}`).set(characterData);
+      return ref.child(`characters/${characterId}`).set(characterData);
     }).then(() => {
       this.setState({ msg: 'CHARACTER_OK!' });
     }).catch(err => {

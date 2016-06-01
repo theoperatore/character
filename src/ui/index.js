@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import debug from 'debug';
 import Router from './router/Router';
-import db from '../api';
+import { db, ref } from '../api';
 
 import Landing from './views/Landing';
 import App from './views/App';
@@ -33,7 +33,7 @@ Router.get('/', () => {
 
 
 function loadCharacter(id) {
-  return db.ref.child(`characters/${id}`).once('value').then(snapshot => {
+  return ref.child(`characters/${id}`).once('value').then(snapshot => {
     log('got character info: %o', snapshot.val());
     return snapshot.val();
   });
@@ -55,9 +55,10 @@ function renderApp({ loadedCharacter, loadedPreferences, characterId }) {
     let { character, preferences } = store.getState();
 
     let characterToSave = character.toJS();
+    let user = db.auth().currentUser;
 
     // save character to DB?
-    db.ref.child(`characters/${characterId}`)
+    ref.child(`characters/${characterId}`)
       .set(characterToSave)
       .then(() => {
         saveLog('saved new character state: %o', characterToSave);
@@ -66,7 +67,7 @@ function renderApp({ loadedCharacter, loadedPreferences, characterId }) {
         console.error(err);
       });
 
-    db.ref.child(`users/${db.ref.getAuth().uid}/characters/${characterId}`)
+    ref.child(`users/${user.uid}/characters/${characterId}`)
       .update({
         characterClass: characterToSave.charInfo.class,
         characterLevel: characterToSave.charInfo.level,

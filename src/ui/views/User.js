@@ -1,7 +1,7 @@
 "use strict";
 
 import React from 'react';
-import db from '../../api';
+import { db, ref } from '../../api';
 import Router from '../router/Router';
 import Icon from '../components/Icon';
 import Loading from '../components/Loading';
@@ -23,14 +23,17 @@ export default React.createClass({
 
 
   logout : function() {
-    db.ref.unauth();
-    Router.nav('/login');
+    db.auth().signOut().then(() => {
+      return Router.nav('/login');
+    })
   },
 
 
   componentWillMount : function() {
-    if (db.ref.getAuth()) {
-      db.ref.child('/users/' + db.ref.getAuth().uid).once('value').then((snap) => {
+    let user = db.auth().currentUser;
+
+    if (user) {
+      ref.child('/users/' + user.uid).once('value').then((snap) => {
         var val = snap.val();
         var out = [];
 
@@ -42,8 +45,8 @@ export default React.createClass({
             obj.characterName = curr['characterName'];
             obj.characterLevel = curr['characterLevel'];
             obj.characterClass = curr['characterClass'];
-            obj.createdDate = curr['createdDate'];
-            obj.deathDate = curr['deathDate'];
+            obj.createdDate = curr['createdOn'];
+            obj.deathDate = curr['diedOn'];
             obj.characterUID = curr['characterId'];
 
             out.push(obj);
@@ -54,7 +57,33 @@ export default React.createClass({
       })
     }
     else {
-      this.setState({ characters: dummy, profileName: 'Test Profile' });
+      let off = db.auth().onAuthStateChanged(user => {
+        if (user) {
+          off(); // turn off authentication listening
+          ref.child('/users/' + user.uid).once('value').then((snap) => {
+            var val = snap.val();
+            var out = [];
+
+            if (val.characters) {
+              Object.keys(val.characters).forEach((idx) => {
+                var curr = val.characters[idx];
+                var obj = {};
+
+                obj.characterName = curr['characterName'];
+                obj.characterLevel = curr['characterLevel'];
+                obj.characterClass = curr['characterClass'];
+                obj.createdDate = curr['createdOn'];
+                obj.deathDate = curr['diedOn'];
+                obj.characterUID = curr['characterId'];
+
+                out.push(obj);
+              })
+            }
+
+            this.setState({ characters : out, profileName: val.profileName });
+          })
+        }
+      });
     }
   },
 
