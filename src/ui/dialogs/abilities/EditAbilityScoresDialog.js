@@ -33,6 +33,7 @@ export default React.createClass({
     }
   },
 
+  abilityScoreOrder: ['str', 'dex', 'con', 'int', 'wis', 'cha'],
 
   makeDirty() {
     if (!this.state.diry) {
@@ -141,7 +142,7 @@ export default React.createClass({
 
 
   createAbilityScoreContent() {
-    return Object.keys(this.props.abilities.toJS()).map((abilityKey, i) => {
+    return this.abilityScoreOrder.map((abilityKey, i) => {
       let stateKey = this.mapToState(abilityKey);
 
       return (
