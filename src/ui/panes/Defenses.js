@@ -33,6 +33,7 @@ export default React.createClass({
     );
   },
 
+  savingThrowsOrder: ['str', 'dex', 'con', 'int', 'wis', 'cha'],
 
   getInitialState() {
     return {
@@ -54,7 +55,7 @@ export default React.createClass({
 
 
   renderSavingThrows() {
-    return Object.keys(this.props.savingThrows.toJS()).map((abilityKey, i) => {
+    return this.savingThrowsOrder.map((abilityKey, i) => {
       return <SavingThrowItem
         key={i}
         ability={abilityKey}
