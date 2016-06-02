@@ -138,8 +138,22 @@ export default React.createClass({
     return this.props.spells.toJS()
       .slice(1)
       .map((level, i) => {
+
+        let css = '';
+        if (level.slots > 0) {
+          if (level.slots - level.used === 0) {
+            css = 'bg-red text-red';
+          }
+          else if (level.slots !== level.used && level.used !== 0) {
+            css = 'bg-gold text-gold';
+          }
+          else {
+            css = 'bg-green text-green';
+          }
+        }
+
       return (
-        <div className='spell-slots-item' key={i}>
+        <div className={`spell-slots-item ${css}`} key={i}>
           <p className='spell-slots-title'>{`lvl ${i + 1}`}</p>
           <p className='spell-slots-count'>{level.slots - level.used}</p>
         </div>
