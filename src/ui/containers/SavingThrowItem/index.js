@@ -90,15 +90,12 @@ export default React.createClass({
   render() {
 
     return (
-      <div className={`container-list-item ${this.props.proficient ? 'proficient' : ''}`} onClick={this.openEditModal}>
-        <div className={`container-list-item-glyph text-${this.props.ability}`}>
-          <Icon icon='fa fa-cube' />
+      <div className={`container-list-item flex flex-center ${this.props.proficient ? 'proficient' : ''}`} onClick={this.openEditModal}>
+        <div className={`skill-item-score flex flex-center mr2 bg-${this.props.ability}`}>
+          {this.props.score}
         </div>
-        <div className='container-list-item-content'>
+        <div className='container-list-item-content flex-auto'>
           <span className='skill-item-name'>{AbilityScores[this.props.ability].display}</span>
-        </div>
-        <div className='container-list-item-content skill-item-score-container pull-right'>
-          <span className='skill-item-score'>{this.props.score}</span>
         </div>
         <Modal id={`savingThrow-${this.props.ability}`} active={this.state.edit} content={this.getModalContent()} onDismiss={this.dismissEdit}/>
         <ConfirmModal active={this.state.confirm} onConfirm={this.handleConfirm}/>

@@ -177,6 +177,7 @@ export default React.createClass({
     return (
       <ListItem
         name={name}
+        className='pl2'
         onClick={() => this.setState({ viewDetails: true })}
       >
         <Modal

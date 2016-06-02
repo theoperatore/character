@@ -130,7 +130,12 @@ export default React.createClass({
 
   render() {
     return (
-      <ListItem name={this.props.name} glyph={<Icon icon='icon-attack' />} glyphCss={'text-attack'} onClick={() => this.setState({ details: true })}>
+      <ListItem
+        name={this.props.name}
+        glyph={<Icon icon='icon-attack' className='ml2'/>}
+        glyphCss={'text-attack'}
+        onClick={() => this.setState({ details: true })}
+      >
         <Modal active={this.state.details} id={this.props.id} onDismiss={this.dismiss} content={this.content()}/>
         <ConfirmModal active={this.state.confirm} onConfirm={this.confirm} message={this.state.message} />
       </ListItem>

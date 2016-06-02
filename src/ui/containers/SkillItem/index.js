@@ -34,13 +34,13 @@ export default React.createClass({
 
 
   componentDidMount() {
-    let maxWidth = ReactDOM.findDOMNode(this).getBoundingClientRect().width - 20;
+    let maxWidth = ReactDOM.findDOMNode(this.nameContainer).getBoundingClientRect().width - 10;
     this.setState({ maxWidth });
   },
 
 
   componentWillReceiveProps() {
-    let maxWidth = ReactDOM.findDOMNode(this).getBoundingClientRect().width - 20;
+    let maxWidth = ReactDOM.findDOMNode(this.nameContainer).getBoundingClientRect().width - 10;
     this.setState({ maxWidth });
   },
 
@@ -140,16 +140,13 @@ export default React.createClass({
     }
 
     return (
-      <div className={`container-list-item ${this.props.trained ? 'proficient' : ''}`} onClick={this.openEditModal}>
-        <span className={`skill-item-bar text-${this.props.ability}`} style={style} ></span>
-        <div className={`container-list-item-glyph text-${this.props.ability}`}>
-          <Icon icon='fa fa-cube' />
+      <div className={`container-list-item flex flex-center ${this.props.trained ? 'proficient' : ''}`} onClick={this.openEditModal}>
+        <div className={`skill-item-score flex flex-center mr2 bg-${this.props.ability}`}>
+          {this.props.score}
         </div>
-        <div className='container-list-item-content'>
-          <span className='skill-item-name'>{this.props.name}</span>
-        </div>
-        <div className='container-list-item-content skill-item-score-container pull-right'>
-          <span className='skill-item-score'>{this.props.score}</span>
+        <div className='container-list-item-content flex-auto' ref={ref => this.nameContainer = ref}>
+          <p className='skill-item-name'>{this.props.name}</p>
+          <span className={`skill-item-bar text-${this.props.ability}`} style={style} ></span>
         </div>
         <Modal id={`feature-${this.props.name}`} active={this.state.edit} content={this.getModalContent()} onDismiss={this.dismissEdit}/>
         <Modal id={`feature-${this.props.name}-confirm`} active={this.state.confirm} content={this.getConfirmContent()} onDismiss={this.noop}/>

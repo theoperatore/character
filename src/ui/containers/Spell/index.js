@@ -167,7 +167,7 @@ export default React.createClass({
 
     return (
       <ListItem
-        className={spell.prepared ? 'prepared-spell' : ''}
+        className={spell.prepared ? 'prepared-spell pl2' : 'pl2'}
         name={spell.name}
         subtext={subtext}
         glyph={<Icon icon='icon-repo' />}

@@ -12,6 +12,7 @@ export default React.createClass({
     glyph: React.PropTypes.element,
     name: React.PropTypes.node.isRequired,
     subtext: React.PropTypes.node,
+    addon: React.PropTypes.element,
   },
 
 
@@ -29,13 +30,14 @@ export default React.createClass({
       glyphCss,
       name,
       subtext,
+      addon,
       children,
       className,
       ...props
     } = this.props;
 
     return (
-      <div className={`container-list-item ${className}`} {...props}>
+      <div className={`container-list-item flex flex-center ${className}`} {...props}>
         {
           glyph 
           ? <div className={`container-list-item-glyph ${glyphCss}`}>
@@ -43,10 +45,11 @@ export default React.createClass({
             </div>
           : null
         }
-        <div className='container-list-item-content'>
+        <div className='container-list-item-content flex-auto'>
           <p className='list-item-text'>{name}</p>
           <p className='list-item-subtext'>{subtext}</p>
         </div>
+        <div className='container-list-item-addon'>{addon}</div>
         {children}
       </div>
     )

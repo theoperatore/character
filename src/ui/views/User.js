@@ -91,7 +91,10 @@ export default React.createClass({
           className='interactable'
           name={character.characterName}
           subtext={`level ${character.characterLevel} | ${character.characterClass}`}
-          glyph={<Icon icon='fa fa-user'/>}
+          glyph={<div className='bg-blue flex flex-center' style={{ width: 50, height: 50}}>
+              <Icon icon='fa fa-user'/>
+            </div>}
+          addon={<Icon className='text-red' icon='fa fa-user-times'/>}
           onClick={this.loadCharacter.bind(this, i)}
         />
       );

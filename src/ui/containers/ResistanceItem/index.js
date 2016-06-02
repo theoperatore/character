@@ -122,7 +122,7 @@ export default React.createClass({
 
   render() {
     return ( 
-      <div className='container-list-item' onClick={() => this.setState({ details: true })}>
+      <div className='container-list-item pl2' onClick={() => this.setState({ details: true })}>
         <div className='container-list-item-glyph'>
           <Icon icon='fa fa-cube' />
         </div>

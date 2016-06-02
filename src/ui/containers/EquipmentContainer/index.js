@@ -110,6 +110,7 @@ export default React.createClass({
 
     return (
       <ListItem
+        className='pl2'
         name={container.get('name')}
         subtext={`${count} Items`}
         onClick={() => this.setState({ viewContents: true })}

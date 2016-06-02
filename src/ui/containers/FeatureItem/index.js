@@ -160,13 +160,13 @@ export default React.createClass({
   createGlyph(type) {
     switch (type) {
       case 'PASSIVE':
-        return { icon: <Icon icon='fa fa-cube' />, style: ''};
+        return { icon: <Icon icon='fa fa-cube' className='ml2'/>, style: ''};
       case 'ATTACK':
-        return { icon: <Icon icon='icon-attack' />, style: 'text-attack' };
+        return { icon: <Icon icon='icon-attack' className='ml2'/>, style: 'text-attack' };
       case 'SPELL':
-        return { icon: <Icon icon='icon-repo' />, style: 'text-spell' };
+        return { icon: <Icon icon='icon-repo' className='ml2'/>, style: 'text-spell' };
       case 'DEFENSE':
-        return { icon: <Icon icon='icon-shield' />, style: 'text-str' };
+        return { icon: <Icon icon='icon-shield' className='ml2'/>, style: 'text-str' };
     }
   },
 
