@@ -46,7 +46,7 @@ export default React.createClass({
 
 
   renderPortal() {
-    reactDOM.render(<div>{this.props.children}</div>, this.portalContainer);
+    reactDOM.render(<div className={this.props.className}>{this.props.children}</div>, this.portalContainer);
   },
 
 

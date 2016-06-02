@@ -39,7 +39,7 @@ function loadCharacter(id) {
   });
 }
 
-function renderApp({ loadedCharacter, loadedPreferences, characterId }) {
+function renderApp({ loadedCharacter, loadedPreferences, characterId, profileId }) {
   let store = createCharacterState(loadedCharacter, loadedPreferences);
   let { character, preferences } = store.getState();
 
@@ -73,10 +73,10 @@ function renderApp({ loadedCharacter, loadedPreferences, characterId }) {
         characterLevel: characterToSave.charInfo.level,
       });
 
-    ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState}/>, mount);
+    ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState} profileId={profileId}/>, mount);
   });
 
-  ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState}/>, mount);
+  ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState} profileId={profileId}/>, mount);
 }
 
 // view a character
@@ -105,6 +105,7 @@ Router.get('/user/(:id)/character/(:uid)', (params) => {
         loadedCharacter: Immutable.fromJS(characterData),
         loadedPreferences: Immutable.fromJS(defaultPreferences),
         characterId,
+        profileId: params.id,
       };
     })
     .then(renderApp)

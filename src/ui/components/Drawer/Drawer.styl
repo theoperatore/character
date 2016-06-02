@@ -1,0 +1,40 @@
+.from-left
+  .modal-overlay
+    justify-content flex-start;
+
+.from-right
+  .modal-overlay
+    justify-content flex-end;
+
+.drawer-container
+  transition transform 300ms ease
+  height 100%
+  background-color #333
+  color #fff
+  min-width 100px
+  max-width 75%
+  
+  > *:first-child
+    height 100%
+  
+  .drawer-header
+    padding $base-padding
+    background-color #333
+    color $base-background-color
+    border-bottom 1px solid #bbb
+    
+  .drawer-content
+    -webkit-overflow-scrolling touch
+    overflow-y scroll
+ 
+.drawer-container.drawer-moving.from-left
+  transform translateX(-100%)
+  
+.drawer-container.drawer-active.from-left
+  transform translateX(0)
+  
+.drawer-container.drawer-moving.from-right
+  transform translateX(100%)
+  
+.drawer-container.drawer-active.from-right
+  transform translateX(0)

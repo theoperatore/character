@@ -2,12 +2,15 @@
 
 import React from 'react';
 
+import Link from '../router/Link';
+
 import SwipePanes from '../components/SwipePanes';
 import SwipePane from '../components/SwipePane';
 import Tabs from '../components/Tabs';
 import Tab from '../components/Tab';
 import Icon from '../components/Icon';
 import Loading from '../components/Loading';
+import Drawer from '../components/Drawer';
 
 import Info from '../panes/Info';
 import Features from '../panes/Features';
@@ -32,6 +35,8 @@ export default React.createClass({
     return ({
       activePane : 0,
       loading : false, // TODO: figure this out...perhaps a thunk?
+      mainMenu: false,
+      settingsMenu: false,
     })
   },
 
@@ -53,9 +58,23 @@ export default React.createClass({
   handleTabSelect(idx) {
     this.setState({ activePane : idx });
   },
-  
 
-  /////////////////////////////////////////////////////////////////////////////
+  getMenuContent() {
+    return <section>
+      <div className='drawer-header'><p>Menu</p></div>
+      <div className='drawer-content p1'>
+        <Link href={`/profile/${this.props.profileId}`}>Switch Characters</Link>
+      </div>
+    </section>
+  },
+
+  getSettingsContent() {
+    return <section>
+      <div className='drawer-header'><h5>Settings</h5></div>
+      <div className='drawer-content p1'>  
+      </div>
+    </section>
+  },
 
   render() {
     let {
@@ -69,10 +88,31 @@ export default React.createClass({
         <section ref="header" className="character-header">
           <header>
             <div className='flex'>
-              <h5 className='flex-auto p3'>{character.get('charName')}</h5>
-              <Icon icon='fa fa-ellipsis-v' className='p3 interactable' />
+              <h5
+                className='flex-auto p3'
+                onClick={() => this.setState({ mainMenu: true })}
+              >{character.get('charName')}</h5>
+              <Icon
+                icon='fa fa-ellipsis-v'
+                className='p3 interactable'
+                onClick={() => this.setState({ settingsMenu: true })}
+              />
             </div>
           </header>
+          <Drawer
+            direction='left'
+            id='main-menu'
+            active={this.state.mainMenu}
+            content={this.getMenuContent()}
+            onDismiss={() => this.setState({ mainMenu: false })}
+          />
+          <Drawer
+            direction='right'
+            id='settings-menu'
+            active={this.state.settingsMenu}
+            content={this.getSettingsContent()}
+            onDismiss={() => this.setState({ settingsMenu: false })}
+          />
           <Tabs activeIdx={this.state.activePane} onTabSelect={this.handleTabSelect}>
             <Tab>
               <div>
