@@ -124,7 +124,7 @@ export default React.createClass({
     let glyph = this.props.glyph || <Icon icon='fa fa-cube' />;
 
     return (
-      <div className='container-list-item' onClick={this._open}>
+      <div className='container-list-item pl2' onClick={this._open}>
         <div className={`container-list-item-glyph ${this.props.glyphCss}`}>
           {glyph}
         </div>
