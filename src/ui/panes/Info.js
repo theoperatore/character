@@ -18,11 +18,11 @@ import debug from 'debug';
 
 const log = debug('app:Info');
 
-module.exports = React.createClass({
-  displayName : 'PaneInfo',
+export default React.createClass({
+  displayName: 'PaneInfo',
 
 
-  getInitialState : function() {
+  getInitialState() {
     return ({
       traits: [
         { id: 'personalityTraits', name: 'Personality' }, 
@@ -30,6 +30,10 @@ module.exports = React.createClass({
         { id: 'bonds', name: 'Bonds' }, 
         { id: 'flaws', name: 'Flaws' }
       ],
+      personalityTraits: false, // for edit modal
+      ideals: false, // for edit modal
+      bonds: false, // for edit modal
+      flaws: false, // for edit modal
       profModal: false,
       langModal: false,
       levelXpModal: false,
@@ -40,13 +44,17 @@ module.exports = React.createClass({
 
   // only update when the info character data changes
   shouldComponentUpdate : function(nextProps, nextState) {
-    return (nextProps.info !== this.props.info) ||
-           (nextProps.traits !== this.props.traits) ||
-           (nextProps.proficiencies !== this.props.proficiencies) ||
-           (nextState.profModal !== this.state.profModal) ||
-           (nextState.langModal !== this.state.langModal) ||
-           (nextState.levelXpModal !== this.state.levelXpModal) ||
-           (nextState.areYouSure !== this.state.areYouSure);
+    return nextProps.info !== this.props.info ||
+           nextProps.traits !== this.props.traits ||
+           nextProps.proficiencies !== this.props.proficiencies ||
+           nextState.profModal !== this.state.profModal ||
+           nextState.langModal !== this.state.langModal ||
+           nextState.levelXpModal !== this.state.levelXpModal ||
+           nextState.areYouSure !== this.state.areYouSure ||
+           nextState.personalityTraits !== this.state.personalityTraits ||
+           nextState.ideals !== this.state.ideals ||
+           nextState.bonds !== this.state.bonds ||
+           nextState.flaws !== this.state.flaws
   },
 
 
@@ -94,13 +102,28 @@ module.exports = React.createClass({
     return this.refs[refId].isDirty();
   },
 
-
   renderTraits() {
     return this.state.traits.map((trait, i) => {
-      let mc = <TraitsDialog ref={`traits-${i}`} name={trait.name} desc={this.props.traits.get(trait.id)} id={trait.id} onTraitChange={this.props.handleInfoChange} />;
-      return (
-        <ListItem key={trait.id} title={trait.name} id={`traits-${i}`} modalContent={mc} onDismiss={this.handleDirtyCheck.bind(this, `traits-${i}`)}/>
-      )
+      return <div
+        key={`trait-${trait.id}`}
+        className='info-trait-container'
+      >
+        <div className='info-section-header'>
+          <h5 className='info-section-title'>{trait.name}</h5>
+        </div>
+        <p 
+          className='p1 interactable'
+          onClick={() => this.setState({ [`${trait.id}`]: true })}
+        >{this.props.traits.get(trait.id)}</p>
+        <TraitsDialog
+          id={trait.id}
+          name={trait.name}
+          desc={this.props.traits.get(trait.id)}
+          active={this.state[trait.id]}
+          onDismiss={() => this.setState({ [`${trait.id}`]: false })}
+          onTraitChange={this.props.handleInfoChange}
+        />
+      </div>
     })
   },
 
@@ -222,9 +245,6 @@ module.exports = React.createClass({
           </div>
         </section> 
         <section className="info-section pane-padding">
-          <div className='info-section-header'>
-            <h5 className='info-section-title'>Traits</h5>
-          </div>
           {this.renderTraits()}
         </section>
         <section className="info-section pane-padding">

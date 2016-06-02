@@ -3,42 +3,58 @@
 import React from 'react';
 
 import Icon from '../../components/Icon';
+import Modal from '../../components/Modal';
+import { createSaveBtn, createCancelBtn } from '../../components/Modal/buttons';
+import ConfirmModal from '../ConfirmModal';
 
 export default React.createClass({
   displayName: 'TraitsDialog',
 
-
-  getInitialState() {
-    return ({
-      editMode: false,
-      dirty: false
-    })
-  },
-
-
   propTypes: {
+    active: React.PropTypes.bool.isRequired,
     name: React.PropTypes.string.isRequired,
     desc: React.PropTypes.string.isRequired,
     id: React.PropTypes.string.isRequired,
     onTraitChange: React.PropTypes.func.isRequired,
-    dismiss: React.PropTypes.func
+    onDismiss: React.PropTypes.func
   },
 
+  getInitialState() {
+    return ({
+      dirty: false,
+      confirmCancel: false,
+    })
+  },
 
-  editSave() {
-    if (this.state.editMode) {
-      let desc = this.refs.newDesc.value.trim();
+  handleSave() {
+    let desc = this.refs.newDesc.value.trim();
 
-      let shouldUpdate = desc !== this.props.desc;
+    let shouldUpdate = desc !== this.props.desc;
 
-      if (shouldUpdate) {
-        this.props.onTraitChange({ type: 'TRAIT_EDIT', data: { desc, id: this.props.id }});
-      }
+    if (shouldUpdate) {
+      this.props.onTraitChange({ type: 'TRAIT_EDIT', data: { desc, id: this.props.id }});
+      this.setState({ dirty: false });
+      this.props.onDismiss();
+    }
+  },
+
+  handleCancel() {
+    if (!this.state.dirty) {
+      return this.props.onDismiss();
     }
 
-    this.setState({ editMode: !this.state.editMode, dirty: false })
+    this.setState({ confirmCancel: true });
   },
 
+  handleConfirm(answer) {
+    switch (answer) {
+      case 'yes':
+        this.setState({ dirty: false, confirmCancel: false });
+        return this.props.onDismiss();
+      case 'no':
+        this.setState({ confirmCancel: false });
+    }
+  },
 
   makeDirty() {
     if (!this.state.dirty) {
@@ -46,31 +62,34 @@ export default React.createClass({
     }
   },
 
-
-  isDirty() {
-    return this.state.dirty;
-  },
-
-
-  render() {
+  getContent() {
     return (
       <section>
         <div className='modal-header'>
           <h3>{this.props.name}</h3>
         </div>
         <div className='modal-content'>
-          {
-            this.state.editMode ?
-            <textarea defaultValue={this.props.desc} ref='newDesc' onChange={this.makeDirty}/> :
-            <p>{this.props.desc}</p>
-          }
+          <textarea defaultValue={this.props.desc} ref='newDesc' onChange={this.makeDirty}/>
         </div>
         <div className='modal-footer'>
-          <button onClick={this.editSave} className={this.state.editMode ? 'bg-green text-green' : ''}>
-            <p><Icon icon='fa fa-pencil' /> {this.state.editMode ? 'Save' : 'Edit'}</p>
-          </button>
+          { createSaveBtn(this.handleSave) }
+          { createCancelBtn(this.handleCancel) }
         </div>
       </section>
     )
-  }
+  },
+
+  render() {
+    return <Modal
+      id={`trait-${this.props.id}`}
+      active={this.props.active}
+      onDismiss={this.handleCancel}
+      content={this.getContent()}
+    >
+      <ConfirmModal
+        active={this.state.confirmCancel}
+        onConfirm={this.handleConfirm}
+      />
+    </Modal>
+  },
 })
