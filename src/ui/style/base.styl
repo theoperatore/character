@@ -30,11 +30,13 @@ $bg-red = #f2dede
 $bg-green = #dff0d8
 $bg-gold = #fcf8e3
 $bg-dark = #ddd
+$bg-gray = lighten(#333, 90%)
 $text-blue = #31708f
 $text-red = #a94442
 $text-green = #3c763d
 $text-gold = #8a6d3b
 $text-purple = #b294bb
+$text-gray = lighten(#333, 70%)
 
 $base-background-color = #fff
 $base-border-color = #ccc
@@ -107,7 +109,7 @@ h6
   color $text-purple
   
 .text-gray
-  color lighten(#333, 70%)
+  color $text-gray
 
 .text-white
   color #fff
@@ -120,7 +122,7 @@ h6
   background-color $text-green
   
 .bg-gray
-  background-color lighten(#333, 90%)
+  background-color $bg-gray
   
 .bg-attack
   background-color $base-attack-color

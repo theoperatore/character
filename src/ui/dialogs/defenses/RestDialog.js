@@ -41,6 +41,7 @@ export default React.createClass({
       longRestInputs,
       shortRestInputs,
       regainHp: 0,
+      useAll: true,
     }
   },
 
@@ -117,7 +118,9 @@ export default React.createClass({
       .map(datum => Object.assign({}, datum, { value: this.state.longRestInputs[datum.ref] }))
       .reduce((agg, datum) => {
         agg[datum.id] = {
-          valueToAdd: datum.value
+          valueToAdd: this.state.useAll
+            ? this.props.hitDiceDefinitions.getIn([datum.id, 'maximum'])
+            : datum.value
         };
 
         return agg;
@@ -131,18 +134,30 @@ export default React.createClass({
     this.props.onDismiss();
   },
 
+  handleUseAll() {
+    let useAll = this.useAllInput.checked;
+    this.setState({ useAll });
+  },
+
   longRestContent() {
     return <div>
       <p className='subtext'>A <span className='text-blue'>Long Rest</span> will restore all of your hit points and some spent hit dice.</p>
-      <label className='block mt1'>Regain how many hit dice per type?</label>
+      
+      <div className='inputs'>
+        <input id='useAll' type='checkbox' ref={ref => this.useAllInput = ref} defaultChecked={this.state.useAll} onChange={this.handleUseAll}/>
+        <label htmlFor='useAll'>Regain all hit dice</label>
+      </div>
+
+      <label className={`block mt1 ${this.state.useAll ? 'disabled' : ''}`}>Regain how many hit dice per type?</label>
       {
         this.props.hitDice
           .map(id => this.props.hitDiceDefinitions.get(id))
           .map((hitDice, i) => {
             return (
               <div key={hitDice.get('id')} className='inline-block m1'>
-                <label className='labeled-input'>
+                <label className={`labeled-input ${this.state.useAll ? 'disabled' : ''}`}>
                   <input
+                    disabled={this.state.useAll}
                     value={this.state.longRestInputs[`lrInput${i}`]}
                     onChange={this.validateInput.bind(this, 'longRestInputs', `lrInput${i}`)}
                   />
@@ -176,15 +191,17 @@ export default React.createClass({
             );
           })
       }
-      <label className='block mt1' htmlFor='regainHpInput'>Regain how many hit points?</label>
-      <input
-        id='regainHpInput'
-        type='text'
-        className='block mb1'
-        value={this.state.regainHp}
-        onChange={this.validateHp}
-      />
-      <p className='subtext'>Enter the total number of hit points to regain across all dice rolls and modifiers.</p>
+      <div className='inputs'>
+        <label className='block mt1' htmlFor='regainHpInput'>Regain how many hit points?</label>
+        <input
+          id='regainHpInput'
+          type='text'
+          className='block mb1'
+          value={this.state.regainHp}
+          onChange={this.validateHp}
+        />
+        <p className='subtext'>Enter the total number of hit points to regain across all dice rolls and modifiers.</p>
+      </div>
     </div>
   },
 
