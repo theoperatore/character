@@ -21,7 +21,7 @@ module.exports = React.createClass({
 
     return (
       <div className={`${css} ${ className ? className: ''}`} onClick={this.handleClick}>
-        <a>{this.props.children}</a>
+        <span>{this.props.children}</span>
       </div>
     );
   }

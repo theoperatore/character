@@ -73,13 +73,13 @@ export default React.createClass({
             </div>
           </header>
           <Tabs activeIdx={this.state.activePane} onTabSelect={this.handleTabSelect}>
-            <Tab><Icon icon="icon-crown" /></Tab>
-            <Tab><Icon icon="fa fa-sitemap" /></Tab>
-            <Tab><Icon icon="fa fa-tasks" /></Tab>
-            <Tab><Icon icon="icon-shield" /></Tab>
-            <Tab><Icon icon="icon-attack" /></Tab>
-            <Tab><Icon icon="icon-repo" /></Tab>
-            <Tab><Icon icon="icon-equipment"/></Tab>
+            <Tab><div><p><Icon icon="icon-crown" /></p><p className='small'>Info</p></div></Tab>
+            <Tab><div><p><Icon icon="fa fa-sitemap" /></p><p className='small'>Features</p></div></Tab>
+            <Tab><div><p><Icon icon="fa fa-tasks" /></p><p className='small'>Abilities</p></div></Tab>
+            <Tab><div><p><Icon icon="icon-shield" /></p><p className='small'>Defenses</p></div></Tab>
+            <Tab><div><p><Icon icon="icon-attack" /></p><p className='small'>Attacks</p></div></Tab>
+            <Tab><div><p><Icon icon="icon-repo" /></p><p className='small'>Spells</p></div></Tab>
+            <Tab><div><p><Icon icon="icon-equipment"/></p><p className='small'>Equipment</p></div></Tab>
           </Tabs>
         </section>
         <section className="character-body">
