@@ -68,18 +68,54 @@ export default React.createClass({
       <div className="character-container">
         <section ref="header" className="character-header">
           <header>
-            <div>
-              <h5>{character.get('charName')}</h5>
+            <div className='flex'>
+              <h5 className='flex-auto p3'>{character.get('charName')}</h5>
+              <Icon icon='fa fa-ellipsis-v' className='p3 interactable' />
             </div>
           </header>
           <Tabs activeIdx={this.state.activePane} onTabSelect={this.handleTabSelect}>
-            <Tab><div><p><Icon icon="icon-crown" /></p><p className='small'>Info</p></div></Tab>
-            <Tab><div><p><Icon icon="fa fa-sitemap" /></p><p className='small'>Features</p></div></Tab>
-            <Tab><div><p><Icon icon="fa fa-tasks" /></p><p className='small'>Abilities</p></div></Tab>
-            <Tab><div><p><Icon icon="icon-shield" /></p><p className='small'>Defenses</p></div></Tab>
-            <Tab><div><p><Icon icon="icon-attack" /></p><p className='small'>Attacks</p></div></Tab>
-            <Tab><div><p><Icon icon="icon-repo" /></p><p className='small'>Spells</p></div></Tab>
-            <Tab><div><p><Icon icon="icon-equipment"/></p><p className='small'>Equipment</p></div></Tab>
+            <Tab>
+              <div>
+                <p><Icon icon="icon-crown" /></p>
+                <p className='small'>Info</p>
+              </div>
+            </Tab>
+            <Tab>
+              <div>
+                <p><Icon icon="fa fa-sitemap" /></p>
+                <p className='small'>Features</p>
+              </div>
+            </Tab>
+            <Tab>
+              <div>
+                <p><Icon icon="fa fa-tasks" /></p>
+                <p className='small'>Abilities</p>
+              </div>
+            </Tab>
+            <Tab>
+              <div>
+                <p><Icon icon="icon-shield" /></p>
+                <p className='small'>Defenses</p>
+              </div>
+            </Tab>
+            <Tab>
+              <div>
+                <p><Icon icon="icon-attack" /></p>
+                <p className='small'>Attacks</p>
+              </div>
+            </Tab>
+            <Tab>
+              <div>
+                <p><Icon icon="icon-repo" /></p>
+                <p className='small'>Spells</p>
+              </div>
+            </Tab>
+            <Tab>
+              <div>
+                <p><Icon icon="icon-equipment"/></p>
+                <p className='small'>Equipment</p>
+              </div>
+            </Tab>
           </Tabs>
         </section>
         <section className="character-body">
