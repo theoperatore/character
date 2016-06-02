@@ -62,7 +62,7 @@ export default React.createClass({
   getMenuContent() {
     return <section>
       <div className='drawer-header'><p>Menu</p></div>
-      <div className='drawer-content p2'>
+      <div className='drawer-content p3'>
         <button
           onClick={() => Router.nav(`#/profile/${this.props.profileId}`)}
           className='btn btn-default btn-primary block mb2 mt2 full-width'
@@ -71,13 +71,13 @@ export default React.createClass({
         </button>
         <button
           onClick={() => Router.nav(`#/`)}
-          className='btn btn-default btn-success block mb4 full-width'
+          className='btn btn-default btn-success block mb2 full-width'
         >
           <Icon icon='fa fa-plus'/> Create new Character
         </button>
         <button
           disabled={true}
-          className='btn btn-default btn-danger block mb2 full-width'
+          className='btn btn-default btn-danger block mb2 mt6 full-width'
         >
           <Icon icon='fa fa-sign-out'/> Sign Out</button>
       </div>
