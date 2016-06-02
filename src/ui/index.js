@@ -39,7 +39,7 @@ function loadCharacter(id) {
   });
 }
 
-function renderApp({ loadedCharacter, loadedPreferences, characterId, profileId }) {
+function renderApp({ loadedCharacter, loadedPreferences, characterId }) {
   let store = createCharacterState(loadedCharacter, loadedPreferences);
   let { character, preferences } = store.getState();
 
@@ -57,35 +57,32 @@ function renderApp({ loadedCharacter, loadedPreferences, characterId, profileId 
     let characterToSave = character.toJS();
     let user = db.auth().currentUser;
 
-    // save character to DB?
-    ref.child(`characters/${characterId}`)
-      .set(characterToSave)
-      .then(() => {
-        saveLog('saved new character state: %o', characterToSave);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    if (user) {
+      // save character to DB?
+      ref.child(`characters/${characterId}`)
+        .set(characterToSave)
+        .then(() => {
+          saveLog('saved new character state: %o', characterToSave);
+        })
+        .catch(err => {
+          console.error(err);
+        });
 
-    ref.child(`users/${user.uid}/characters/${characterId}`)
-      .update({
-        characterClass: characterToSave.charInfo.class,
-        characterLevel: characterToSave.charInfo.level,
-      });
+      ref.child(`users/${user.uid}/characters/${characterId}`)
+        .update({
+          characterClass: characterToSave.charInfo.class,
+          characterLevel: characterToSave.charInfo.level,
+        });
 
-    ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState} profileId={profileId}/>, mount);
+      ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState}/>, mount);
+    }
   });
 
-  ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState} profileId={profileId}/>, mount);
+  ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState}/>, mount);
 }
 
 // view a character
-Router.get('/user/(:id)/character/(:uid)', (params) => {
-  // if (!db.ref.getAuth()) {
-  //   Router.nav('/login');
-  //   return;
-  // }
-
+Router.get('/character/(:uid)', (params) => {
   log(`routing to character view: `, params);
 
   // remove any previous event listeners on state change
@@ -105,7 +102,6 @@ Router.get('/user/(:id)/character/(:uid)', (params) => {
         loadedCharacter: Immutable.fromJS(characterData),
         loadedPreferences: Immutable.fromJS(defaultPreferences),
         characterId,
-        profileId: params.id,
       };
     })
     .then(renderApp)
@@ -115,25 +111,25 @@ Router.get('/user/(:id)/character/(:uid)', (params) => {
 })
 
 // user
-Router.get('/profile/(:id)', (params) => {
+Router.get('/profile', (params) => {
   // if (!db.ref.getAuth()) {
   //   Router.nav('/login');
   //   return;
   // }
 
-  log(`routing to profile view: `, params);
+  log(`routing to profile view`);
 
   // remove any previous event listeners on state change
   if (subscribedStateChange) {
     subscribedStateChange();
   }
 
-  ReactDOM.render(<User id={params.id} />, mount);
+  ReactDOM.render(<User/>, mount);
 })
 
 // login
 Router.get('/login/(:id)', (params) => {
-  var user = db.ref.getAuth();
+  var user = db.auth().currentUser;
 
   // remove any previous event listeners on state change
   if (subscribedStateChange) {
@@ -142,9 +138,9 @@ Router.get('/login/(:id)', (params) => {
 
   // if the user is already logged in, then redirect to profile page
   if (user) {
-    db.once('/users/' + user.uid).then((snapshot) => {
+    ref.once('/users/' + user.uid).then((snapshot) => {
       var u = snapshot.val();
-      Router.nav('/profile/' + u['profile_name']);
+      Router.nav('/profile');
     })
   }
   else {

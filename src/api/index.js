@@ -18,4 +18,8 @@ const db = Firebase.initializeApp({
 
 const ref = db.database().ref();
 
+export function login(email) {
+  
+}
+
 export { db, ref }

@@ -4,6 +4,8 @@ import React from 'react';
 
 import Router from '../router/Router';
 
+import { db } from '../../api';
+
 import SwipePanes from '../components/SwipePanes';
 import SwipePane from '../components/SwipePane';
 import Tabs from '../components/Tabs';
@@ -49,6 +51,14 @@ export default React.createClass({
     return true;
   },
 
+  logout() {
+    db.auth().signOut().then(() => {
+      console.log('signed out');
+    }).catch(err => {
+      console.error(err);
+    })
+  },
+
 
   handlePaneSwipe(ev) {
     this.setState({ activePane : ev.activeIndex });
@@ -64,19 +74,19 @@ export default React.createClass({
       <div className='drawer-header'><p>Menu</p></div>
       <div className='drawer-content p3'>
         <button
-          onClick={() => Router.nav(`#/profile/${this.props.profileId}`)}
+          onClick={() => Router.nav('#/profile')}
           className='btn btn-default btn-primary block mb2 mt2 full-width'
         >
           <Icon icon='fa fa-random' /> Switch Characters
         </button>
         <button
-          onClick={() => Router.nav(`#/`)}
+          onClick={() => Router.nav('#/')}
           className='btn btn-default btn-success block mb2 full-width'
         >
           <Icon icon='fa fa-plus'/> Create new Character
         </button>
         <button
-          disabled={true}
+          onClick={this.logout}
           className='btn btn-default btn-danger block mb2 mt6 full-width'
         >
           <Icon icon='fa fa-sign-out'/> Sign Out</button>

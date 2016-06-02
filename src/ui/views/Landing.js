@@ -110,12 +110,12 @@ module.exports = React.createClass({
             ? <button
                 disabled={this.state.authenticating}
                 onClick={this.testLogin}>{this.state.authenticating ? 'logging you in...' : 'Test Authenticate'}</button>
-            : <p><Link href={"/profile/" + this.state.profileId}>Go To Profile</Link></p>
+            : <p><Link href="/profile">Go To Profile</Link></p>
         }
         <hr />
         {
           this.state.unauthed
-            ? <p>log in to upload ralf character</p>
+            ? null
             : <button
                 onClick={this.uploadRalf}
               >Re-Upload Ralf</button>

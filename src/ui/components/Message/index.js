@@ -2,6 +2,7 @@
 
 import React from 'react';
 import classnames from 'classnames';
+import Icon from '../Icon';
 
 module.exports = React.createClass({
   displayName : "Message",
@@ -16,7 +17,7 @@ module.exports = React.createClass({
 
 
   render : function() {
-    var css = classnames({
+    let css = classnames({
       'message-container' : true,
       'message-alert' : (this.props.type === 'alert'),
       'message-info' : (this.props.type === 'info'),
@@ -25,10 +26,23 @@ module.exports = React.createClass({
       'message-hide' : (this.props.message === "")
     });
 
+    let glyph;
+    switch (this.props.type) {
+      case 'warn':
+      case 'alert':
+        glyph = <Icon icon='fa fa-exclamation-triangle'/>
+        break;
+      case 'success':
+      case 'info':
+      default:
+        glyph = <Icon icon='fa fa-info-circle'/>
+    } 
+
     return (
       <div className={css}>
         <div className='message-content'>
-          {this.props.message}
+          {glyph}
+          <span className='ml1'>{this.props.message}</span>
         </div>
       </div>
     )

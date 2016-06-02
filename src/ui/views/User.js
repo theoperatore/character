@@ -5,133 +5,116 @@ import { db, ref } from '../../api';
 import Router from '../router/Router';
 import Icon from '../components/Icon';
 import Loading from '../components/Loading';
-
-
-import dummy from '../../dummy-data/dummy-profile';
-
+import ListItem from '../components/ListItem/v2';
 
 export default React.createClass({
-  displayName : "User",
+  displayName: "User",
 
-
-  getInitialState : function() {
+  getInitialState() {
     return ({
       characters : [],
-      profileName: '',
+      profileName: '...',
+      isLoading: true,
+      isCharacterLoading: false,
     })
   },
 
-
-  logout : function() {
-    db.auth().signOut().then(() => {
-      return Router.nav('/login');
-    })
+  logout() {
+    this.setState({ isCharacterLoading: true }, () => {
+      db.auth().signOut().then(() => {
+        Router.nav('#/login');
+      })
+    });
   },
 
+  handleGetCharacter(snapshot) {
+    let val = snapshot.val();
+    let out = [];
 
-  componentWillMount : function() {
+    if (val.characters) {
+      Object.keys(val.characters).forEach((idx) => {
+        let curr = val.characters[idx];
+        let obj = {};
+
+        obj.characterName = curr['characterName'];
+        obj.characterLevel = curr['characterLevel'];
+        obj.characterClass = curr['characterClass'];
+        obj.createdDate = curr['createdOn'];
+        obj.deathDate = curr['diedOn'];
+        obj.characterUID = curr['characterId'];
+
+        out.push(obj);
+      })
+    }
+
+    this.setState({ characters : out, profileName: val.profileName, isLoading: false });
+  },
+
+  componentWillMount() {
     let user = db.auth().currentUser;
 
     if (user) {
-      ref.child('/users/' + user.uid).once('value').then((snap) => {
-        var val = snap.val();
-        var out = [];
-
-        if (val.characters) {
-          Object.keys(val.characters).forEach((idx) => {
-            var curr = val.characters[idx];
-            var obj = {};
-
-            obj.characterName = curr['characterName'];
-            obj.characterLevel = curr['characterLevel'];
-            obj.characterClass = curr['characterClass'];
-            obj.createdDate = curr['createdOn'];
-            obj.deathDate = curr['diedOn'];
-            obj.characterUID = curr['characterId'];
-
-            out.push(obj);
-          })
-        }
-
-        this.setState({ characters : out, profileName: val.profileName });
-      })
+      ref
+        .child('/users/' + user.uid)
+        .once('value')
+        .then(this.handleGetCharacter);
     }
     else {
       let off = db.auth().onAuthStateChanged(user => {
+        off(); // turn off authentication listening
         if (user) {
-          off(); // turn off authentication listening
-          ref.child('/users/' + user.uid).once('value').then((snap) => {
-            var val = snap.val();
-            var out = [];
-
-            if (val.characters) {
-              Object.keys(val.characters).forEach((idx) => {
-                var curr = val.characters[idx];
-                var obj = {};
-
-                obj.characterName = curr['characterName'];
-                obj.characterLevel = curr['characterLevel'];
-                obj.characterClass = curr['characterClass'];
-                obj.createdDate = curr['createdOn'];
-                obj.deathDate = curr['diedOn'];
-                obj.characterUID = curr['characterId'];
-
-                out.push(obj);
-              })
-            }
-
-            this.setState({ characters : out, profileName: val.profileName });
-          })
+          ref
+            .child('/users/' + user.uid)
+            .once('value')
+            .then(this.handleGetCharacter)
+        }
+        if (!user) {
+          Router.nav('#/login');
         }
       });
     }
   },
 
-
   loadCharacter : function(idx) {
     var character = this.state.characters[idx];
-    var href = '/user/';
-    var params = {};
-
-    href += (this.props.id || 'nologin') + "/character/";
-    href += character.characterUID;
+    var href = `#/character/${character.characterUID}`;
 
     Router.nav(href);
-    this.setState({ isLoading: true });
+    this.setState({ isCharacterLoading: true });
   },
 
-
-  render : function() {
+  render() {
     var list = this.state.characters.map((character, i) => {
       return (
-        <li key={i}>
-          <button className="profile-character-button" onClick={this.loadCharacter.bind(this, i)}>
-            <div className="profile-character-container">
-              <ul className="profile-character-details left">
-                <li><h3>{character.characterName}</h3></li>
-                <li>{character.characterClass} | {character.characterLevel}</li>
-              </ul>
-              <div className="profile-character-details right">
-                <p><Icon icon="icon-angle-double-right" /></p>
-              </div>
-            </div>
-          </button>
-        </li>
-      )
+        <ListItem
+          key={i}
+          className='interactable'
+          name={character.characterName}
+          subtext={`level ${character.characterLevel} | ${character.characterClass}`}
+          glyph={<Icon icon='fa fa-user'/>}
+          onClick={this.loadCharacter.bind(this, i)}
+        />
+      );
     });
 
 
     return (
       <div className="profile-container">
         <div className="profile-header">
-          <p className="profile-header-name left">{this.state.profileName}</p>
+          <h5 className="profile-header-name left p2">{this.state.profileName}</h5>
+          <h5 className='profile-header-action interactable right p2' onClick={this.logout}>Sign Out</h5>
         </div>
         <div className="profile-content">
-          <ul className="profile-list-characters">
-            {list}
-          </ul>
+          <h3>Characters</h3>
+          { this.state.isLoading 
+              ? <p>Loading...</p>
+              : list.length === 0
+              ? <p className='subtext text-center'>Create a new character</p>
+              : list
+          }
         </div>
         <Loading isLoading={this.state.isLoading}/>
+        <Loading isLoading={this.state.isCharacterLoading}/>
       </div>
     );
   }

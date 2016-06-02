@@ -7,8 +7,7 @@
 .profile-header
   border-bottom 1px solid #ddd
   padding-left $base-padding
-  >h1
-    display inline-block
+  padding-right $base-padding
   &:after
     display table
     clear both
@@ -16,8 +15,9 @@
 
 .profile-header-name
   font-weight bold
-  margin-top 5px
-  margin-bottom 0
+  
+.profile-header-action
+  color lighten(#333, 50%)
 
 .profile-header-button
   margin-left 30px
@@ -33,7 +33,7 @@
 
 .profile-content
   padding $base-padding
-  margin-top $base-margin
+  margin-top $base-margin-sm
 
 .profile-list-characters
   padding-left 0
