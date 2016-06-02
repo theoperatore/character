@@ -108,7 +108,9 @@ export function character(state = DEFAULT_CHARACTER, action) {
       return createClassCharge || removeClassCharge || editClassCharge
         ? partialStateFeatEdit.update('charClassCharges', charClassCharges => {
             if (action.data.isNewClassCharge) {
-              return charClassCharges.push(Map(action.data.classCharge));
+              return charClassCharges
+                ? charClassCharges.push(Map(action.data.classCharge))
+                : List([ Map(action.data.classCharge) ]);
             }
 
             if (action.data.feature.classChargesId && !action.data.classCharge) {

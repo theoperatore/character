@@ -41,7 +41,7 @@ export default React.createClass({
     return (
       this.props.features.toJS().map((feature, i) => {
 
-        let charge = this.props.charge
+        let charge = this.props.charges
           ? this.props.charges.find(itm => itm.get('id') === feature.classChargesId)
           : null;
 
