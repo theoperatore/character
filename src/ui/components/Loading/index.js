@@ -1,32 +1,32 @@
 'use strict';
 
-var React = require('react');
-var cn = require('classnames');
+import React from 'react';
+import cn from 'classnames';
+import Icon from '../Icon';
 
-module.exports = React.createClass({
-  displayName : "LoadingOverlay",
+export default React.createClass({
+  displayName: "LoadingOverlay",
 
-
-  getDefaultProps : function() {
+  getDefaultProps() {
     return ({
       isLoading : false
     })
   },
 
-
-  shouldComponentUpdate : function(nextProps) {
+  shouldComponentUpdate(nextProps) {
     return nextProps.isLoading !== this.props.isLoading;
   },
 
-
-  render : function() {
-    var css = cn({
+  render() {
+    let css = cn({
       'loading-indicator-container' : true,
       'loading-active' : this.props.isLoading
     })
 
     return (
-      <div className={css}></div>
+      <div className={css}>
+        <span className='loading-animation'></span>
+      </div>
     )
   }
 })
