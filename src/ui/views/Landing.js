@@ -46,7 +46,7 @@ module.exports = React.createClass({
     let ralfClass = ralfInfo.class;
     let ralfLevel = ralfInfo.level;
 
-    db.ref.child(`users/${auth.uid}/characters/${ralfId}`).set({
+    ref.child(`users/${auth.uid}/characters/${ralfId}`).set({
       characterId: ralfId,
       characterName: ralfName,
       characterClass: ralfClass,

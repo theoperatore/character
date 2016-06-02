@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import Link from '../router/Link';
+import Router from '../router/Router';
 
 import SwipePanes from '../components/SwipePanes';
 import SwipePane from '../components/SwipePane';
@@ -62,16 +62,32 @@ export default React.createClass({
   getMenuContent() {
     return <section>
       <div className='drawer-header'><p>Menu</p></div>
-      <div className='drawer-content p1'>
-        <Link href={`/profile/${this.props.profileId}`}>Switch Characters</Link>
+      <div className='drawer-content p2'>
+        <button
+          onClick={() => Router.nav(`#/profile/${this.props.profileId}`)}
+          className='btn btn-default btn-primary block mb2 mt2 full-width'
+        >
+          <Icon icon='fa fa-random' /> Switch Characters
+        </button>
+        <button
+          onClick={() => Router.nav(`#/`)}
+          className='btn btn-default btn-success block mb4 full-width'
+        >
+          <Icon icon='fa fa-plus'/> Create new Character
+        </button>
+        <button
+          disabled={true}
+          className='btn btn-default btn-danger block mb2 full-width'
+        >
+          <Icon icon='fa fa-sign-out'/> Sign Out</button>
       </div>
     </section>
   },
 
   getSettingsContent() {
     return <section>
-      <div className='drawer-header'><h5>Settings</h5></div>
-      <div className='drawer-content p1'>  
+      <div className='drawer-header'><p>Settings</p></div>
+      <div className='drawer-content p2'>  
       </div>
     </section>
   },

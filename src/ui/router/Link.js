@@ -7,7 +7,7 @@ module.exports = React.createClass({
 
 
   navigate : function() {
-    var { href } = this.props;
+    let { href } = this.props;
     href = '#' + href.replace("#", "");
 
     Router.nav(href);
@@ -15,10 +15,10 @@ module.exports = React.createClass({
 
 
   render : function() {
-    var href = '#' + this.props.href.replace("#", "");
+    let href = '#' + this.props.href.replace("#", "");
 
     return (
-      <a href={href} onClick={this.navigate}>{this.props.children}</a>
+      <span onClick={this.navigate}>{this.props.children}</span>
     );
   }
 })
