@@ -25,7 +25,9 @@ export default React.createClass({
 
     return (
       <div className={css}>
-        <span className='loading-animation'></span>
+        <span className='loading-animation-top'></span>
+        <span className='loading-animation-middle'></span>
+        <span className='loading-animation-bottom'></span>
       </div>
     )
   }
