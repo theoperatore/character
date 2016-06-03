@@ -42,7 +42,6 @@ export default React.createClass({
     })
   },
 
-
   // should only updated when there is a change to character state data
   // TODO: might run into a problem...swiping between panes is going to trigger
   // a state update. this means that each pane is going to need to explicitly
@@ -80,12 +79,6 @@ export default React.createClass({
           <Icon icon='fa fa-random' /> Switch Characters
         </button>
         <button
-          onClick={() => Router.nav('#/')}
-          className='btn btn-default btn-success block mb2 full-width'
-        >
-          <Icon icon='fa fa-plus'/> Create new Character
-        </button>
-        <button
           onClick={this.logout}
           className='btn btn-default btn-danger block mb2 mt6 full-width'
         >
@@ -96,8 +89,69 @@ export default React.createClass({
 
   getSettingsContent() {
     return <section>
-      <div className='drawer-header'><p>Settings</p></div>
-      <div className='drawer-content p2'>  
+      <div className='drawer-header'><p>Preferences</p></div>
+      <div className='drawer-content p2'>
+        <div className='input-grouping'>
+          <p>Panes</p>
+          <div className='inputs'>
+            <input
+              type='checkbox'
+              id='settings-attack-pane'
+              defaultChecked={!this.props.preferences.getIn(['Attacks', 'display'])}
+              onChange={() => {
+                this.props.updateState({ type: 'TOGGLE_ATTACK_PANE' });
+              }}
+            />
+            <label htmlFor='settings-attack-pane'>Hide Attacks Pane</label>
+          </div>
+          <div className='inputs'>
+            <input
+              type='checkbox'
+              id='settings-spells-pane'
+              checked={!this.props.preferences.getIn(['Spells', 'display'])}
+              onChange={() => {
+                this.props.updateState({ type: 'TOGGLE_SPELLS_PANE' })
+              }}
+            />
+            <label htmlFor='settings-spells-pane'>Hide Spells Pane</label>
+          </div>
+        </div>
+        <div className='input-grouping'>
+          <p>Class Charges</p>
+          <div className='inputs'>
+            <input
+              type='radio'
+              id='settings-chrgs-attack'
+              checked={this.props.preferences.get('classCharges') === 'ATTACK_ONLY'}
+              onChange={() => {
+                this.props.updateState({ type: 'SET_CLASS_CHARGES', data: 'ATTACK_ONLY' });
+              }}
+            />
+            <label htmlFor='settings-chrgs-attack'>Attack pane only</label>
+          </div>
+          <div className='inputs'>
+            <input
+              type='radio'
+              id='settings-chrgs-spells'
+              checked={this.props.preferences.get('classCharges') === 'SPELLS_ONLY'}
+              onChange={() => {
+                this.props.updateState({ type: 'SET_CLASS_CHARGES', data: 'SPELLS_ONLY' })
+              }}
+            />
+            <label htmlFor='settings-chrgs-spells'>Spell pane only</label>
+          </div>
+          <div className='inputs'>
+            <input
+              type='radio'
+              id='settings-chrgs-both'
+              checked={this.props.preferences.get('classCharges') === 'BOTH'}
+              onChange={() => {
+                this.props.updateState({ type: 'SET_CLASS_CHARGES', data: 'BOTH' })
+              }}
+            />
+            <label htmlFor='settings-chrgs-both'>Both Attack and Spell panes</label>
+          </div>
+        </div>
       </div>
     </section>
   },
@@ -140,48 +194,25 @@ export default React.createClass({
             onDismiss={() => this.setState({ settingsMenu: false })}
           />
           <Tabs activeIdx={this.state.activePane} onTabSelect={this.handleTabSelect}>
-            <Tab>
-              <div>
-                <p><Icon icon="icon-crown" /></p>
-                <p className='small'>Info</p>
-              </div>
-            </Tab>
-            <Tab>
-              <div>
-                <p><Icon icon="fa fa-sitemap" /></p>
-                <p className='small'>Features</p>
-              </div>
-            </Tab>
-            <Tab>
-              <div>
-                <p><Icon icon="fa fa-tasks" /></p>
-                <p className='small'>Abilities</p>
-              </div>
-            </Tab>
-            <Tab>
-              <div>
-                <p><Icon icon="icon-shield" /></p>
-                <p className='small'>Defenses</p>
-              </div>
-            </Tab>
-            <Tab>
-              <div>
-                <p><Icon icon="icon-attack" /></p>
-                <p className='small'>Attacks</p>
-              </div>
-            </Tab>
-            <Tab>
-              <div>
-                <p><Icon icon="icon-repo" /></p>
-                <p className='small'>Spells</p>
-              </div>
-            </Tab>
-            <Tab>
-              <div>
-                <p><Icon icon="icon-equipment"/></p>
-                <p className='small'>Equipment</p>
-              </div>
-            </Tab>
+            {
+              this.props.preferences.get('tabs')
+                .filter(tab => {
+                  let prefs = this.props.preferences.getIn([tab.get('name')]);
+                  return prefs 
+                    ? prefs.get('display')
+                    : true
+                })
+                .map((tab, i) => {
+                  return (
+                    <Tab key={i}>
+                      <div>
+                        <p><Icon icon={tab.get('icon')} /></p>
+                        <p className='small'>{tab.get('name')}</p>
+                      </div>
+                    </Tab>
+                  );
+                })
+            }
           </Tabs>
         </section>
         <section className="character-body">
@@ -221,24 +252,38 @@ export default React.createClass({
                 handleDefenseChange={updateState}
               />
             </SwipePane>
-            <SwipePane>
-              <Attacks 
-                attacks={character.get('charAttacks')}
-                charges={character.get('charClassCharges')}
-                bubbles={character.get('charAttackBubbles')}
-                handleAttacksChange={updateState}
-                handlePreferencesChange={updateState}
-              />
-            </SwipePane>            
-            <SwipePane>
-              <Spells 
-                bubbles={character.get('charSpellBubbles')}
-                spellDC={character.get('charSpellSaveDC')}
-                spells={character.get('charSpells')}
-                handleSpellsChange={updateState}
-                handlePreferencesChange={updateState}
-              />
-            </SwipePane>            
+            {
+              (function conditionalAttacks(props) {
+                if (props.preferences.getIn(['Attacks', 'display'])) {
+                  return <SwipePane>
+                    <Attacks
+                      attacks={character.get('charAttacks')}
+                      charges={character.get('charClassCharges')}
+                      bubbles={character.get('charAttackBubbles')}
+                      preferences={props.preferences}
+                      handleAttacksChange={updateState}
+                      handlePreferencesChange={updateState}
+                    />
+                  </SwipePane>
+                }
+              })(this.props)
+            }
+            {            
+              (function conditionalSpells(props) {
+                if (props.preferences.getIn(['Spells', 'display'])) {
+                  return <SwipePane>
+                    <Spells 
+                      bubbles={character.get('charSpellBubbles')}
+                      spellDC={character.get('charSpellSaveDC')}
+                      spells={character.get('charSpells')}
+                      charges={character.get('charClassCharges')}
+                      preferences={props.preferences}
+                      handleSpellsChange={updateState}
+                    />
+                  </SwipePane>
+                }
+              })(this.props)
+            }
             <SwipePane>
               <Equipments
                 equipment={character.get('charEquipment')}

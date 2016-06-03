@@ -3,6 +3,7 @@
 import React from 'react';
 import Spell from '../containers/Spell';
 import AttackBonusItem from '../containers/AttackBonusItem';
+import ClassChargeItem from '../containers/ClassChargeItem';
 import SpellSlotsModal from '../dialogs/spells/spell-slots/edit';
 import CreateSpellContent from '../dialogs/spells/create';
 import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog';
@@ -16,8 +17,9 @@ export default React.createClass({
     spells: React.PropTypes.object.isRequired,
     spellDC: React.PropTypes.object.isRequired,
     bubbles: React.PropTypes.object.isRequired,
+    charges: React.PropTypes.object.isRequired,
+    preferences: React.PropTypes.object.isRequired,
     handleSpellsChange: React.PropTypes.func.isRequired,
-    handlePreferencesChange: React.PropTypes.func.isRequired,
   },
 
 
@@ -26,6 +28,7 @@ export default React.createClass({
       this.props.bubbles !== nextProps.bubbles ||
       this.props.spellDC !== nextProps.spellDC ||
       this.props.spells !== nextProps.spells ||
+      this.props.charges !== nextProps.charges ||
       this.state.flattenedSpells !== nextState.flattenedSpells ||
       this.state.viewSpellSlots !== nextState.viewSpellSlots ||
       this.state.createSpellAttackBonus !== nextState.createSpellAttackBonus ||
@@ -75,7 +78,7 @@ export default React.createClass({
       type: 'SPELL_' + event.type
     });
 
-    this.props.handlePreferencesChange(updatedEvent);
+    this.props.handleSpellsChange(updatedEvent);
   },
 
   onSpellDCChange(event) {
@@ -132,6 +135,26 @@ export default React.createClass({
         onChange={this.onSpellAttackBonusChange}
       />
     })
+  },
+
+  renderClassCharges() {
+    if (!this.props.charges) return null;
+    if (this.props.preferences.get('classCharges') === 'ATTACK_ONLY') return null;
+    
+    let charges = this.props.charges.map((charge, i) => {
+      return <ClassChargeItem
+        key={charge.get('id')}
+        id={charge.get('id')}
+        name={charge.get('name')}
+        charges={charge.get('charges')}
+        current={charge.get('current')}
+        onChange={this.props.handleSpellsChange}
+      />
+    })
+
+    return (<section className='info-section'>
+      { charges }
+    </section>)
   },
 
   renderSpellSlots() {
@@ -193,6 +216,7 @@ export default React.createClass({
             onClick={() => this.setState({ createSpellAttackBonus: true })}
           ><Icon icon='fa fa-plus' /> Create a new spell attack bonus</p>
         </section>
+        { this.renderClassCharges() }
         <section className='info-section'>
           <div className='info-section-header'>
             <h5 className='info-section-title'>Spells</h5>

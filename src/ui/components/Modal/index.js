@@ -76,8 +76,16 @@ export default React.createClass({
 
 
   componentWillUnmount() {
-    document.querySelector(appContainer).style.overflow = 'auto';
-    document.querySelector(paneContainer).style.overflow = 'auto';
+    let app = document.querySelector(appContainer);
+    let pane = document.querySelector(paneContainer);
+
+    if (app) {
+      app.style.overflow = 'auto';
+    }
+
+    if (pane) {
+      pane.style.overflow = 'auto';
+    }
   },
 
 

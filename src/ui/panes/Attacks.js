@@ -8,7 +8,6 @@ import CreateAttackDialog from '../dialogs/attacks/CreateAttackDialog';
 import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog';
 import Icon from '../components/Icon';
 import ListItem from '../components/ListItem/v2';
-import SegmentedProgressBar from '../components/SegmentedProgressBar';
 
 export default React.createClass({
   displayName: 'PaneAttacks',
@@ -19,6 +18,7 @@ export default React.createClass({
         this.props.attacks !== nextProps.attacks ||
         this.props.charges !== nextProps.charges ||
         this.props.bubbles !== nextProps.bubbles ||
+        this.props.preferences !== nextProps.preferences ||
         this.state.createAttackBonus !== nextState.createAttackBonus ||
         this.state.createAttack !== nextState.createAttack
       )
@@ -65,17 +65,22 @@ export default React.createClass({
 
   renderClassCharges() {
     if (!this.props.charges) return null;
+    if (this.props.preferences.get('classCharges') === 'SPELLS_ONLY') return null;
     
-    return this.props.charges.toJS().map((charge, i) => {
+    let charges = this.props.charges.map((charge, i) => {
       return <ClassChargeItem
-        key={charge.id}
-        id={charge.id}
-        name={charge.name}
-        charges={charge.charges}
-        current={charge.current}
+        key={charge.get('id')}
+        id={charge.get('id')}
+        name={charge.get('name')}
+        charges={charge.get('charges')}
+        current={charge.get('current')}
         onChange={this.props.handleAttacksChange}
       />
     })
+
+    return (<section className='info-section'>
+      { charges }
+    </section>)
   },
 
 
@@ -110,9 +115,7 @@ export default React.createClass({
             onClick={() => this.setState({ createAttackBonus: true })}
           ><Icon icon='fa fa-plus' /> Create a new attack bonus</p>
         </section>
-        <section className='info-section'>
-          {this.renderClassCharges()}
-        </section>
+        { this.renderClassCharges() }
         <section className='info-section'>
           <div className='info-section-header'>
             <h5 className='info-section-title'>Attacks</h5>

@@ -21,12 +21,6 @@ module.exports = React.createClass({
   },
 
 
-  shouldComponentUpdate : function(nextProps, nextState) {
-    return (nextProps.activeIdx !== this.props.activeIdx) ||
-           (nextState.activeIdx !== this.state.activeIdx); 
-  },
-
-
   componentWillReceiveProps : function(nextProps) {
     this.setState({ activeIdx : nextProps.activeIdx });
   },

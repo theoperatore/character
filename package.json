@@ -17,6 +17,7 @@
     "clean": "rm -rf build",
     "deploy": "scp -r build/* root@ci.cmonocle.link:~/public/",
     "build": "npm run clean && npm run statics && npm run css && npm run js-vendor && npm run js",
+    "watch-build": "npm run clean && npm run statics && npm run css && npm run js-vendor && npm run watch-js",
     "timeable-build-prod": "npm run clean && npm run statics && npm run css-min && npm run js-prod",
     "build-prod": "NODE_ENV=production time npm run timeable-build-prod",
     "build-deploy": "npm run build-prod && npm run deploy",

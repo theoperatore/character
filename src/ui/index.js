@@ -39,6 +39,13 @@ function loadCharacter(id) {
   });
 }
 
+function loadPreferences(id) {
+  return ref.child(`preferences/${id}`).once('value').then(snapshot => {
+    log('got character preferences: %o', snapshot.val());
+    return snapshot.val();
+  });
+}
+
 function renderApp({ loadedCharacter, loadedPreferences, characterId }) {
   let store = createCharacterState(loadedCharacter, loadedPreferences);
   let { character, preferences } = store.getState();
@@ -46,7 +53,7 @@ function renderApp({ loadedCharacter, loadedPreferences, characterId }) {
   function updateState(action) {
     stateLog(action);
 
-    // db.ref.child(`actions/${characterId}`).push(action);
+    ref.child(`actions/${characterId}`).push(action);
 
     store.dispatch(action);
   }
@@ -55,6 +62,7 @@ function renderApp({ loadedCharacter, loadedPreferences, characterId }) {
     let { character, preferences } = store.getState();
 
     let characterToSave = character.toJS();
+    let preferencesToSave = preferences.toJS();
     let user = db.auth().currentUser;
 
     if (user) {
@@ -68,10 +76,22 @@ function renderApp({ loadedCharacter, loadedPreferences, characterId }) {
           console.error(err);
         });
 
+      ref.child(`preferences/${characterId}`)
+        .set(preferencesToSave)
+        .then(() => {
+          saveLog('saved new character preferences: %o', preferencesToSave)
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
       ref.child(`users/${user.uid}/characters/${characterId}`)
         .update({
           characterClass: characterToSave.charInfo.class,
           characterLevel: characterToSave.charInfo.level,
+        })
+        .catch(err => {
+          console.error(err);
         });
 
       ReactDOM.render(<App character={character} preferences={preferences} updateState={updateState}/>, mount);
@@ -92,15 +112,17 @@ Router.get('/character/(:uid)', (params) => {
 
   let characterId = params.uid;
 
-  loadCharacter(characterId)
-    .then(characterData => {
-      if (!characterData) {
-        // do something cool like tell the user
+  Promise.all([
+    loadCharacter(characterId),
+    loadPreferences(characterId)
+  ]).then(characterData => {
+      if (!characterData[0]) {
+        throw new Error(`[CharacterLoadError] cannot find character with id: ${characterId}`);
       }
 
       return {
-        loadedCharacter: Immutable.fromJS(characterData),
-        loadedPreferences: Immutable.fromJS(defaultPreferences),
+        loadedCharacter: Immutable.fromJS(characterData[0]),
+        loadedPreferences: Immutable.fromJS(characterData[1] || defaultPreferences),
         characterId,
       };
     })

@@ -750,8 +750,23 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
 export function preferences(state = DEFAULT_PREFERENCES, action) {
   switch (action.type) {
-    case 'TOGGLE_SPELL_DC':
-      break;
+    case 'TOGGLE_SPELLS_PANE':
+      return state
+        .updateIn(['Spells', 'display'], display => !state.getIn(['Spells', 'display']));
+    case 'TOGGLE_ATTACK_PANE':
+      return state
+        .updateIn(['Attacks', 'display'], display => !state.getIn(['Attacks', 'display']));
+    case 'SET_CLASS_CHARGES':
+      switch (action.data) {
+        case 'ATTACK_ONLY':
+          return state.update('classCharges', charges => 'ATTACK_ONLY');
+        case 'SPELLS_ONLY':
+          return state.update('classCharges', charges => 'SPELLS_ONLY');
+        case 'BOTH':
+          return state.update('classCharges', charges => 'BOTH');
+        default:
+          return state;
+      }
     default:
       return state;
   }

@@ -8,9 +8,19 @@ div.input-group
     display block
   & input[type='checkbox']
     margin-right $base-component-margin
+  & input[type='radio']
+    margin-right $base-component-margin
   & input[type='text']
     width 100%
     padding $base-padding-sm
     border-radius $base-border-radius
     appearance none
     border 1px solid $base-border-color
+    
+.input-grouping
+  p
+    margin-bottom $base-padding
+    font-style italic
+  input
+    margin-left $base-component-margin
+    margin-bottom $base-padding-sm
