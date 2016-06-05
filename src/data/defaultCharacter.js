@@ -166,6 +166,7 @@ export default {
   },
   "charProficiencyBonus" : {
     "score" : 0,
+    "bonus": 0,
     "derivatives" : []
   },
   "charPassivePerception" : {
@@ -176,6 +177,7 @@ export default {
   },
   "charArmorClass" : {
     "score" : 0,
+    "bonus": 0,
     "derivatives" : []
   },
   "charInitiative" : {

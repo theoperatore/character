@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 import SkillItem from '../containers/SkillItem';
 import Modal from '../../components/Modal';
 import EditScores from '../dialogs/abilities/EditAbilityScoresDialog';
+import EditPassivePerception from '../dialogs/abilities/EditPassivePerceptionDialog';
 
 export default React.createClass({
   displayName: 'AbilitiesPane',
@@ -13,7 +14,8 @@ export default React.createClass({
   getInitialState() {
     return {
       sort: 'a-z',
-      editScores: false
+      editScores: false,
+      editPP: false,
     }
   },
 
@@ -25,7 +27,8 @@ export default React.createClass({
       this.props.proficiencyBonus !== nextProps.proficiencyBonus ||
       this.props.passivePerception !== nextProps.passivePerception ||
       this.state.sort !== nextState.sort ||
-      this.state.editScores !== nextState.editScore
+      this.state.editScores !== nextState.editScore ||
+      this.state.editPP !== nextState.editPP
     );
   },
 
@@ -139,19 +142,29 @@ export default React.createClass({
               <h6 className='ability-stat-score'>{this.props.abilities.get('cha').get('score')}</h6>
             </div>
           </div>
+          <Modal id='edit-ability-scores' active={this.state.editScores} content={this.createEditContent()} onDismiss={this.handleEditScoresDismiss}/>
+        </section>
+        <section className='info-section pane-padding'>
           <div className='row text-center mt4'>
             <div className='col-1-2 ability-stat-container'>
               <h6 className='ability-stat-title underline-proficient'>proficiency bonus</h6>
               <p className='ability-stat-mod'>{this.props.proficiencyBonus.get('score')}</p>
             </div>
-            <div className={`col-1-2 ability-stat-container ${perceptionTrained ? 'proficient' : ''}`}>
+            <div
+              className={`col-1-2 ability-stat-container interactable ${perceptionTrained ? 'proficient' : ''}`}
+              onClick={() => this.setState({ editPP: true })}
+            >
               <h6 className='ability-stat-title'>passive perception</h6>
               <p className='ability-stat-mod'>{this.props.passivePerception.get('score')}</p>
+              <EditPassivePerception
+                active={this.state.editPP}
+                onDismiss={() => this.setState({ editPP: false })}
+                bonus={this.props.passivePerception.get('bonus')}
+                onChange={this.props.handleAbilityChange}
+              />
             </div>
           </div>
-          <Modal id='edit-ability-scores' active={this.state.editScores} content={this.createEditContent()} onDismiss={this.handleEditScoresDismiss}/>
         </section>
-        
         <section className="info-section pane-padding">
           <div className='info-section-header'>
             <h5 className='info-section-title'>Skills &mdash; <span onClick={this.changeSort.bind(this, 'a-z')} className={`sort-link ${this.state.sort === 'a-z' ? 'active' : ''}`}>a-z</span> &middot; <span onClick={this.changeSort.bind(this, 'asc')} className={`sort-link ${this.state.sort === 'asc' ? 'active' : ''}`}>asc</span> &middot; <span onClick={this.changeSort.bind(this, 'desc')} className={`sort-link ${this.state.sort === 'desc' ? 'active' : ''}`}>desc</span></h5>

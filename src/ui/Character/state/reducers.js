@@ -253,6 +253,29 @@ export function character(state = DEFAULT_CHARACTER, action) {
           return charPassivePerception.set('score', newScore);
         });
 
+    case 'PASSIVE_PERCEPTION_EDIT':
+      return state
+        .updateIn(['charPassivePerception', 'bonus'], bonus => {
+          return action.data.bonus;
+        })
+        .update('charPassivePerception', passivePerception => {
+          let perceptionSkill = state.get('charSkills').find(itm => itm.get('name') === 'Perception');
+          let newScore = passivePerception.get('base') 
+                  + passivePerception.get('bonus')
+                  + perceptionSkill.get('score');
+                  
+          return passivePerception.set('score', newScore);
+        })
+
+    case 'PROFICIENCY_BONUS_EDIT':
+      // skills
+      // passive perception
+      // saving throws
+      // attack bubbles
+      // spell bubbles
+      // spell save dc
+      break;
+
     // defenses
     case 'SAVING_THROW_EDIT':
       return state.updateIn(['charSavingThrows', action.data.ability], savingThrow => {

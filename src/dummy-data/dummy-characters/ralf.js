@@ -310,6 +310,7 @@ module.exports = {
     },
     "charProficiencyBonus" : {
       "score" : 4,
+      "bonus": 0,
       "derivatives" : []
     },
     "charPassivePerception" : {
