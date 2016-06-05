@@ -1,8 +1,8 @@
 'use strict';
 
 import ralf from './ralf';
-import defaultCharacter from '../../ui/data/defaultCharacter';
-import defaultPreferences from '../../ui/data/defaultPreferences';
+import defaultCharacter from '../../data/defaultCharacter';
+import defaultPreferences from '../../data/defaultPreferences';
 
 export const characters = {
   ralf: {

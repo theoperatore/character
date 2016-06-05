@@ -3,7 +3,7 @@
 import test from 'tape';
 import { createStore, combineReducers } from 'redux';
 import { Map, List } from 'immutable';
-import { character } from '../src/ui/state/reducers';
+import { character } from '../src/ui/Character/state/reducers';
 
 
 test('Immutable default character', t => {

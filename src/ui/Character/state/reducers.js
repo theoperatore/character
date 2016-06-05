@@ -11,6 +11,8 @@ const DEFAULT_CHARACTER = fromJS(defaultCharacter);
 const DEFAULT_PREFERENCES = fromJS(defaultPreferences);
 const DEFAULT_DEFINITIONS = fromJS(defaultDefinitions);
 
+const ABILITY_SCORE_KEYS = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+
 export function character(state = DEFAULT_CHARACTER, action) {
   switch (action.type) {
 
@@ -159,7 +161,8 @@ export function character(state = DEFAULT_CHARACTER, action) {
         });
 
     case 'ABILITY_SCORE_EDIT':
-      let abilityScoreKeys = Object.keys(action.data).filter(key => key !== 'proficiency');
+      let proficiencyBonus = state.getIn(['charProficiencyBonus', 'score']);
+      let abilityScoreKeys = Object.keys(action.data);
       let abilityScoreMods = abilityScoreKeys.reduce((obj, key) => {
         obj[key] = Math.floor((action.data[key] - 10) / 2);
         return obj;
@@ -174,9 +177,6 @@ export function character(state = DEFAULT_CHARACTER, action) {
                 .setIn([abilKey, 'mod'], abilityScoreMods[abilKey]);
             }, charAbilities);
         })
-        .update('charProficiencyBonus', charProficiencyBonus => {
-          return charProficiencyBonus.set('score', action.data.proficiency);
-        })
         .update('charAttackBubbles', charAttackBubbles => {
           if (!charAttackBubbles) {
             return List([]);
@@ -186,7 +186,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
             let newScore = abilityScoreMods[bubble.get('abil')] + bubble.get('bonus');
 
             newScore += bubble.get('prof')
-              ? action.data.proficiency
+              ? proficiencyBonus
               : 0;
 
             return bubble.set('score', newScore);
@@ -201,7 +201,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
             let newScore = abilityScoreMods[bubble.get('abil')] + bubble.get('bonus');
 
             newScore += bubble.get('prof')
-              ? action.data.proficiency
+              ? proficiencyBonus
               : 0;
 
             return bubble.set('score', newScore);
@@ -213,7 +213,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
             + abilityScoreMods[charSpellSaveDC.get('abil')];
 
           newScore += charSpellSaveDC.get('prof')
-            ? action.data.proficiency 
+            ? proficiencyBonus 
             : 0;
 
           return charSpellSaveDC.set('score', newScore);
@@ -228,7 +228,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
               let newScore = abilityScoreMods[abilKey];
 
               newScore += outSavingThrows.getIn([abilKey, 'proficient'])
-                ? action.data.proficiency
+                ? proficiencyBonus
                 : 0;
 
               return outSavingThrows.setIn([abilKey, 'score'], newScore);
@@ -239,7 +239,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
             let newScore = skill.get('bonus') + abilityScoreMods[skill.get('mod')];
 
             newScore += skill.get('trained')
-              ? action.data.proficiency
+              ? proficiencyBonus
               : 0;
 
             return skill.set('score', newScore);
@@ -263,18 +263,105 @@ export function character(state = DEFAULT_CHARACTER, action) {
           let newScore = passivePerception.get('base') 
                   + passivePerception.get('bonus')
                   + perceptionSkill.get('score');
-                  
+
           return passivePerception.set('score', newScore);
         })
 
     case 'PROFICIENCY_BONUS_EDIT':
+      let newProficiencyBonus = action.data.base + action.data.bonus;
+      
+      // proficiency
+      let pbPartialState = state
+        .update('charProficiencyBonus', bonus => {
+          return bonus
+            .set('base', action.data.base)
+            .set('bonus', action.data.bonus)
+            .set('score', action.data.base + action.data.bonus);
+        })
+        
       // skills
-      // passive perception
+        .update('charSkills', charSkills => {
+          return charSkills.map(skill => {
+            let newScore = skill.get('bonus') + state.getIn(['charAbilities', skill.get('mod'), 'mod']);
+
+            newScore += skill.get('trained')
+              ? newProficiencyBonus
+              : 0;
+
+            return skill.set('score', newScore);
+          })
+        })
       // saving throws
+        .update('charSavingThrows', charSavingThrows => {
+          return ABILITY_SCORE_KEYS
+            .reduce((outSavingThrows, abilKey) => {
+              let newScore = state.getIn(['charAbilities', abilKey, 'mod']);
+
+              newScore += outSavingThrows.getIn([abilKey, 'proficient'])
+                ? newProficiencyBonus
+                : 0;
+
+              return outSavingThrows.setIn([abilKey, 'score'], newScore);
+            }, charSavingThrows);
+        })
+
       // attack bubbles
+        .update('charAttackBubbles', charAttackBubbles => {
+          if (!charAttackBubbles) {
+            return List([]);
+          }
+
+          return charAttackBubbles.map(bubble => {
+            let newScore = state.getIn(['charAbilities', bubble.get('abil'), 'mod']) + bubble.get('bonus');
+
+            newScore += bubble.get('prof')
+              ? newProficiencyBonus
+              : 0;
+
+            return bubble.set('score', newScore);
+          });
+        })
+
       // spell bubbles
+        .update('charSpellBubbles', charSpellBubbles => {
+          if (!charSpellBubbles) {
+            return List([]);
+          }
+
+          return charSpellBubbles.map(bubble => {
+            let newScore = state.getIn(['charAbilities', bubble.get('abil'), 'mod']) + bubble.get('bonus');
+
+            newScore += bubble.get('prof')
+              ? newProficiencyBonus
+              : 0;
+
+            return bubble.set('score', newScore);
+          });
+        })
+
       // spell save dc
-      break;
+        .update('charSpellSaveDC', spellSaveDC => {
+          let score = state.getIn(['charAbilities', spellSaveDC.get('abil'), 'mod'])
+            + spellSaveDC.get('base')
+            + spellSaveDC.get('bonus');
+
+          score += spellSaveDC.get('prof')
+            ? newProficiencyBonus
+            : 0;
+
+          return spellSaveDC.set('score', score);
+        });
+
+      // passive perception
+      return pbPartialState
+        .updateIn(['charPassivePerception'], pp => {
+          let perceptionSkill = pbPartialState.get('charSkills').find(itm => itm.get('name') === 'Perception');
+          let newScore = pp.get('base') 
+                  + pp.get('bonus')
+                  + perceptionSkill.get('score');
+
+          return pp.set('score', newScore);
+        })
 
     // defenses
     case 'SAVING_THROW_EDIT':

@@ -68,6 +68,7 @@ module.exports = {
       // }
     ],
 
+    // NOTE: USED IN UNIT TESTS
     "charAttackBubbles": [
       {
         abil : "str",
@@ -244,6 +245,8 @@ module.exports = {
         ]
       }
     ],
+
+    // NOTE: USED IN UNIT TESTS
     "charAbilities" : {
       "str" : {
         "score" : 14,
@@ -311,6 +314,7 @@ module.exports = {
     "charProficiencyBonus" : {
       "score" : 4,
       "bonus": 0,
+      "base": 4,
       "derivatives" : []
     },
     "charPassivePerception" : {

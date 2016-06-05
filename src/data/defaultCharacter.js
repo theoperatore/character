@@ -4,7 +4,7 @@ export default {
     "class" : "-",
     "level" : 1,
     "background" : "-",
-    "race" : "",
+    "race" : "-",
     "alignment" : "-",
     "xp" : 0,
     "deity" : "-",
@@ -166,6 +166,7 @@ export default {
   },
   "charProficiencyBonus" : {
     "score" : 0,
+    "base": 0,
     "bonus": 0,
     "derivatives" : []
   },

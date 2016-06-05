@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 import SkillItem from '../containers/SkillItem';
 import Modal from '../../components/Modal';
 import EditScores from '../dialogs/abilities/EditAbilityScoresDialog';
+import EditProficiencyBonus from '../dialogs/abilities/EditProficiencyBonusDialog';
 import EditPassivePerception from '../dialogs/abilities/EditPassivePerceptionDialog';
 
 export default React.createClass({
@@ -16,6 +17,7 @@ export default React.createClass({
       sort: 'a-z',
       editScores: false,
       editPP: false,
+      editPB: false,
     }
   },
 
@@ -28,7 +30,8 @@ export default React.createClass({
       this.props.passivePerception !== nextProps.passivePerception ||
       this.state.sort !== nextState.sort ||
       this.state.editScores !== nextState.editScore ||
-      this.state.editPP !== nextState.editPP
+      this.state.editPP !== nextState.editPP ||
+      this.state.editPB !== nextState.editPB
     );
   },
 
@@ -146,9 +149,19 @@ export default React.createClass({
         </section>
         <section className='info-section pane-padding'>
           <div className='row text-center mt4'>
-            <div className='col-1-2 ability-stat-container'>
+            <div
+              className='col-1-2 ability-stat-container interactable'
+              onClick={() => this.setState({ editPB: true })}
+            >
               <h6 className='ability-stat-title underline-proficient'>proficiency bonus</h6>
               <p className='ability-stat-mod'>{this.props.proficiencyBonus.get('score')}</p>
+              <EditProficiencyBonus
+                active={this.state.editPB}
+                onDismiss={() => this.setState({ editPB: false })}
+                base={this.props.proficiencyBonus.get('base')}
+                bonus={this.props.proficiencyBonus.get('bonus')}
+                onChange={this.props.handleAbilityChange}
+              />
             </div>
             <div
               className={`col-1-2 ability-stat-container interactable ${perceptionTrained ? 'proficient' : ''}`}

@@ -3,8 +3,8 @@
 import test from 'tape';
 import Immutable from 'immutable';
 import { createStore, combineReducers } from 'redux';
-import { character } from '../src/ui/state/reducers';
-import defaultCharacter from '../src/ui/data/defaultCharacter';
+import { character } from '../src/ui/Character/state/reducers';
+import defaultCharacter from '../src/data/defaultCharacter';
 
 test('Update character traits', t => {
   t.plan(5);

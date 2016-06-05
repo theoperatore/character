@@ -3,8 +3,8 @@
 import test from 'tape';
 import Immutable from 'immutable';
 import { createStore, combineReducers } from 'redux';
-import { character } from '../src/ui/state/reducers';
-import defaultCharacter from '../src/ui/data/defaultCharacter';
+import { character } from '../src/ui/Character/state/reducers';
+import defaultCharacter from '../src/data/defaultCharacter';
 
 test('Update basic character info', t => {
   t.plan(12);
@@ -27,11 +27,11 @@ test('Update basic character info', t => {
 
   let after = store.getState().character.get('charInfo');
 
-  t.equals(before.get('class'), '', 'default class is empty string');
+  t.equals(before.get('class'), '-', 'default class is empty string');
   t.equals(before.get('level'), 1, 'default level is 1');
-  t.equals(before.get('background'), '', 'default background is empty string');
-  t.equals(before.get('race'), '', 'default race is empty string');
-  t.equals(before.get('alignment'), '', 'default alignment is empty string');
+  t.equals(before.get('background'), '-', 'default background is empty string');
+  t.equals(before.get('race'), '-', 'default race is empty string');
+  t.equals(before.get('alignment'), '-', 'default alignment is empty string');
   t.equals(before.get('xp'), 0, 'default xp is 0');
 
   t.equals(after.get('class'), 'test', 'class is updated');

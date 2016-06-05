@@ -13,7 +13,6 @@ export default React.createClass({
   propTypes: {
     onSave: React.PropTypes.func.isRequired,
     abilities: React.PropTypes.object.isRequired,
-    proficiency: React.PropTypes.object.isRequired
   },
 
 
@@ -29,7 +28,6 @@ export default React.createClass({
       newWis: this.props.abilities.getIn(['wis','score']),
       newInt: this.props.abilities.getIn(['int','score']),
       newCha: this.props.abilities.getIn(['cha','score']),
-      newProf: this.props.proficiency.get('score')
     }
   },
 
@@ -79,8 +77,7 @@ export default React.createClass({
         this.state.newCon !== this.props.abilities.getIn(['con', 'score']) ||
         this.state.newWis !== this.props.abilities.getIn(['wis', 'score']) ||
         this.state.newInt !== this.props.abilities.getIn(['int', 'score']) ||
-        this.state.newcha !== this.props.abilities.getIn(['cha', 'score']) ||
-        this.state.newProf !== this.props.proficiency.get('score')
+        this.state.newcha !== this.props.abilities.getIn(['cha', 'score'])
       )
       &&
       (
@@ -89,8 +86,7 @@ export default React.createClass({
         !isNaN(Number(this.state.newCon)) &&
         !isNaN(Number(this.state.newWis)) &&
         !isNaN(Number(this.state.newInt)) &&
-        !isNaN(Number(this.state.newCha)) &&
-        !isNaN(Number(this.state.newProf))
+        !isNaN(Number(this.state.newCha))
       )
     )
   },
@@ -105,7 +101,6 @@ export default React.createClass({
         wis: this.state.newWis,
         int: this.state.newInt,
         cha: this.state.newCha,
-        proficiency: this.state.newProf
       };
       this.props.onSave({ type: 'ABILITY_SCORE_EDIT', data });  
     }
@@ -173,15 +168,6 @@ export default React.createClass({
       <section className='ability-scores-dialog'>
         <div className='modal-header'><h3>Edit Ability Scores</h3></div>
         <div className='modal-content'>
-          <div className='inputs'>
-            <label htmlFor='newProf' className='underline-proficient'>Proficiency Bonus</label>
-            <input type='text'
-              value={this.state.newProf}
-              placeholder={this.props.proficiency.get('score')}
-              onChange={this.handleAbilityChange.bind(this, 'newProf')}
-            />
-          </div>
-          <hr />
           {this.createAbilityScoreContent()}
         </div>
         <div className='modal-footer'>
