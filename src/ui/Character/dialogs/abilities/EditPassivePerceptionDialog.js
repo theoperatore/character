@@ -52,7 +52,7 @@ export default React.createClass({
       case 'no':
         return this.setState({ confirmCancel: false });
       case 'yes':
-        this.setState({ confirmCancel: false, dirty: false });
+        this.setState({ confirmCancel: false, dirty: false, bonus: this.props.bonus });
         this.props.onDismiss();
         break;
     }
@@ -60,13 +60,13 @@ export default React.createClass({
 
   validateBonus(ev) {
     if (ev.target.value === '') {
-      return this.setState({ bonus: '' });
+      return this.setState({ bonus: '', dirty: true });
     }
 
     let num = Number(ev.target.value);
 
     if (!isNaN(num)) {
-      this.setState({ bonus: num });
+      this.setState({ bonus: num, dirty: true });
     }
   },
 
