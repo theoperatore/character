@@ -243,7 +243,6 @@ export default React.createClass({
                 </div>
                 <div className='inputs'>
                   <input ref='cctotal' type='text'  value={this.state.cctotal} placeholder={this.props.classChargesTotal || 'number of charges'} onChange={this.validateNumber}/>
-                  <p><small>Class charges are displayed on the <strong><em>Attacks Pane</em></strong></small></p>
                 </div>
               </div>
               : null
