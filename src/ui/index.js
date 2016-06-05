@@ -53,7 +53,18 @@ function renderApp({ loadedCharacter, loadedPreferences, characterId }) {
   function updateState(action) {
     stateLog(action);
 
-    ref.child(`actions/${characterId}`).push(action);
+    // cannot saved undefined values to firebase...
+    let cleanedAction = Object.assign({}, action, {
+      data: Object.keys(action.data).reduce((out, key) => {
+        if (action[key]) {
+          out[key] = action[key];
+        }
+
+        return out;
+      }, {})
+    });
+
+    ref.child(`actions/${characterId}`).push(cleanedAction);
 
     store.dispatch(action);
   }

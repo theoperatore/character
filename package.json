@@ -31,7 +31,10 @@
     "url": "https://github.com/ClockworkMonocle/character"
   },
   "browserify": {
-    "transform": [ "babelify", "localenvify" ]
+    "transform": [
+      "babelify",
+      "localenvify"
+    ]
   },
   "dependencies": {
     "classnames": "^2.1.1",
@@ -41,8 +44,8 @@
     "immutable": "^3.7.2",
     "node-uuid": "^1.4.7",
     "page": "^1.6.3",
-    "react": "^0.14.7",
-    "react-dom": "^0.14.3",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
     "redux": "^3.5.2",
     "swiper": "^3.2.5",
     "url-pattern": "^0.9.0"
