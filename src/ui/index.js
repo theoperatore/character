@@ -8,14 +8,14 @@ import debug from 'debug';
 import Router from './router/Router';
 import { db, ref } from '../api';
 
-import Landing from './views/Landing';
-import App from './views/App';
-import Login from './views/Login';
-import User from './views/User';
-import HTML404 from './views/HTML404';
+import Landing from './Landing/Landing';
+import App from './Character/Character';
+import Login from './Login/Login';
+import Profile from './Profile/Profile';
+import HTML404 from './NotFound/HTML404';
 
-import { createCharacterState } from './state';
-import defaultPreferences from './data/defaultPreferences';
+import { createCharacterState } from './Character/state';
+import defaultPreferences from '../data/defaultPreferences';
 
 let log = debug('app:router');
 let stateLog = debug('app:state');
@@ -146,7 +146,7 @@ Router.get('/profile', (params) => {
     subscribedStateChange();
   }
 
-  ReactDOM.render(<User/>, mount);
+  ReactDOM.render(<Profile/>, mount);
 })
 
 // login
