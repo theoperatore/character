@@ -71,23 +71,12 @@ export default React.createClass({
 
   checkToSave() {
     return (
-      (
-        this.state.newStr !== this.props.abilities.getIn(['str', 'score']) ||
-        this.state.newDex !== this.props.abilities.getIn(['dex', 'score']) ||
-        this.state.newCon !== this.props.abilities.getIn(['con', 'score']) ||
-        this.state.newWis !== this.props.abilities.getIn(['wis', 'score']) ||
-        this.state.newInt !== this.props.abilities.getIn(['int', 'score']) ||
-        this.state.newcha !== this.props.abilities.getIn(['cha', 'score'])
-      )
-      &&
-      (
-        !isNaN(Number(this.state.newStr)) &&
-        !isNaN(Number(this.state.newDex)) &&
-        !isNaN(Number(this.state.newCon)) &&
-        !isNaN(Number(this.state.newWis)) &&
-        !isNaN(Number(this.state.newInt)) &&
-        !isNaN(Number(this.state.newCha))
-      )
+      this.state.newStr !== this.props.abilities.getIn(['str', 'score']) ||
+      this.state.newDex !== this.props.abilities.getIn(['dex', 'score']) ||
+      this.state.newCon !== this.props.abilities.getIn(['con', 'score']) ||
+      this.state.newWis !== this.props.abilities.getIn(['wis', 'score']) ||
+      this.state.newInt !== this.props.abilities.getIn(['int', 'score']) ||
+      this.state.newcha !== this.props.abilities.getIn(['cha', 'score'])
     )
   },
 
@@ -95,12 +84,12 @@ export default React.createClass({
   handleSave() {
     if (this.checkToSave()) {
       let data = {
-        str: this.state.newStr,
-        dex: this.state.newDex,
-        con: this.state.newCon,
-        wis: this.state.newWis,
-        int: this.state.newInt,
-        cha: this.state.newCha,
+        str: this.state.newStr === '' ? 0 : this.state.newStr,
+        dex: this.state.newDex === '' ? 0 : this.state.newDex,
+        con: this.state.newCon === '' ? 0 : this.state.newCon,
+        wis: this.state.newWis === '' ? 0 : this.state.newWis,
+        int: this.state.newInt === '' ? 0 : this.state.newInt,
+        cha: this.state.newCha === '' ? 0 : this.state.newCha,
       };
       this.props.onSave({ type: 'ABILITY_SCORE_EDIT', data });  
     }
@@ -114,8 +103,8 @@ export default React.createClass({
 
   handleAbilityChange(ability, event) {
     this.makeDirty();
-    if (event.target.value === '-' || event.target.value === '0-') {
-      this.setState({ [ability]: '-' });
+    if (event.target.value === '') {
+      this.setState({ [ability]: '' });
     }
     else {
       let input = Number(event.target.value);
@@ -127,7 +116,9 @@ export default React.createClass({
 
 
   getMod(ability) {
-    return Math.floor((this.state[ability] - 10) / 2);
+    return this.state[ability] === ''
+      ? 0
+      : Math.floor((this.state[ability] - 10) / 2);
   },
 
 

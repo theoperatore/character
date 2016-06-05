@@ -50,8 +50,8 @@ export default React.createClass({
       .map(refName => ({[refName]: this.refs[refName].value}))
       .reduce((obj, ref) => Object.assign(obj, ref), {});
 
-    infos.xp = this.state.xp;
-    infos.level = this.state.level;
+    infos.xp = this.state.xp === '' ? 0 : this.state.xp;
+    infos.level = this.state.level === '' ? 0 : this.state.level;
     
     this.props.onSave({ type: 'BASIC_INFO_EDIT', data: infos });
   },
@@ -62,6 +62,10 @@ export default React.createClass({
   },
 
   validateNumber(type, ev) {
+    if (ev.target.value === '') {
+      return this.setState({ [type]: '', dirty: true });
+    }
+
     let num = Number(ev.target.value);
     if (isNaN(num)) return;
 

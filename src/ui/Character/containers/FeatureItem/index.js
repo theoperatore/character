@@ -34,7 +34,7 @@ export default React.createClass({
       willDelete: false,
       typeSelected: this.props.featureType,
       hasCharges: !!this.props.classChargesId,
-      cctotal: this.props.classChargesTotal || ''
+      cctotal: this.props.classChargesTotal,
     }
   },
 
@@ -49,7 +49,7 @@ export default React.createClass({
       willDelete: false,
       typeSelected: this.props.featureType,
       hasCharges: !!this.props.classChargesId,
-      cctotal: this.props.classChargesTotal || '' 
+      cctotal: this.props.classChargesTotal,
     })
   },
 
@@ -58,7 +58,7 @@ export default React.createClass({
     this.setState({
       typeSelected: nextProps.featureType,
       hasCharges: !!nextProps.classChargesId,
-      cctotal: nextProps.classChargesTotal || ''
+      cctotal: nextProps.classChargesTotal
     });
   },
 
@@ -94,7 +94,7 @@ export default React.createClass({
           return;
         }
 
-        this.setState({ confirm: false, dirty: false, message: null, edit: false, willDelete: false });
+        this.setState({ confirm: false, dirty: false, message: null, edit: false, willDelete: false, cctotal: this.props.classChargesTotal, });
         break;
       case 'no':
         this.setState({ confirm: false, message: null, willDelete: false });
@@ -148,7 +148,7 @@ export default React.createClass({
         return;
       }
 
-      this.setState({ confirm: false, dirty: false, message: null, edit: false, willDelete: false });
+      this.setState({ confirm: false, dirty: false, message: null, edit: false, willDelete: false, cctotal: this.props.classChargesTotal, });
       return;
     }
 
@@ -242,7 +242,7 @@ export default React.createClass({
                   <input ref='ccname' type='text' defaultValue={this.props.classChargesName || ''} placeholder={this.props.classChargesName || 'display name'} onChange={this.makeDirty}/>
                 </div>
                 <div className='inputs'>
-                  <input ref='cctotal' type='text'  value={this.state.cctotal} placeholder={this.props.classChargesTotal || 'number of charges'} onChange={this.validateNumber}/>
+                  <input ref='cctotal' type='text'  value={this.state.cctotal} placeholder={this.props.classChargesTotal} onChange={this.validateNumber}/>
                 </div>
               </div>
               : null

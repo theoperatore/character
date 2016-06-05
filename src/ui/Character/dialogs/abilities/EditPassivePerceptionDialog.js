@@ -26,9 +26,7 @@ export default React.createClass({
   },
 
   handleSave() {
-    let bonus = this.state.bonus;
-
-    if (bonus === '') return;
+    let bonus = this.state.bonus === '' ? 0 : this.state.bonus;
 
     this.props.onChange({
       type: 'PASSIVE_PERCEPTION_EDIT',
@@ -36,6 +34,8 @@ export default React.createClass({
         bonus,
       },
     });
+
+    this.setState({ dirty: false });
     this.props.onDismiss();
   },
 

@@ -28,10 +28,8 @@ export default React.createClass({
   },
 
   handleSave() {
-    let base = this.state.base;
-    let bonus = this.state.bonus;
-
-    if (base === '' || bonus === '') return;
+    let base = this.state.base === '' ? 0 : this.state.base;
+    let bonus = this.state.bonus === '' ? 0 : this.state.bonus;
 
     this.props.onChange({
       type: 'PROFICIENCY_BONUS_EDIT',
@@ -40,6 +38,8 @@ export default React.createClass({
         bonus,
       },
     });
+
+    this.setState({ dirty: false });
     this.props.onDismiss();
   },
 
