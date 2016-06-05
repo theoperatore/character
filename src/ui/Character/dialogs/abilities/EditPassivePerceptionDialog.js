@@ -85,7 +85,7 @@ export default React.createClass({
             placeholder={this.props.bonus}
             onChange={this.validateBonus}
           />
-          <p className='subtext mt1'>Your passive perception is the total of 10 plus Perception Skill Score plus any bonuses above.</p>
+          <p className='subtext mt1'>Your passive perception is the total of 10 plus <em className='text-wis'>Perception Skill</em> plus any bonuses above.</p>
         </div>
       </div>
       <div className='modal-footer'>

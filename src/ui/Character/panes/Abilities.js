@@ -164,7 +164,7 @@ export default React.createClass({
               />
             </div>
             <div
-              className={`col-1-2 ability-stat-container interactable ${perceptionTrained ? 'proficient' : ''}`}
+              className={`col-1-2 ability-stat-container interactable ${perceptionTrained ? 'proficient underline-proficient' : ''}`}
               onClick={() => this.setState({ editPP: true })}
             >
               <h6 className='ability-stat-title'>passive perception</h6>
