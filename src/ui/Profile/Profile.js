@@ -6,6 +6,7 @@ import Router from '../router/Router';
 import Icon from '../components/Icon';
 import Loading from '../components/Loading';
 import ListItem from '../components/ListItem/v2';
+import Confirm from './Confirm';
 
 export default React.createClass({
   displayName: "Profile",
@@ -16,13 +17,16 @@ export default React.createClass({
       profileName: '...',
       isLoading: true,
       isCharacterLoading: false,
+      confirmDelete: false,
+      idToDelete: null,
     })
   },
 
   logout() {
     this.setState({ isCharacterLoading: true }, () => {
       db.auth().signOut().then(() => {
-        Router.nav('#/login');
+        // Router.nav('#/login'); TEMP ROUTE TO LANDING PAGE
+        Router.nav('/');
       })
     });
   },
@@ -50,7 +54,7 @@ export default React.createClass({
     let usr = db.auth().currentUser;
     this.setState({
       characters : out,
-      profileName: usr.providerData[0].displayName,
+      profileName: usr.providerData[0].displayName || val.profileName || 'Anonymous',
       profileImg: usr.providerData[0].photoURL,
       isLoading: false
     });
@@ -72,7 +76,22 @@ export default React.createClass({
     });
   },
 
-  loadCharacter : function(idx) {
+  handleDelete(idx) {
+    let character = this.state.characters[idx];
+    this.setState({ confirmDelete: true, idToDelete: character.characterUID });
+  },
+
+  handleConfirm(answer) {
+    switch (answer) {
+      case 'no':
+        this.setState({ confirmDelete: false, idToDelete: null });
+        break;
+      case 'yes':
+        break;
+    }
+  },
+
+  loadCharacter(idx) {
     var character = this.state.characters[idx];
     var href = `#/character/${character.characterUID}`;
 
@@ -91,7 +110,11 @@ export default React.createClass({
           glyph={<div className='text-gray bg-gray flex flex-center' style={{ width: 50, height: 50}}>
               <Icon icon='fa fa-user'/>
             </div>}
-          addon={<Icon className='text-red' icon='fa fa-user-times'/>}
+          addon={
+            <div className='p3 interactable' onClick={this.handleDelete.bind(this, i)}>
+              <Icon className='text-red' icon='fa fa-user-times'/>
+            </div>
+          }
           onClick={this.loadCharacter.bind(this, i)}
         />
       );
@@ -110,12 +133,16 @@ export default React.createClass({
           { this.state.isLoading 
               ? <p>Loading...</p>
               : list.length === 0
-              ? <p className='subtext text-center'>Create a new character</p>
+              ? <p className='subtext text-center'>It's sad and lonely without any characters... :(</p>
               : list
           }
         </div>
         <Loading isLoading={this.state.isLoading}/>
         <Loading isLoading={this.state.isCharacterLoading}/>
+        <Confirm
+          active={this.state.confirmDelete}
+          onConfirm={this.handleConfirm}
+        />
       </div>
     );
   }

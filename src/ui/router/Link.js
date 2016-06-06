@@ -3,10 +3,14 @@
 import React from 'react';
 import Router from './Router';
 
-module.exports = React.createClass({
+export default React.createClass({
 
 
-  navigate : function() {
+  navigate() {
+    if (this.props.disabled !== undefined && this.props.disabled === true) {
+      return;
+    }
+
     let { href } = this.props;
     href = '#' + href.replace("#", "");
 
