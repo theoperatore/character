@@ -16,9 +16,12 @@ module.exports = React.createClass({
 
   render : function() {
     let href = '#' + this.props.href.replace("#", "");
-
+    let className = this.props.className;
     return (
-      <span onClick={this.navigate}>{this.props.children}</span>
+      <span
+        className={className}
+        onClick={this.navigate}
+      >{this.props.children}</span>
     );
   }
 })

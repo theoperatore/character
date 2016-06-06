@@ -15,7 +15,6 @@ import Profile from './Profile/Profile';
 import HTML404 from './NotFound/HTML404';
 
 import { createCharacterState } from './Character/state';
-import defaultPreferences from '../data/defaultPreferences';
 
 let log = debug('app:router');
 let stateLog = debug('app:state');
@@ -137,11 +136,6 @@ Router.get('/character/(:uid)', (params) => {
 
 // user
 Router.get('/profile', (params) => {
-  // if (!db.ref.getAuth()) {
-  //   Router.nav('/login');
-  //   return;
-  // }
-
   log(`routing to profile view`);
 
   // remove any previous event listeners on state change
@@ -188,8 +182,12 @@ Router.get('*', () => {
 Router.init();
 
 // set up auth listnen
-// db.ref.onAuth((auth) => {
-//   if (!auth) {
-//     Router.nav('/login');
-//   }
-// })
+db.auth().onAuthStateChanged(user => {
+  if (user) {
+    console.log('user logged in:', user.providerData[0].displayName);
+  }
+  else {
+    console.log('user is not logged in');
+  }
+  
+})

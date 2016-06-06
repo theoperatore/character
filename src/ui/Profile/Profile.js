@@ -28,7 +28,7 @@ export default React.createClass({
   },
 
   handleGetCharacter(snapshot) {
-    let val = snapshot.val();
+    let val = snapshot.val() || {};
     let out = [];
 
     if (val.characters) {
@@ -47,32 +47,29 @@ export default React.createClass({
       })
     }
 
-    this.setState({ characters : out, profileName: val.profileName, isLoading: false });
+    let usr = db.auth().currentUser;
+    this.setState({
+      characters : out,
+      profileName: usr.providerData[0].displayName,
+      profileImg: usr.providerData[0].photoURL,
+      isLoading: false
+    });
   },
 
   componentWillMount() {
-    let user = db.auth().currentUser;
-
-    if (user) {
-      ref
-        .child('/users/' + user.uid)
-        .once('value')
-        .then(this.handleGetCharacter);
-    }
-    else {
-      let off = db.auth().onAuthStateChanged(user => {
-        off(); // turn off authentication listening
-        if (user) {
-          ref
-            .child('/users/' + user.uid)
-            .once('value')
-            .then(this.handleGetCharacter)
-        }
-        if (!user) {
-          Router.nav('#/login');
-        }
-      });
-    }
+    let off = db.auth().onAuthStateChanged(user => {
+      off(); // turn off authentication listening
+      if (user) {
+        return ref
+          .child('/users/' + user.uid)
+          .once('value')
+          .then(this.handleGetCharacter)
+          .catch(err => console.error(err))
+      }
+      else {
+        Router.nav('#/login');
+      }
+    });
   },
 
   loadCharacter : function(idx) {
@@ -104,8 +101,9 @@ export default React.createClass({
     return (
       <div className="profile-container">
         <div className="profile-header">
+          <img className='profile-img left' src={this.state.profileImg}/>
           <h5 className="profile-header-name left p2">{this.state.profileName}</h5>
-          <h5 className='profile-header-action interactable right p2' onClick={this.logout}>Sign Out</h5>
+          <h5 className='profile-header-action interactable right' onClick={this.logout}>Sign Out</h5>
         </div>
         <div className="profile-content">
           <h3>Characters</h3>

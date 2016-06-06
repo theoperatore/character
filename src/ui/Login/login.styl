@@ -32,6 +32,21 @@
     background-color darken(#3c763d, 10%)
   &:disabled
     background-color darken(#3c763d, 45%)
+    
+.login-google
+  display block
+  width 200px
+  height 50px
+  margin 0 auto
+  background url('./imgs/btn_google_signin_light_normal_web@2x.png') no-repeat
+  background-size 191px 46px
+  
+  &:active
+    background-image url('./imgs/btn_google_signin_light_pressed_web@2x.png')
+  &:focus
+    background-image url('./imgs/btn_google_signin_light_focus_web@2x.png')
+  &[disabled]
+    background-image url('./imgs/btn_google_signin_light_disabled_web@2x.png')
 
 
 .login-input
