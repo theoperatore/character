@@ -20,7 +20,7 @@ export default React.createClass({
   },
 
   componentWillMount() {
-    let isRedirected = localStorage.getItem('__pocket_character_login__');
+    let isRedirected = sessionStorage.getItem('__pocket_character_login__');
     
     if (isRedirected === 'LOGIN') {
       this.setState({ loading: true });
@@ -28,12 +28,12 @@ export default React.createClass({
         .then(result => {
           if (result.user) {
             Router.nav('#/profile');
-            localStorage.setItem('__pocket_character_login__', false);
+            sessionStorage.setItem('__pocket_character_login__', false);
             return;  
           }
 
           this.setState({ loading: false });
-          localStorage.setItem('__pocket_character_login__', false);
+          sessionStorage.setItem('__pocket_character_login__', false);
         })
         .catch(err => {
           this.setState({ message: err.message, loading: false })
@@ -49,7 +49,7 @@ export default React.createClass({
 
     this.setState({ disabled: true })
 
-    localStorage.setItem('__pocket_character_login__', 'LOGIN');
+    sessionStorage.setItem('__pocket_character_login__', 'LOGIN');
     let provider = new firebase.auth.GoogleAuthProvider();
     provider.addScope('email');
     
