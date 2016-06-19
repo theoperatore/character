@@ -47,3 +47,12 @@ export function createRestBtn(clickHandler) {
     ><Icon icon='fa fa-bed'/> Rest</button>
   );
 }
+
+export function createCreateBtn(clickHandler) {
+  return (
+    <button
+      onClick={clickHandler}
+      className='text-green'
+    ><Icon icon='fa fa-user-plus'/> Create</button>
+  ); 
+}

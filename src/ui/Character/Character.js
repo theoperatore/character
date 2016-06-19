@@ -58,7 +58,7 @@ let Character = React.createClass({
 
   },
 
-  logout() {
+  signOut() {
     this.props.dispatch(signOut());
   },
 
@@ -85,11 +85,6 @@ let Character = React.createClass({
         >
           <Icon icon='fa fa-random' /> Switch Characters
         </button>
-        <button
-          onClick={this.logout}
-          className='btn btn-default btn-danger block mb2 mt6 full-width'
-        >
-          <Icon icon='fa fa-sign-out'/> Sign Out</button>
         <hr />
         <p className='subtext'>Last Saved: {time}</p>
         {

@@ -26,6 +26,8 @@ const DEFAULT_STATUS = fromJS({
   characterLoadError: null,
   characterSaving: false,
   characterSaveError: null,
+  characterCreating: false,
+  characterDeleting: false,
 });
 
 
@@ -989,11 +991,15 @@ export function status(state = DEFAULT_STATUS, action) {
 
     case 'CHARACTER_LIST_LOADED':
       return state
+        .set('characterCreating', false)
+        .set('characterDeleting', false)
         .set('characterListLoading', false)
         .set('characterListLoadError', null);
 
     case 'CHARACTER_LIST_LOAD_ERROR':
       return state
+        .set('characterCreating', false)
+        .set('characterDeleting', false)
         .set('characterListLoading', false)
         .set('characterListLoadError', Map(action.data.error));
 
@@ -1029,6 +1035,14 @@ export function status(state = DEFAULT_STATUS, action) {
       return state
         .set('characterSaving', false)
         .set('characterSaveError', Map(action.data.error))
+
+    case 'CHARACTER_CREATING':
+      return state
+        .set('characterCreating', true);
+
+    case 'CHARACTER_DELETING':
+      return state
+        .set('characterDeleting', true);
 
     default:
       return state;

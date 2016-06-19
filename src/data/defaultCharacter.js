@@ -1,4 +1,5 @@
 export default {
+  "charId": 'defaultCharacter',
   "charName" : "-",
   "charInfo" : {
     "class" : "-",

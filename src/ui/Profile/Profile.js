@@ -5,12 +5,13 @@ import React from 'react';
 import Router from '../router/Router';
 import { ROUTE_LOGIN, ROUTE_CHARACTER } from '../routes';
 
-import { getCharactersForUser, signOut } from '../state/actions';
+import { getCharactersForUser, signOut, createCharacter, deleteCharacter } from '../state/actions';
 import Icon from '../components/Icon';
 import Loading from '../components/Loading';
 import Drawer from '../components/Drawer';
 import ListItem from '../components/ListItem/v2';
 import Confirm from './Confirm';
+import SimpleCreate from './SimpleCharacterCreateModal';
 
 import connectUserRoute from '../connectUserRoute';
 import connectAuthRedirect from '../connectAuthRedirect';
@@ -22,6 +23,7 @@ let Profile = React.createClass({
     return {
       menuOpen: false,
       confirmDelete: false,
+      deleteId: null,
       createNewCharacter: false,
     }
   },
@@ -50,6 +52,7 @@ let Profile = React.createClass({
   deleteCharacter(id) {
     this.setState({
       confirmDelete: true,
+      deleteId: id,
       characterToDelete: this.props.state.user.getIn(['characters', id, 'characterName'])
     });
   },
@@ -57,13 +60,28 @@ let Profile = React.createClass({
   handleConfirm(answer) {
     switch(answer) {
       case 'yes':
+        let charId = this.state.deleteId;
+        let userId = this.props.state.user.get('uid');
+        this.props.dispatch(deleteCharacter(userId, charId))
+        this.setState({
+          confirmDelete: false,
+          characterToDelete: '',
+          charId: null,
+        });
+        break;
       case 'no':
         this.setState({
           confirmDelete: false,
           characterToDelete: '',
+          charId: null,
         });
         break;
     }
+  },
+
+  handleSimpleCreate(action) {
+    let userId = this.props.state.user.get('uid');
+    this.props.dispatch(createCharacter(userId, action.data.name));
   },
 
   signOut() {
@@ -111,6 +129,7 @@ let Profile = React.createClass({
   render() {
     let isLoadingProfile = this.props.state.status.get('userLoadingProfile');
     let isLoadingCharacters = this.props.state.status.get('characterListLoading');
+    let isCreating = this.props.state.status.get('characterCreating');
     let listLoadError = this.props.state.status.getIn(['characterListLoadError', 'code']);
     let user = this.props.state.user;
 
@@ -151,7 +170,7 @@ let Profile = React.createClass({
               <p className='text-red'>{listLoadError}</p> 
           }
         </div>
-        <Loading isLoading={isLoadingCharacters || isLoadingProfile}/>
+        <Loading isLoading={isLoadingCharacters || isLoadingProfile || isCreating}/>
         <Confirm
           active={this.state.confirmDelete}
           confirmName={this.state.characterToDelete}
@@ -162,6 +181,11 @@ let Profile = React.createClass({
             </div>
           }
           onConfirm={this.handleConfirm}
+        />
+        <SimpleCreate
+          active={this.state.createNewCharacter}
+          onDismiss={() => this.setState({ createNewCharacter: false })}
+          onCreate={this.handleSimpleCreate}
         />
       </div>
     );

@@ -1,0 +1,101 @@
+'use strict';
+
+import React from 'react';
+import Modal from '../components/Modal';
+import Icon from '../components/Icon';
+import { createCancelBtn } from '../components/Modal/buttons';
+
+export default React.createClass({
+  displayName: 'SimpleCharacterCreateModal',
+
+  propTypes: {
+    onCreate: React.PropTypes.func.isRequired,
+    onDismiss: React.PropTypes.func.isRequired,
+    active: React.PropTypes.bool.isRequired,
+  },
+
+  getInitialState() {
+    return {
+      simpleMode: true,
+      canCreate: false,
+    }
+  },
+
+  handleSave() {
+    if (!this.state.canCreate) return;
+
+    let name = this.nameInput.value.trim();
+
+    if (name === '' || !name) return;
+
+    this.props.onCreate({
+      type: 'CHARACTER_CREATE',
+      data: {
+        name,
+      }
+    });
+
+    this.props.onDismiss();
+  },
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.active) {
+      this.setState({ canCreate: false });
+    }
+  },
+
+  handleCancel() {
+    this.props.onDismiss();
+  },
+
+  handleChange(ev) {
+    if (ev.target.value.trim() !== '') {
+      this.setState({ canCreate: true })
+    }
+    else {
+      this.setState({ canCreate: false }) 
+    }
+  },
+
+  getSimpleContent() {
+    return <section>
+      <div className='modal-header'>
+        <h3>Create A New Character</h3>
+      </div>
+      <div className='modal-content'>
+        <div className='inputs'>
+          <label
+            htmlFor='character-name'
+            className='mb2'
+          >Character Name</label>
+          <input
+            type='text'
+            id='character-name'
+            ref={ref => this.nameInput = ref}
+            placeholder='Pick a good one...'
+            onChange={this.handleChange}
+          />
+        </div>
+      </div>
+      <div className='modal-footer'>
+        <button
+          onClick={this.handleSave}
+          disabled={!this.state.canCreate}
+          className='text-green'
+        ><Icon icon='fa fa-user-plus'/> Create</button>
+        { createCancelBtn(this.handleCancel) }
+      </div>
+    </section>
+  },
+
+  render() {
+    return <Modal
+      id='simple-character-create-modal'
+      active={this.props.active}
+      onDismiss={this.props.onDismiss}
+      content={this.getSimpleContent()}
+      overflowAppContainer='body'
+      overflowPaneContainer='body'
+    />
+  },
+})
