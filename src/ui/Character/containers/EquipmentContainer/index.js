@@ -111,6 +111,7 @@ export default React.createClass({
     return (
       <ListItem
         className='pl2'
+        glyph={<Icon icon='fa fa-folder' />}
         name={container.get('name')}
         subtext={`${count} Items`}
         onClick={() => this.setState({ viewContents: true })}

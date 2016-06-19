@@ -3,6 +3,7 @@
 import React from 'react';
 import ListItem from '../../../components/ListItem/v2';
 import Modal from '../../../components/Modal';
+import Icon from '../../../components/Icon';
 import { createSaveBtn, createEditBtn, createRemoveBtn, createCancelBtn } from '../../../components/Modal/buttons';
 import ConfirmModal from '../../dialogs/ConfirmModal';
 
@@ -178,6 +179,7 @@ export default React.createClass({
       <ListItem
         name={name}
         className='pl2'
+        glyph={<Icon icon='fa fa-circle' />}
         onClick={() => this.setState({ viewDetails: true })}
       >
         <Modal
