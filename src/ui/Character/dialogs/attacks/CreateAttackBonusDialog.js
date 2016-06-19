@@ -51,7 +51,7 @@ export default React.createClass({
 
   handleConfirm(answer) {
     if (answer === 'yes') {
-      this.setState({ confirm: false, dirty: false});
+      this.setState({ confirm: false, dirty: false, bonus: 0 });
       this.props.dismiss();
       return;
     }
@@ -66,6 +66,7 @@ export default React.createClass({
       return;
     }
 
+    this.setState({ bonus: 0 })
     this.props.dismiss();
   },
 
@@ -81,7 +82,7 @@ export default React.createClass({
       let data = { abil, prof, id, name, bonus };
 
       this.props.onCreate({ type: 'ATTACK_BONUS_CREATE', data });
-      this.setState({ confirm: false, dirty: false, edit: false });
+      this.setState({ confirm: false, dirty: false, edit: false, bonus: 0 });
       this.props.dismiss();
     }
   },

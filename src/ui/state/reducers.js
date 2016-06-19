@@ -38,7 +38,6 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     // loaded character from BE
     case 'CHARACTER_LOADED':
-      console.log('returning new character', action.data.character);
       return fromJS(action.data.character);
 
     // charInfo
