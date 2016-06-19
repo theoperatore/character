@@ -8,6 +8,7 @@ import { ROUTE_LOGIN, ROUTE_CHARACTER } from '../routes';
 import { getCharactersForUser, signOut } from '../state/actions';
 import Icon from '../components/Icon';
 import Loading from '../components/Loading';
+import Drawer from '../components/Drawer';
 import ListItem from '../components/ListItem/v2';
 import Confirm from './Confirm';
 
@@ -19,7 +20,9 @@ let Profile = React.createClass({
 
   getInitialState() {
     return {
+      menuOpen: false,
       confirmDelete: false,
+      createNewCharacter: false,
     }
   },
 
@@ -67,6 +70,18 @@ let Profile = React.createClass({
     this.props.dispatch(signOut());
   },
 
+  menuContent() {
+    return <section>
+      <div className='drawer-header'><p>Account</p></div>
+      <div className='drawer-content p3'>
+        <button
+          onClick={this.signOut}
+          className='btn btn-default btn-danger block mb2 mt6 full-width'
+        ><Icon icon='fa fa-sign-out'/> Sign Out</button>
+      </div>
+    </section>
+  },
+
   renderCharacters() {
     if (!this.props.state.user.get('characters')) return null;
 
@@ -104,16 +119,36 @@ let Profile = React.createClass({
         <div className="profile-header">
           <img className='profile-img left' src={user.get('profileImg')}/>
           <h5 className="profile-header-name left p2">{user.get('displayName')}</h5>
-          <h5 className='profile-header-action interactable right' onClick={this.signOut}>Sign Out</h5>
+          <Icon
+            icon='fa fa-ellipsis-v'
+            className='p2 interactable right profile-header-action'
+            onClick={() => this.setState({ menuOpen: true })}
+          />
         </div>
+        <Drawer
+          id='account-menu'
+          direction='right'
+          overflowAppContainer='body'
+          overflowPaneContainer='body'
+          active={this.state.menuOpen}
+          content={this.menuContent()}
+          onDismiss={() => this.setState({ menuOpen: false })}
+        />
         <div className="profile-content">
           <h3>Characters</h3>
           { isLoadingProfile || isLoadingCharacters
               ? <p>Loading...</p>
               : this.renderCharacters()
           }
-          { listLoadError 
-              && <p className='text-red'>{listLoadError}</p> 
+          {
+            !isLoadingProfile && !isLoadingCharacters &&
+            <p
+              className='subtext text-center p2 interactable'
+              onClick={() => this.setState({ createNewCharacter: true })}
+            ><Icon icon='fa fa-plus' /> Create a new character</p>
+          }
+          { listLoadError &&
+              <p className='text-red'>{listLoadError}</p> 
           }
         </div>
         <Loading isLoading={isLoadingCharacters || isLoadingProfile}/>
