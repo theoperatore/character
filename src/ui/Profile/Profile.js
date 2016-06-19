@@ -1,149 +1,143 @@
 "use strict";
 
 import React from 'react';
-import { db, ref } from '../../api';
+
 import Router from '../router/Router';
+import { ROUTE_LOGIN, ROUTE_CHARACTER } from '../routes';
+
+import { getCharactersForUser, signOut } from '../state/actions';
 import Icon from '../components/Icon';
 import Loading from '../components/Loading';
 import ListItem from '../components/ListItem/v2';
 import Confirm from './Confirm';
 
-export default React.createClass({
+import connectUserRoute from '../connectUserRoute';
+import connectAuthRedirect from '../connectAuthRedirect';
+
+let Profile = React.createClass({
   displayName: "Profile",
 
   getInitialState() {
-    return ({
-      characters : [],
-      profileName: '...',
-      isLoading: true,
-      isCharacterLoading: false,
+    return {
       confirmDelete: false,
-      idToDelete: null,
-    })
-  },
-
-  logout() {
-    this.setState({ isCharacterLoading: true }, () => {
-      db.auth().signOut().then(() => {
-        // Router.nav('#/login'); TEMP ROUTE TO LANDING PAGE
-        Router.nav('/');
-      })
-    });
-  },
-
-  handleGetCharacter(snapshot) {
-    let val = snapshot.val() || {};
-    let out = [];
-
-    if (val.characters) {
-      Object.keys(val.characters).forEach((idx) => {
-        let curr = val.characters[idx];
-        let obj = {};
-
-        obj.characterName = curr['characterName'];
-        obj.characterLevel = curr['characterLevel'];
-        obj.characterClass = curr['characterClass'];
-        obj.createdDate = curr['createdOn'];
-        obj.deathDate = curr['diedOn'];
-        obj.characterUID = curr['characterId'];
-
-        out.push(obj);
-      })
     }
+  },
 
-    let usr = db.auth().currentUser;
+  componentDidMount() {
+    let user = this.props.state.user;
+    let status = this.props.state.status;
+
+    if (user.get('uid')) {
+      this.props.dispatch(getCharactersForUser(user.get('uid')));
+    }
+  },
+
+  componentWillReceiveProps(nextProps) {
+    let user = nextProps.state.user;
+    let status = nextProps.state.status;
+    if (user.get('uid') && !user.get('characters') && !status.get('characterListLoading')) {
+      this.props.dispatch(getCharactersForUser(user.get('uid')));
+    }
+  },
+
+  loadCharacter(id) {
+    Router.nav(ROUTE_CHARACTER, id);
+  },
+
+  deleteCharacter(id) {
     this.setState({
-      characters : out,
-      profileName: usr.providerData[0].displayName || val.profileName || 'Anonymous',
-      profileImg: usr.providerData[0].photoURL,
-      isLoading: false
+      confirmDelete: true,
+      characterToDelete: this.props.state.user.getIn(['characters', id, 'characterName'])
     });
-  },
-
-  componentWillMount() {
-    let off = db.auth().onAuthStateChanged(user => {
-      off(); // turn off authentication listening
-      if (user) {
-        return ref
-          .child('/users/' + user.uid)
-          .once('value')
-          .then(this.handleGetCharacter)
-          .catch(err => console.error(err))
-      }
-      else {
-        Router.nav('#/login');
-      }
-    });
-  },
-
-  handleDelete(idx) {
-    let character = this.state.characters[idx];
-    this.setState({ confirmDelete: true, idToDelete: character.characterUID });
   },
 
   handleConfirm(answer) {
-    switch (answer) {
-      case 'no':
-        this.setState({ confirmDelete: false, idToDelete: null });
-        break;
+    switch(answer) {
       case 'yes':
+      case 'no':
+        this.setState({
+          confirmDelete: false,
+          characterToDelete: '',
+        });
         break;
     }
   },
 
-  loadCharacter(idx) {
-    var character = this.state.characters[idx];
-    var href = `#/character/${character.characterUID}`;
-
-    Router.nav(href);
-    this.setState({ isCharacterLoading: true });
+  signOut() {
+    this.props.dispatch(signOut());
   },
 
-  render() {
-    var list = this.state.characters.map((character, i) => {
+  renderCharacters() {
+    if (!this.props.state.user.get('characters')) return null;
+
+    return this.props.state.user.get('characters').valueSeq().map((character, i) => {
       return (
         <ListItem
           key={i}
           className='interactable'
-          name={character.characterName}
-          subtext={`level ${character.characterLevel} | ${character.characterClass}`}
-          glyph={<div className='text-gray bg-gray flex flex-center' style={{ width: 50, height: 50}}>
+          name={character.get('characterName')}
+          subtext={`level ${character.get('characterLevel')} | ${character.get('characterClass')}`}
+          glyph={
+            <div className='text-gray bg-gray flex flex-center' style={{ width: 50, height: 50}}>
               <Icon icon='fa fa-user'/>
-            </div>}
+            </div>
+          }
           addon={
-            <div className='p3 interactable' onClick={this.handleDelete.bind(this, i)}>
+            <div className='p3 interactable' onClick={this.deleteCharacter.bind(this, character.get('characterId'))}>
               <Icon className='text-red' icon='fa fa-user-times'/>
             </div>
           }
-          onClick={this.loadCharacter.bind(this, i)}
+          onClick={this.loadCharacter.bind(this, character.get('characterId'))}
         />
       );
     });
+  },
 
+  render() {
+    let isLoadingProfile = this.props.state.status.get('userLoadingProfile');
+    let isLoadingCharacters = this.props.state.status.get('characterListLoading');
+    let listLoadError = this.props.state.status.getIn(['characterListLoadError', 'code']);
+    let user = this.props.state.user;
 
     return (
       <div className="profile-container">
         <div className="profile-header">
-          <img className='profile-img left' src={this.state.profileImg}/>
-          <h5 className="profile-header-name left p2">{this.state.profileName}</h5>
-          <h5 className='profile-header-action interactable right' onClick={this.logout}>Sign Out</h5>
+          <img className='profile-img left' src={user.get('profileImg')}/>
+          <h5 className="profile-header-name left p2">{user.get('displayName')}</h5>
+          <h5 className='profile-header-action interactable right' onClick={this.signOut}>Sign Out</h5>
         </div>
         <div className="profile-content">
           <h3>Characters</h3>
-          { this.state.isLoading 
+          { isLoadingProfile || isLoadingCharacters
               ? <p>Loading...</p>
-              : list.length === 0
-              ? <p className='subtext text-center'>It's sad and lonely without any characters... :(</p>
-              : list
+              : this.renderCharacters()
+          }
+          { listLoadError 
+              && <p className='text-red'>{listLoadError}</p> 
           }
         </div>
-        <Loading isLoading={this.state.isLoading}/>
-        <Loading isLoading={this.state.isCharacterLoading}/>
+        <Loading isLoading={isLoadingCharacters || isLoadingProfile}/>
         <Confirm
           active={this.state.confirmDelete}
+          confirmName={this.state.characterToDelete}
+          message={
+            <div>
+              <p className='text-red mt2 text-center'>Delete your character: <span className='text-blue important'><em>{this.state.characterToDelete}</em></span> ?</p>
+              <p className='important mt2 text-center'>Note: This is a permanent action! It cannot be undone!</p>
+            </div>
+          }
           onConfirm={this.handleConfirm}
         />
       </div>
     );
   }
 })
+
+export default connectUserRoute(
+  connectAuthRedirect(
+    Profile,
+    () => {
+      Router.nav(ROUTE_LOGIN);
+    }
+  )
+)

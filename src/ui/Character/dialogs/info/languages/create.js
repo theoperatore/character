@@ -56,10 +56,10 @@ export default React.createClass({
           <textarea placeholder='description...' ref='newDesc' onChange={this.makeDirty}/>
         </div>
         <div className='modal-footer'>
-          <button onClick={this.handleCreate} className='bg-green text-green'>
+          <button onClick={this.handleCreate} className='text-green'>
             <p><Icon icon='fa fa-pencil' /> Save</p>
           </button>
-          <button onClick={this.handleCancel} className='bg-red text-red'>
+          <button onClick={this.handleCancel} className='text-red'>
             <p><Icon icon='fa fa-remove' /> Cancel</p>
           </button>
         </div>

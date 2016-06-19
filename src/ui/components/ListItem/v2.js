@@ -33,6 +33,7 @@ export default React.createClass({
       addon,
       children,
       className,
+      onClick,
       ...props
     } = this.props;
 
@@ -40,12 +41,12 @@ export default React.createClass({
       <div className={`container-list-item flex flex-center ${className}`} {...props}>
         {
           glyph 
-          ? <div className={`container-list-item-glyph ${glyphCss}`}>
+          ? <div className={`container-list-item-glyph ${glyphCss}`} onClick={onClick}>
               {glyph}
             </div>
           : null
         }
-        <div className='container-list-item-content flex-auto'>
+        <div className='container-list-item-content flex-auto' onClick={onClick}>
           <p className='list-item-text'>{name}</p>
           <p className='list-item-subtext'>{subtext}</p>
         </div>

@@ -3,7 +3,7 @@
 import test from 'tape';
 import { createStore, combineReducers } from 'redux';
 import { Map, List, fromJS } from 'immutable';
-import { character } from '../src/ui/Character/state/reducers';
+import { character } from '../src/ui/state/reducers';
 import { editAbilityScores } from './testUtils/testActionCreators';
 import { characters } from '../src/dummy-data/dummy-characters';
 

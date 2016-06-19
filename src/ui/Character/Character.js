@@ -3,8 +3,9 @@
 import React from 'react';
 
 import Router from '../router/Router';
-
 import { db } from '../../api';
+import { signOut } from '../state/actions';
+import { ROUTE_PROFILE } from '../routes';
 
 import SwipePanes from '../components/SwipePanes';
 import SwipePane from '../components/SwipePane';
@@ -22,40 +23,43 @@ import Attacks from './panes/Attacks';
 import Spells from './panes/Spells';
 import Equipments from './panes/Equipments';
 
-export default React.createClass({
-  displayName : "CharacterApp",
+import { characterProvider } from './characterProvider';
+import connectUserRoute from '../connectUserRoute';
 
+let Character = React.createClass({
+  displayName: "CharacterApp",
 
   propTypes: {
-    character: React.PropTypes.object.isRequired,
-    preferences: React.PropTypes.object.isRequired,
-    updateState: React.PropTypes.func.isRequired,
+    dispatch: React.PropTypes.func.isRequired,
+    state: React.PropTypes.object.isRequired,
+    isLoading: React.PropTypes.bool,
+    isSaving: React.PropTypes.bool,
+    saveError: React.PropTypes.object,
+    lastSavedDate: React.PropTypes.number,
   },
-
 
   getInitialState() {
     return ({
       activePane : 0,
-      loading : false, // TODO: figure this out...perhaps a thunk?
       mainMenu: false,
       settingsMenu: false,
     })
   },
 
-  // should only updated when there is a change to character state data
-  // TODO: might run into a problem...swiping between panes is going to trigger
-  // a state update. this means that each pane is going to need to explicitly
-  // handle it's own `shouldComponentUpdate` function.
   shouldComponentUpdate(nextProps, nextState) {
-    return true;
+    return nextProps.state.character !== this.props.state.character ||
+           nextProps.isLoading !== this.props.isLoading ||
+           nextProps.isSaving !== this.props.isSaving ||
+           nextProps.saveError !== this.props.saveError ||
+           nextProps.lastSavedDate !== this.props.lastSavedDate ||
+           nextState.activePane !== this.state.activePane ||
+           nextState.mainMenu !== this.state.mainMenu ||
+           nextState.settingsMenu !== this.state.settingsMenu
+
   },
 
   logout() {
-    db.auth().signOut().then(() => {
-      console.log('signed out');
-    }).catch(err => {
-      console.error(err);
-    })
+    this.props.dispatch(signOut());
   },
 
 
@@ -69,11 +73,14 @@ export default React.createClass({
   },
 
   getMenuContent() {
+    let date = new Date(this.props.lastSavedDate);
+    let time = date.toDateString();
+
     return <section>
       <div className='drawer-header'><p>Menu</p></div>
       <div className='drawer-content p3'>
         <button
-          onClick={() => Router.nav('#/profile')}
+          onClick={() => Router.nav(ROUTE_PROFILE)}
           className='btn btn-default btn-primary block mb2 mt2 full-width'
         >
           <Icon icon='fa fa-random' /> Switch Characters
@@ -83,6 +90,12 @@ export default React.createClass({
           className='btn btn-default btn-danger block mb2 mt6 full-width'
         >
           <Icon icon='fa fa-sign-out'/> Sign Out</button>
+        <hr />
+        <p className='subtext'>Last Saved: {time}</p>
+        {
+          this.props.saveError &&
+          <p className='text-red'>{this.props.saveError.message}</p>
+        }
       </div>
     </section>
   },
@@ -97,9 +110,9 @@ export default React.createClass({
             <input
               type='checkbox'
               id='settings-attack-pane'
-              defaultChecked={!this.props.preferences.getIn(['Attacks', 'display'])}
+              defaultChecked={!this.props.state.preferences.getIn(['Attacks', 'display'])}
               onChange={() => {
-                this.props.updateState({ type: 'TOGGLE_ATTACK_PANE' });
+                this.props.dispatch({ type: 'TOGGLE_ATTACK_PANE' });
               }}
             />
             <label htmlFor='settings-attack-pane'>Hide Attacks Pane</label>
@@ -108,9 +121,9 @@ export default React.createClass({
             <input
               type='checkbox'
               id='settings-spells-pane'
-              checked={!this.props.preferences.getIn(['Spells', 'display'])}
+              checked={!this.props.state.preferences.getIn(['Spells', 'display'])}
               onChange={() => {
-                this.props.updateState({ type: 'TOGGLE_SPELLS_PANE' })
+                this.props.dispatch({ type: 'TOGGLE_SPELLS_PANE' })
               }}
             />
             <label htmlFor='settings-spells-pane'>Hide Spells Pane</label>
@@ -122,9 +135,9 @@ export default React.createClass({
             <input
               type='radio'
               id='settings-chrgs-attack'
-              checked={this.props.preferences.get('classCharges') === 'ATTACK_ONLY'}
+              checked={this.props.state.preferences.get('classCharges') === 'ATTACK_ONLY'}
               onChange={() => {
-                this.props.updateState({ type: 'SET_CLASS_CHARGES', data: 'ATTACK_ONLY' });
+                this.props.dispatch({ type: 'SET_CLASS_CHARGES', data: 'ATTACK_ONLY' });
               }}
             />
             <label htmlFor='settings-chrgs-attack'>Attack pane only</label>
@@ -133,9 +146,9 @@ export default React.createClass({
             <input
               type='radio'
               id='settings-chrgs-spells'
-              checked={this.props.preferences.get('classCharges') === 'SPELLS_ONLY'}
+              checked={this.props.state.preferences.get('classCharges') === 'SPELLS_ONLY'}
               onChange={() => {
-                this.props.updateState({ type: 'SET_CLASS_CHARGES', data: 'SPELLS_ONLY' })
+                this.props.dispatch({ type: 'SET_CLASS_CHARGES', data: 'SPELLS_ONLY' })
               }}
             />
             <label htmlFor='settings-chrgs-spells'>Spell pane only</label>
@@ -144,9 +157,9 @@ export default React.createClass({
             <input
               type='radio'
               id='settings-chrgs-both'
-              checked={this.props.preferences.get('classCharges') === 'BOTH'}
+              checked={this.props.state.preferences.get('classCharges') === 'BOTH'}
               onChange={() => {
-                this.props.updateState({ type: 'SET_CLASS_CHARGES', data: 'BOTH' })
+                this.props.dispatch({ type: 'SET_CLASS_CHARGES', data: 'BOTH' })
               }}
             />
             <label htmlFor='settings-chrgs-both'>Both Attack and Spell panes</label>
@@ -160,18 +173,38 @@ export default React.createClass({
     let {
       character,
       preferences,
-      updateState
-    } = this.props;
+    } = this.props.state;
+    let dispatch = this.props.dispatch;
 
     return (
       <div className="character-container">
         <section ref="header" className="character-header">
           <header>
             <div className='flex'>
-              <h5
+              <div
                 className='flex-auto p3'
                 onClick={() => this.setState({ mainMenu: true })}
-              >{character.get('charName')}</h5>
+              >
+                <h5 className='p0'>
+                  {character.get('charName')}
+                  <Icon
+                    className={
+                      this.props.saveError
+                      ? 'text-red ml2'
+                      : this.props.isSaving
+                      ? 'text-blue ml2'
+                      : 'text-green ml2'
+                    }
+                    icon={
+                      this.props.saveError
+                      ? 'fa fa-exclamation'
+                      : this.props.isSaving
+                      ? 'fa fa-download'
+                      : 'fa fa-check'
+                    }
+                  />
+                </h5>
+              </div>
               <Icon
                 icon='fa fa-ellipsis-v'
                 className='p3 interactable'
@@ -195,9 +228,9 @@ export default React.createClass({
           />
           <Tabs activeIdx={this.state.activePane} onTabSelect={this.handleTabSelect}>
             {
-              this.props.preferences.get('tabs')
+              preferences.get('tabs')
                 .filter(tab => {
-                  let prefs = this.props.preferences.getIn([tab.get('name')]);
+                  let prefs = preferences.getIn([tab.get('name')]);
                   return prefs 
                     ? prefs.get('display')
                     : true
@@ -222,14 +255,14 @@ export default React.createClass({
                 info={character.get('charInfo')}
                 traits={character.get('charTraits')}
                 proficiencies={character.get('charOtherProficiencies')}
-                handleInfoChange={updateState}
+                handleInfoChange={dispatch}
               />
             </SwipePane>
             <SwipePane>
               <Features 
                 features={character.get('charFeatures')}
                 charges={character.get('charClassCharges')}
-                handleFeatureChange={updateState}
+                handleFeatureChange={dispatch}
               />
             </SwipePane>
             <SwipePane>
@@ -238,7 +271,7 @@ export default React.createClass({
                 skills={character.get('charSkills')}
                 proficiencyBonus={character.get('charProficiencyBonus')}
                 passivePerception={character.get('charPassivePerception')}
-                handleAbilityChange={updateState}
+                handleAbilityChange={dispatch}
                />
             </SwipePane>
             <SwipePane>
@@ -249,51 +282,54 @@ export default React.createClass({
                 armorClass={character.get('charArmorClass')}
                 savingThrows={character.get('charSavingThrows')}
                 resistances={character.get('charResistances')}
-                handleDefenseChange={updateState}
+                handleDefenseChange={dispatch}
               />
             </SwipePane>
             {
-              (function conditionalAttacks(props) {
-                if (props.preferences.getIn(['Attacks', 'display'])) {
+              (function conditionalAttacks(prefs) {
+                if (prefs.getIn(['Attacks', 'display'])) {
                   return <SwipePane>
                     <Attacks
                       attacks={character.get('charAttacks')}
                       charges={character.get('charClassCharges')}
                       bubbles={character.get('charAttackBubbles')}
-                      preferences={props.preferences}
-                      handleAttacksChange={updateState}
-                      handlePreferencesChange={updateState}
+                      preferences={prefs}
+                      handleAttacksChange={dispatch}
+                      handlePreferencesChange={dispatch}
                     />
                   </SwipePane>
                 }
-              })(this.props)
+              })(preferences)
             }
             {            
-              (function conditionalSpells(props) {
-                if (props.preferences.getIn(['Spells', 'display'])) {
+              (function conditionalSpells(prefs) {
+                if (prefs.getIn(['Spells', 'display'])) {
                   return <SwipePane>
                     <Spells 
                       bubbles={character.get('charSpellBubbles')}
                       spellDC={character.get('charSpellSaveDC')}
                       spells={character.get('charSpells')}
                       charges={character.get('charClassCharges')}
-                      preferences={props.preferences}
-                      handleSpellsChange={updateState}
+                      preferences={prefs}
+                      handleSpellsChange={dispatch}
                     />
                   </SwipePane>
                 }
-              })(this.props)
+              })(preferences)
             }
             <SwipePane>
               <Equipments
                 equipment={character.get('charEquipment')}
-                handleEquipmentChange={updateState}
+                handleEquipmentChange={dispatch}
               />
             </SwipePane>            
           </SwipePanes>
         </section>
-        <Loading isLoading={this.state.loading} />
+        <Loading isLoading={this.props.isLoading} />
       </div>
     );
   }
 });
+
+export default connectUserRoute(characterProvider(Character));
+

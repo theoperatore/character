@@ -68,7 +68,7 @@ export default React.createClass({
           </div>
         </div>
         <div className='modal-footer'>
-          <button onClick={this.handleSave} className='bg-green text-green'>
+          <button onClick={this.handleSave} className='text-green'>
             <p><Icon icon='fa fa-pencil' /> Save</p>
           </button>
         </div>
@@ -85,10 +85,10 @@ export default React.createClass({
           <p>Cancel and lose any unsaved changes?</p>
         </div>
         <div className='modal-footer'>
-          <button onClick={this.handleYes} className='bg-green text-green'>
+          <button onClick={this.handleYes} className='text-green'>
             <p>Yes</p>
           </button>
-          <button onClick={this.handleNo} className='bg-red text-red'>
+          <button onClick={this.handleNo} className='text-red'>
             <p>No</p>
           </button>
         </div>

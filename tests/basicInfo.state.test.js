@@ -3,7 +3,7 @@
 import test from 'tape';
 import Immutable from 'immutable';
 import { createStore, combineReducers } from 'redux';
-import { character } from '../src/ui/Character/state/reducers';
+import { character } from '../src/ui/state/reducers';
 import defaultCharacter from '../src/data/defaultCharacter';
 
 test('Update basic character info', t => {

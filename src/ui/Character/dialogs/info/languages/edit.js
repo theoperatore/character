@@ -104,10 +104,10 @@ export default React.createClass({
           }
         </div>
         <div className='modal-footer'>
-          <button onClick={this.editSave} className={'bg-green text-green'}>
+          <button onClick={this.editSave} className={'text-green'}>
             <p><Icon icon='fa fa-pencil' /> {this.state.editMode ? 'Save' : 'Edit'}</p>
           </button>
-          <button onClick={this.handleRemove} className={'bg-red text-red'}>
+          <button onClick={this.handleRemove} className={'text-red'}>
             <p><Icon icon='fa fa-remove' /> {this.state.editMode ? 'Cancel' : 'Remove'}</p>
           </button>
         </div>

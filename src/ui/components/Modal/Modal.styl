@@ -65,7 +65,14 @@
         border 0
         display inline-block
         outline none
-        background-color $base-background-color
+        
+        &:disabled,
+        &.disabled
+          color $text-gray !important
+          background-color $bg-gray
+          
+          &:active
+            background-color $bg-gray !important
         
         &:first-child:nth-last-child(1)
           width 100%
@@ -82,7 +89,7 @@
         &:first-child:nth-last-child(4) ~ button
           width 25%
         
-        &:active 
+        &:active
           background-color #ddd
         
         p

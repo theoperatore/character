@@ -1,57 +1,54 @@
 'use strict';
 
 import React from 'react';
-import Link from '../router/Link';
-import Router from '../router/Router';
 import { db, ref } from '../../api';
+import { signInWithEmail, signOut } from '../state/actions';
+import { ROUTE_PROFILE } from '../routes';
+import Router from '../router/Router';
 
 export default React.createClass({
   displayName: 'Landing',
 
-  getInitialState() {
-    return ({
-      disabled: false,
-      msg: ''
-    })
+  loginTestUser() {
+    this.props.dispatch(signInWithEmail('test@test.com', 'pcTest'));
   },
 
-  loginTestUser() {
-    this.setState({ disabled: true });
+  navigateToProfile() {
+    Router.nav(ROUTE_PROFILE);
+  },
 
-    db.auth()
-      .signInWithEmailAndPassword('test@test.com', 'pcTest')
-      .then(user => {
-        if (user) {
-          Router.nav('#/profile');
-        }
-        else {
-          this.setState({ disabled: false, msg: 'Something went wrong...' });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({ disabled: false, msg: err.message });
-      });
+  componentDidMount() {
+    this.props.dispatch(signOut());
   },
 
   render() {
-    var style = {
+    let style = {
       "maxWidth" : 225,
       "padding" : 5
     }
+
+    let isSignedIn = this.props.state.status.get('userSignedIn');
+    let isAuthenticating = this.props.state.status.get('userAuthenticating');
+    let authErrorMsg = this.props.state.status.getIn(['userAuthenticationError', 'message']);
 
     return (
       <div style={style}>
         <h1>Pocket Character</h1>
         <hr />
-        <button 
-          onClick={this.loginTestUser}
-          disabled={this.state.disabled}
-        >{this.state.disabled ? 'Signing In...' : 'Test Authenticate'}</button>
+        {
+          isSignedIn
+          ? <button
+              onClick={this.navigateToProfile}
+            >Go to Profile</button>
+          : <button 
+              onClick={this.loginTestUser}
+              disabled={isAuthenticating}
+            >{isAuthenticating ? 'Signing In...' : 'Test Authenticate'}</button>
+        }
         <hr />
-        <Link disabled={true} className='link' href='/login'>Sign In</Link>
+        <p style={{ display: 'none' }} disabled={true} className='link'>Sign In</p>
         <hr />
-        <p className='text-red'>{this.state.msg}</p>
+        <p className='text-red'>{authErrorMsg}</p>
       </div>
     )
   }

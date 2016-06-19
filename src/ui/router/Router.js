@@ -59,8 +59,18 @@ exports.get = function(url, cb) {
 exports.init = change;
 
 // manual navigation
-exports.nav = function(href) {
-  window.location.hash = href.replace(/[\#]/g, '');
+exports.nav = function(href, ...args) {
+  let subbed = href.replace(/[\#]/g, '');
+
+  subbed = args.reduce((url, sub) => {
+    return url.replace('%s', sub);
+  }, subbed);
+
+  if (subbed.charAt(0) !== '/') {
+    subbed = `/${subbed}`;
+  }
+
+  window.location.hash = subbed;
 }
 
 // listen for routing

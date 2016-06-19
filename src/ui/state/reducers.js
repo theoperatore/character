@@ -3,18 +3,41 @@
 import { fromJS, Map, List } from 'immutable';
 import uuid from 'node-uuid';
 
-import defaultCharacter from '../../../data/defaultCharacter';
-import defaultPreferences from '../../../data/defaultPreferences';
-import defaultDefinitions from '../../../data/defaultDefinitions';
+import defaultCharacter from '../../data/defaultCharacter';
+import defaultPreferences from '../../data/defaultPreferences';
+import defaultDefinitions from '../../data/defaultDefinitions';
 
 const DEFAULT_CHARACTER = fromJS(defaultCharacter);
 const DEFAULT_PREFERENCES = fromJS(defaultPreferences);
 const DEFAULT_DEFINITIONS = fromJS(defaultDefinitions);
+const DEFAULT_USER_STATE = Map({});
+const DEFAUlT_ROUTE = Map({ route: 'landing' });
+const DEFAULT_STATUS = fromJS({
+  userSignedIn: false,
+  userAuthenticating: false,
+  userAuthenticationError: null,
+  userSigningOut: false,
+  userLoadingProfile: false,
+  userLoadingProfileError: null,
+  characterListLoading: false,
+  characterListLoadError: null,
+  characterLoading: false,
+  characterIsLoaded: false,
+  characterLoadError: null,
+  characterSaving: false,
+  characterSaveError: null,
+});
+
 
 const ABILITY_SCORE_KEYS = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 
 export function character(state = DEFAULT_CHARACTER, action) {
   switch (action.type) {
+
+    // loaded character from BE
+    case 'CHARACTER_LOADED':
+      console.log('returning new character', action.data.character);
+      return fromJS(action.data.character);
 
     // charInfo
     case 'BASIC_INFO_EDIT':
@@ -860,6 +883,12 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
 export function preferences(state = DEFAULT_PREFERENCES, action) {
   switch (action.type) {
+
+    // preferences loaded from BE
+    case 'CHARACTER_LOADED':
+      console.log('returning new character preferences', action.data.preferences);
+      return fromJS(action.data.preferences);
+
     case 'TOGGLE_SPELLS_PANE':
       return state
         .updateIn(['Spells', 'display'], display => !state.getIn(['Spells', 'display']));
@@ -882,9 +911,137 @@ export function preferences(state = DEFAULT_PREFERENCES, action) {
   }
 }
 
+export function user(state = DEFAULT_USER_STATE, action) {
+  switch (action.type) {
+    case 'USER_AUTHENTICATED':
+    case 'USER_LOADED_PROFILE':
+      return fromJS(action.data.profileData);
 
-// to handle every create and update of an item with an ID
-// to help with migration to a normalized character state
-export function definitions(state = DEFAULT_DEFINITIONS, action) {
-  return state;
+    case 'USER_SIGN_OUT':
+    case 'USER_NOT_SIGNED_IN':
+      return Map({});
+
+    case 'CHARACTER_LIST_LOADED':
+      return state.set('characters', fromJS(action.data.characters));
+    default:
+      return state;
+  }
+}
+
+export function status(state = DEFAULT_STATUS, action) {
+  switch (action.type) {
+
+    case 'USER_AUTHENTICATING':
+      return state
+        .set('userAuthenticating', true)
+        .set('userAuthenticationError', null)
+        .set('userSignedIn', false);
+
+    case 'USER_AUTHENTICATED':
+      return state
+        .set('userAuthenticating', false)
+        .set('userAuthenticationError', null)
+        .set('userSignedIn', true);
+
+    case 'USER_AUTHENTICATION_ERROR':
+      return state
+        .set('userAuthenticating', false)
+        .set('userAuthenticationError', Map(action.data.error))
+        .set('userSignedIn', false);
+
+    case 'USER_NOT_SIGNED_IN':
+      return state
+        .set('userAuthenticating', false)
+        .set('userAuthenticationError', null)
+        .set('userLoadingProfile', false)
+        .set('userSignedIn', false);
+
+    case 'USER_SIGNING_OUT':
+      return state.set('userSigningOut', true);
+
+    case 'USER_SIGN_OUT':
+      return DEFAULT_STATUS;
+
+    case 'USER_LOADING_PROFILE':
+      return state
+        .set('userAuthenticating', true)
+        .set('userLoadingProfile', true)
+        .set('userLoadingProfileError', null);
+
+    case 'USER_LOADED_PROFILE':
+      return state
+        .set('userAuthenticating', false)
+        .set('userSignedIn', true)
+        .set('userLoadingProfile', false)
+        .set('userLoadingProfileError', null);
+
+    case 'USER_LOADING_PROFILE_ERROR':
+      return state
+        .set('userAuthenticating', false)
+        .set('userSignedIn', false)
+        .set('userLoadingProfile', false)
+        .set('userLoadingProfileError', Map(action.data.error));      
+
+    case 'CHARACTER_LIST_LOAD':
+      return state
+        .set('characterListLoading', true)
+        .set('characterListLoadError', null);
+
+    case 'CHARACTER_LIST_LOADED':
+      return state
+        .set('characterListLoading', false)
+        .set('characterListLoadError', null);
+
+    case 'CHARACTER_LIST_LOAD_ERROR':
+      return state
+        .set('characterListLoading', false)
+        .set('characterListLoadError', Map(action.data.error));
+
+    case 'CHARACTER_LOAD':
+      return state
+        .set('characterLoading', true)
+        .set('characterIsLoaded', false)
+        .set('characterLoadError', null);
+
+    case 'CHARACTER_LOADED':
+      return state
+        .set('characterLoading', false)
+        .set('characterIsLoaded', true)
+        .set('characterLoadError', null);
+
+    case 'CHARACTER_LOAD_ERROR':
+      return state
+        .set('characterLoadError', Map(action.data.error))
+        .set('characterLoading', false)
+        .set('characterIsLoaded', false)
+
+    case 'CHARACTER_SAVING':
+      return state
+        .set('characterSaving', true)
+        .set('characterSaveError', null)
+
+    case 'CHARACTER_SAVED':
+      return state
+        .set('characterSaving', false)
+        .set('characterSaveError', null)
+
+    case 'CHARACTER_SAVE_ERROR':
+      return state
+        .set('characterSaving', false)
+        .set('characterSaveError', Map(action.data.error))
+
+    default:
+      return state;
+  }
+}
+
+export function route(state = DEFAUlT_ROUTE, action) {
+  switch (action.type) {
+    case 'GO_TO':
+      return state
+        .set('route', action.data.route)
+        .set('params', Map(action.data.params));
+    default:
+      return state;
+  }
 }

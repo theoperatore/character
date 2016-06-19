@@ -61,7 +61,7 @@ export default React.createClass({
         </div>
       </div>
       <div className='modal-footer'>
-        <button onClick={this.handleSave} className='bg-green text-green'><Icon icon='fa fa-pencil'/> Save</button>
+        <button onClick={this.handleSave} className='text-green'><Icon icon='fa fa-pencil'/> Save</button>
       </div>
     </section>
   },
