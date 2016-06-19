@@ -915,7 +915,6 @@ export function preferences(state = DEFAULT_PREFERENCES, action) {
 
 export function user(state = DEFAULT_USER_STATE, action) {
   switch (action.type) {
-    case 'USER_AUTHENTICATED':
     case 'USER_LOADED_PROFILE':
       return fromJS(action.data.profileData);
 

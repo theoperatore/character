@@ -10,7 +10,7 @@ export default React.createClass({
   displayName: 'Landing',
 
   loginTestUser() {
-    this.props.dispatch(signInWithEmail('test@test.com', 'pcTest'));
+    // this.props.dispatch(signInWithEmail('test@test.com', 'pcTest'));
   },
 
   navigateToProfile() {

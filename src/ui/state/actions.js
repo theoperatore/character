@@ -6,37 +6,6 @@ import { db, ref } from '../../api';
 import defaultCharacter from '../../data/defaultCharacter';
 import defaultPreferences from '../../data/defaultPreferences';
 
-export function signInWithEmail(email, password) {
-  return dispatch => {
-    dispatch({ type: 'USER_AUTHENTICATING' });
-
-    db.auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(user => {
-        let profileData = {
-          displayName: user.displayName,
-          profileImg: user.photoURL,
-          uid: user.uid,
-        }
-
-        dispatch({
-          type: 'USER_AUTHENTICATED',
-          data: {
-            profileData,
-          }
-        });
-      })
-      .catch(error => {
-        dispatch({
-          type: 'USER_AUTHENTICATION_ERROR',
-          data: {
-            error,
-          }
-        })
-      });
-  }
-}
-
 export function loadUser() {
   return dispatch => {
     dispatch({ type: 'USER_LOADING_PROFILE' });
@@ -86,7 +55,7 @@ export function getCharactersForUser(userId) {
         dispatch({
           type: 'CHARACTER_LIST_LOADED',
           data: {
-            characters: userData.characters,
+            characters: userData.characters || [],
           },
         });
       })

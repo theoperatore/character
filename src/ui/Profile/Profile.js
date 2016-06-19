@@ -126,6 +126,18 @@ let Profile = React.createClass({
     });
   },
 
+  getDisplayImg() {
+    if (!this.props.state.user.get('displayName')) return null;
+
+    let user = this.props.state.user;
+
+    return user.get('profileImg')
+    ? <img className='profile-img left' src={user.get('profileImg')}/>
+    : <div className='text-gray bg-gray flex flex-center left' style={{ width: 50, height: 50}}>
+        <span>{user.get('displayName').charAt(0).toUpperCase()}</span>
+      </div>
+  },
+
   render() {
     let isLoadingProfile = this.props.state.status.get('userLoadingProfile');
     let isLoadingCharacters = this.props.state.status.get('characterListLoading');
@@ -136,7 +148,7 @@ let Profile = React.createClass({
     return (
       <div className="profile-container">
         <div className="profile-header">
-          <img className='profile-img left' src={user.get('profileImg')}/>
+          { this.getDisplayImg() }
           <h5 className="profile-header-name left p2">{user.get('displayName')}</h5>
           <Icon
             icon='fa fa-ellipsis-v'
