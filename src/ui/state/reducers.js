@@ -114,11 +114,11 @@ export function character(state = DEFAULT_CHARACTER, action) {
               ? charClassCharges.push(Map(action.data.classCharge))
               : List([ Map(action.data.classCharge) ]);
           })
-        : partialStateFeat
+        : partialStateFeat;
 
     case 'FEATURE_EDIT':
       let createClassCharge = action.data.isNewClassCharge;
-      let removeClassCharge = action.data.feature.classChargesId && !action.data.classCharge;
+      let removeClassCharge = action.data.removeClassCharge;
       let editClassCharge = action.data.feature.classChargesId && action.data.classCharge;
 
       let partialStateFeatEdit = state.update('charFeatures', charFeatures => {
@@ -134,16 +134,20 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
       return createClassCharge || removeClassCharge || editClassCharge
         ? partialStateFeatEdit.update('charClassCharges', charClassCharges => {
+
+            // create
             if (action.data.isNewClassCharge) {
               return charClassCharges
                 ? charClassCharges.push(Map(action.data.classCharge))
                 : List([ Map(action.data.classCharge) ]);
             }
 
-            if (action.data.feature.classChargesId && !action.data.classCharge) {
-              return charClassCharges.filter(charge => charge.get('id') !== action.data.feature.classChargesId);
+            // remove
+            if (removeClassCharge) {
+              return charClassCharges.filter(charge => charge.get('id') !== action.data.classChargeId);
             }
 
+            // edit
             let idx = charClassCharges.findIndex(charge => charge.get('id') === action.data.classCharge.id);
             return charClassCharges.update(idx, charge => charge.merge(action.data.classCharge));
 

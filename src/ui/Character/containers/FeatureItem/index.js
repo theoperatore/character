@@ -110,12 +110,13 @@ export default React.createClass({
       let desc = this.refs.newDesc.value.trim();
       let type = this.state.typeSelected;
       let id = this.props.id;
-      let feature = { name, desc, type, id, classChargesId: this.props.classChargesId };
+      let feature = { name, desc, type, id };
 
       if (name === '') { return; }
 
       let giveClassCharge = this.state.hasCharges;
       let isNewClassCharge = this.state.hasCharges && !this.props.classChargesId;
+      let shouldRemoveClassCharge = this.props.classChargesId && !this.state.hasCharges;
 
       let ccname = giveClassCharge ? this.refs.ccname.value.trim() : '';
       let cctotal = this.state.cctotal === '' ? 0 : this.state.cctotal;
@@ -123,11 +124,15 @@ export default React.createClass({
       let data = { feature };
 
       if (giveClassCharge && ccname !== '') {
-
         feature.classChargesId = isNewClassCharge ? uuid.v1() : this.props.classChargesId;
         classCharge.id = isNewClassCharge ? feature.classChargesId : this.props.classChargesId;
         data.classCharge = classCharge;
         data.isNewClassCharge = isNewClassCharge;
+      }
+
+      if (shouldRemoveClassCharge) {
+        data.removeClassCharge = true;
+        data.classChargeId = this.props.classChargesId;
       }
 
       this.props.onChange({ type: 'FEATURE_EDIT', data });
