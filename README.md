@@ -14,31 +14,12 @@ Clone the repo and `cd` into the directory and run:
 npm install
 ```
 
-to download all of the dependencies. Once you have all of the dependencies, you can run a few [Gulp](http://gulpjs.com/) commands:
-
-```
-$ gulp clean          # remove all build files
-$ gulp compile-js     # compile all app dependencies (watch-js as well)
-$ gulp compile-css    # compile all css stylus files (watch-css as well)
-$ gulp watch          # watches both js/css files and opens a browser
-$ gulp build          # build everything
-$ gulp build-production # clean everything, build everything, uglify
-```
+to download all of the dependencies. Check out the `package.json` for a list of build/server commands
 
 App Times!
 ---------------
 
-Build the app, and run the dev server in two consoles. 
-
-In one console, you can either just build the app or watch for changes:
-
-```bash
-$ gulp build
-# or
-$ gulp watch
-```
-
-Then in another console, independent of the previous, run the script to run the server:
+To start up the dev server:
 
 ```bash
 $ npm start
@@ -48,13 +29,10 @@ Once everything is built and the server is running, you have access to a couple 
 
 ```
 localhost:9966                                # landing page talking about how cool this thing is (just links right now)
-localhost:9966/#/user/{:id}/character/{:name} # the character app
-localhost:9966/#/profile/{:id}                # user page that should show user's created characters
+localhost:9966/#/character/{:characterUID}    # the character app
+localhost:9966/#/profile                      # user page that should show user's created characters
 localhost:9966/#/login                        # page to log in / log out a user
-localhost:9966/#/style                        # style guide showing basic components
 ``` 
-
-Each route above uses a different view component located in `src/ui/views` folder. Each one is bare and needs work.
 
 Libs
 -----
