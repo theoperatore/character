@@ -68,8 +68,9 @@ test('Editing a feature with a class charge to remove a class charge, removes th
     data: {
       feature: {
         id: 'feat-1',
-        classChargesId: 'charge-1',
       },
+      classChargeId: 'charge-1',
+      removeClassCharge: true,
     },
   });
 
