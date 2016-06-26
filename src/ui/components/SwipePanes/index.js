@@ -29,6 +29,7 @@ module.exports = React.createClass({
 
   componentWillUnmount() {
     swipe.destroy(true, true);
+    swipe = null;
   },
 
 

@@ -10,6 +10,8 @@ import EquipmentContainer from '../containers/EquipmentContainer';
 export default React.createClass({
   displayName : 'PaneEquipments',
 
+  wealthTypes: ['cp', 'sp', 'ep', 'gp', 'pp'],
+
   propTypes: {
     equipment: React.PropTypes.object.isRequired,
     handleEquipmentChange: React.PropTypes.func.isRequired,
@@ -29,15 +31,15 @@ export default React.createClass({
   },
 
   renderWealth() {
-    return this.props.equipment.get('money').entrySeq().map(entry => {
-      let [ moneyType, moneyAmount ] = entry;
+    return this.wealthTypes.map(type => {
+      let money = this.props.equipment.getIn(['money', type]);
 
       return <div
-        key={moneyType}
+        key={type}
         className='money'
         >
-          <p><small>{moneyType}</small></p>
-          <p>{moneyAmount}</p>
+          <p><small>{type}</small></p>
+          <p>{money}</p>
         </div>
     })
   },
