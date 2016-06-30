@@ -33,6 +33,46 @@ export function loadUser() {
   }
 }
 
+export function updateUserProfile(newProfileName, imagePath) {
+  return dispatch => {
+    dispatch({ type: 'USER_LOADING_PROFILE' });
+
+    let newProfile = {
+      displayName: newProfileName,
+    };
+
+    if (imagePath) {
+      newProfile.photoURL = imagePath;
+    }
+
+    db
+      .auth().currentUser
+      .updateProfile(newProfile)
+      .then(() => {
+        let off = db.auth().onAuthStateChanged(user => {
+          off();
+          if (user) {
+            let profileData = {
+              displayName: user.displayName,
+              profileImg: user.photoURL,
+              uid: user.uid,
+            }
+
+            dispatch({
+              type: 'USER_LOADED_PROFILE',
+              data: {
+                profileData,
+              }
+            })
+          }
+          else {
+            dispatch({ type: 'USER_NOT_SIGNED_IN' });
+          }
+        })     
+      })
+  }
+}
+
 export function signOut() {
   return dispatch => {
     dispatch({ type: 'USER_SIGNING_OUT' });

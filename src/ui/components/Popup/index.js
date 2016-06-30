@@ -16,6 +16,8 @@ export default React.createClass({
     active: React.PropTypes.bool.isRequired,
     id: React.PropTypes.string.isRequired,
     content: React.PropTypes.element.isRequired,
+    overflowAppContainer: React.PropTypes.string,
+    overflowPaneContainer: React.PropTypes.string,
   },
 
   getInitialState() {
@@ -33,9 +35,12 @@ export default React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
+    let _appContainer = nextProps.overflowAppContainer || appContainer;
+    let _paneContainer = nextProps.overflowPaneContainer || paneContainer;
+
     if (nextProps.active !== this.props.active && nextProps.active === true) {
-      document.querySelector(appContainer).style.overflow = 'hidden';
-      document.querySelector(paneContainer).style.overflow = 'hidden';
+      document.querySelector(_appContainer).style.overflow = 'hidden';
+      document.querySelector(_paneContainer).style.overflow = 'hidden';
       this.setState({ active: true, moving: true }, () => {
         setTimeout(() => {
           this.setState({ open: true, moving: false });
@@ -45,8 +50,8 @@ export default React.createClass({
     else if (nextProps.active !== this.props.active && nextProps.active === false) {
       this.setState({ open: false, moving: true }, () => {
         setTimeout(() => {
-          document.querySelector(appContainer).style.overflow = 'auto';
-          document.querySelector(paneContainer).style.overflow = 'auto';
+          document.querySelector(_appContainer).style.overflow = 'auto';
+          document.querySelector(_paneContainer).style.overflow = 'auto';
           this.setState({ active: false, moving: false });
         }, 300);
       }) 
@@ -54,7 +59,7 @@ export default React.createClass({
   },
 
   render() {
-    let { id, content } = this.props;
+    let { id, content, children } = this.props;
 
     let overlay = cn({
       'modal-overlay': true,
@@ -72,6 +77,7 @@ export default React.createClass({
           <div className={overlay}>
             <div className={container}>
               { content }
+              { children }
             </div>
           </div>
         </Portal>

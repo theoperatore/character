@@ -38,10 +38,13 @@ export function connectSessionToLogin(Login, session) {
           .then(() => {
             let currentUser = firebase.auth().currentUser;
 
-            return currentUser.updateProfile({
-              photoURL: currentUser.providerData[0].photoURL,
-              displayName: currentUser.providerData[0].displayName
-            })
+            // only update if displayName doesn't exist yet
+            if (!currentUser.displayName) {
+              return currentUser.updateProfile({
+                photoURL: currentUser.providerData[0].photoURL,
+                displayName: currentUser.providerData[0].displayName
+              })
+            }
           })
           .then(() => {
             session.setItem('__pocket_character_redirect_login__', false);

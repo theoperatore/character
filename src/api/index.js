@@ -17,9 +17,6 @@ const db = Firebase.initializeApp({
 });
 
 const ref = db.database().ref();
+const storage = db.storage().ref();
 
-export function login(email) {
-  
-}
-
-export { db, ref }
+export { db, ref, storage }

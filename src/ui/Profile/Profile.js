@@ -12,6 +12,7 @@ import Drawer from '../components/Drawer';
 import ListItem from '../components/ListItem/v2';
 import Confirm from './Confirm';
 import SimpleCreate from './SimpleCharacterCreateModal';
+import EditProfile from './EditProfile';
 
 import connectUserRoute from '../connectUserRoute';
 import connectAuthRedirect from '../connectAuthRedirect';
@@ -25,6 +26,7 @@ let Profile = React.createClass({
       confirmDelete: false,
       deleteId: null,
       createNewCharacter: false,
+      editProfile: false,
     }
   },
 
@@ -93,8 +95,12 @@ let Profile = React.createClass({
       <div className='drawer-header'><p>Account</p></div>
       <div className='drawer-content p3'>
         <button
+          onClick={() => this.setState({ editProfile: true })}
+          className='btn btn-default btn-primary block mb2 mt6 full-width'
+        ><Icon icon='fa fa-pencil'/> Edit Profile</button>
+        <button
           onClick={this.signOut}
-          className='btn btn-default btn-danger block mb2 mt6 full-width'
+          className='btn btn-default btn-danger block mb2 full-width'
         ><Icon icon='fa fa-sign-out'/> Sign Out</button>
       </div>
     </section>
@@ -127,7 +133,7 @@ let Profile = React.createClass({
   },
 
   getDisplayImg() {
-    if (!this.props.state.user.get('displayName')) return null;
+    if (!this.props.state.user.get('uid')) return null;
 
     let user = this.props.state.user;
 
@@ -147,18 +153,13 @@ let Profile = React.createClass({
 
     return (
       <div className="profile-container">
-        <div className="profile-header">
+        <div className="profile-header interactable" onClick={() => this.setState({ menuOpen: true })}>
           { this.getDisplayImg() }
           <h5 className="profile-header-name left p2">{user.get('displayName')}</h5>
-          <Icon
-            icon='fa fa-ellipsis-v'
-            className='p2 interactable right profile-header-action'
-            onClick={() => this.setState({ menuOpen: true })}
-          />
         </div>
         <Drawer
           id='account-menu'
-          direction='right'
+          direction='left'
           overflowAppContainer='body'
           overflowPaneContainer='body'
           active={this.state.menuOpen}
@@ -198,6 +199,14 @@ let Profile = React.createClass({
           active={this.state.createNewCharacter}
           onDismiss={() => this.setState({ createNewCharacter: false })}
           onCreate={this.handleSimpleCreate}
+        />
+        <EditProfile
+          active={this.state.editProfile}
+          profileImg={this.props.state.user.get('profileImg')}
+          displayName={this.props.state.user.get('displayName')}
+          onDismiss={() => this.setState({ editProfile: false, menuOpen: false })}
+          userId={this.props.state.user.get('uid')}
+          dispatch={this.props.dispatch}
         />
       </div>
     );
