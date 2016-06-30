@@ -27,6 +27,10 @@ export default React.createClass({
     }
   },
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ base: nextProps.base, bonus: nextProps.bonus });
+  },
+
   handleSave() {
     let base = this.state.base === '' ? 0 : this.state.base;
     let bonus = this.state.bonus === '' ? 0 : this.state.bonus;
