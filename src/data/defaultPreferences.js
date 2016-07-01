@@ -33,7 +33,7 @@ module.exports = {
     },
     {
       "icon": "icon-equipment",
-      "name": "Equipement",
+      "name": "Equipment",
     },
   ]
 }
