@@ -84,7 +84,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
         let idx = languages.findINdx(lang => lang.get('id') === action.data.id);
         return languages.update(idx, lang => lang.merge(action.data));
       });
-      
+
     case 'LANGUAGE_DELETE':
       return state.updateIn(['charOtherProficiencies', 'languages'], languages => {
         return languages.filter(lang => lang.get('id') !== action.data.id);
@@ -153,7 +153,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
           })
         : partialStateFeatEdit;
 
-      
+
     case 'FEATURE_DELETE':
       let hasClassCharge = !!action.data.classChargesId;
       let partialStateFeatDelete = state.update('charFeatures', charFeatures => {
@@ -173,7 +173,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
         return charSkills.update(idx, skill => {
           let newScore = skill.get('bonus') + state.getIn(['charAbilities', skill.get('mod'), 'mod']);
 
-          newScore += action.data.trained 
+          newScore += action.data.trained
             ? state.getIn(['charProficiencyBonus', 'score'])
             : 0;
 
@@ -241,7 +241,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
             + abilityScoreMods[charSpellSaveDC.get('abil')];
 
           newScore += charSpellSaveDC.get('prof')
-            ? proficiencyBonus 
+            ? proficiencyBonus
             : 0;
 
           return charSpellSaveDC.set('score', newScore);
@@ -288,7 +288,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
         })
         .update('charPassivePerception', passivePerception => {
           let perceptionSkill = state.get('charSkills').find(itm => itm.get('name') === 'Perception');
-          let newScore = passivePerception.get('base') 
+          let newScore = passivePerception.get('base')
                   + passivePerception.get('bonus')
                   + perceptionSkill.get('score');
 
@@ -297,7 +297,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
     case 'PROFICIENCY_BONUS_EDIT':
       let newProficiencyBonus = action.data.base + action.data.bonus;
-      
+
       // proficiency
       let pbPartialState = state
         .update('charProficiencyBonus', bonus => {
@@ -306,7 +306,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
             .set('bonus', action.data.bonus)
             .set('score', action.data.base + action.data.bonus);
         })
-        
+
       // skills
         .update('charSkills', charSkills => {
           return charSkills.map(skill => {
@@ -384,7 +384,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
       return pbPartialState
         .updateIn(['charPassivePerception'], pp => {
           let perceptionSkill = pbPartialState.get('charSkills').find(itm => itm.get('name') === 'Perception');
-          let newScore = pp.get('base') 
+          let newScore = pp.get('base')
                   + pp.get('bonus')
                   + perceptionSkill.get('score');
 
@@ -464,9 +464,11 @@ export function character(state = DEFAULT_CHARACTER, action) {
           return charSpeed.set('score', action.data.speed);
         })
         .update('charHitPoints', charHitPoints => {
-          return charHitPoints.set('maximum', action.data.maxHp);
+          return charHitPoints
+            .set('maximum', action.data.maxHp)
+            .set('current', action.data.maxHp);
         });
-      
+
     case 'RESISTANCES_CREATE':
       return state.update('charResistances', charResistances => {
         return charResistances
@@ -557,10 +559,10 @@ export function character(state = DEFAULT_CHARACTER, action) {
             return spellLevel.set('used', 0);
           })
         })
-      
+
     case 'SHORT_REST':
       return state.update('charHitPoints', charHitPoints => {
-        let newHitPoints = charHitPoints.get('current') < 0 
+        let newHitPoints = charHitPoints.get('current') < 0
           ? 0
           : charHitPoints.get('current');
 
@@ -605,7 +607,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
 
           return charge.set('current', newCurrent);
         });
-      }); 
+      });
 
     case 'ATTACK_EDIT':
       return state.update('charAttacks', charAttacks => {
@@ -827,7 +829,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
           ? charAttackBubbles.push(newBubble)
           : List([ newBubble ]);
       });
-      
+
     case 'ATTACK_BONUS_EDIT':
       return state.update('charAttackBubbles', charAttackBubbles => {
         let idx = charAttackBubbles.findIndex(bubble => bubble.get('id') === action.data.id);
@@ -841,7 +843,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
           return bubble.merge(action.data, { score });
         });
       });
-      
+
     case 'ATTACK_BONUS_DELETE':
       return state.update('charAttackBubbles', charAttackBubbles => {
         return charAttackBubbles.filter(bubble => bubble.get('id') !== action.data.id);
@@ -984,7 +986,7 @@ export function status(state = DEFAULT_STATUS, action) {
         .set('userAuthenticating', false)
         .set('userSignedIn', false)
         .set('userLoadingProfile', false)
-        .set('userLoadingProfileError', Map(action.data.error));      
+        .set('userLoadingProfileError', Map(action.data.error));
 
     case 'CHARACTER_LIST_LOAD':
       return state
