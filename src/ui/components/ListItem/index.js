@@ -107,10 +107,10 @@ export default React.createClass({
           <p>{this.state.confirmMessage}</p>
         </div>
         <div className='modal-footer'>
-          <button onClick={this.handleYes} className='bg-green text-green'>
+          <button onClick={this.handleYes} className='text-green'>
             <p>Yes</p>
           </button>
-          <button onClick={this.handleNo} className='bg-red text-red'>
+          <button onClick={this.handleNo} className='text-red'>
             <p>No</p>
           </button>
         </div>

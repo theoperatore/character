@@ -13,6 +13,7 @@ import CreateLanguage from '../dialogs/info/languages/create';
 
 import TraitsDialog from '../dialogs/info/TraitsDialog';
 import LevelXpDialog from '../dialogs/info/LevelXPDialog';
+import ConfirmModal from '../dialogs/ConfirmModal';
 import Icon from '../../components/Icon';
 import debug from 'debug';
 
@@ -21,13 +22,12 @@ const log = debug('app:Info');
 export default React.createClass({
   displayName: 'PaneInfo',
 
-
   getInitialState() {
     return ({
       traits: [
-        { id: 'personalityTraits', name: 'Personality' }, 
-        { id: 'ideals', name: 'Ideals' }, 
-        { id: 'bonds', name: 'Bonds' }, 
+        { id: 'personalityTraits', name: 'Personality' },
+        { id: 'ideals', name: 'Ideals' },
+        { id: 'bonds', name: 'Bonds' },
         { id: 'flaws', name: 'Flaws' }
       ],
       personalityTraits: false, // for edit modal
@@ -40,7 +40,6 @@ export default React.createClass({
       areYouSure: false
     })
   },
-
 
   // only update when the info character data changes
   shouldComponentUpdate : function(nextProps, nextState) {
@@ -57,7 +56,6 @@ export default React.createClass({
            nextState.flaws !== this.state.flaws
   },
 
-
   handleNewDismiss(modal) {
     let isModalDirty = this.refs[`${modal}Dialog`].isDirty();
 
@@ -69,17 +67,14 @@ export default React.createClass({
     }
   },
 
-
   openDialog(type) {
     this.setState({ [`${type}Modal`]: true });
   },
-
 
   handleCreate(type, data) {
     this.setState({ [`${type}Modal`]: false });
     this.props.handleInfoChange(data);
   },
-
 
   handleChange(refId, event) {
     log(refId, event);
@@ -89,12 +84,10 @@ export default React.createClass({
     this.props.handleInfoChange(event);
   },
 
-
   handleLevelXpChange(event) {
     this.setState({ levelXpModal: false });
     this.props.handleInfoChange(event);
   },
-
 
   // function called by the ListItem to check whether or not to show the
   // areYouSure dialog.
@@ -111,7 +104,7 @@ export default React.createClass({
         <div className='info-section-header'>
           <h5 className='info-section-title'>{trait.name}</h5>
         </div>
-        <p 
+        <p
           className='p1 interactable'
           onClick={() => this.setState({ [`${trait.id}`]: true })}
         >{this.props.traits.get(trait.id)}</p>
@@ -127,7 +120,6 @@ export default React.createClass({
     })
   },
 
-
   renderProficiencies() {
     if (!this.props.proficiencies || !this.props.proficiencies.get('proficiencies')) {
       return null;
@@ -140,7 +132,6 @@ export default React.createClass({
       )
     })
   },
-
 
   renderLanguages() {
     if (!this.props.proficiencies || !this.props.proficiencies.get('languages')) {
@@ -155,60 +146,37 @@ export default React.createClass({
     })
   },
 
-
-  handleYes() {
-    this.setState({ 
-      areYouSure: false,
-      profModal: false,
-      langModal: false,
-      levelXpModal: false
-    });
+  handleConfirm(answer) {
+    switch (answer) {
+      case 'yes':
+        this.setState({
+          areYouSure: false,
+          profModal: false,
+          langModal: false,
+          levelXpModal: false
+        });
+        break;
+      case 'no':
+        this.setState({ areYouSure: false });
+        break;
+    }
   },
-
-
-  handleNo() {
-    this.setState({ areYouSure: false });
-  },
-
-
-  areYouSureContent() {
-    return (
-      <section>
-        <div className='modal-header'>  
-          <h3>Are You Sure?</h3>
-        </div>
-        <div className='modal-content'>
-          <p>Do you really want to cancel and lose any unsaved changes?</p>
-        </div>
-        <div className='modal-footer'>
-          <button onClick={this.handleYes} className='bg-green text-green'>
-            <p>Yes</p>
-          </button>
-          <button onClick={this.handleNo} className='bg-red text-red'>
-            <p>No</p>
-          </button>
-        </div>
-      </section>
-    )
-  },
-
 
   buildLevelDialog() {
     return (
-      <LevelXpDialog 
-        ref='levelXpDialog' 
-        currLevel={this.props.info.get('level')} 
+      <LevelXpDialog
+        ref='levelXpDialog'
+        currLevel={this.props.info.get('level')}
         currXp={this.props.info.get('xp')}
         currRace={this.props.info.get('race')}
         currClass={this.props.info.get('class')}
         currAlign={this.props.info.get('alignment')}
         currBackground={this.props.info.get('background')}
-        onSave={this.handleLevelXpChange} 
-        onCancel={this.handleNewDismiss.bind(this, 'levelXp')} 
+        onSave={this.handleLevelXpChange}
+        onCancel={this.handleNewDismiss.bind(this, 'levelXp')}
       />
     )
   },
-
 
   render() {
     let createProf = <CreateProficiency ref='profDialog' onCreate={this.handleCreate.bind(this, 'prof')} onCancel={this.handleNewDismiss.bind(this, 'prof')}/>;
@@ -243,7 +211,7 @@ export default React.createClass({
               </div>
             </div>
           </div>
-        </section> 
+        </section>
         <section className="info-section pane-padding">
           {this.renderTraits()}
         </section>
@@ -269,7 +237,10 @@ export default React.createClass({
           ><Icon icon='fa fa-plus' /> Create a new language</p>
           <Modal active={this.state.langModal} id='new-language' content={createLang}  onDismiss={this.handleNewDismiss.bind(this, 'lang')}/>
         </section>
-        <Modal active={this.state.areYouSure} id='are-you-sure' content={this.areYouSureContent()} onDismiss={() => {}} />
+        <ConfirmModal
+          active={this.state.areYouSure}
+          onConfirm={this.handleConfirm}
+        />
       </div>
     );
   }

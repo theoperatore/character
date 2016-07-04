@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { signInWithEmail, signOut } from '../state/actions';
-import { ROUTE_LOGIN } from '../routes';
+import { ROUTE_PROFILE } from '../routes';
 import Router from '../router/Router';
 
 export default React.createClass({
@@ -12,9 +12,9 @@ export default React.createClass({
     // this.props.dispatch(signInWithEmail('test@test.com', 'pcTest'));
   },
 
-  componentDidMount() {
-    this.props.dispatch(signOut());
-  },
+  // componentDidMount() {
+  //   this.props.dispatch(signOut());
+  // },
 
   render() {
     let style = {
@@ -26,7 +26,7 @@ export default React.createClass({
       <div style={style}>
         <h1>Pocket Character</h1>
         <hr />
-        <p className='link' onClick={() => Router.nav(ROUTE_LOGIN)}>Sign In</p>
+        <p className='link' onClick={() => Router.nav(ROUTE_PROFILE)}>Sign In</p>
       </div>
     )
   }

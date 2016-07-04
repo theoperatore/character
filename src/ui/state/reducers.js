@@ -63,7 +63,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
     // charOtherProficiencies
     case 'PROFICIENCY_EDIT':
       return state.updateIn(['charOtherProficiencies', 'proficiencies'], proficiencies => {
-        let idx = proficinecies.findIndex(prof => prof.get('id') === action.data.id);
+        let idx = proficiencies.findIndex(prof => prof.get('id') === action.data.id);
         return proficiencies.update(idx, prof => prof.merge(action.data));
       });
 
