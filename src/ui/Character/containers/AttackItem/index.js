@@ -136,7 +136,7 @@ export default React.createClass({
         glyphCss={'text-attack'}
         onClick={() => this.setState({ details: true })}
       >
-        <Modal active={this.state.details} id={this.props.id} onDismiss={this.dismiss} content={this.content()}/>
+        <Modal active={this.state.details} id={`atk-${this.props.id}`} onDismiss={this.dismiss} content={this.content()}/>
         <ConfirmModal active={this.state.confirm} onConfirm={this.confirm} message={this.state.message} />
       </ListItem>
     )
