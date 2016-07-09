@@ -226,7 +226,7 @@ let Character = React.createClass({
               preferences.get('tabs')
                 .filter(tab => {
                   let prefs = preferences.getIn([tab.get('name')]);
-                  return prefs 
+                  return prefs
                     ? prefs.get('display')
                     : true
                 })
@@ -246,7 +246,7 @@ let Character = React.createClass({
         <section className="character-body">
           <SwipePanes onSlideChangeEnd={this.handlePaneSwipe} activeIdx={this.state.activePane} initialSlide={this.state.activePane}>
             <SwipePane>
-              <Info 
+              <Info
                 info={character.get('charInfo')}
                 traits={character.get('charTraits')}
                 proficiencies={character.get('charOtherProficiencies')}
@@ -254,7 +254,7 @@ let Character = React.createClass({
               />
             </SwipePane>
             <SwipePane>
-              <Features 
+              <Features
                 features={character.get('charFeatures')}
                 charges={character.get('charClassCharges')}
                 handleFeatureChange={dispatch}
@@ -270,7 +270,7 @@ let Character = React.createClass({
                />
             </SwipePane>
             <SwipePane>
-              <Defenses 
+              <Defenses
                 hitPoints={character.get('charHitPoints')}
                 speed={character.get('charSpeed')}
                 initiative={character.get('charInitiative')}
@@ -296,11 +296,11 @@ let Character = React.createClass({
                 }
               })(preferences)
             }
-            {            
+            {
               (function conditionalSpells(prefs) {
                 if (prefs.getIn(['Spells', 'display'])) {
                   return <SwipePane>
-                    <Spells 
+                    <Spells
                       bubbles={character.get('charSpellBubbles')}
                       spellDC={character.get('charSpellSaveDC')}
                       spells={character.get('charSpells')}
@@ -317,7 +317,7 @@ let Character = React.createClass({
                 equipment={character.get('charEquipment')}
                 handleEquipmentChange={dispatch}
               />
-            </SwipePane>            
+            </SwipePane>
           </SwipePanes>
         </section>
         <Loading isLoading={this.props.isLoading} />
@@ -327,4 +327,3 @@ let Character = React.createClass({
 });
 
 export default connectUserRoute(characterProvider(Character));
-

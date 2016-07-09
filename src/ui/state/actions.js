@@ -68,7 +68,7 @@ export function updateUserProfile(newProfileName, imagePath) {
           else {
             dispatch({ type: 'USER_NOT_SIGNED_IN' });
           }
-        })     
+        })
       })
   }
 }
