@@ -1,0 +1,53 @@
+.notification
+  position fixed
+  top 10px
+  max-width 50%
+  word-wrap break-word
+
+  &.from-left
+    left 0px
+  &.from-right
+    right 0px
+
+  &.notification-enter.from-left
+    transform translateX(-100%)
+  &.notification-enter-active.from-left
+    transform translateX(0)
+    transition transform 300ms ease
+  &.notification-leave.from-left
+    transform translateX(0)
+    transition transform 300ms ease
+  &.notification-leave-active.from-left
+    transform translateX(-100%)
+
+  &.notification-enter.from-right
+    transform translateX(100%)
+  &.notification-enter-active.from-right
+    transform translateX(0)
+    transition transform 300ms ease
+  &.notification-leave.from-right
+    transform translateX(0)
+    transition transform 300ms ease
+  &.notification-leave-active.from-right
+    transform translateX(100%)
+
+.timer
+  &::before
+    content ''
+    display block
+    height 2px
+    width 100%
+    transform translateX(-100%)
+    animation-name countdown
+    animation-duration 4000ms
+    animation-timing-function linear
+    background-color $text-blue
+
+@keyframes countdown {
+  0% {
+    transform translateX(0)
+  }
+  100% {
+    transform translateX(-100%)
+  }
+}
