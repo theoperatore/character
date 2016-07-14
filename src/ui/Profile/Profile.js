@@ -32,7 +32,6 @@ let Profile = React.createClass({
 
   componentDidMount() {
     let user = this.props.state.user;
-    let status = this.props.state.status;
 
     if (user.get('uid')) {
       this.props.dispatch(getCharactersForUser(user.get('uid')));
@@ -110,6 +109,12 @@ let Profile = React.createClass({
     if (!this.props.state.user.get('characters')) return null;
 
     return this.props.state.user.get('characters').valueSeq().map((character, i) => {
+      let initials = character.get('characterName')
+        .split(' ')
+        .map(p => p.charAt(0))
+        .filter((l, i, arr) => i < 1 || i === arr.length - 1)
+        .join('');
+
       return (
         <ListItem
           key={i}
@@ -118,7 +123,7 @@ let Profile = React.createClass({
           subtext={`level ${character.get('characterLevel')} | ${character.get('characterClass')}`}
           glyph={
             <div className='text-gray bg-gray flex flex-center' style={{ width: 50, height: 50}}>
-              <Icon icon='fa fa-user'/>
+              <span>{initials}</span>
             </div>
           }
           addon={
@@ -180,7 +185,7 @@ let Profile = React.createClass({
             ><Icon icon='fa fa-plus' /> Create a new character</p>
           }
           { listLoadError &&
-              <p className='text-red'>{listLoadError}</p> 
+              <p className='text-red'>{listLoadError}</p>
           }
         </div>
         <Loading isLoading={isLoadingCharacters || isLoadingProfile || isCreating}/>
