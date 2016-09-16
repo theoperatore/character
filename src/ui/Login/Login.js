@@ -10,7 +10,7 @@ import firebase from 'firebase';
 import { ref } from '../../api';
 import { signOut, signInWithEmail } from '../state/actions';
 import { connectSessionToLogin } from './connectSessionToLogin';
-import { generateRandomName } from './generateName';
+import { generateRandomName } from '../generateName';
 
 const IDENTIFY = 'identify';
 const SIGNUP = 'signup';

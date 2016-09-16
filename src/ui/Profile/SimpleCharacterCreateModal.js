@@ -4,6 +4,7 @@ import React from 'react';
 import Modal from '../components/Modal';
 import Icon from '../components/Icon';
 import { createCancelBtn } from '../components/Modal/buttons';
+import { generateRandomName } from '../generateName';
 
 export default React.createClass({
   displayName: 'SimpleCharacterCreateModal',
@@ -57,6 +58,11 @@ export default React.createClass({
     }
   },
 
+  pickRandomName() {
+    this.nameInput.value = generateRandomName();
+    this.setState({ canCreate: true });
+  },
+
   getSimpleContent() {
     return <section>
       <div className='modal-header'>
@@ -83,6 +89,9 @@ export default React.createClass({
           disabled={!this.state.canCreate}
           className='text-green'
         ><Icon icon='fa fa-user-plus'/> Create</button>
+        <button
+          onClick={this.pickRandomName}
+        ><Icon icon='fa fa-random'/> Random Name</button>
         { createCancelBtn(this.handleCancel) }
       </div>
     </section>
