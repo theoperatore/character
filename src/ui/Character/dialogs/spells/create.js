@@ -62,6 +62,7 @@ export default React.createClass({
           <textarea ref={ref => this.descInput = ref} placeholder={NEW_SPELL.desc}></textarea>
           <p><strong>Spell Level</strong></p>
           <select ref={ref => this.levelInput = ref} defaultValue='1'>
+            <option value='0'>Cantrip</option>
             <option value='1'>Level 1</option>
             <option value='2'>Level 2</option>
             <option value='3'>Level 3</option>

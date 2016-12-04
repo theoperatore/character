@@ -40,7 +40,7 @@ export default React.createClass({
   handleConfirm(answer) {
     switch (answer) {
       case 'yes':
-        this.props.onSpellChange({ 
+        this.props.onSpellChange({
           type: 'SPELL_DELETE',
           data: {
             id: this.props.spell.id,
@@ -75,7 +75,7 @@ export default React.createClass({
   },
 
   handleDetailCancel() {
-    this.setState({ 
+    this.setState({
       showDetails: false,
     });
   },
@@ -87,7 +87,7 @@ export default React.createClass({
 
     let data = {
       level: this.props.spellLevel,
-      id: this.props.spell.id,  
+      id: this.props.spell.id,
     };
 
     this.props.onSpellChange({ type, data });
@@ -109,7 +109,7 @@ export default React.createClass({
     return (<section>
       <div className='modal-header cf'>
         <h3 className='left'>{name}</h3>
-        <h3 
+        <h3
           className='right text-purple prepare-spell-icon'
           onClick={this.prepareSpell}
         ><Icon icon={icon}/></h3>
@@ -161,7 +161,7 @@ export default React.createClass({
     let { spell, spellLevel } = this.props;
     let subtext = `${spellLevel === 0 ? 'cantrip' : `lvl ${spellLevel}`}`;
 
-    subtext = spell.prepared 
+    subtext = spell.prepared
       ? <span><Icon icon='fa fa-bookmark text-spell' /> {subtext}</span>
       : subtext;
 
@@ -175,7 +175,7 @@ export default React.createClass({
         onClick={() => this.setState({ showDetails: true })}
       >
         <Modal
-          id={spell.id}
+          id={`spell-${spell.id}`}
           active={this.state.showDetails}
           onDismiss={this.handleDetailCancel}
           content={this.state.editSpell
