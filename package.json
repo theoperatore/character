@@ -26,10 +26,6 @@
   },
   "author": "Alex Petersen <theoperatore@gmail.com> (http://anpetersen.me)",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ClockworkMonocle/character"
-  },
   "browserify": {
     "transform": [
       "babelify",
