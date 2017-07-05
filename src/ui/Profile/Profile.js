@@ -1,6 +1,4 @@
-"use strict";
-
-import React from 'react';
+import React, { Component } from 'react';
 
 import Router from '../router/Router';
 import { ROUTE_LOGIN, ROUTE_CHARACTER } from '../routes';
@@ -17,18 +15,14 @@ import EditProfile from './EditProfile';
 import connectUserRoute from '../connectUserRoute';
 import connectAuthRedirect from '../connectAuthRedirect';
 
-let Profile = React.createClass({
-  displayName: "Profile",
-
-  getInitialState() {
-    return {
-      menuOpen: false,
-      confirmDelete: false,
-      deleteId: null,
-      createNewCharacter: false,
-      editProfile: false,
-    }
-  },
+export class Profile extends Component {
+  state = {
+    menuOpen: false,
+    confirmDelete: false,
+    deleteId: null,
+    createNewCharacter: false,
+    editProfile: false,
+  }
 
   componentDidMount() {
     let user = this.props.state.user;
@@ -36,7 +30,7 @@ let Profile = React.createClass({
     if (user.get('uid')) {
       this.props.dispatch(getCharactersForUser(user.get('uid')));
     }
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     let user = nextProps.state.user;
@@ -44,11 +38,11 @@ let Profile = React.createClass({
     if (user.get('uid') && !user.get('characters') && !status.get('characterListLoading')) {
       this.props.dispatch(getCharactersForUser(user.get('uid')));
     }
-  },
+  }
 
   loadCharacter(id) {
     Router.nav(ROUTE_CHARACTER, id);
-  },
+  }
 
   deleteCharacter(id) {
     this.setState({
@@ -56,7 +50,7 @@ let Profile = React.createClass({
       deleteId: id,
       characterToDelete: this.props.state.user.getIn(['characters', id, 'characterName'])
     });
-  },
+  }
 
   handleConfirm(answer) {
     switch(answer) {
@@ -78,16 +72,16 @@ let Profile = React.createClass({
         });
         break;
     }
-  },
+  }
 
   handleSimpleCreate(action) {
     let userId = this.props.state.user.get('uid');
     this.props.dispatch(createCharacter(userId, action.data.name));
-  },
+  }
 
   signOut() {
     this.props.dispatch(signOut());
-  },
+  }
 
   menuContent() {
     return <section>
@@ -103,7 +97,7 @@ let Profile = React.createClass({
         ><Icon icon='fa fa-sign-out'/> Sign Out</button>
       </div>
     </section>
-  },
+  }
 
   renderCharacters() {
     if (!this.props.state.user.get('characters')) return null;
@@ -135,7 +129,7 @@ let Profile = React.createClass({
         />
       );
     });
-  },
+  }
 
   getDisplayImg() {
     if (!this.props.state.user.get('uid')) return null;
@@ -147,7 +141,7 @@ let Profile = React.createClass({
     : <div className='text-gray bg-gray flex flex-center left' style={{ width: 50, height: 50}}>
         <span>{user.get('displayName').charAt(0).toUpperCase()}</span>
       </div>
-  },
+  }
 
   render() {
     let isLoadingProfile = this.props.state.status.get('userLoadingProfile');
@@ -216,7 +210,7 @@ let Profile = React.createClass({
       </div>
     );
   }
-})
+}
 
 export default connectUserRoute(
   connectAuthRedirect(

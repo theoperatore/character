@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 
 import Icon from '../../../components/Icon';
 import Modal from '../../../components/Modal';
@@ -11,11 +11,11 @@ export default React.createClass({
   displayName: 'EditProficiencyBonusDialog',
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    base: React.PropTypes.number.isRequired,
-    bonus: React.PropTypes.number.isRequired,
-    onChange: React.PropTypes.func.isRequired,
+    active: PropTypes.bool.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    base: PropTypes.number.isRequired,
+    bonus: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
   },
 
   getInitialState() {

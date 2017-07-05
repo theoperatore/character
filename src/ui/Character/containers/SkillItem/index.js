@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Icon from '../../../components/Icon';
 import Modal from '../../../components/Modal';
@@ -14,12 +14,12 @@ export default React.createClass({
   // only that it must display a skill's score.
   // the calculation of what that score is should be done elsewhere
   propTypes: {
-    name: React.PropTypes.string.isRequired,
-    score: React.PropTypes.number.isRequired,
-    trained: React.PropTypes.bool.isRequired,
-    ability: React.PropTypes.string.isRequired,
-    maxScore: React.PropTypes.number.isRequired,
-    onSkillChange: React.PropTypes.func.isRequired
+    name: PropTypes.string.isRequired,
+    score: PropTypes.number.isRequired,
+    trained: PropTypes.bool.isRequired,
+    ability: PropTypes.string.isRequired,
+    maxScore: PropTypes.number.isRequired,
+    onSkillChange: PropTypes.func.isRequired
   },
 
 

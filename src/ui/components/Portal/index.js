@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import reactDOM from 'react-dom';
 
 export default React.createClass({
@@ -11,7 +11,7 @@ export default React.createClass({
 
 
   propTypes: {
-    id: React.PropTypes.string.isRequired
+    id: PropTypes.string.isRequired
   },
 
 

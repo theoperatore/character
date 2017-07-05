@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 
 import Icon from '../../../components/Icon';
 import Modal from '../../../components/Modal';
@@ -11,10 +11,10 @@ export default React.createClass({
   displayName: 'EditPassivePerceptionDialog',
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    bonus: React.PropTypes.number.isRequired,
-    onChange: React.PropTypes.func.isRequired,
+    active: PropTypes.bool.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    bonus: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
   },
 
   getInitialState() {

@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import ListItem from '../../../components/ListItem/v2';
 import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
@@ -11,12 +11,12 @@ export default React.createClass({
   displayName: 'EquipmentItem',
 
   propTypes: {
-    id: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
-    desc: React.PropTypes.string.isRequired,
-    containers: React.PropTypes.array.isRequired,
-    containerId: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    desc: PropTypes.string.isRequired,
+    containers: PropTypes.array.isRequired,
+    containerId: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
   },
 
   getInitialState() {

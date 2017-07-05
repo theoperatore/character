@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import Icon from '../../../components/Icon';
 import Modal from '../../../components/Modal';
 import ConfirmModal from '../../dialogs/ConfirmModal';
@@ -10,9 +10,9 @@ export default React.createClass({
   displayName: 'SavingThrowItem',
 
   propTypes: {
-    ability: React.PropTypes.string.isRequired,
-    score: React.PropTypes.number.isRequired,
-    proficient: React.PropTypes.bool.isRequired
+    ability: PropTypes.string.isRequired,
+    score: PropTypes.number.isRequired,
+    proficient: PropTypes.bool.isRequired
   },
 
 

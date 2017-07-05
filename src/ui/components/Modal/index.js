@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import cn from 'classnames';
 import Portal from '../Portal';
@@ -15,12 +15,12 @@ export default React.createClass({
 
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    id: React.PropTypes.string.isRequired,
-    content: React.PropTypes.element.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    overflowAppContainer: React.PropTypes.string,
-    overflowPaneContainer: React.PropTypes.string,
+    active: PropTypes.bool.isRequired,
+    id: PropTypes.string.isRequired,
+    content: PropTypes.element.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    overflowAppContainer: PropTypes.string,
+    overflowPaneContainer: PropTypes.string,
   },
 
 

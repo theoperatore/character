@@ -1,7 +1,7 @@
 'use strict';
 
-import React from 'react';
-import uuid from 'node-uuid';
+import React, { Component } from 'react';
+import uuid from 'uuid/v1';
 import ConfirmModal from '../../ConfirmModal';
 import Modal from '../../../../components/Modal';
 import Icon from '../../../../components/Icon';
@@ -11,9 +11,9 @@ export default React.createClass({
 
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    onCreate: React.PropTypes.func.isRequired,
-    onCancel: React.PropTypes.func.isRequired
+    active: PropTypes.bool.isRequired,
+    onCreate: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired
   },
 
 
@@ -65,7 +65,7 @@ export default React.createClass({
     let desc = this.refs.desc.value.trim();
 
     if (name !== '') {
-      let id = `resistance-${uuid.v1()}`;
+      let id = `resistance-${uuid()}`;
       let data = { name, desc, id }
       this.props.onCreate({ type: 'RESISTANCES_CREATE', data });
     }

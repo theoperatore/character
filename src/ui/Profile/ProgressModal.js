@@ -1,16 +1,13 @@
-'use strict';
-
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Modal from '../components/Modal';
 import Icon from '../components/Icon';
 
-export default React.createClass({
-  displayName: 'ProgressModal',
-
-  propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    progress: React.PropTypes.number.isRequired,
-  },
+export default class ProgressModal extends Component {
+  static propTypes = {
+    active: PropTypes.bool.isRequired,
+    progress: PropTypes.number.isRequired,
+  }
 
   getConfirmContent() {
     return (
@@ -21,7 +18,7 @@ export default React.createClass({
         </div>
       </section>
     )
-  },
+  }
 
   render() {
     return <Modal
@@ -33,4 +30,4 @@ export default React.createClass({
       overflowPaneContainer='body'
     />
   }
-})
+}

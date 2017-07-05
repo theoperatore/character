@@ -1,7 +1,7 @@
 'use strict';
 
-import React from 'react';
-import uuid from 'node-uuid';
+import React, { Component } from 'react';
+import uuid from 'uuid/v1';
 import Icon from '../../../components/Icon';
 import Modal from '../../../components/Modal';
 import ConfirmModal from '../ConfirmModal';
@@ -12,9 +12,9 @@ export default React.createClass({
 
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    dismiss: React.PropTypes.func.isRequired,
-    onCreate: React.PropTypes.func.isRequired
+    active: PropTypes.bool.isRequired,
+    dismiss: PropTypes.func.isRequired,
+    onCreate: PropTypes.func.isRequired
   },
 
 
@@ -77,7 +77,7 @@ export default React.createClass({
     if (name !== '') {
       let abil = this.refs.ability.value;
       let prof = this.refs.prof.checked;
-      let id = `atkBonus-${uuid.v1()}`;
+      let id = `atkBonus-${uuid()}`;
       let bonus = this.state.bonus === '' || this.state.bonus === '-' ? 0 : this.state.bonus;
       let data = { abil, prof, id, name, bonus };
 

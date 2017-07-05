@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import Modal from '../../components/Modal';
 import Icon from '../../components/Icon';
 
@@ -9,12 +9,12 @@ export default React.createClass({
 
 
   propTypes: {
-    message: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.element,
+    message: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
     ]),
-    onConfirm: React.PropTypes.func.isRequired,
-    active: React.PropTypes.bool.isRequired
+    onConfirm: PropTypes.func.isRequired,
+    active: PropTypes.bool.isRequired
   },
 
 

@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 
 import ListItem from '../../../components/ListItem/v2';
 import Modal from '../../../components/Modal';
@@ -12,10 +12,10 @@ export default React.createClass({
 
 
   propTypes: {
-    name: React.PropTypes.string.isRequired,
-    desc: React.PropTypes.string.isRequired,
-    id: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired
+    name: PropTypes.string.isRequired,
+    desc: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired
   },
 
 

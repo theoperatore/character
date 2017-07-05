@@ -1,21 +1,15 @@
-'use strict';
-
-import React from 'react';
+import React, { Component } from 'react';
 import cn from 'classnames';
 import Icon from '../Icon';
 
-export default React.createClass({
-  displayName: "LoadingOverlay",
-
-  getDefaultProps() {
-    return ({
-      isLoading : false
-    })
-  },
+export default class LoadingOverlay extends Component {
+  static defaultProps = {
+    isLoading: false
+  }
 
   shouldComponentUpdate(nextProps) {
     return nextProps.isLoading !== this.props.isLoading;
-  },
+  }
 
   render() {
     let css = cn({
@@ -31,4 +25,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

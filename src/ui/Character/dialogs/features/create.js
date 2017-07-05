@@ -1,7 +1,7 @@
 'use strict';
 
-import React from 'react';
-import uuid from 'node-uuid';
+import React, { Component } from 'react';
+import uuid from 'uuid/v1';
 
 import Icon from '../../../components/Icon';
 import Modal from '../../../components/Modal';
@@ -11,9 +11,9 @@ export default React.createClass({
   displayName: 'CreateNewFeatureDialog',
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    dismiss: React.PropTypes.func.isRequired,
-    onCreate: React.PropTypes.func.isRequired
+    active: PropTypes.bool.isRequired,
+    dismiss: PropTypes.func.isRequired,
+    onCreate: PropTypes.func.isRequired
   },
 
 
@@ -54,7 +54,7 @@ export default React.createClass({
         name: this.refs.newName.value.trim(),
         desc: this.refs.newDesc.value.trim(),
         type: this.state.selectedType,
-        id: `feature-${uuid.v1()}`,
+        id: `feature-${uuid()}`,
       }
     }
 
@@ -63,7 +63,7 @@ export default React.createClass({
       data.classCharge.name = this.refs.ccname.value.trim();
       data.classCharge.charges = this.state.cctotal !== '' ? this.state.cctotal : 0;
       data.classCharge.current = this.state.cctotal !== '' ? this.state.cctotal : 0;
-      data.classCharge.id = `classCharge-${uuid.v1()}`;
+      data.classCharge.id = `classCharge-${uuid()}`;
       data.feature.classChargesId = data.classCharge.id;
     }
 

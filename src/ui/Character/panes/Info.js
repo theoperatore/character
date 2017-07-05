@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import { Map, List } from 'immutable';
 import ListItem from '../../components/ListItem';
 import Modal from '../../components/Modal';

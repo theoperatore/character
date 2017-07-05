@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 import Tab from '../../../components/Tab';
@@ -11,9 +11,9 @@ export default React.createClass({
 
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    dismiss: React.PropTypes.func.isRequired,
-    onChange: React.PropTypes.func.isRequired
+    active: PropTypes.bool.isRequired,
+    dismiss: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired
   },
 
 

@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import debug from 'debug';
 import { ref } from '../../api';
 import { loadCharacter } from '../state/actions';
@@ -56,8 +56,8 @@ export function characterProvider(Component) {
   return React.createClass({
 
     propTypes: {
-      dispatch: React.PropTypes.func.isRequired,
-      state: React.PropTypes.object.isRequired,
+      dispatch: PropTypes.func.isRequired,
+      state: PropTypes.object.isRequired,
     },
 
     getInitialState() {

@@ -1,7 +1,7 @@
 'use strict';
 
-import React from 'react';
-import uuid from 'node-uuid';
+import React, { Component } from 'react';
+import uuid from 'uuid/v1';
 import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 import ConfirmModal from '../ConfirmModal';
@@ -11,9 +11,9 @@ export default React.createClass({
 
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    dismiss: React.PropTypes.func.isRequired,
-    onCreate: React.PropTypes.func.isRequired
+    active: PropTypes.bool.isRequired,
+    dismiss: PropTypes.func.isRequired,
+    onCreate: PropTypes.func.isRequired
   },
 
 
@@ -59,7 +59,7 @@ export default React.createClass({
     if (this.refs.name.value.trim() !== '') {
       let name = this.refs.name.value.trim();
       let desc = this.refs.desc.value.trim();
-      let id = `attack-${uuid.v1()}`;
+      let id = `attack-${uuid()}`;
       let data = { name, desc, id };
 
       this.props.onCreate({ type: 'ATTACK_CREATE', data});

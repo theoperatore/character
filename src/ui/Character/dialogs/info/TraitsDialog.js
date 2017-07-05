@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 
 import Icon from '../../../components/Icon';
 import Modal from '../../../components/Modal';
@@ -11,12 +11,12 @@ export default React.createClass({
   displayName: 'TraitsDialog',
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    name: React.PropTypes.string.isRequired,
-    desc: React.PropTypes.string.isRequired,
-    id: React.PropTypes.string.isRequired,
-    onTraitChange: React.PropTypes.func.isRequired,
-    onDismiss: React.PropTypes.func
+    active: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+    desc: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    onTraitChange: PropTypes.func.isRequired,
+    onDismiss: PropTypes.func
   },
 
   getInitialState() {

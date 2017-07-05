@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import classnames from 'classnames';
 import Icon from '../Icon';
 

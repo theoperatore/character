@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 
 import Icon from '../../../../components/Icon';
 import ConfirmModal from '../../ConfirmModal';
@@ -20,11 +20,11 @@ export default React.createClass({
 
 
   propTypes: {
-    name: React.PropTypes.string.isRequired,
-    desc: React.PropTypes.string.isRequired,
-    id: React.PropTypes.string.isRequired,
-    onProficiencyChange: React.PropTypes.func.isRequired,
-    dismiss: React.PropTypes.func
+    name: PropTypes.string.isRequired,
+    desc: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    onProficiencyChange: PropTypes.func.isRequired,
+    dismiss: PropTypes.func
   },
 
 

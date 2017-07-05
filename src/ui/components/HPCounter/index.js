@@ -1,40 +1,31 @@
-'use strict';
-
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import cn from 'classnames';
 
-export default React.createClass({
-  displayName: 'HPCounter',
+export default class HPCounter extends Component {
+  static propTypes = {
+    maximum: PropTypes.number.isRequired,
+    current: PropTypes.number.isRequired,
+    temporary: PropTypes.number.isRequired
+  }
 
-  propTypes: {
-    maximum: React.PropTypes.number.isRequired,
-    current: React.PropTypes.number.isRequired,
-    temporary: React.PropTypes.number.isRequired
-  },
+  state = {
+    hp: 0,
+    tempHp: 0
+  }
 
-
-  getInitialState() {
-    return {
-      hp: 0,
-      tempHp: 0
-    }
-  },
-
-
-  tempInterval: null,
-  hpInterval: null,
-  tempPromise: null,
-  hpPromise: null,
-  maxWidth: 0,
-
+  tempInterval = null;
+  hpInterval = null;
+  tempPromise = null;
+  hpPromise = null;
+  maxWidth = 0;
 
   componentDidMount() {
     this.animateTempHpCounting(this.props.temporary);
     this.animateHpCounting(this.props.current);
     this.maxWidth = ReactDOM.findDOMNode(this).getBoundingClientRect().width;
-  },
-
+  }
 
   componentWillReceiveProps(nextProps) {
     this.maxWidth = ReactDOM.findDOMNode(this).getBoundingClientRect().width;
@@ -70,8 +61,7 @@ export default React.createClass({
       });
       return;
     }
-  },
-
+  }
 
   animateTempHpCounting(nextTemp) {
     return new Promise(resolve => {
@@ -91,8 +81,7 @@ export default React.createClass({
         this.setState({ tempHp });
       }, 20)
     })
-  },
-
+  }
 
   animateHpCounting(nextHp) {
     return new Promise(resolve => {
@@ -112,8 +101,7 @@ export default React.createClass({
         this.setState({ hp });
       }, 20)
     })
-  },
-
+  }
 
   render() {
     let hpCss = cn({
@@ -159,4 +147,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

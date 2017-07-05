@@ -1,6 +1,5 @@
-'use strict';
-
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Icon from '../components/Icon';
 import Popup from '../components/Popup';
 import ProgressModal from './ProgressModal';
@@ -9,27 +8,23 @@ import { storage } from '../../api';
 
 window.URL = window.URL || window.webkitURL;
 
-export default React.createClass({
-  displayName: 'EditProfile',
-
-  propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    dispatch: React.PropTypes.func.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    displayName: React.PropTypes.string,
-    profileImg: React.PropTypes.string,
-    userId: React.PropTypes.string,
+export default class EditProfile extends Compoent {
+  static propTypes = {
+    active: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    displayName: PropTypes.string,
+    profileImg: PropTypes.string,
+    userId: PropTypes.string,
   },
 
-  getInitialState() {
-    return {
-      imgURL: null,
-      file: null,
-      uploading: false,
-      uploadError: '',
-      uploadProgress: 0,
-    }
-  },
+  state = {
+    imgURL: null,
+    file: null,
+    uploading: false,
+    uploadError: '',
+    uploadProgress: 0,
+  }
 
   componentWillReceiveProps() {
     this.setState({
@@ -39,17 +34,17 @@ export default React.createClass({
       uploading: false,
       uploadProgress: 0,
     });
-  },
+  }
 
-  imgUpload: null,
-  profileInput: null,
+  imgUpload = null;
+  profileInput = null;
 
   handleFileSelect() {
     let file = this.imgUpload.files[0];
     let url = window.URL.createObjectURL(file);
 
     this.setState({ imgURL: url, file });
-  },
+  }
 
   handleSave() {
     let profileName = this.props.displayName;
@@ -82,7 +77,7 @@ export default React.createClass({
         this.setState({ uploadError: '', uploading: false });
     }
 
-  },
+  }
 
   getDisplayImg() {
     if (!this.props.displayName) return null;
@@ -92,7 +87,7 @@ export default React.createClass({
     : <div className='text-gray bg-gray flex flex-center' style={{ width: 96, height: 96 }}>
         <span>{this.props.displayName.charAt(0).toUpperCase()}</span>
       </div>
-  },
+  }
 
   content() {
     return <section>
@@ -103,7 +98,7 @@ export default React.createClass({
         <div className='edit-profile-container text-center'>
           <h3>{ this.props.displayName }</h3>
           <div className='current-profile-img'>
-            {  
+            {
               this.state.imgURL
               ? <img
                   src={this.state.imgURL}
@@ -153,8 +148,7 @@ export default React.createClass({
         progress={this.state.uploadProgress}
       />
     </section>
-  },
-
+  }
 
   render() {
     return <Popup
@@ -165,4 +159,4 @@ export default React.createClass({
       overflowPaneContainer='body'
     />
   },
-});
+}

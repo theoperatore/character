@@ -1,7 +1,7 @@
 'use strict';
 
-import React from 'react';
-import uuid from 'node-uuid';
+import React, { Component } from 'react';
+import uuid from 'uuid/v1';
 
 import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
@@ -13,14 +13,14 @@ export default React.createClass({
 
 
   propTypes: {
-    name: React.PropTypes.string.isRequired,
-    desc: React.PropTypes.string.isRequired,
-    id: React.PropTypes.string.isRequired,
-    featureType: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    classChargesId: React.PropTypes.string,
-    classChargesName: React.PropTypes.string,
-    classChargesTotal: React.PropTypes.number
+    name: PropTypes.string.isRequired,
+    desc: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    featureType: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    classChargesId: PropTypes.string,
+    classChargesName: PropTypes.string,
+    classChargesTotal: PropTypes.number
   },
 
 
@@ -124,7 +124,7 @@ export default React.createClass({
       let data = { feature };
 
       if (giveClassCharge && ccname !== '') {
-        feature.classChargesId = isNewClassCharge ? uuid.v1() : this.props.classChargesId;
+        feature.classChargesId = isNewClassCharge ? uuid() : this.props.classChargesId;
         classCharge.id = isNewClassCharge ? feature.classChargesId : this.props.classChargesId;
         data.classCharge = classCharge;
         data.isNewClassCharge = isNewClassCharge;

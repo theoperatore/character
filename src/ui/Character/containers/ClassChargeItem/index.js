@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import SegmentedProgressBar from '../../../components/SegmentedProgressBar';
 import Icon from '../../../components/Icon';
 
@@ -8,11 +8,11 @@ export default React.createClass({
   displayName: 'ClassChargeItem',
 
   propTypes: {
-    id: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
-    charges: React.PropTypes.number.isRequired,
-    current: React.PropTypes.number.isRequired,
-    onChange: React.PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    charges: PropTypes.number.isRequired,
+    current: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
   },
 
   useCharge() {

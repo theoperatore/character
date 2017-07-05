@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import debug from 'debug';
 
 import Icon from '../../../components/Icon';
@@ -21,14 +21,14 @@ export default React.createClass({
 
 
   propTypes: {
-    currLevel: React.PropTypes.number.isRequired,
-    currXp: React.PropTypes.number.isRequired,
-    currRace: React.PropTypes.string.isRequired,
-    currAlign: React.PropTypes.string.isRequired,
-    currBackground: React.PropTypes.string.isRequired,
-    currClass: React.PropTypes.string.isRequired,
-    onSave: React.PropTypes.func.isRequired,
-    onCancel: React.PropTypes.func.isRequired
+    currLevel: PropTypes.number.isRequired,
+    currXp: PropTypes.number.isRequired,
+    currRace: PropTypes.string.isRequired,
+    currAlign: PropTypes.string.isRequired,
+    currBackground: PropTypes.string.isRequired,
+    currClass: PropTypes.string.isRequired,
+    onSave: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired
   },
 
   refNames: ['level', 'xp', 'class', 'race', 'alignment', 'background'],

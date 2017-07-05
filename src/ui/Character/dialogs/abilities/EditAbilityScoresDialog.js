@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 
 import { AbilityScores } from '../../constants';
 import Icon from '../../../components/Icon';
@@ -11,8 +11,8 @@ export default React.createClass({
 
 
   propTypes: {
-    onSave: React.PropTypes.func.isRequired,
-    abilities: React.PropTypes.object.isRequired,
+    onSave: PropTypes.func.isRequired,
+    abilities: PropTypes.object.isRequired,
   },
 
 

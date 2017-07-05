@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import ListItem from '../../../components/ListItem/v2';
 import Popup from '../../../components/Popup';
 import EquipmentItem from '../../containers/EquipmentItem';
@@ -13,10 +13,10 @@ export default React.createClass({
   displayName: 'EquipmentContainer',
 
   propTypes: {
-    containers: React.PropTypes.array.isRequired,
-    container: React.PropTypes.object.isRequired,
-    items: React.PropTypes.object.isRequired,
-    onContainerChange: React.PropTypes.func.isRequired,
+    containers: PropTypes.array.isRequired,
+    container: PropTypes.object.isRequired,
+    items: PropTypes.object.isRequired,
+    onContainerChange: PropTypes.func.isRequired,
   },
 
   getInitialState() {

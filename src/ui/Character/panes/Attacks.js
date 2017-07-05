@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import AttackBonusItem from '../containers/AttackBonusItem';
 import AttackItem from '../containers/AttackItem';
 import ClassChargeItem from '../containers/ClassChargeItem';

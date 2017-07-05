@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import Modal from '../../../components/Modal';
 import Tabs from '../../../components/Tabs';
 import Tab from '../../../components/Tab';
@@ -10,9 +10,9 @@ export default React.createClass({
   displayName: 'ManageWealth',
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    onChange: React.PropTypes.func.isRequired,
+    active: PropTypes.bool.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
   },
 
   getInitialState() {

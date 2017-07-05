@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 import { dieTypes } from '../../constants';
@@ -10,11 +10,11 @@ export default React.createClass({
   displayName: 'ManageHitDice',
 
   propTypes: {
-    hitDice: React.PropTypes.object.isRequired,
-    hitDiceDefinitions: React.PropTypes.object.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    active: React.PropTypes.bool.isRequired,
-    onChange: React.PropTypes.func.isRequired,
+    hitDice: PropTypes.object.isRequired,
+    hitDiceDefinitions: PropTypes.object.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    active: PropTypes.bool.isRequired,
+    onChange: PropTypes.func.isRequired,
   },
 
   getInitialState() {

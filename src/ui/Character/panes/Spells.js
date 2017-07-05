@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import Spell from '../containers/Spell';
 import AttackBonusItem from '../containers/AttackBonusItem';
 import ClassChargeItem from '../containers/ClassChargeItem';
@@ -14,12 +14,12 @@ export default React.createClass({
   displayName: "PaneSpells",
 
   propTypes: {
-    spells: React.PropTypes.object.isRequired,
-    spellDC: React.PropTypes.object.isRequired,
-    bubbles: React.PropTypes.object.isRequired,
-    charges: React.PropTypes.object.isRequired,
-    preferences: React.PropTypes.object.isRequired,
-    handleSpellsChange: React.PropTypes.func.isRequired,
+    spells: PropTypes.object.isRequired,
+    spellDC: PropTypes.object.isRequired,
+    bubbles: PropTypes.object.isRequired,
+    charges: PropTypes.object.isRequired,
+    preferences: PropTypes.object.isRequired,
+    handleSpellsChange: PropTypes.func.isRequired,
   },
 
 

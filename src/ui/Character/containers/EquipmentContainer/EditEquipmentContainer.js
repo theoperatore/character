@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import Modal from '../../../components/Modal';
 import { createSaveBtn, createCancelBtn } from '../../../components/Modal/buttons';
 import ConfirmModal from '../../dialogs/ConfirmModal';
@@ -9,10 +9,10 @@ export default React.createClass({
   displayName: 'EditEquipmentContainer',
 
   propTypes: {
-    id: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onDismiss: PropTypes.func.isRequired,
   },
 
   getInitialState() {

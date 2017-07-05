@@ -1,7 +1,7 @@
 'use strict';
 
-import React from 'react';
-import uuid from 'node-uuid';
+import React, { Component } from 'react';
+import uuid from 'uuid/v1';
 import Icon from '../../../components/Icon';
 
 const NEW_SPELL = {
@@ -17,14 +17,14 @@ export default React.createClass({
   displayName: 'CreateSpell',
 
   propTypes: {
-    onChange: React.PropTypes.func.isRequired,
-    onCancel: React.PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
   },
 
   getSpellInput() {
     return {
       spell: {
-        id: `spell-${uuid.v1()}`,
+        id: `spell-${uuid()}`,
         name: this.nameInput.value.trim(),
         desc: this.descInput.value.trim(),
         cast: this.castInput.value.trim(),

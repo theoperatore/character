@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 
@@ -9,14 +9,14 @@ export default React.createClass({
   displayName: 'Cast',
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    initialSpellLevel: React.PropTypes.number.isRequired,
+    active: PropTypes.bool.isRequired,
+    initialSpellLevel: PropTypes.number.isRequired,
 
     // each object must have levelId
-    slotsPerLevel: React.PropTypes.array.isRequired,
-    spellId: React.PropTypes.string.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    onCast: React.PropTypes.func.isRequired,
+    slotsPerLevel: PropTypes.array.isRequired,
+    spellId: PropTypes.string.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    onCast: PropTypes.func.isRequired,
   },
 
   getInitialState() {

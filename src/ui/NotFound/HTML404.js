@@ -1,14 +1,7 @@
-"use strict";
+import React from 'react';
 
-var React = require('react');
-
-module.exports = React.createClass({
-  displayName : "404",
-  render : function() {
-    return (
-      <div className="container">
-        <h1>Page Not Found!</h1>
-      </div>
-    );
-  }
-})
+export default function NotFound() {
+  return (<div className="container">
+    <h1>Page not found</h1>
+  </div>);
+}

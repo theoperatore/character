@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import Immutable from 'immutable';
 import SkillItem from '../containers/SkillItem';
 import Modal from '../../components/Modal';

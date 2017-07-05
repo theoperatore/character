@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import Icon from '../../../../components/Icon';
 import Modal from '../../../../components/Modal';
 
@@ -8,10 +8,10 @@ export default React.createClass({
   displayName: 'EditSpellSlotsDialog',
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    slots: React.PropTypes.array.isRequired,
-    onSpellSlotsChange: React.PropTypes.func.isRequired,
+    active: PropTypes.bool.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    slots: PropTypes.array.isRequired,
+    onSpellSlotsChange: PropTypes.func.isRequired,
   },
 
   getInitialState() {

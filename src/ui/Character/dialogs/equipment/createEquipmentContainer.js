@@ -1,7 +1,7 @@
 'use strict';
 
-import React from 'react';
-import uuid from 'node-uuid';
+import React, { Component } from 'react';
+import uuid from 'uuid/v1';
 import Modal from '../../../components/Modal';
 import ConfirmModal from '../ConfirmModal';
 import { createSaveBtn, createCancelBtn } from '../../../components/Modal/buttons';
@@ -10,9 +10,9 @@ export default React.createClass({
   displayName: 'CreateEquipmentContainer',
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    onCreate: React.PropTypes.func.isRequired,
+    active: PropTypes.bool.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    onCreate: PropTypes.func.isRequired,
   },
 
   getInitialState() {
@@ -36,7 +36,7 @@ export default React.createClass({
     this.props.onCreate({
       type: 'EQUIPMENT_CONTAINER_CREATE',
       data: {
-        id: `equip-container-${uuid.v1()}`,
+        id: `equip-container-${uuid()}`,
         name,
       },
     });

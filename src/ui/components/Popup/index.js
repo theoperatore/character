@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import cn from 'classnames';
 import Portal from '../Portal';
 
@@ -13,11 +13,11 @@ export default React.createClass({
   displayName: 'Popup',
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    id: React.PropTypes.string.isRequired,
-    content: React.PropTypes.element.isRequired,
-    overflowAppContainer: React.PropTypes.string,
-    overflowPaneContainer: React.PropTypes.string,
+    active: PropTypes.bool.isRequired,
+    id: PropTypes.string.isRequired,
+    content: PropTypes.element.isRequired,
+    overflowAppContainer: PropTypes.string,
+    overflowPaneContainer: PropTypes.string,
   },
 
   getInitialState() {

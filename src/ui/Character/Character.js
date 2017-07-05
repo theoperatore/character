@@ -1,6 +1,6 @@
 "use strict";
 
-import React from 'react';
+import React, { Component } from 'react';
 
 import Router from '../router/Router';
 import { db } from '../../api';
@@ -30,12 +30,12 @@ let Character = React.createClass({
   displayName: "CharacterApp",
 
   propTypes: {
-    dispatch: React.PropTypes.func.isRequired,
-    state: React.PropTypes.object.isRequired,
-    isLoading: React.PropTypes.bool,
-    isSaving: React.PropTypes.bool,
-    saveError: React.PropTypes.object,
-    lastSavedDate: React.PropTypes.number,
+    dispatch: PropTypes.func.isRequired,
+    state: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool,
+    isSaving: PropTypes.bool,
+    saveError: PropTypes.object,
+    lastSavedDate: PropTypes.number,
   },
 
   getInitialState() {

@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import ListItem from '../../../components/ListItem/v2';
 import Modal from '../../../components/Modal';
 import ConfirmModal from '../../dialogs/ConfirmModal';
@@ -12,19 +12,19 @@ export default React.createClass({
   displayName: 'Spell',
 
   propTypes: {
-    spell: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
-      name: React.PropTypes.string.isRequired,
-      desc: React.PropTypes.string.isRequired,
-      cast: React.PropTypes.string.isRequired,
-      range: React.PropTypes.string.isRequired,
-      cmp: React.PropTypes.string.isRequired,
-      dur: React.PropTypes.string.isRequired,
-      prepared: React.PropTypes.bool.isRequired,
+    spell: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      desc: PropTypes.string.isRequired,
+      cast: PropTypes.string.isRequired,
+      range: PropTypes.string.isRequired,
+      cmp: PropTypes.string.isRequired,
+      dur: PropTypes.string.isRequired,
+      prepared: PropTypes.bool.isRequired,
     }),
-    spellLevel: React.PropTypes.number.isRequired,
-    onSpellChange: React.PropTypes.func.isRequired,
-    slotsPerLevel: React.PropTypes.array.isRequired,
+    spellLevel: PropTypes.number.isRequired,
+    onSpellChange: PropTypes.func.isRequired,
+    slotsPerLevel: PropTypes.array.isRequired,
   },
 
   getInitialState() {

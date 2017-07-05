@@ -1,14 +1,14 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 
 export default React.createClass({
   displayName: 'SegmentedProgressBar',
 
 
   propTypes: {
-    segments: React.PropTypes.number.isRequired,
-    current: React.PropTypes.number.isRequired
+    segments: PropTypes.number.isRequired,
+    current: PropTypes.number.isRequired
   },
 
 

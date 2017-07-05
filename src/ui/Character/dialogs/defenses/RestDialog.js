@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import Modal from '../../../components/Modal';
 import Tabs from '../../../components/Tabs';
 import Tab from '../../../components/Tab';
@@ -10,11 +10,11 @@ export default React.createClass({
   displayName: 'RestDialog',
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    hitDice: React.PropTypes.object.isRequired,
-    hitDiceDefinitions: React.PropTypes.object.isRequired,
+    active: PropTypes.bool.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    hitDice: PropTypes.object.isRequired,
+    hitDiceDefinitions: PropTypes.object.isRequired,
   },
 
   getInitialState() {

@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import ListItem from '../../components/ListItem';
 import Icon from '../../components/Icon';
 import Modal from '../../components/Modal';
@@ -13,9 +13,9 @@ export default React.createClass({
 
 
   propTypes: {
-    features: React.PropTypes.object.isRequired,
-    charges: React.PropTypes.object.isRequired,
-    handleFeatureChange: React.PropTypes.func.isRequired
+    features: PropTypes.object.isRequired,
+    charges: PropTypes.object.isRequired,
+    handleFeatureChange: PropTypes.func.isRequired
   },
 
 

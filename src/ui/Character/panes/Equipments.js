@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import ListItem from '../../components/ListItem/v2';
 import Icon from '../../components/Icon';
 import CreateEquipmentContainer from '../dialogs/equipment/createEquipmentContainer';
@@ -13,8 +13,8 @@ export default React.createClass({
   wealthTypes: ['cp', 'sp', 'ep', 'gp', 'pp'],
 
   propTypes: {
-    equipment: React.PropTypes.object.isRequired,
-    handleEquipmentChange: React.PropTypes.func.isRequired,
+    equipment: PropTypes.object.isRequired,
+    handleEquipmentChange: PropTypes.func.isRequired,
   },
 
   shouldComponentUpdate(nextProps, nextState) {

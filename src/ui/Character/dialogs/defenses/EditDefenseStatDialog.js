@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 import ConfirmModal from '../ConfirmModal';
@@ -10,13 +10,13 @@ export default React.createClass({
 
 
   propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    dismiss: React.PropTypes.func.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    hp: React.PropTypes.number.isRequired,
-    armorClass: React.PropTypes.number.isRequired,
-    speed: React.PropTypes.string.isRequired,
-    initiative: React.PropTypes.number.isRequired,
+    active: PropTypes.bool.isRequired,
+    dismiss: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    hp: PropTypes.number.isRequired,
+    armorClass: PropTypes.number.isRequired,
+    speed: PropTypes.string.isRequired,
+    initiative: PropTypes.number.isRequired,
   },
 
 
