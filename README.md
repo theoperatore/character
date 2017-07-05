@@ -1,46 +1,77 @@
-Character
----------
+# Character
 
 The goal of this project is to create a web application to replace pen and paper character sheets while playing Dungeons & Dragons 5th Edition.
 
 This app isn't meant to replace playing in-person; on the contrary, table top games are meant to be played surrounded by your closest friends (or your enemies...).
 
-Dev Usage
----------
+The latest compiled version of the app can be found [here](http://character.alorg.net).
 
-Clone the repo and `cd` into the directory and run:
+## Dev Usage
 
-```
-yarn install
-```
-
-to download all of the dependencies. Check out the `package.json` for a list of build/server commands
-
-App Times!
----------------
-
-To start up the dev server:
+Clone the repo, then:
 
 ```bash
-$ yarn start
+yarn install
+yarn build
+yarn start
 ```
 
-Once everything is built and the server is running, you have access to a couple of URLs:
+This will install all dependencies, build all assets, serve the application on port `9966`.
+
+**NOTE** you will need to set up your environment first in order for authentication and an actual database to work. See below [Environment variables / Secrets]().
+
+Run tests with:
+
+```bash
+yarn test
+```
+
+### Environment variables / Secrets
+
+All of the secret keys and paths needed to run the application are tied to [Firebase](http://firebase.google.com). In order for authentication and your database to work, you need to both configure a [Firebase](http://firebase.google.com) database and set both your local and deploy environment with the following variables:
 
 ```
-localhost:9966                                # landing page talking about how cool this thing is (just links right now)
-localhost:9966/#/character/{:characterUID}    # the character app
-localhost:9966/#/profile                      # user page that should show user's created characters
-localhost:9966/#/login                        # page to log in / log out a user
+FIREBASE_API_KEY=<your key>
+FIREBASE_AUTH_DOMAIN=<your domain>
+FIREBASE_DATABASE_URL=<your database url>
+FIREBASE_STORAGE_BUCKET=<your storage bucket>
 ```
 
-Libs
------
+This is most easily accomplished using [localenv](https://github.com/defunctzombie/localenv), which this project is already set up to do.
 
-For UI, we use (and growing):
+Create a file named `.env` at the root of this project and put in the above variables (with their values) in that file. When the app is built, they will be available.
+
+## Deployment
+
+This application is deployed using [docker](http://docker.com) and `make`.
+
+Deployment requires three things:
+
+1. The target machine running [docker]()
+2. The target machine authenticated via `docker login` (to [docker hub](http://hub.docker.com))
+3. The target machine being accessible via `ssh`
+
+If those three requirements are met, then to deploy:
+
+```bash
+make package push deploy
+```
+
+Once successful, the target machine will have a new [nginx]() image running with the latest compiled application assets.
+
+To view more detailed info on what these steps are actually doing, check out the [Makefile](https://github.com/theoperatore/character/blob/master/Makefile) at the root of the project.
+
+**NOTE**
+
+Currently, you'll have to edit the `Makefile` in order to deploy to any place you want. In the future, it'll most likely be an environment variable.
+
+Change the first variable to point to your domain: `DEPLOY_HOST`.
+
+## Libs
+
+Front end:
 
 - [React](https://facebook.github.io/react/docs/getting-started.html) as the web framework
-  - [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) for easy react component composition
 - [ImmutableJS](http://facebook.github.io/immutable-js/docs/#/) for easy state / component updating performance
 - [Swiper](http://www.idangero.us/swiper/#.VXA5ztNViko) for swiping!
 - [Stylus](https://learnboost.github.io/stylus/) for css preprocessing
@@ -49,12 +80,8 @@ Server side:
 
 - [Firebase](https://www.firebase.com/docs/web/guide/) because everything can be done using client-side code!
 
-Tools
------
+## License
 
-The latest compiled version of the app can be found [here](http://character.alorg.net).
-
-License
---------
+Just send a nod my way if you use this in any way :)
 
 MIT

@@ -10,10 +10,11 @@ package:
 	docker run --rm -e BUILD_VERSION=${GIT_HASH} -v ${PWD}/build:/app/build -w /app "${BUILD_NAME}" yarn build-ci
 	docker build -t "${IMAGE_NAME}" -f ./Dockerfile.nginx .
 
-deploy-staging:
+push:
 	docker push "${IMAGE_NAME}"
+
+deploy-staging:
 	ssh root@${DEPLOY_STAGING_HOST} 'bash -s' < ./image-upgrade.sh '${IMAGE_NAME}'
 
 deploy:
-	docker push "${IMAGE_NAME}"
 	ssh root@${DEPLOY_HOST} 'bash -s' < ./image-upgrade.sh '${IMAGE_NAME}'
