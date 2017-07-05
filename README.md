@@ -11,7 +11,7 @@ Dev Usage
 Clone the repo and `cd` into the directory and run:
 
 ```
-npm install
+yarn install
 ```
 
 to download all of the dependencies. Check out the `package.json` for a list of build/server commands
@@ -22,7 +22,7 @@ App Times!
 To start up the dev server:
 
 ```bash
-$ npm start
+$ yarn start
 ```
 
 Once everything is built and the server is running, you have access to a couple of URLs:
@@ -32,7 +32,7 @@ localhost:9966                                # landing page talking about how c
 localhost:9966/#/character/{:characterUID}    # the character app
 localhost:9966/#/profile                      # user page that should show user's created characters
 localhost:9966/#/login                        # page to log in / log out a user
-``` 
+```
 
 Libs
 -----
@@ -52,7 +52,7 @@ Server side:
 Tools
 -----
 
-The latest compiled version of the app can be found [here](http://ci.cmonocle.link/). It gets updated upon each commit
+The latest compiled version of the app can be found [here](http://character.alorg.net).
 
 License
 --------
