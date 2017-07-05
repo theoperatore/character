@@ -1,7 +1,10 @@
 'use strict';
 
+import PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+
 import cn from 'classnames';
 import Portal from '../Portal';
 
@@ -52,7 +55,7 @@ export default class extends React.Component {
           document.querySelector(_paneContainer).style.overflow = 'auto';
           this.setState({ active: false, moving: false });
         }, 300);
-      }) 
+      })
     }
   }
 

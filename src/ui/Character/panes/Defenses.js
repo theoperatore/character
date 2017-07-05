@@ -1,8 +1,6 @@
 'use strict';
 
-import {Component} from 'react';
-
-import createReactClass from 'create-react-class';
+import React from 'react';
 
 import HPCounter from '../../components/HPCounter';
 import Icon from '../../components/Icon';
@@ -17,9 +15,16 @@ import ManageHitDice from '../dialogs/defenses/ManageHitDice';
 
 const savingThrowsOrder = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 
-export default createReactClass({
-  displayName: 'PaneDefenses',
+export default class extends React.Component {
+  static displayName = 'PaneDefenses';
 
+  state = {
+    create: false,
+    hpDialog: false,
+    defenseDialog: false,
+    restDialog: false,
+    manageHitDice: false,
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     return (
@@ -35,29 +40,17 @@ export default createReactClass({
       this.state.restDialog !== nextState.restDialog ||
       this.state.manageHitDice !== nextState.manageHitDice
     );
-  },
+  }
 
-
-  getInitialState() {
-    return {
-      create: false,
-      hpDialog: false,
-      defenseDialog: false,
-      restDialog: false,
-      manageHitDice: false,
-    }
-  },
-
-  renderHitDice() {
+  renderHitDice = () => {
     return this.props.hitPoints.get('hitDice')
       .map(hitDiceId => this.props.hitPoints.getIn(['hitDiceDefinitions', hitDiceId]))
       .map((hitDice, i) => {
         return <p key={i}>{`${hitDice.get('current')} / ${hitDice.get('maximum')} ${hitDice.get('type')}`}</p>
       });
-  },
+  };
 
-
-  renderSavingThrows() {
+  renderSavingThrows = () => {
     return savingThrowsOrder.map((abilityKey, i) => {
       return <SavingThrowItem
         key={i}
@@ -67,10 +60,9 @@ export default createReactClass({
         onSavingThrowChange={this.props.handleDefenseChange}
       />
     })
-  },
+  };
 
-
-  renderDeathThrows() {
+  renderDeathThrows = () => {
     return <div className='row death-saves'>
       <div className='col-1-2'>
         <span onClick={() => this.props.handleDefenseChange({ type: 'DEATH_SAVES_ADD', data: { successes: 1 } })}>
@@ -85,10 +77,9 @@ export default createReactClass({
         <h6>failures</h6>
       </div>
     </div>
-  },
+  };
 
-
-  renderResistances() {
+  renderResistances = () => {
     if (!this.props.resistances) return null;
 
     return this.props.resistances.toJS().map((resistance, i) => {
@@ -102,8 +93,7 @@ export default createReactClass({
         />
       )
     })
-  },
-
+  };
 
   render() {
     return (
@@ -195,4 +185,4 @@ export default createReactClass({
       </div>
     )
   }
-});
+}

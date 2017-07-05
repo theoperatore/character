@@ -1,5 +1,7 @@
 'use strict';
 
+import PropTypes from 'prop-types';
+
 import {Component} from 'react';
 import createReactClass from 'create-react-class';
 import debug from 'debug';

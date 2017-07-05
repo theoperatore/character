@@ -1,5 +1,5 @@
-import {Component} from 'react';
-import createReactClass from 'create-react-class';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 import Tab from '../../../components/Tab';
@@ -7,35 +7,27 @@ import Tabs from '../../../components/Tabs';
 
 const types = ['damage', 'heal', 'temporary'];
 
-export default createReactClass({
-  displayName: 'EditHpDialog',
+export default class extends React.Component {
+  static displayName = 'EditHpDialog';
 
-
-  propTypes: {
+  static propTypes = {
     active: PropTypes.bool.isRequired,
     dismiss: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired
-  },
+  };
 
-
-  getInitialState() {
-    return {
-      type: 0,
-      value: ''
-    }
-  },
-
-
-
+  state = {
+    type: 0,
+    value: ''
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.active) {
       this.setState({ type: 0, value: '' });
     }
-  },
+  }
 
-
-  getContent() {
+  getContent = () => {
     return <section className='hp-dialog-container'>
       <div className='modal-header'><h3>Manage Current Hit Points</h3></div>
       <div className='modal-content'>
@@ -54,18 +46,16 @@ export default createReactClass({
         <button onClick={this.save} className='text-green'><Icon icon='fa fa-pencil'/> Save</button>
       </div>
     </section>
-  },
+  };
 
-
-  updateValue(ev) {
+  updateValue = (ev) => {
     let value = Number(ev.target.value);
     if (!isNaN(value) && value !== Infinity) {
       this.setState({ value });
     }
-  },
+  };
 
-
-  save() {
+  save = () => {
     if (this.state.value !== '' && !isNaN(this.state.value)) {
       let data = {
         type: types[this.state.type],
@@ -75,15 +65,13 @@ export default createReactClass({
     }
 
     this.props.dismiss();
-  },
+  };
 
-
-  dismiss() {
+  dismiss = () => {
     this.props.dismiss();
-  },
-
+  };
 
   render() {
     return <Modal id='edit-hp-dialog' active={this.props.active} content={this.getContent()} onDismiss={this.dismiss} />
   }
-});
+}

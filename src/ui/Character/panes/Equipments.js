@@ -1,7 +1,7 @@
 'use strict';
 
-import {Component} from 'react';
-import createReactClass from 'create-react-class';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ListItem from '../../components/ListItem/v2';
 import Icon from '../../components/Icon';
 import CreateEquipmentContainer from '../dialogs/equipment/createEquipmentContainer';
@@ -10,29 +10,26 @@ import EquipmentContainer from '../containers/EquipmentContainer';
 
 const wealthTypes = ['cp', 'sp', 'ep', 'gp', 'pp'];
 
-export default createReactClass({
-  displayName : 'PaneEquipments',
+export default class extends React.Component {
+  static displayName = 'PaneEquipments';
 
-
-  propTypes: {
+  static propTypes = {
     equipment: PropTypes.object.isRequired,
     handleEquipmentChange: PropTypes.func.isRequired,
-  },
+  };
+
+  state = {
+    createContainer: false,
+    manageWealth: false,
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     return nextProps.equipment !== this.props.equipment ||
            nextState.createContainer !== this.state.createContainer |
            nextState.manageWealth !== this.state.manageWealth
-  },
+  }
 
-  getInitialState() {
-    return {
-      createContainer: false,
-      manageWealth: false,
-    }
-  },
-
-  renderWealth() {
+  renderWealth = () => {
     return wealthTypes.map(type => {
       let money = this.props.equipment.getIn(['money', type]);
 
@@ -44,9 +41,9 @@ export default createReactClass({
           <p>{money}</p>
         </div>
     })
-  },
+  };
 
-  renderEquipments() {
+  renderEquipments = () => {
     let simpleContainers = this.props.equipment.get('containers').map(c => {
       return {
         id: c.get('id'),
@@ -69,7 +66,7 @@ export default createReactClass({
         onContainerChange={this.props.handleEquipmentChange}
       />;
     }).toJS();
-  },
+  };
 
   render() {
     return (
@@ -103,4 +100,4 @@ export default createReactClass({
       </div>
     );
   }
-});
+}

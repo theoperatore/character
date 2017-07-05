@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
 import ReactDOM from 'react-dom';
 import cn from 'classnames';
 import Portal from '../Portal';

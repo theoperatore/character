@@ -1,6 +1,9 @@
 'use strict';
 
+import PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
+
 import reactDOM from 'react-dom';
 
 export default class extends React.Component {

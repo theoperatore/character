@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
 import Icon from '../Icon';
 
 export default class ListItemV2 extends Component {

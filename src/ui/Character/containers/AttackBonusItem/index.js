@@ -1,5 +1,7 @@
 'use strict';
 
+import PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
 import ConfirmModal from '../../dialogs/ConfirmModal';
 import Modal from '../../../components/Modal';

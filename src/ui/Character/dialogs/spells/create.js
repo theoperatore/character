@@ -1,5 +1,7 @@
 'use strict';
 
+import PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
 import uuid from 'uuid/v1';
 import Icon from '../../../components/Icon';

@@ -1,5 +1,7 @@
 'use strict';
 
+import PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
 import ListItem from '../../../components/ListItem/v2';
 import Modal from '../../../components/Modal';

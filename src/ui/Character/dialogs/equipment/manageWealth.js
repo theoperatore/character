@@ -1,7 +1,7 @@
 'use strict';
 
-import {Component} from 'react';
-import createReactClass from 'create-react-class';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Modal from '../../../components/Modal';
 import Tabs from '../../../components/Tabs';
 import Tab from '../../../components/Tab';
@@ -10,24 +10,22 @@ import { createSaveBtn, createCancelBtn } from '../../../components/Modal/button
 const wealthTypes = ['cp', 'sp', 'ep', 'gp', 'pp'];
 const actionTypes = ['add', 'subtract'];
 
-export default createReactClass({
-  displayName: 'ManageWealth',
+export default class extends React.Component {
+  static displayName = 'ManageWealth';
 
-  propTypes: {
+  static propTypes = {
     active: PropTypes.bool.isRequired,
     onDismiss: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
-  },
+  };
 
-  getInitialState() {
-    return {
-      wealthType: 3,
-      actionType: 0,
-      value: '',
-    };
-  },
+  state = {
+    wealthType: 3,
+    actionType: 0,
+    value: '',
+  };
 
-  handleSave() {
+  handleSave = () => {
     if (this.state.value === '') return;
 
     this.props.onChange({
@@ -41,9 +39,9 @@ export default createReactClass({
 
     this.setState({ wealthType: 3, actionType: 0, value: '' });
     this.props.onDismiss();
-  },
+  };
 
-  updateValue(ev) {
+  updateValue = (ev) => {
     let value = Number(ev.target.value);
 
     if (ev.target.value === '') {
@@ -53,9 +51,9 @@ export default createReactClass({
     if (!isNaN(value) && value !== Infinity) {
       this.setState({ value });
     }
-  },
+  };
 
-  renderManageWealth() {
+  renderManageWealth = () => {
     return <section className='manage-wealth-dialog'>
       <div className='modal-header'>
         <h3>Manage Wealth</h3>
@@ -96,7 +94,7 @@ export default createReactClass({
         { createCancelBtn(this.props.onDismiss) }
       </div>
     </section>
-  },
+  };
 
   render() {
     return <Modal
@@ -105,5 +103,5 @@ export default createReactClass({
       content={this.renderManageWealth()}
       onDismiss={this.props.onDismiss}
     />
-  },
-});
+  }
+}

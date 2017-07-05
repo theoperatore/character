@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
 import Icon from '../components/Icon';
 import Popup from '../components/Popup';
 import ProgressModal from './ProgressModal';
@@ -8,21 +9,23 @@ import { storage } from '../../api';
 
 window.URL = window.URL || window.webkitURL;
 
-export default class EditProfile extends Compoent {
-  static propTypes = (({
+export default class EditProfile extends Component {
+  static propTypes = {
     active: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
     onDismiss: PropTypes.func.isRequired,
     displayName: PropTypes.string,
     profileImg: PropTypes.string,
     userId: PropTypes.string,
-  } = {
+  }
+
+  state = {
     imgURL: null,
     file: null,
     uploading: false,
     uploadError: '',
     uploadProgress: 0,
-  })
+  };
 
   componentWillReceiveProps() {
     this.setState({

@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
 
 export default function connectAuthRedirect(View, onUnauthed) {
   return class ConnectedAuthRedirect extends Component {
@@ -26,5 +27,5 @@ export default function connectAuthRedirect(View, onUnauthed) {
         {...this.props}
       />
     }
-  }
+  };
 }

@@ -1,5 +1,7 @@
 'use strict';
 
+import PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
 import Spell from '../containers/Spell';
 import AttackBonusItem from '../containers/AttackBonusItem';
