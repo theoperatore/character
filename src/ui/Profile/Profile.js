@@ -44,7 +44,7 @@ export class Profile extends Component {
     Router.nav(ROUTE_CHARACTER, id);
   }
 
-  deleteCharacter(id) {
+  deleteCharacter = (id) => {
     this.setState({
       confirmDelete: true,
       deleteId: id,
@@ -52,7 +52,7 @@ export class Profile extends Component {
     });
   }
 
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     switch(answer) {
       case 'yes':
         let charId = this.state.deleteId;
@@ -74,16 +74,16 @@ export class Profile extends Component {
     }
   }
 
-  handleSimpleCreate(action) {
+  handleSimpleCreate = (action) => {
     let userId = this.props.state.user.get('uid');
     this.props.dispatch(createCharacter(userId, action.data.name));
   }
 
-  signOut() {
+  signOut = () => {
     this.props.dispatch(signOut());
   }
 
-  menuContent() {
+  menuContent = () => {
     return <section>
       <div className='drawer-header'><p>Account</p></div>
       <div className='drawer-content p3'>
@@ -99,7 +99,7 @@ export class Profile extends Component {
     </section>
   }
 
-  renderCharacters() {
+  renderCharacters = () => {
     if (!this.props.state.user.get('characters')) return null;
 
     return this.props.state.user.get('characters').valueSeq().map((character, i) => {
@@ -131,7 +131,7 @@ export class Profile extends Component {
     });
   }
 
-  getDisplayImg() {
+  getDisplayImg = () => {
     if (!this.props.state.user.get('uid')) return null;
 
     let user = this.props.state.user;

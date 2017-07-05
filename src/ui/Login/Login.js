@@ -25,13 +25,16 @@ export class Login extends Component {
     email: '',
   }
 
+  emailInput = null;
+  pwdInput = null;
+
   componentDidMount() {
     if (!sessionStorage.getItem('__pocket_character_redirect_login__')) {
       this.props.dispatch(signOut());
     }
   }
 
-  handleProviderSearch() {
+  handleProviderSearch = () => {
     firebase
       .auth()
       .fetchProvidersForEmail(this.emailInput.value.trim())
@@ -57,7 +60,7 @@ export class Login extends Component {
       })
   }
 
-  handlePasswordLogin() {
+  handlePasswordLogin = () => {
     let password = this.passwordInput.value.trim();
     let email = this.state.email;
 
@@ -72,7 +75,7 @@ export class Login extends Component {
       })
   }
 
-  googleLogin() {
+  googleLogin = () => {
     if (this.props.isLoading || this.state.disabled) return;
 
     this.setState({ disabled: true })
@@ -88,7 +91,7 @@ export class Login extends Component {
       });
   }
 
-  handleAccountCreate() {
+  handleAccountCreate = () => {
     let email = this.state.email;
     let pwd = this.pwdInput.value.trim();
     let confirmPwd = this.confirmPwdInput.value.trim();
@@ -122,7 +125,7 @@ export class Login extends Component {
       })
   }
 
-  renderLandingForm() {
+  renderLandingForm = () => {
     return <div className='login-input-group'>
       <Message type={this.state.messageType} message={this.state.error || this.props.error} />
       <input
@@ -139,7 +142,7 @@ export class Login extends Component {
     </div>
   }
 
-  renderSignUpForm() {
+  renderSignUpForm = () => {
     return <div className="login-input-group">
       <Message type={this.state.messageType} message={this.state.error || this.props.error} />
       <p className='login-email-disabled text-center'>{this.state.email}</p>
@@ -172,7 +175,7 @@ export class Login extends Component {
     </div>
   }
 
-  renderPasswordForm() {
+  renderPasswordForm = () => {
     return <div className='login-input-group'>
       <Message type={this.state.messageType} message={this.state.error || this.props.error} />
       <p className='login-email-disabled text-center'>{this.state.email}</p>
@@ -190,7 +193,7 @@ export class Login extends Component {
     </div>
   }
 
-  renderForm() {
+  renderForm = () => {
     switch (this.state.formType) {
       case IDENTIFY:
         return this.renderLandingForm();
