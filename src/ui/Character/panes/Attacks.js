@@ -1,4 +1,4 @@
-'use strict';
+
 
 import React, { Component } from 'react';
 import AttackBonusItem from '../containers/AttackBonusItem';

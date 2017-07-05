@@ -1,4 +1,4 @@
-'use strict';
+
 
 export const ROUTE_LANDING = '/';
 export const ROUTE_LOGIN = '/login';

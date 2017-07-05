@@ -1,4 +1,4 @@
-'use strict';
+
 
 export function findTransitionEndEvent() {
   var div = document.createElement('div');
