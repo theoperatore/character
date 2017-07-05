@@ -1,46 +1,41 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 
 import Icon from '../../../../components/Icon';
 import ConfirmModal from '../../ConfirmModal';
 
-export default React.createClass({
-  displayName: 'LanguagesDialog',
+export default class extends React.Component {
+  static displayName = 'LanguagesDialog';
 
+  static propTypes = {
+    name: PropTypes.string.isRequired,
+    desc: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    onLanguageChange: PropTypes.func.isRequired,
+    dismiss: PropTypes.func
+  };
 
-  getInitialState() {
-    return ({
-      editMode: false,
-      dirty: false,
-      confirm: false,
-      message: null,
-    })
-  },
+  state = {
+    editMode: false,
+    dirty: false,
+    confirm: false,
+    message: null,
+  };
 
-
-  propTypes: {
-    name: React.PropTypes.string.isRequired,
-    desc: React.PropTypes.string.isRequired,
-    id: React.PropTypes.string.isRequired,
-    onLanguageChange: React.PropTypes.func.isRequired,
-    dismiss: React.PropTypes.func
-  },
-
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-
-  isDirty() {
+  isDirty = () => {
     return this.state.dirty;
-  },
+  };
 
-
-  editSave() {
+  editSave = () => {
     if (this.state.editMode) {
       let name = this.refs.newName.value.trim();
       let desc = this.refs.newDesc.value.trim();
@@ -59,19 +54,18 @@ export default React.createClass({
     }
 
     this.setState({ editMode: !this.state.editMode, dirty: false })
-  },
+  };
 
-
-  handleRemove() {
+  handleRemove = () => {
     if (this.state.editMode) {
       this.setState({ editMode: false, dirty: false });
       return;
     }
 
     this.setState({ confirm: true, message: `Delete Language: ${this.props.name}?` });
-  },
+  };
 
-  handleAnswer(choice) {
+  handleAnswer = (choice) => {
     switch(choice) {
       case 'yes':
         this.props.onLanguageChange({ type: 'LANGUAGE_DELETE', data: { id: this.props.id }});
@@ -80,8 +74,7 @@ export default React.createClass({
         this.setState({ confirm: false });
         break;
     }
-  },
-
+  };
 
   render() {
 
@@ -119,4 +112,4 @@ export default React.createClass({
       </section>
     )
   }
-})
+}

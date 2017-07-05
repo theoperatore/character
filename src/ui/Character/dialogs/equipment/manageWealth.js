@@ -1,48 +1,47 @@
-'use strict';
+
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Modal from '../../../components/Modal';
 import Tabs from '../../../components/Tabs';
 import Tab from '../../../components/Tab';
 import { createSaveBtn, createCancelBtn } from '../../../components/Modal/buttons';
 
-export default React.createClass({
-  displayName: 'ManageWealth',
+const wealthTypes = ['cp', 'sp', 'ep', 'gp', 'pp'];
+const actionTypes = ['add', 'subtract'];
 
-  propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-  },
+export default class extends React.Component {
+  static displayName = 'ManageWealth';
 
-  getInitialState() {
-    return {
-      wealthType: 3,
-      actionType: 0,
-      value: '',
-    };
-  },
+  static propTypes = {
+    active: PropTypes.bool.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+  };
 
-  wealthTypes: ['cp', 'sp', 'ep', 'gp', 'pp'],
-  actionTypes: ['add', 'subtract'],
+  state = {
+    wealthType: 3,
+    actionType: 0,
+    value: '',
+  };
 
-  handleSave() {
+  handleSave = () => {
     if (this.state.value === '') return;
 
     this.props.onChange({
       type: 'WEALTH_EDIT',
       data: {
-        wealthType: this.wealthTypes[this.state.wealthType],
-        actionType: this.actionTypes[this.state.actionType],
+        wealthType: wealthTypes[this.state.wealthType],
+        actionType: actionTypes[this.state.actionType],
         value: this.state.value,
       },
     });
 
     this.setState({ wealthType: 3, actionType: 0, value: '' });
     this.props.onDismiss();
-  },
+  };
 
-  updateValue(ev) {
+  updateValue = (ev) => {
     let value = Number(ev.target.value);
 
     if (ev.target.value === '') {
@@ -52,9 +51,9 @@ export default React.createClass({
     if (!isNaN(value) && value !== Infinity) {
       this.setState({ value });
     }
-  },
+  };
 
-  renderManageWealth() {
+  renderManageWealth = () => {
     return <section className='manage-wealth-dialog'>
       <div className='modal-header'>
         <h3>Manage Wealth</h3>
@@ -95,7 +94,7 @@ export default React.createClass({
         { createCancelBtn(this.props.onDismiss) }
       </div>
     </section>
-  },
+  };
 
   render() {
     return <Modal
@@ -104,5 +103,5 @@ export default React.createClass({
       content={this.renderManageWealth()}
       onDismiss={this.props.onDismiss}
     />
-  },
-});
+  }
+}

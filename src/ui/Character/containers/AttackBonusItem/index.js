@@ -1,52 +1,47 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 import ConfirmModal from '../../dialogs/ConfirmModal';
 import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 
-export default React.createClass({
-  displayName: 'AttackBonusItem',
+export default class extends React.Component {
+  static displayName = 'AttackBonusItem';
 
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    score: PropTypes.number.isRequired,
+    ability: PropTypes.string.isRequired,
+    proficient: PropTypes.bool.isRequired,
+    bonus: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    removable: PropTypes.bool,
+  };
 
-  propTypes: {
-    id: React.PropTypes.string.isRequired,
-    score: React.PropTypes.number.isRequired,
-    ability: React.PropTypes.string.isRequired,
-    proficient: React.PropTypes.bool.isRequired,
-    bonus: React.PropTypes.number.isRequired,
-    title: React.PropTypes.string.isRequired,
-    subtitle: React.PropTypes.string,
-    onChange: React.PropTypes.func.isRequired,
-    removable: React.PropTypes.bool,
-  },
+  static defaultProps = {
+    removable: true,
+  };
 
+  state = {
+    bonus: this.props.bonus,
+    confirmMessage: null,
+    willRemove: false,
+    confirm: false,
+    dirty: false,
+    edit: false
+  };
 
-  getInitialState() {
-    return {
-      bonus: this.props.bonus,
-      confirmMessage: null,
-      willRemove: false,
-      confirm: false,
-      dirty: false,
-      edit: false
-    }
-  },
-
-  getDefaultProps() {
-    return {
-      removable: true,
-    }
-  },
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-
-  validateBonus(ev) {
+  validateBonus = (ev) => {
     this.makeDirty();
 
     if (ev.target.value === '-' || ev.target.value === '') {
@@ -58,10 +53,9 @@ export default React.createClass({
     if (!isNaN(val) && val !== Infinity) {
       this.setState({ bonus: val });
     }
-  },
+  };
 
-
-  confirm(answer) {
+  confirm = (answer) => {
     if (answer === 'no') {
       this.setState({ confirm: false, willRemove: false });
       return;
@@ -72,19 +66,18 @@ export default React.createClass({
     }
 
     this.setState({ confirm: false, willRemove: false, dirty: false, edit: false });
-  },
+  };
 
-
-  dismiss() {
+  dismiss = () => {
     if (this.state.dirty) {
       this.setState({ confirm: true, confirmMessage: null });
       return;
     }
 
     this.setState({ edit: false, dirty: false });
-  },
+  };
 
-  save() {
+  save = () => {
     let title = this.refs.newTitle.value.trim();
     let prof = this.refs.prof.checked;
     let abil = this.refs.ability.value;
@@ -96,19 +89,17 @@ export default React.createClass({
     }
 
     this.setState({ edit: false, dirty: false, confirm: false, willRemove: false, confirmMessage: null });
-  },
+  };
 
-
-  delete() {
+  delete = () => {
     this.setState({ 
       confirm: true, 
       confirmMessage: `Delete ${this.props.title} forever?`,
       willRemove: true
     });
-  },
+  };
 
-
-  content() {
+  content = () => {
     return <section>
       <div className='modal-header'>
         <h3>
@@ -145,8 +136,7 @@ export default React.createClass({
         }
       </div>
     </section>
-  },
-
+  };
 
   render() {
     return (
@@ -163,4 +153,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

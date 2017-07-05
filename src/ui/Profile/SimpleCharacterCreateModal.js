@@ -1,26 +1,22 @@
-'use strict';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
-import React from 'react';
 import Modal from '../components/Modal';
 import Icon from '../components/Icon';
 import { createCancelBtn } from '../components/Modal/buttons';
 import { generateRandomName } from '../generateName';
 
-export default React.createClass({
-  displayName: 'SimpleCharacterCreateModal',
+export default class SimpleCharacterCreateModal extends Component {
+  static propTypes = {
+    onCreate: PropTypes.func.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    active: PropTypes.bool.isRequired,
+  }
 
-  propTypes: {
-    onCreate: React.PropTypes.func.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    active: React.PropTypes.bool.isRequired,
-  },
-
-  getInitialState() {
-    return {
-      simpleMode: true,
-      canCreate: false,
-    }
-  },
+  state = {
+    simpleMode: true,
+    canCreate: false,
+  }
 
   handleSave() {
     if (!this.state.canCreate) return;
@@ -37,31 +33,31 @@ export default React.createClass({
     });
 
     this.props.onDismiss();
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.active) {
       this.setState({ canCreate: false });
     }
-  },
+  }
 
   handleCancel() {
     this.props.onDismiss();
-  },
+  }
 
   handleChange(ev) {
     if (ev.target.value.trim() !== '') {
       this.setState({ canCreate: true })
     }
     else {
-      this.setState({ canCreate: false }) 
+      this.setState({ canCreate: false })
     }
-  },
+  }
 
   pickRandomName() {
     this.nameInput.value = generateRandomName();
     this.setState({ canCreate: true });
-  },
+  }
 
   getSimpleContent() {
     return <section>
@@ -95,7 +91,7 @@ export default React.createClass({
         { createCancelBtn(this.handleCancel) }
       </div>
     </section>
-  },
+  }
 
   render() {
     return <Modal
@@ -106,5 +102,5 @@ export default React.createClass({
       overflowAppContainer='body'
       overflowPaneContainer='body'
     />
-  },
-})
+  }
+}

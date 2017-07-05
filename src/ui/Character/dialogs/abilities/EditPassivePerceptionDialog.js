@@ -1,31 +1,31 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 
 import Icon from '../../../components/Icon';
 import Modal from '../../../components/Modal';
 import { createSaveBtn, createCancelBtn } from '../../../components/Modal/buttons';
 import ConfirmModal from '../ConfirmModal';
 
-export default React.createClass({
-  displayName: 'EditPassivePerceptionDialog',
+export default class extends React.Component {
+  static displayName = 'EditPassivePerceptionDialog';
 
-  propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    bonus: React.PropTypes.number.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-  },
+  static propTypes = {
+    active: PropTypes.bool.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    bonus: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
+  };
 
-  getInitialState() {
-    return {
-      bonus: this.props.bonus,
-      dirty: false,
-      confirmCancel: false,
-    }
-  },
+  state = {
+    bonus: this.props.bonus,
+    dirty: false,
+    confirmCancel: false,
+  };
 
-  handleSave() {
+  handleSave = () => {
     let bonus = this.state.bonus === '' ? 0 : this.state.bonus;
 
     this.props.onChange({
@@ -37,17 +37,17 @@ export default React.createClass({
 
     this.setState({ dirty: false });
     this.props.onDismiss();
-  },
+  };
 
-  handleCancel() {
+  handleCancel = () => {
     if (!this.state.dirty) {
       return this.props.onDismiss();
     }
 
     this.setState({ confirmCancel: true });
-  },
+  };
 
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     switch (answer) {
       case 'no':
         return this.setState({ confirmCancel: false });
@@ -56,9 +56,9 @@ export default React.createClass({
         this.props.onDismiss();
         break;
     }
-  },
+  };
 
-  validateBonus(ev) {
+  validateBonus = (ev) => {
     if (ev.target.value === '') {
       return this.setState({ bonus: '', dirty: true });
     }
@@ -68,9 +68,9 @@ export default React.createClass({
     if (!isNaN(num)) {
       this.setState({ bonus: num, dirty: true });
     }
-  },
+  };
 
-  getContent() {
+  getContent = () => {
     return <section>
       <div className='modal-header'>
         <h3>Passive Perception</h3>
@@ -93,7 +93,7 @@ export default React.createClass({
         { createCancelBtn(this.handleCancel) }
       </div>
     </section>
-  },
+  };
 
   render() {
     return <Modal
@@ -108,4 +108,4 @@ export default React.createClass({
       />
     </Modal>
   }
-})
+}

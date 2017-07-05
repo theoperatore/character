@@ -1,5 +1,3 @@
-'use strict';
-
 import { fromJS, Map } from 'immutable';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';

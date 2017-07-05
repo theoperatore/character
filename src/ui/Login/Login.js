@@ -1,6 +1,4 @@
-"use strict";
-
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Router from '../router/Router';
 import { ROUTE_PROFILE } from '../routes';
@@ -16,24 +14,22 @@ const IDENTIFY = 'identify';
 const SIGNUP = 'signup';
 const PASSWORD = 'password';
 
-const Login = React.createClass({
-  displayName: "Login",
+export class Login extends Component {
+  static displayName = 'Login';
 
-  getInitialState() {
-    return ({
-      messageType : "alert",
-      disabled: false,
-      error: '',
-      formType: IDENTIFY,
-      email: '',
-    })
-  },
+  state = {
+    messageType : "alert",
+    disabled: false,
+    error: '',
+    formType: IDENTIFY,
+    email: '',
+  }
 
   componentDidMount() {
     if (!sessionStorage.getItem('__pocket_character_redirect_login__')) {
       this.props.dispatch(signOut());
     }
-  },
+  }
 
   handleProviderSearch() {
     firebase
@@ -59,7 +55,7 @@ const Login = React.createClass({
       .catch(error => {
         this.setState({ error: error.message });
       })
-  },
+  }
 
   handlePasswordLogin() {
     let password = this.passwordInput.value.trim();
@@ -74,7 +70,7 @@ const Login = React.createClass({
       .catch(error => {
         this.setState({ disabled: false, error: error.message });
       })
-  },
+  }
 
   googleLogin() {
     if (this.props.isLoading || this.state.disabled) return;
@@ -84,13 +80,13 @@ const Login = React.createClass({
     sessionStorage.setItem('__pocket_character_redirect_login__', 'LOGIN');
     let provider = new firebase.auth.GoogleAuthProvider();
     provider.addScope('email');
-    
+
     firebase.auth()
       .signInWithRedirect(provider)
       .catch(err => {
         this.setState({ err: err.message })
       });
-  },
+  }
 
   handleAccountCreate() {
     let email = this.state.email;
@@ -124,7 +120,7 @@ const Login = React.createClass({
       .catch(error => {
         this.setState({ error: error.message });
       })
-  },
+  }
 
   renderLandingForm() {
     return <div className='login-input-group'>
@@ -140,8 +136,8 @@ const Login = React.createClass({
         onClick={this.handleProviderSearch}
         disabled={this.props.isLoading || this.state.disabled}
       >{this.props.isLoading ? 'Authenticating...' : 'Sign In'}</button>
-    </div> 
-  },
+    </div>
+  }
 
   renderSignUpForm() {
     return <div className="login-input-group">
@@ -174,7 +170,7 @@ const Login = React.createClass({
         ></div>
       </div>
     </div>
-  },
+  }
 
   renderPasswordForm() {
     return <div className='login-input-group'>
@@ -192,7 +188,7 @@ const Login = React.createClass({
         disabled={this.props.isLoading || this.state.disabled}
       >{this.props.isLoading || this.state.disabled ? 'Authenticating...' : 'Sign In'}</button>
     </div>
-  },
+  }
 
   renderForm() {
     switch (this.state.formType) {
@@ -203,7 +199,7 @@ const Login = React.createClass({
       case PASSWORD:
         return this.renderPasswordForm();
     }
-  },
+  }
 
   render() {
     return (
@@ -217,6 +213,6 @@ const Login = React.createClass({
       </div>
     );
   }
-})
+}
 
 export default connectSessionToLogin(Login, window.sessionStorage);

@@ -1,31 +1,24 @@
-'use strict';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
-import React from 'react';
 import Icon from '../Icon';
 
-export default React.createClass({
-  displayName: 'ListItemV2',
+export default class ListItemV2 extends Component {
+  static propTypes = {
+    glyphCss: PropTypes.string,
+    glyph: PropTypes.element,
+    name: PropTypes.node.isRequired,
+    subtext: PropTypes.node,
+    addon: PropTypes.element,
+  }
 
-
-  propTypes: {
-    glyphCss: React.PropTypes.string,
-    glyph: React.PropTypes.element,
-    name: React.PropTypes.node.isRequired,
-    subtext: React.PropTypes.node,
-    addon: React.PropTypes.element,
-  },
-
-
-  getDefaultProps() {
-    return {
-      glyphCss: '',
-      // glyph: <Icon icon='fa fa-cube' />
-    }
-  },
-
+  static defaultProps = {
+    glyphCss: '',
+    // glyph: <Icon icon='fa fa-cube' />
+  }
 
   render() {
-    let { 
+    let {
       glyph,
       glyphCss,
       name,
@@ -40,7 +33,7 @@ export default React.createClass({
     return (
       <div className={`container-list-item flex flex-center ${className}`} {...props}>
         {
-          glyph 
+          glyph
           ? <div className={`container-list-item-glyph ${glyphCss}`} onClick={onClick}>
               {glyph}
             </div>
@@ -55,4 +48,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

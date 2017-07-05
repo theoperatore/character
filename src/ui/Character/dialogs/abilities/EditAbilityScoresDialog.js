@@ -1,18 +1,24 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import {Component} from 'react';
+
+import createReactClass from 'create-react-class';
 
 import { AbilityScores } from '../../constants';
 import Icon from '../../../components/Icon';
 import ConfirmModal from '../ConfirmModal';
 
-export default React.createClass({
+const abilityScoreOrder = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+
+export default createReactClass({
   displayName: 'EditAbilityScoresDialog',
 
 
   propTypes: {
-    onSave: React.PropTypes.func.isRequired,
-    abilities: React.PropTypes.object.isRequired,
+    onSave: PropTypes.func.isRequired,
+    abilities: PropTypes.object.isRequired,
   },
 
 
@@ -31,7 +37,6 @@ export default React.createClass({
     }
   },
 
-  abilityScoreOrder: ['str', 'dex', 'con', 'int', 'wis', 'cha'],
 
   makeDirty() {
     if (!this.state.diry) {
@@ -91,7 +96,7 @@ export default React.createClass({
         int: this.state.newInt === '' ? 0 : this.state.newInt,
         cha: this.state.newCha === '' ? 0 : this.state.newCha,
       };
-      this.props.onSave({ type: 'ABILITY_SCORE_EDIT', data });  
+      this.props.onSave({ type: 'ABILITY_SCORE_EDIT', data });
     }
   },
 
@@ -169,4 +174,4 @@ export default React.createClass({
       </section>
     )
   }
-})
+});

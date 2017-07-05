@@ -1,29 +1,29 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 import Icon from '../../../../components/Icon';
 import Modal from '../../../../components/Modal';
 
-export default React.createClass({
-  displayName: 'EditSpellSlotsDialog',
+export default class extends React.Component {
+  static displayName = 'EditSpellSlotsDialog';
 
-  propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    slots: React.PropTypes.array.isRequired,
-    onSpellSlotsChange: React.PropTypes.func.isRequired,
-  },
+  static propTypes = {
+    active: PropTypes.bool.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    slots: PropTypes.array.isRequired,
+    onSpellSlotsChange: PropTypes.func.isRequired,
+  };
 
-  getInitialState() {
-    return {
-      slots: this.props.slots.map(slot => {
-        return {
-          max: slot.slots,
-          curr: slot.slots - slot.used,
-        }
-      }),
-    }
-  },
+  state = {
+    slots: this.props.slots.map(slot => {
+      return {
+        max: slot.slots,
+        curr: slot.slots - slot.used,
+      }
+    }),
+  };
 
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -34,14 +34,14 @@ export default React.createClass({
         }
       })
     });
-  },
+  }
 
-  containsNumber(slot) {
+  containsNumber = (slot) => {
     return (slot.curr !== '' && this.isNumber(slot.curr) &&
             slot.max  !== '' && this.isNumber(slot.max));
-  },
+  };
 
-  saveChanges() {
+  saveChanges = () => {
     if (this.state.slots.every(this.containsNumber)) {
       this.props.onSpellSlotsChange({
         type: 'SPELL_SLOTS_EDIT',
@@ -52,33 +52,33 @@ export default React.createClass({
 
       this.props.onDismiss();
     }
-  },
+  };
 
-  cancelChanges() {
+  cancelChanges = () => {
     this.props.onDismiss();
-  },
+  };
 
-  isNumber(val) {
+  isNumber = (val) => {
     return !isNaN(Number(val));
-  },
+  };
 
-  handleMaxChange(slotIdx, ev) {
+  handleMaxChange = (slotIdx, ev) => {
     if (this.isNumber(ev.target.value) || ev.target.value === '') {
       let { slots } = this.state;
       slots[slotIdx].max = ev.target.value === '' ? '' : Number(ev.target.value);
       this.setState({ slots });
     }
-  },
+  };
 
-  handleCurrentChange(slotIdx, ev) {
+  handleCurrentChange = (slotIdx, ev) => {
     if (this.isNumber(ev.target.value) || ev.target.value === '') {
       let { slots } = this.state;
       slots[slotIdx].curr = ev.target.value === '' ? '' : Number(ev.target.value);
       this.setState({ slots });
     }
-  },
+  };
 
-  renderEditSpellSlot(slot, idx) {
+  renderEditSpellSlot = (slot, idx) => {
     let style = { width: '5em', marginLeft: '5px', color: '#333' };
     let labelStyle = { display: 'block', color: '#bbb', marginBottom: '2px' };
 
@@ -102,9 +102,9 @@ export default React.createClass({
         />
       </div>
     )
-  },
+  };
 
-  getContent() {
+  getContent = () => {
     return <section>
       <div className='modal-header'>
         <h3>Edit Spell Slots<small className='ml2'>(current / max)</small></h3>
@@ -119,7 +119,7 @@ export default React.createClass({
         <button className='text-red' onClick={this.cancelChanges}><Icon icon='fa fa-remove'/>Cancel</button>
       </div>
     </section>
-  },
+  };
 
   render() {
     return (
@@ -130,5 +130,5 @@ export default React.createClass({
         onDismiss={this.props.onDismiss} 
       />
     )
-  },
-});
+  }
+}

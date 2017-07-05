@@ -1,6 +1,6 @@
-'use strict';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
-import React from 'react';
 import ReactDOM from 'react-dom';
 import cn from 'classnames';
 import Portal from '../Portal';
@@ -10,34 +10,28 @@ import Portal from '../Portal';
 const appContainer = '.character-body';
 const paneContainer = '.swiper-slide-active>.base-pane-container';
 
-export default React.createClass({
-  displayName: 'Drawer',
+export default class Drawer extends Component {
+  static propTypes =  {
+    active: PropTypes.bool.isRequired,
+    id: PropTypes.string.isRequired,
+    content: PropTypes.element.isRequired,
+    onDismiss: PropTypes.func,
+    direction: PropTypes.oneOf(['left', 'right']),
+    overflowAppContainer: PropTypes.string,
+    overflowPaneContainer: PropTypes.string,
+  }
 
-  propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    id: React.PropTypes.string.isRequired,
-    content: React.PropTypes.element.isRequired,
-    onDismiss: React.PropTypes.func,
-    direction: React.PropTypes.oneOf(['left', 'right']),
-    overflowAppContainer: React.PropTypes.string,
-    overflowPaneContainer: React.PropTypes.string,
-  },
+  static defaultProps = {
+    active: false,
+    direction: 'left',
+    onDismiss() {},
+  }
 
-  getInitialState() {
-    return {
-      active: false,
-      moving: false,
-      open: false,
-    };
-  },
-
-  getDefaultProps() {
-    return {
-      active: false,
-      direction: 'left',
-      onDismiss() {},
-    }
-  },
+  state = {
+    active: false,
+    moving: false,
+    open: false,
+  }
 
   componentWillReceiveProps(nextProps) {
     let _appContainer = nextProps.overflowAppContainer || appContainer;
@@ -59,9 +53,9 @@ export default React.createClass({
           document.querySelector(_paneContainer).style.overflow = 'auto';
           this.setState({ active: false, moving: false });
         }, 300);
-      }) 
+      })
     }
-  },
+  }
 
   dismiss(ev) {
     if (ev.target === ReactDOM.findDOMNode(this.refs.overlay)) {
@@ -70,7 +64,7 @@ export default React.createClass({
 
       this.props.onDismiss();
     }
-  },
+  }
 
   render() {
     let { id, content } = this.props;
@@ -93,7 +87,7 @@ export default React.createClass({
       'from-right': this.props.direction === 'right',
     })
 
-    return this.state.active 
+    return this.state.active
       ? <Portal id={id} className={drawerOverlay}>
           <div ref='overlay' className={overlay} onClick={this.dismiss}>
             <div className={container}>
@@ -103,4 +97,4 @@ export default React.createClass({
         </Portal>
       : null;
   }
-})
+}

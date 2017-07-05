@@ -1,6 +1,8 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 import Icon from '../../../components/Icon';
 
 const NEW_SPELL = {
@@ -12,26 +14,26 @@ const NEW_SPELL = {
   dur: 'Duration',
 }
 
-export default React.createClass({
-  displayName: 'EditSpell',
+export default class extends React.Component {
+  static displayName = 'EditSpell';
 
-  propTypes: {
-    spell: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
-      name: React.PropTypes.string.isRequired,
-      desc: React.PropTypes.string.isRequired,
-      cast: React.PropTypes.string.isRequired,
-      range: React.PropTypes.string.isRequired,
-      cmp: React.PropTypes.string.isRequired,
-      dur: React.PropTypes.string.isRequired,
-      prepared: React.PropTypes.bool.isRequired,
+  static propTypes = {
+    spell: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      desc: PropTypes.string.isRequired,
+      cast: PropTypes.string.isRequired,
+      range: PropTypes.string.isRequired,
+      cmp: PropTypes.string.isRequired,
+      dur: PropTypes.string.isRequired,
+      prepared: PropTypes.bool.isRequired,
     }),
-    level: React.PropTypes.number.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    onCancel: React.PropTypes.func.isRequired,
-  },
+    level: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+  };
 
-  getSpellInput() {
+  getSpellInput = () => {
     return {
       spell: {
         id: this.props.spell.id,
@@ -45,9 +47,9 @@ export default React.createClass({
       },
       level: Number(this.levelInput.value),
     }
-  },
+  };
 
-  handleSave() {
+  handleSave = () => {
     let type = 'SPELL_EDIT';
     let data = this.getSpellInput();
 
@@ -55,11 +57,11 @@ export default React.createClass({
       this.props.onChange({ type, data });
       this.props.onCancel();
     }
-  },
+  };
 
-  handleCancel() {
+  handleCancel = () => {
     this.props.onCancel();
-  },
+  };
 
   render() {
     let {
@@ -127,5 +129,5 @@ export default React.createClass({
         </div>
       </section>
     );
-  },
-});
+  }
+}

@@ -1,5 +1,3 @@
-'use strict';
-
 var Pattern = require('url-pattern');
 var keyed = new Pattern('/:k(/*)');
 var routes = {};

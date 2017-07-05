@@ -1,13 +1,18 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import {Component} from 'react';
+import createReactClass from 'create-react-class';
 import debug from 'debug';
 
 import Icon from '../../../components/Icon';
 
 const log = debug('app:levelXpDialog');
 
-export default React.createClass({
+const refNames = ['level', 'xp', 'class', 'race', 'alignment', 'background'];
+
+export default createReactClass({
   displayName: 'LevelXPDialog',
 
 
@@ -21,17 +26,16 @@ export default React.createClass({
 
 
   propTypes: {
-    currLevel: React.PropTypes.number.isRequired,
-    currXp: React.PropTypes.number.isRequired,
-    currRace: React.PropTypes.string.isRequired,
-    currAlign: React.PropTypes.string.isRequired,
-    currBackground: React.PropTypes.string.isRequired,
-    currClass: React.PropTypes.string.isRequired,
-    onSave: React.PropTypes.func.isRequired,
-    onCancel: React.PropTypes.func.isRequired
+    currLevel: PropTypes.number.isRequired,
+    currXp: PropTypes.number.isRequired,
+    currRace: PropTypes.string.isRequired,
+    currAlign: PropTypes.string.isRequired,
+    currBackground: PropTypes.string.isRequired,
+    currClass: PropTypes.string.isRequired,
+    onSave: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired
   },
 
-  refNames: ['level', 'xp', 'class', 'race', 'alignment', 'background'],
 
   isDirty() {
     return this.state.dirty;
@@ -46,13 +50,13 @@ export default React.createClass({
 
 
   handleSave() {
-    let infos = this.refNames
+    let infos = refNames
       .map(refName => ({[refName]: this.refs[refName].value}))
       .reduce((obj, ref) => Object.assign(obj, ref), {});
 
     infos.xp = this.state.xp === '' ? 0 : this.state.xp;
     infos.level = this.state.level === '' ? 0 : this.state.level;
-    
+
     this.props.onSave({ type: 'BASIC_INFO_EDIT', data: infos });
   },
 
@@ -122,4 +126,4 @@ export default React.createClass({
       </section>
     )
   }
-})
+});

@@ -1,20 +1,17 @@
-'use strict';
-
-import React from 'react';
+import React, { Component } from 'react';
 import Router from '../router/Router';
 import { ROUTE_PROFILE } from '../routes';
 import firebase from 'firebase';
 import { ref } from '../../api';
 
 export function connectSessionToLogin(Login, session) {
-  return React.createClass({
+  return class ConnectedLoginSession extends Component {
+    static displayName = 'ConnectedLoginSession';
 
-    getInitialState() {
-      return {
-        isLoading: false,
-        error: '',
-      };
-    },
+    state = {
+      isLoading: false,
+      error: '',
+    }
 
     componentWillMount() {
       if (session.getItem('__pocket_character_redirect_login__') === 'LOGIN') {
@@ -57,14 +54,14 @@ export function connectSessionToLogin(Login, session) {
       else {
         this.setState({ isLoading: false, error: '' })
       }
-    },
+    }
 
     render() {
-      return <Login 
+      return <Login
         {...this.props}
         isLoading={this.state.isLoading}
         error={this.state.error}
       />
     }
-  })
+  }
 }

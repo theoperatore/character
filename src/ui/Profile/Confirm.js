@@ -1,46 +1,38 @@
-'use strict';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
-import React from 'react';
 import Modal from '../components/Modal';
 import Icon from '../components/Icon';
 
-export default React.createClass({
-  displayName: 'ConfirmDialog',
-
-
-  propTypes: {
-    message: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.element,
+export default class ConfirmDialog extends Component {
+  static propTypes = {
+    message: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
     ]),
-    onConfirm: React.PropTypes.func.isRequired,
-    active: React.PropTypes.bool.isRequired
-  },
+    onConfirm: PropTypes.func.isRequired,
+    active: PropTypes.bool.isRequired
+  }
 
+  static defaultProps = {
+    message: 'Cancel and lose any unsaved changes?',
+  }
 
-  defaultMessage: 'Cancel and lose any unsaved changes?',
-
-
-  getInitialState() {
-    return {
-      canDelete: false,
-    }
-  },
-
+  state = {
+    canDelete: false,
+  }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.active) {
       this.setState({ canDelete: false });
     }
-  },
-
+  }
 
   confirmChoice(choice) {
     if (choice === 'yes' && !this.state.canDelete) return;
 
     this.props.onConfirm(choice);
-  },
-
+  }
 
   handleInputChange(ev) {
     if (ev.target.value === this.props.confirmName) {
@@ -49,15 +41,14 @@ export default React.createClass({
     else {
       this.setState({ canDelete: false });
     }
-  },
-
+  }
 
   getConfirmContent() {
     return (
       <section>
         <div className='modal-header'><h3>Delete Character?</h3></div>
         <div className='modal-content'>
-          <div>{this.props.message || this.defaultMessage}</div>
+          <div>{this.props.message}</div>
 
           <input
             className='full-width mt2'
@@ -71,8 +62,7 @@ export default React.createClass({
         </div>
       </section>
     )
-  },
-
+  }
 
   render() {
     return <Modal
@@ -84,4 +74,4 @@ export default React.createClass({
       overflowPaneContainer='body'
     />
   }
-})
+}

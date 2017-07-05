@@ -1,29 +1,31 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 import SegmentedProgressBar from '../../../components/SegmentedProgressBar';
 import Icon from '../../../components/Icon';
 
-export default React.createClass({
-  displayName: 'ClassChargeItem',
+export default class extends React.Component {
+  static displayName = 'ClassChargeItem';
 
-  propTypes: {
-    id: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
-    charges: React.PropTypes.number.isRequired,
-    current: React.PropTypes.number.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-  },
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    charges: PropTypes.number.isRequired,
+    current: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
+  };
 
-  useCharge() {
+  useCharge = () => {
     let data = { id: this.props.id };
     this.props.onChange({ type: 'CLASS_CHARGE_DECREMENT', data });
-  },
+  };
 
-  addCharge() {
+  addCharge = () => {
     let data = { id: this.props.id };
     this.props.onChange({ type: 'CLASS_CHARGE_INCREMENT', data });
-  },
+  };
 
   render() {
     let {
@@ -50,5 +52,5 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
-})
+  }
+}

@@ -1,10 +1,11 @@
-'use strict';
+
 
 var React = require('react');
 
-module.exports = React.createClass({
-  displayName : "SwipePane",
-  render : function() {
+module.exports = class extends React.Component {
+  static displayName = "SwipePane";
+
+  render() {
     return (
       <div className="swiper-slide">
         <div className='base-pane-container'>
@@ -13,4 +14,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

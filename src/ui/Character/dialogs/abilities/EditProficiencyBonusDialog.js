@@ -1,37 +1,37 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 
 import Icon from '../../../components/Icon';
 import Modal from '../../../components/Modal';
 import { createSaveBtn, createCancelBtn } from '../../../components/Modal/buttons';
 import ConfirmModal from '../ConfirmModal';
 
-export default React.createClass({
-  displayName: 'EditProficiencyBonusDialog',
+export default class extends React.Component {
+  static displayName = 'EditProficiencyBonusDialog';
 
-  propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    base: React.PropTypes.number.isRequired,
-    bonus: React.PropTypes.number.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-  },
+  static propTypes = {
+    active: PropTypes.bool.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    base: PropTypes.number.isRequired,
+    bonus: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
+  };
 
-  getInitialState() {
-    return {
-      base: this.props.base,
-      bonus: this.props.bonus,
-      dirty: false,
-      confirmCancel: false,
-    }
-  },
+  state = {
+    base: this.props.base,
+    bonus: this.props.bonus,
+    dirty: false,
+    confirmCancel: false,
+  };
 
   componentWillReceiveProps(nextProps) {
     this.setState({ base: nextProps.base, bonus: nextProps.bonus });
-  },
+  }
 
-  handleSave() {
+  handleSave = () => {
     let base = this.state.base === '' ? 0 : this.state.base;
     let bonus = this.state.bonus === '' ? 0 : this.state.bonus;
 
@@ -45,17 +45,17 @@ export default React.createClass({
 
     this.setState({ dirty: false });
     this.props.onDismiss();
-  },
+  };
 
-  handleCancel() {
+  handleCancel = () => {
     if (!this.state.dirty) {
       return this.props.onDismiss();
     }
 
     this.setState({ confirmCancel: true });
-  },
+  };
 
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     switch (answer) {
       case 'no':
         return this.setState({ confirmCancel: false });
@@ -64,9 +64,9 @@ export default React.createClass({
         this.props.onDismiss();
         break;
     }
-  },
+  };
 
-  validateStat(stat, ev) {
+  validateStat = (stat, ev) => {
     if (ev.target.value === '') {
       return this.setState({ [stat]: '', dirty: true });
     }
@@ -76,9 +76,9 @@ export default React.createClass({
     if (!isNaN(num)) {
       this.setState({ [stat]: num, dirty: true });
     }
-  },
+  };
 
-  getContent() {
+  getContent = () => {
     return <section>
       <div className='modal-header'>
         <h3>Edit Proficiency Bonus</h3>
@@ -110,7 +110,7 @@ export default React.createClass({
         { createCancelBtn(this.handleCancel) }
       </div>
     </section>
-  },
+  };
 
   render() {
     return <Modal
@@ -125,4 +125,4 @@ export default React.createClass({
       />
     </Modal>
   }
-})
+}

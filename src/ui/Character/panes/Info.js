@@ -1,6 +1,6 @@
-'use strict';
 
-import React from 'react';
+
+import React, { Component } from 'react';
 import { Map, List } from 'immutable';
 import ListItem from '../../components/ListItem';
 import Modal from '../../components/Modal';
@@ -19,30 +19,28 @@ import debug from 'debug';
 
 const log = debug('app:Info');
 
-export default React.createClass({
-  displayName: 'PaneInfo',
+export default class extends React.Component {
+  static displayName = 'PaneInfo';
 
-  getInitialState() {
-    return ({
-      traits: [
-        { id: 'personalityTraits', name: 'Personality' },
-        { id: 'ideals', name: 'Ideals' },
-        { id: 'bonds', name: 'Bonds' },
-        { id: 'flaws', name: 'Flaws' }
-      ],
-      personalityTraits: false, // for edit modal
-      ideals: false, // for edit modal
-      bonds: false, // for edit modal
-      flaws: false, // for edit modal
-      profModal: false,
-      langModal: false,
-      levelXpModal: false,
-      areYouSure: false
-    })
-  },
+  state = {
+    traits: [
+      { id: 'personalityTraits', name: 'Personality' },
+      { id: 'ideals', name: 'Ideals' },
+      { id: 'bonds', name: 'Bonds' },
+      { id: 'flaws', name: 'Flaws' }
+    ],
+    personalityTraits: false, // for edit modal
+    ideals: false, // for edit modal
+    bonds: false, // for edit modal
+    flaws: false, // for edit modal
+    profModal: false,
+    langModal: false,
+    levelXpModal: false,
+    areYouSure: false
+  };
 
   // only update when the info character data changes
-  shouldComponentUpdate : function(nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     return nextProps.info !== this.props.info ||
            nextProps.traits !== this.props.traits ||
            nextProps.proficiencies !== this.props.proficiencies ||
@@ -54,9 +52,9 @@ export default React.createClass({
            nextState.ideals !== this.state.ideals ||
            nextState.bonds !== this.state.bonds ||
            nextState.flaws !== this.state.flaws
-  },
+  }
 
-  handleNewDismiss(modal) {
+  handleNewDismiss = (modal) => {
     let isModalDirty = this.refs[`${modal}Dialog`].isDirty();
 
     if (isModalDirty) {
@@ -65,37 +63,37 @@ export default React.createClass({
     else {
       this.setState({ [`${modal}Modal`]: false, areYouSure: false });
     }
-  },
+  };
 
-  openDialog(type) {
+  openDialog = (type) => {
     this.setState({ [`${type}Modal`]: true });
-  },
+  };
 
-  handleCreate(type, data) {
+  handleCreate = (type, data) => {
     this.setState({ [`${type}Modal`]: false });
     this.props.handleInfoChange(data);
-  },
+  };
 
-  handleChange(refId, event) {
+  handleChange = (refId, event) => {
     log(refId, event);
     if (event.type.indexOf('DELETE') !== -1) {
       this.refs[refId].dismiss();
     }
     this.props.handleInfoChange(event);
-  },
+  };
 
-  handleLevelXpChange(event) {
+  handleLevelXpChange = (event) => {
     this.setState({ levelXpModal: false });
     this.props.handleInfoChange(event);
-  },
+  };
 
   // function called by the ListItem to check whether or not to show the
   // areYouSure dialog.
-  handleDirtyCheck(refId) {
+  handleDirtyCheck = (refId) => {
     return this.refs[refId].isDirty();
-  },
+  };
 
-  renderTraits() {
+  renderTraits = () => {
     return this.state.traits.map((trait, i) => {
       return <div
         key={`trait-${trait.id}`}
@@ -118,9 +116,9 @@ export default React.createClass({
         />
       </div>
     })
-  },
+  };
 
-  renderProficiencies() {
+  renderProficiencies = () => {
     if (!this.props.proficiencies || !this.props.proficiencies.get('proficiencies')) {
       return null;
     }
@@ -131,9 +129,9 @@ export default React.createClass({
         <ListItem ref={`prof-${i}`} key={i} title={prof.name} id={`proficiencies-${i}`} modalContent={mc} onDismiss={this.handleDirtyCheck.bind(this, `profs-${i}`)}/>
       )
     })
-  },
+  };
 
-  renderLanguages() {
+  renderLanguages = () => {
     if (!this.props.proficiencies || !this.props.proficiencies.get('languages')) {
       return null;
     }
@@ -144,9 +142,9 @@ export default React.createClass({
         <ListItem ref={`lang-${i}`} key={i} title={lang.name} id={`languages-${i}`} modalContent={modalContent} onDismiss={this.handleDirtyCheck.bind(this, `langs-${i}`)}/>
       )
     })
-  },
+  };
 
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     switch (answer) {
       case 'yes':
         this.setState({
@@ -160,9 +158,9 @@ export default React.createClass({
         this.setState({ areYouSure: false });
         break;
     }
-  },
+  };
 
-  buildLevelDialog() {
+  buildLevelDialog = () => {
     return (
       <LevelXpDialog
         ref='levelXpDialog'
@@ -176,7 +174,7 @@ export default React.createClass({
         onCancel={this.handleNewDismiss.bind(this, 'levelXp')}
       />
     )
-  },
+  };
 
   render() {
     let createProf = <CreateProficiency ref='profDialog' onCreate={this.handleCreate.bind(this, 'prof')} onCancel={this.handleNewDismiss.bind(this, 'prof')}/>;
@@ -244,4 +242,4 @@ export default React.createClass({
       </div>
     );
   }
-})
+}

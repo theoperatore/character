@@ -1,7 +1,5 @@
-'use strict';
-
 import { fromJS, Map, List } from 'immutable';
-import uuid from 'node-uuid';
+import uuid from 'uuid/v1';
 
 import defaultCharacter from '../../data/defaultCharacter';
 import defaultPreferences from '../../data/defaultPreferences';
@@ -501,7 +499,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
       });
 
     case 'HIT_DICE_CREATE':
-      let newHitDieId = `hit-die-${uuid.v1()}`;
+      let newHitDieId = `hit-die-${uuid()}`;
       return state
         .updateIn(['charHitPoints', 'hitDice'], hitDice => {
           return hitDice

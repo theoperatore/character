@@ -1,51 +1,39 @@
-'use strict';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
-import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from '../Modal';
 import Icon from '../Icon';
 
-export default React.createClass({
-  displayName: 'ListItem',
+export default class ListItem extends Component {
+  static propTypes = {
+    glyphCss: PropTypes.string,
+    glyph: PropTypes.element,
+    container: PropTypes.string,
+    onDismiss: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired
+  }
 
+  static defaultProps = {
+    glyphCss: ''
+  }
 
-  getInitialState() {
-    return {
-      edit: false,
-      areYouSure: false,
-      resolve: null,
-      stayOpen: false,
-      confirmMessage: 'Do you really want to cancel and lose any unsaved changes?'
-    }
-  },
-
-
-  getDefaultProps() {
-    return {
-      glyphCss: ''
-    }
-  },
-
-
-  propTypes: {
-    glyphCss: React.PropTypes.string,
-    glyph: React.PropTypes.element,
-    container: React.PropTypes.string,
-    onDismiss: React.PropTypes.func.isRequired,
-    id: React.PropTypes.string.isRequired
-  },
-
+  state = {
+    edit: false,
+    areYouSure: false,
+    resolve: null,
+    stayOpen: false,
+    confirmMessage: 'Do you really want to cancel and lose any unsaved changes?'
+  }
 
   _open(ev) {
     this.setState({ edit : true });
     ev.preventDefault();
     ev.stopPropagation();
-  },
-
+  }
 
   // don't close the confirmation dialog by tapping overlay
-  noop() {},
-
+  noop() {}
 
   onDismiss() {
     let isDirty = this.props.onDismiss();
@@ -57,22 +45,19 @@ export default React.createClass({
     }
     else {
       this.setState({ edit: false });
-      
-    }
-  },
 
+    }
+  }
 
   confirmCancel(stayOpen = false, confirmMessage = 'Do you really want to cancel and lose any unsaved changes?') {
     return new Promise(resolve => {
       this.setState({ areYouSure: true, resolve, stayOpen, confirmMessage });
     })
-  },
-
+  }
 
   dismiss() {
     this.handleYes();
-  },
-
+  }
 
   handleYes() {
     if (this.state.resolve) {
@@ -85,8 +70,7 @@ export default React.createClass({
       resolve: null,
       stayOpen: false
     });
-  },
-
+  }
 
   handleNo() {
     if (this.state.resolve) {
@@ -94,13 +78,12 @@ export default React.createClass({
     }
 
     this.setState({ areYouSure: false, resolve: null });
-  },
-
+  }
 
   areYouSureContent() {
     return (
       <section>
-        <div className='modal-header'>  
+        <div className='modal-header'>
           <h3>Are You Sure?</h3>
         </div>
         <div className='modal-content'>
@@ -116,8 +99,7 @@ export default React.createClass({
         </div>
       </section>
     )
-  },
-
+  }
 
   render() {
 
@@ -136,4 +118,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

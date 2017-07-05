@@ -1,61 +1,55 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Icon from '../../../components/Icon';
 import Modal from '../../../components/Modal';
 
 import { AbilityScores } from '../../constants';
 
-export default React.createClass({
-  displayName: 'SkillItem',
+export default class extends React.Component {
+  static displayName = 'SkillItem';
 
   // this component should not know anything about calculating scores
   // only that it must display a skill's score.
   // the calculation of what that score is should be done elsewhere
-  propTypes: {
-    name: React.PropTypes.string.isRequired,
-    score: React.PropTypes.number.isRequired,
-    trained: React.PropTypes.bool.isRequired,
-    ability: React.PropTypes.string.isRequired,
-    maxScore: React.PropTypes.number.isRequired,
-    onSkillChange: React.PropTypes.func.isRequired
-  },
+  static propTypes = {
+    name: PropTypes.string.isRequired,
+    score: PropTypes.number.isRequired,
+    trained: PropTypes.bool.isRequired,
+    ability: PropTypes.string.isRequired,
+    maxScore: PropTypes.number.isRequired,
+    onSkillChange: PropTypes.func.isRequired
+  };
 
-
-  getInitialState() {
-    return {
-      maxWidth: 0,
-      edit: false,
-      dirty: false,
-      confirm: false
-    }
-  },
-
+  state = {
+    maxWidth: 0,
+    edit: false,
+    dirty: false,
+    confirm: false
+  };
 
   componentDidMount() {
     let maxWidth = ReactDOM.findDOMNode(this.nameContainer).getBoundingClientRect().width - 10;
     this.setState({ maxWidth });
-  },
-
+  }
 
   componentWillReceiveProps() {
     let maxWidth = ReactDOM.findDOMNode(this.nameContainer).getBoundingClientRect().width - 10;
     this.setState({ maxWidth });
-  },
+  }
 
+  noop = () => {};
 
-  noop() {},
-
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-
-  getModalContent() {
+  getModalContent = () => {
     return (
       <section> 
         <div className='modal-header'><h3>{this.props.name}</h3></div>
@@ -74,10 +68,9 @@ export default React.createClass({
         </div>
       </section>
     )
-  },
+  };
 
-
-  getConfirmContent() {
+  getConfirmContent = () => {
     return (
       <section> 
         <div className='modal-header'><h3>Are You Sure?</h3></div>
@@ -94,25 +87,21 @@ export default React.createClass({
         </div>
       </section>
     )
-  },
+  };
 
-
-  handleNo() {
+  handleNo = () => {
     this.setState({ confirm: false });
-  },
+  };
 
-
-  handleYes() {
+  handleYes = () => {
     this.setState({ dirty: false, edit: false, confirm: false });
-  },
+  };
 
-
-  openEditModal() {
+  openEditModal = () => {
     this.setState({ edit: true });
-  },
+  };
 
-
-  handleSave() {
+  handleSave = () => {
     let data = { 
       trained: this.refs.proficient.checked,
       name: this.props.name
@@ -121,18 +110,16 @@ export default React.createClass({
 
     this.props.onSkillChange({ type: 'SKILL_EDIT', data });
     this.setState({ edit: false, dirty: false, confirm: false });    
-  },
+  };
 
-
-  dismissEdit() {
+  dismissEdit = () => {
     if (this.state.dirty) {
       this.setState({ confirm: true });
       return;
     }
 
     this.setState({ edit: false, dirty: false, confirm: false });
-  },
-
+  };
 
   render() {
     let style = {
@@ -153,4 +140,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

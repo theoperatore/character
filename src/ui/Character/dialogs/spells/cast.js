@@ -1,31 +1,31 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 
 
-export default React.createClass({
-  displayName: 'Cast',
+export default class extends React.Component {
+  static displayName = 'Cast';
 
-  propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    initialSpellLevel: React.PropTypes.number.isRequired,
+  static propTypes = {
+    active: PropTypes.bool.isRequired,
+    initialSpellLevel: PropTypes.number.isRequired,
 
     // each object must have levelId
-    slotsPerLevel: React.PropTypes.array.isRequired,
-    spellId: React.PropTypes.string.isRequired,
-    onDismiss: React.PropTypes.func.isRequired,
-    onCast: React.PropTypes.func.isRequired,
-  },
+    slotsPerLevel: PropTypes.array.isRequired,
+    spellId: PropTypes.string.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    onCast: PropTypes.func.isRequired,
+  };
 
-  getInitialState() {
-    return {
-      numSpellSlots: 1,
-    }
-  },
+  state = {
+    numSpellSlots: 1,
+  };
 
-  validateNumber(ev) {
+  validateNumber = (ev) => {
     if (ev.target.value === '') {
       this.setState({ numSpellSlots: '' });
       return;
@@ -34,9 +34,9 @@ export default React.createClass({
     if (!isNaN(Number(ev.target.value))) {
       this.setState({ numSpellSlots: Number(ev.target.value) })
     }
-  },
+  };
 
-  castSpell() {
+  castSpell = () => {
     let type = 'SPELL_CAST';
     let data = {
       id: this.props.spellId,
@@ -50,9 +50,9 @@ export default React.createClass({
       this.props.onCast({ type, data });
       this.props.onDismiss();
     }
-  },
+  };
 
-  getContent() {
+  getContent = () => {
     return <section>
       <div className='modal-header'>
         <h3>Cast Spell</h3>
@@ -86,7 +86,7 @@ export default React.createClass({
         <button className='text-red' onClick={this.props.onDismiss}><Icon icon='fa fa-remove'/> Cancel</button>
       </div>
     </section>
-  },
+  };
 
   render() {
     return <Modal
@@ -96,4 +96,4 @@ export default React.createClass({
       onDismiss={this.props.onDismiss}
     />;
   }
-})
+}

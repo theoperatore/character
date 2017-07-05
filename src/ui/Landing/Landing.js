@@ -1,16 +1,14 @@
-'use strict';
-
-import React from 'react';
+import React, { Component } from 'react';
 import { signInWithEmail, signOut } from '../state/actions';
 import { ROUTE_PROFILE } from '../routes';
 import Router from '../router/Router';
 
-export default React.createClass({
-  displayName: 'Landing',
+export default class Landing extends Component {
+  static displayName = 'Landing';
 
   loginTestUser() {
     // this.props.dispatch(signInWithEmail('test@test.com', 'pcTest'));
-  },
+  }
 
   // componentDidMount() {
   //   this.props.dispatch(signOut());
@@ -30,4 +28,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

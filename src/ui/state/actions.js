@@ -1,7 +1,5 @@
-'use strict';
-
 import { fromJS } from 'immutable';
-import uuid from 'node-uuid';
+import uuid from 'uuid/v1';
 import { db, ref } from '../../api';
 import defaultCharacter from '../../data/defaultCharacter';
 import defaultPreferences from '../../data/defaultPreferences';
@@ -197,7 +195,7 @@ export function createCharacter(userId, newCharName) {
   return dispatch => {
     dispatch({ type: 'CHARACTER_CREATING' });
 
-    let charId = uuid.v1();
+    let charId = uuid();
     let newCharacter = fromJS(defaultCharacter);
 
     newCharacter = newCharacter

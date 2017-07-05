@@ -1,43 +1,39 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 import Icon from '../../../components/Icon';
 import Modal from '../../../components/Modal';
 import ConfirmModal from '../../dialogs/ConfirmModal';
 import { AbilityScores } from '../../constants';
 
-export default React.createClass({
-  displayName: 'SavingThrowItem',
+export default class extends React.Component {
+  static displayName = 'SavingThrowItem';
 
-  propTypes: {
-    ability: React.PropTypes.string.isRequired,
-    score: React.PropTypes.number.isRequired,
-    proficient: React.PropTypes.bool.isRequired
-  },
+  static propTypes = {
+    ability: PropTypes.string.isRequired,
+    score: PropTypes.number.isRequired,
+    proficient: PropTypes.bool.isRequired
+  };
 
+  state = {
+    edit: false,
+    confirm: false,
+    dirty: false
+  };
 
-  getInitialState() {
-    return {
-      edit: false,
-      confirm: false,
-      dirty: false
-    }
-  },
-
-
-  openEditModal() {
+  openEditModal = () => {
     this.setState({ edit: true });
-  },
+  };
 
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-
-  handleSave() {
+  handleSave = () => {
     let proficient = this.refs.proficient.checked;
 
     if (proficient !== this.props.proficient) {
@@ -48,10 +44,9 @@ export default React.createClass({
     }
 
     this.setState({ edit: false, dirty: false, confirm: false });
-  },
+  };
 
-
-  getModalContent() {
+  getModalContent = () => {
     return <section>
       <div className='modal-header'><h3>{`${AbilityScores[this.props.ability].display} Saving Throw`}</h3></div>
       <div className='modal-content'>
@@ -64,28 +59,25 @@ export default React.createClass({
         <button onClick={this.handleSave} className='text-green'><Icon icon='fa fa-pencil'/> Save</button>
       </div>
     </section>
-  },
+  };
 
-
-  dismissEdit() {
+  dismissEdit = () => {
     if (this.state.dirty) {
       this.setState({ confirm: true });
       return;
     }
 
     this.setState({ edit: false });
-  },
+  };
 
-
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     if (answer === 'yes') {
       this.setState({ edit: false, dirty: false, confirm: false });
     }
     else {
       this.setState({ confirm: false });
     }
-  },
-
+  };
 
   render() {
 
@@ -102,4 +94,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

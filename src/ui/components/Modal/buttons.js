@@ -1,6 +1,6 @@
-'use strict';
 
-import React from 'react';
+
+import React, { Component } from 'react';
 import Icon from '../Icon';
 
 export function createSaveBtn(clickHandler) {

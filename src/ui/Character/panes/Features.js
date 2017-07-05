@@ -1,6 +1,8 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 import ListItem from '../../components/ListItem';
 import Icon from '../../components/Icon';
 import Modal from '../../components/Modal';
@@ -8,32 +10,26 @@ import Modal from '../../components/Modal';
 import CreateNewFeature from '../dialogs/features/create';
 import FeatureItem from '../containers/FeatureItem';
 
-export default React.createClass({
-  displayName : 'PaneFeatures',
+export default class extends React.Component {
+  static displayName = 'PaneFeatures';
 
+  static propTypes = {
+    features: PropTypes.object.isRequired,
+    charges: PropTypes.object.isRequired,
+    handleFeatureChange: PropTypes.func.isRequired
+  };
 
-  propTypes: {
-    features: React.PropTypes.object.isRequired,
-    charges: React.PropTypes.object.isRequired,
-    handleFeatureChange: React.PropTypes.func.isRequired
-  },
-
-
-  getInitialState() {
-    return {
-      createFeature: false
-    }
-  },
-
+  state = {
+    createFeature: false
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     return this.props.features !== nextProps.features ||
            this.props.charges !== nextProps.charges ||
            this.state.createFeature !== nextState.createFeature;
-  },
+  }
 
-
-  renderFeatures() {
+  renderFeatures = () => {
     if (!this.props.features) {
       return null;
     }
@@ -60,8 +56,7 @@ export default React.createClass({
         )
       })
     )
-  },
-
+  };
 
   render() {
     return (
@@ -80,4 +75,4 @@ export default React.createClass({
       </div>
     );
   }
-})
+}

@@ -1,38 +1,29 @@
-'use strict';
+
 
 var React = require('react');
 
-module.exports = React.createClass({
-  displayName : "Tabs",
+module.exports = class extends React.Component {
+  static displayName = "Tabs";
 
+  static defaultProps = {
+    activeIdx : 0,
+    onTabSelect : function() {}
+  };
 
-  getInitialState : function() {
-    return ({
-      activeIdx : this.props.activeIdx
-    });
-  },
+  state = {
+    activeIdx : this.props.activeIdx
+  };
 
-
-  getDefaultProps : function() {
-    return ({
-      activeIdx : 0,
-      onTabSelect : function() {}
-    })
-  },
-
-
-  componentWillReceiveProps : function(nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.setState({ activeIdx : nextProps.activeIdx });
-  },
+  }
 
-
-  handleChildSelect : function(id) {
+  handleChildSelect = (id) => {
     this.setState({ activeIdx : id });
     this.props.onTabSelect(id);
-  },
+  };
 
-
-  renderChildren : function() {
+  renderChildren = () => {
     return React.Children.map(this.props.children, (child, i) => {
       var props = {};
 
@@ -42,9 +33,9 @@ module.exports = React.createClass({
 
       return React.cloneElement(child, props);
     })
-  },
+  };
 
-  render : function() {
+  render() {
     let {
       className
     } = this.props;
@@ -55,4 +46,4 @@ module.exports = React.createClass({
       </div>
     );
   }
-})
+}

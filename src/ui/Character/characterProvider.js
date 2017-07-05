@@ -1,6 +1,8 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 import debug from 'debug';
 import { ref } from '../../api';
 import { loadCharacter } from '../state/actions';
@@ -53,27 +55,24 @@ function saveCharacter(userId, charId, characterToSave, preferencesToSave) {
 }
 
 export function characterProvider(Component) {
-  return React.createClass({
+  return class extends React.Component {
+    static propTypes = {
+      dispatch: PropTypes.func.isRequired,
+      state: PropTypes.object.isRequired,
+    };
 
-    propTypes: {
-      dispatch: React.PropTypes.func.isRequired,
-      state: React.PropTypes.object.isRequired,
-    },
-
-    getInitialState() {
-      return {
-        isSaving: false,
-        saveError: null,
-        lastSavedDate: Date.now(),
-      }
-    },
+    state = {
+      isSaving: false,
+      saveError: null,
+      lastSavedDate: Date.now(),
+    };
 
     componentDidMount() {
       let characterId = this.props.state.route.getIn(['params', 'uid']);
       this.props.dispatch(loadCharacter(characterId));
-    },
+    }
 
-    dispatchMiddleware(action) {
+    dispatchMiddleware = (action) => {
       log(action);
 
       let isLoading = this.props.state.status.get('characterLoading');
@@ -86,7 +85,7 @@ export function characterProvider(Component) {
 
       ref.child(`actions/${characterId}`).push(cleanedAction);
       this.props.dispatch(action);
-    },
+    };
 
     componentWillReceiveProps(nextProps) {
       let characterIsLoaded = nextProps.state.status.get('characterIsLoaded');
@@ -107,7 +106,7 @@ export function characterProvider(Component) {
         .then(() => this.setState({ isSaving: false, saveError: null, lastSavedDate: Date.now() }))
         .catch(error => this.setState({ isSaving: false, saveError: error }));
         
-    },
+    }
 
     render() {
       let isCharacterLoading = this.props.state.status.get('characterLoading');
@@ -122,5 +121,5 @@ export function characterProvider(Component) {
         isLoading={isUserProfileLoading || isCharacterLoading}
       />
     }
-  })
+  };
 }

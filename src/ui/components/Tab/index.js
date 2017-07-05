@@ -1,18 +1,16 @@
-'use strict';
+
 
 var React = require('react');
 var classnames = require('classnames');
 
-module.exports = React.createClass({
-  displayName : "Tab",
+module.exports = class extends React.Component {
+  static displayName = "Tab";
 
-
-  handleClick : function(ev) {
+  handleClick = (ev) => {
     this.props._handleClick(this.props.idx);
-  },
+  };
 
-
-  render : function() {
+  render() {
     var { active, className } = this.props;
     var css = classnames({
       'tab-container' : true,
@@ -25,4 +23,4 @@ module.exports = React.createClass({
       </div>
     );
   }
-})
+}

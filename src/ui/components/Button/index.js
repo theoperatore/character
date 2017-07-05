@@ -1,18 +1,11 @@
-'use strict';
-
-import React from 'react';
+import React, { Component } from 'react';
 import cn from 'classnames';
 
-export default React.createClass({
-  displayName : 'Button',
+export default class Button extends Component {
 
-
-  getDefaultProps() {
-    return ({
-      size : 'md'
-    })
-  },
-
+  static defaultProps = {
+    size : 'md'
+  }
 
   render() {
     let { size, style, children, ...props } = this.props;
@@ -30,6 +23,6 @@ export default React.createClass({
 
     return (
       <button className={css} {...props}>{children}</button>
-    )
+    );
   }
-})
+}

@@ -1,18 +1,17 @@
-'use strict';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
-import React from 'react';
 import debug from 'debug';
 import { loadUser } from './state/actions';
 
 const log = debug('pc:user');
 
 export default function connectUserRoute(Route) {
-  return React.createClass({
-
-    propTypes: {
-      dispatch: React.PropTypes.func.isRequired,
-      state: React.PropTypes.object.isRequired,      
-    },
+  return class ConnectedUserRoute extends Component {
+    static propTypes = {
+      dispatch: PropTypes.func.isRequired,
+      state: PropTypes.object.isRequired,
+    }
 
     componentDidMount() {
       let user = this.props.state.user;
@@ -21,12 +20,12 @@ export default function connectUserRoute(Route) {
         log('trying to load user...');
         this.props.dispatch(loadUser());
       }
-    },
+    }
 
     render() {
       return <Route
         {...this.props}
       />
     }
-  })
+  };
 }

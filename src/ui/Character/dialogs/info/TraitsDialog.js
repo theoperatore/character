@@ -1,32 +1,32 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 
 import Icon from '../../../components/Icon';
 import Modal from '../../../components/Modal';
 import { createSaveBtn, createCancelBtn } from '../../../components/Modal/buttons';
 import ConfirmModal from '../ConfirmModal';
 
-export default React.createClass({
-  displayName: 'TraitsDialog',
+export default class extends React.Component {
+  static displayName = 'TraitsDialog';
 
-  propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    name: React.PropTypes.string.isRequired,
-    desc: React.PropTypes.string.isRequired,
-    id: React.PropTypes.string.isRequired,
-    onTraitChange: React.PropTypes.func.isRequired,
-    onDismiss: React.PropTypes.func
-  },
+  static propTypes = {
+    active: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+    desc: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    onTraitChange: PropTypes.func.isRequired,
+    onDismiss: PropTypes.func
+  };
 
-  getInitialState() {
-    return ({
-      dirty: false,
-      confirmCancel: false,
-    })
-  },
+  state = {
+    dirty: false,
+    confirmCancel: false,
+  };
 
-  handleSave() {
+  handleSave = () => {
     let desc = this.refs.newDesc.value.trim();
 
     let shouldUpdate = desc !== this.props.desc;
@@ -36,17 +36,17 @@ export default React.createClass({
       this.setState({ dirty: false });
       this.props.onDismiss();
     }
-  },
+  };
 
-  handleCancel() {
+  handleCancel = () => {
     if (!this.state.dirty) {
       return this.props.onDismiss();
     }
 
     this.setState({ confirmCancel: true });
-  },
+  };
 
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     switch (answer) {
       case 'yes':
         this.setState({ dirty: false, confirmCancel: false });
@@ -54,15 +54,15 @@ export default React.createClass({
       case 'no':
         this.setState({ confirmCancel: false });
     }
-  },
+  };
 
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-  getContent() {
+  getContent = () => {
     return (
       <section>
         <div className='modal-header'>
@@ -77,7 +77,7 @@ export default React.createClass({
         </div>
       </section>
     )
-  },
+  };
 
   render() {
     return <Modal
@@ -91,5 +91,5 @@ export default React.createClass({
         onConfirm={this.handleConfirm}
       />
     </Modal>
-  },
-})
+  }
+}

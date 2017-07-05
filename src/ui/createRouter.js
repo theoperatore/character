@@ -1,4 +1,4 @@
-'use strict';
+
 
 import Router from './router/Router';
 import { ROUTE_LANDING, ROUTE_LOGIN, ROUTE_PROFILE, ROUTE_CHARACTER } from './routes';

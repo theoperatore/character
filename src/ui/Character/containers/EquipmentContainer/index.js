@@ -1,6 +1,8 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 import ListItem from '../../../components/ListItem/v2';
 import Popup from '../../../components/Popup';
 import EquipmentItem from '../../containers/EquipmentItem';
@@ -9,26 +11,24 @@ import EditEquipmentContainer from './EditEquipmentContainer';
 import ConfirmModal from '../../dialogs/ConfirmModal';
 import Icon from '../../../components/Icon';
 
-export default React.createClass({
-  displayName: 'EquipmentContainer',
+export default class extends React.Component {
+  static displayName = 'EquipmentContainer';
 
-  propTypes: {
-    containers: React.PropTypes.array.isRequired,
-    container: React.PropTypes.object.isRequired,
-    items: React.PropTypes.object.isRequired,
-    onContainerChange: React.PropTypes.func.isRequired,
-  },
+  static propTypes = {
+    containers: PropTypes.array.isRequired,
+    container: PropTypes.object.isRequired,
+    items: PropTypes.object.isRequired,
+    onContainerChange: PropTypes.func.isRequired,
+  };
 
-  getInitialState() {
-    return {
-      viewContents: false,
-      createItem: false,
-      editContainer: false,
-      confirmDelete: false,
-    }
-  },
+  state = {
+    viewContents: false,
+    createItem: false,
+    editContainer: false,
+    confirmDelete: false,
+  };
 
-  handleDeleteConfirm(answer) {
+  handleDeleteConfirm = (answer) => {
     switch (answer) {
       case 'no':
         return this.setState({ confirmDelete: false });
@@ -41,9 +41,9 @@ export default React.createClass({
         });
         this.setState({ confirmDelete: false, viewContents: false });
     }
-  },
+  };
 
-  getItemDetails() {
+  getItemDetails = () => {
     let items = this.props.items.map(itm => {
       return (
         <EquipmentItem
@@ -100,7 +100,7 @@ export default React.createClass({
 
       </section>
     );
-  },
+  };
 
   render() {
     let { container } = this.props;
@@ -132,4 +132,4 @@ export default React.createClass({
       </ListItem>
     );
   }
-})
+}

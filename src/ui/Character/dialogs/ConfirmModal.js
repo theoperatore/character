@@ -1,32 +1,30 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 import Modal from '../../components/Modal';
 import Icon from '../../components/Icon';
 
-export default React.createClass({
-  displayName: 'ConfirmDialog',
+export default class extends React.Component {
+  static displayName = 'ConfirmDialog';
 
-
-  propTypes: {
-    message: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.element,
+  static propTypes = {
+    message: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
     ]),
-    onConfirm: React.PropTypes.func.isRequired,
-    active: React.PropTypes.bool.isRequired
-  },
+    onConfirm: PropTypes.func.isRequired,
+    active: PropTypes.bool.isRequired
+  };
 
+  defaultMessage = 'Cancel and lose any unsaved changes?';
 
-  defaultMessage: 'Cancel and lose any unsaved changes?',
-
-
-  confirmChoice(choice) {
+  confirmChoice = (choice) => {
     this.props.onConfirm(choice);
-  },
+  };
 
-
-  getConfirmContent() {
+  getConfirmContent = () => {
     return (
       <section>
         <div className='modal-header'><h3>Are You Sure?</h3></div>
@@ -37,10 +35,9 @@ export default React.createClass({
         </div>
       </section>
     )
-  },
-
+  };
 
   render() {
     return <Modal id='confirm-dialog' active={this.props.active} content={this.getConfirmContent()} onDismiss={() => {}}/>
   }
-})
+}

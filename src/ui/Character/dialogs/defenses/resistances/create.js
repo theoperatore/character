@@ -1,48 +1,43 @@
-'use strict';
 
-import React from 'react';
-import uuid from 'node-uuid';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
+import uuid from 'uuid/v1';
 import ConfirmModal from '../../ConfirmModal';
 import Modal from '../../../../components/Modal';
 import Icon from '../../../../components/Icon';
 
-export default React.createClass({
-  displayName: 'CreateNewResistance',
+export default class extends React.Component {
+  static displayName = 'CreateNewResistance';
 
+  static propTypes = {
+    active: PropTypes.bool.isRequired,
+    onCreate: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired
+  };
 
-  propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    onCreate: React.PropTypes.func.isRequired,
-    onCancel: React.PropTypes.func.isRequired
-  },
+  state = {
+    confirm: false,
+    dirty: false
+  };
 
-
-  getInitialState() {
-    return {
-      confirm: false,
-      dirty: false
-    }
-  },
-
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-
-  dismiss() {
+  dismiss = () => {
     if (this.state.dirty) {
       this.setState({ confirm : true });
       return;
     }
 
     this.props.onCancel();
-  },
+  };
 
-
-  content() {
+  content = () => {
     return <section>
       <div className='modal-header'>
         <h3>
@@ -57,34 +52,31 @@ export default React.createClass({
         <button onClick={this.cancel} className='text-red'><Icon icon='fa fa-remove'/> Cancel</button>
       </div>
     </section>
-  },
+  };
 
-
-  save() {
+  save = () => {
     let name = this.refs.name.value.trim();
     let desc = this.refs.desc.value.trim();
 
     if (name !== '') {
-      let id = `resistance-${uuid.v1()}`;
+      let id = `resistance-${uuid()}`;
       let data = { name, desc, id }
       this.props.onCreate({ type: 'RESISTANCES_CREATE', data });
     }
 
     this.props.onCancel();
-  },
+  };
 
-
-  cancel() {
+  cancel = () => {
     if (this.state.dirty) {
       this.setState({ confirm: true });
       return;
     }
 
     this.props.onCancel();
-  },
+  };
 
-
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     if (answer === 'yes') {
       this.setState({ confirm: false });
       this.props.onCancel();
@@ -92,8 +84,7 @@ export default React.createClass({
     }
 
     this.setState({ confirm: false });
-  },
-
+  };
 
   render() {
     return (
@@ -103,4 +94,4 @@ export default React.createClass({
       </span>
     );
   }
-})
+}

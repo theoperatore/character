@@ -1,11 +1,7 @@
-'use strict';
-
-import React from 'react';
+import React, { Component } from 'react';
 import Router from './Router';
 
-export default React.createClass({
-
-
+export default class Link extends Component {
   navigate() {
     if (this.props.disabled !== undefined && this.props.disabled === true) {
       return;
@@ -15,10 +11,9 @@ export default React.createClass({
     href = '#' + href.replace("#", "");
 
     Router.nav(href);
-  },
+  }
 
-
-  render : function() {
+  render() {
     let href = '#' + this.props.href.replace("#", "");
     let className = this.props.className;
     return (
@@ -28,4 +23,4 @@ export default React.createClass({
       >{this.props.children}</span>
     );
   }
-})
+}

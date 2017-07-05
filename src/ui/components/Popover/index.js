@@ -1,43 +1,35 @@
-'use strict';
+
 
 var React = require('react');
 var ReactDOM = require('react-dom');
 var cn = require('classnames');
 var utils = require('../../utils');
 
-module.exports = React.createClass({
-  displayName : 'Popover',
+module.exports = class extends React.Component {
+  static displayName = 'Popover';
 
+  static defaultProps = {
+    popover : false,
+    onClose : () => {},
+    css : ''
+  };
 
-  getInitialState : function() {
-    return ({
-      arrow : 0,
-      left: 0,
-      active: false
-    })
-  },
+  state = {
+    arrow : 0,
+    left: 0,
+    active: false
+  };
 
-
-  getDefaultProps : function() {
-    return ({
-      popover : false,
-      onClose : () => {},
-      css : ''
-    })
-  },
-
-
-  handleOutsideClick : function(ev) {
+  handleOutsideClick = (ev) => {
     var root = ReactDOM.findDOMNode(this);
 
     if (!utils.isTargetInRoot(ev.target, root)) {
       this.setState({ active : false });
       document.removeEventListener('click', this.handleOutsideClick);
     }
-  },
+  };
 
-
-  calculate : function() {
+  calculate = () => {
     var drect = document.body.getBoundingClientRect();
     var element = ReactDOM.findDOMNode(this.refs.content);
     var popover = ReactDOM.findDOMNode(this.refs.popover);
@@ -54,22 +46,19 @@ module.exports = React.createClass({
     left = left + prect.width > drect.width ? drect.width - prect.width : left;
 
     this.setState({ arrow : arrow, left : left });
-  },
+  };
 
-
-  componentDidUpdate : function() {
+  componentDidUpdate() {
     if (this.state.active) {
       document.addEventListener('click', this.handleOutsideClick);
     }
-  },
+  }
 
-
-  componentDidMount : function() {
+  componentDidMount() {
     this.calculate();
-  },
+  }
 
-
-  toggle : function() {
+  toggle = () => {
     if (this.props.popover) {
       if (!this.state.active) {
         this.calculate();
@@ -78,10 +67,9 @@ module.exports = React.createClass({
       }
       this.setState({ active : !this.state.active });
     }
-  },
+  };
 
-
-  renderPopover : function() {
+  renderPopover = () => {
     var css = cn({
       'popover-popover-container' : true,
       'popover-active' : this.state.active
@@ -101,10 +89,9 @@ module.exports = React.createClass({
         {this.props.popover}
       </div>
     )
-  },
+  };
 
-
-  render : function() {
+  render() {
     var css = 'popover-container ' + this.props.css;
 
     return (
@@ -116,4 +103,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

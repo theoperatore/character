@@ -1,7 +1,9 @@
-'use strict';
 
-import React from 'react';
-import uuid from 'node-uuid';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
+import uuid from 'uuid/v1';
 import Icon from '../../../components/Icon';
 
 const NEW_SPELL = {
@@ -13,18 +15,18 @@ const NEW_SPELL = {
   dur: 'Duration',
 }
 
-export default React.createClass({
-  displayName: 'CreateSpell',
+export default class extends React.Component {
+  static displayName = 'CreateSpell';
 
-  propTypes: {
-    onChange: React.PropTypes.func.isRequired,
-    onCancel: React.PropTypes.func.isRequired,
-  },
+  static propTypes = {
+    onChange: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+  };
 
-  getSpellInput() {
+  getSpellInput = () => {
     return {
       spell: {
-        id: `spell-${uuid.v1()}`,
+        id: `spell-${uuid()}`,
         name: this.nameInput.value.trim(),
         desc: this.descInput.value.trim(),
         cast: this.castInput.value.trim(),
@@ -35,9 +37,9 @@ export default React.createClass({
       },
       level: Number(this.levelInput.value),
     }
-  },
+  };
 
-  handleSave() {
+  handleSave = () => {
     let type = 'SPELL_CREATE';
     let data = this.getSpellInput();
 
@@ -45,11 +47,11 @@ export default React.createClass({
       this.props.onChange({ type, data });
       this.props.onCancel();
     }
-  },
+  };
 
-  handleCancel() {
+  handleCancel = () => {
     this.props.onCancel();
-  },
+  };
 
   render() {
 
@@ -109,5 +111,5 @@ export default React.createClass({
         </div>
       </section>
     );
-  },
-});
+  }
+}

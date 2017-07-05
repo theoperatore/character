@@ -1,37 +1,36 @@
-'use strict';
+
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import ListItem from '../../components/ListItem/v2';
 import Icon from '../../components/Icon';
 import CreateEquipmentContainer from '../dialogs/equipment/createEquipmentContainer';
 import ManageWealth from '../dialogs/equipment/manageWealth';
 import EquipmentContainer from '../containers/EquipmentContainer';
 
-export default React.createClass({
-  displayName : 'PaneEquipments',
+const wealthTypes = ['cp', 'sp', 'ep', 'gp', 'pp'];
 
-  wealthTypes: ['cp', 'sp', 'ep', 'gp', 'pp'],
+export default class extends React.Component {
+  static displayName = 'PaneEquipments';
 
-  propTypes: {
-    equipment: React.PropTypes.object.isRequired,
-    handleEquipmentChange: React.PropTypes.func.isRequired,
-  },
+  static propTypes = {
+    equipment: PropTypes.object.isRequired,
+    handleEquipmentChange: PropTypes.func.isRequired,
+  };
+
+  state = {
+    createContainer: false,
+    manageWealth: false,
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     return nextProps.equipment !== this.props.equipment ||
            nextState.createContainer !== this.state.createContainer |
            nextState.manageWealth !== this.state.manageWealth
-  },
+  }
 
-  getInitialState() {
-    return {
-      createContainer: false,
-      manageWealth: false,
-    }
-  },
-
-  renderWealth() {
-    return this.wealthTypes.map(type => {
+  renderWealth = () => {
+    return wealthTypes.map(type => {
       let money = this.props.equipment.getIn(['money', type]);
 
       return <div
@@ -42,9 +41,9 @@ export default React.createClass({
           <p>{money}</p>
         </div>
     })
-  },
+  };
 
-  renderEquipments() {
+  renderEquipments = () => {
     let simpleContainers = this.props.equipment.get('containers').map(c => {
       return {
         id: c.get('id'),
@@ -53,7 +52,7 @@ export default React.createClass({
     }).toJS();
 
     return this.props.equipment.get('containers').map(container => {
-      let mappedItems = container.get('items') 
+      let mappedItems = container.get('items')
         ? container.get('items').map(id => {
           return this.props.equipment.getIn(['allItems', id]);
         })
@@ -67,7 +66,7 @@ export default React.createClass({
         onContainerChange={this.props.handleEquipmentChange}
       />;
     }).toJS();
-  },
+  };
 
   render() {
     return (
@@ -101,4 +100,4 @@ export default React.createClass({
       </div>
     );
   }
-})
+}

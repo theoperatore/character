@@ -1,33 +1,30 @@
-'use strict';
 
-import React from 'react';
-import uuid from 'node-uuid';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
+import uuid from 'uuid/v1';
 import Icon from '../../../components/Icon';
 import Modal from '../../../components/Modal';
 import ConfirmModal from '../ConfirmModal';
 
 
-export default React.createClass({
-  displayName: 'CreateBonusDialog',
+export default class extends React.Component {
+  static displayName = 'CreateBonusDialog';
 
+  static propTypes = {
+    active: PropTypes.bool.isRequired,
+    dismiss: PropTypes.func.isRequired,
+    onCreate: PropTypes.func.isRequired
+  };
 
-  propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    dismiss: React.PropTypes.func.isRequired,
-    onCreate: React.PropTypes.func.isRequired
-  },
+  state = {
+    bonus: 0,
+    confirm: false,
+    dirty: false
+  };
 
-
-  getInitialState() {
-    return {
-      bonus: 0,
-      confirm: false,
-      dirty: false
-    }
-  },
-
-
-  validateBonus(ev) {
+  validateBonus = (ev) => {
     this.makeDirty();
 
     if (ev.target.value === '-' || ev.target.value === '') {
@@ -39,17 +36,15 @@ export default React.createClass({
     if (!isNaN(val) && val !== Infinity) {
       this.setState({ bonus: val });
     }
-  },
+  };
 
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     if (answer === 'yes') {
       this.setState({ confirm: false, dirty: false, bonus: 0 });
       this.props.dismiss();
@@ -57,10 +52,9 @@ export default React.createClass({
     }
 
     this.setState({ confirm: false });
-  },
+  };
 
-
-  dismiss() {
+  dismiss = () => {
     if (this.state.dirty) {
       this.setState({ confirm: true });
       return;
@@ -68,16 +62,15 @@ export default React.createClass({
 
     this.setState({ bonus: 0 })
     this.props.dismiss();
-  },
+  };
 
-
-  save() {
+  save = () => {
     let name = this.refs.newTitle.value.trim();
 
     if (name !== '') {
       let abil = this.refs.ability.value;
       let prof = this.refs.prof.checked;
-      let id = `atkBonus-${uuid.v1()}`;
+      let id = `atkBonus-${uuid()}`;
       let bonus = this.state.bonus === '' || this.state.bonus === '-' ? 0 : this.state.bonus;
       let data = { abil, prof, id, name, bonus };
 
@@ -85,10 +78,9 @@ export default React.createClass({
       this.setState({ confirm: false, dirty: false, edit: false, bonus: 0 });
       this.props.dismiss();
     }
-  },
+  };
 
-
-  content() {
+  content = () => {
     return <section>
       <div className='modal-header'>
         <h3>
@@ -120,8 +112,7 @@ export default React.createClass({
         <button onClick={this.save} className='text-green'><Icon icon='fa fa-pencil'/> Save</button>
       </div>
     </section>
-  },
-
+  };
 
   render() {
     return (
@@ -131,4 +122,4 @@ export default React.createClass({
       </span>
     )
   }
-})
+}

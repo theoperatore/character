@@ -1,14 +1,20 @@
-'use strict';
 
-import React, { PropTypes } from 'react';
+
+
+
+import PropTypes from 'prop-types';
+
+
+
+import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import cn from 'classnames';
 import Icon from '../Icon';
 
-export default React.createClass({
-  displayName: 'Notification',
+export default class extends React.Component {
+  static displayName = 'Notification';
 
-  propTypes: {
+  static propTypes = {
     id: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired,
     onDismiss: PropTypes.func.isRequired,
@@ -16,17 +22,15 @@ export default React.createClass({
     component: PropTypes.element,
     direction: PropTypes.string,
     onClick: PropTypes.func,
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      direction: 'left',
-      onClick() {},
-      message: 'Notification',
-    }
-  },
+  static defaultProps = {
+    direction: 'left',
+    onClick() {},
+    message: 'Notification',
+  };
 
-  dismissTimeout: null,
+  dismissTimeout = null;
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.active === true) {
@@ -40,24 +44,24 @@ export default React.createClass({
     else {
       clearTimeout(this.dismissTimeout);
     }
-  },
+  }
 
   componentWillUnmount() {
     clearTimeout(this.dismissTimeout);
-  },
+  }
 
-  _click(ev) {
+  _click = (ev) => {
     ev.preventDefault();
     ev.stopPropagation();
 
     this.props.onClick(ev);
-  },
+  };
 
-  renderMessage() {
+  renderMessage = () => {
     return <div className='pr2 text-blue bg-blue timer'>
       <p><Icon icon='fa fa-exclamation' className='p2'/>{this.props.message}</p>
     </div>
-  },
+  };
 
   render() {
     let notifCSS = cn({
@@ -84,11 +88,11 @@ export default React.createClass({
           : null
       }
     </ReactCSSTransitionGroup>
-  },
-})
+  }
+}
 
-let OnlyChild = React.createClass({
+class OnlyChild extends React.Component {
   render() {
     return React.Children.toArray(this.props.children)[0] || null;
   }
-})
+}

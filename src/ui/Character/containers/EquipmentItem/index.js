@@ -1,35 +1,35 @@
-'use strict';
 
-import React from 'react';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
 import ListItem from '../../../components/ListItem/v2';
 import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 import { createSaveBtn, createEditBtn, createRemoveBtn, createCancelBtn } from '../../../components/Modal/buttons';
 import ConfirmModal from '../../dialogs/ConfirmModal';
 
-export default React.createClass({
-  displayName: 'EquipmentItem',
+export default class extends React.Component {
+  static displayName = 'EquipmentItem';
 
-  propTypes: {
-    id: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
-    desc: React.PropTypes.string.isRequired,
-    containers: React.PropTypes.array.isRequired,
-    containerId: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-  },
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    desc: PropTypes.string.isRequired,
+    containers: PropTypes.array.isRequired,
+    containerId: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+  };
 
-  getInitialState() {
-    return {
-      viewDetails: false,
-      editDetails: false,
-      confirmDelete: false,
-      confirmCancel: false,
-      dirty: false,
-    }
-  },
+  state = {
+    viewDetails: false,
+    editDetails: false,
+    confirmDelete: false,
+    confirmCancel: false,
+    dirty: false,
+  };
 
-  handleCancel() {
+  handleCancel = () => {
     if (this.state.dirty) {
       return this.setState({ confirmCancel: true });
     }
@@ -37,15 +37,15 @@ export default React.createClass({
     this.state.editDetails
       ? this.setState({ editDetails: false, dirty: false })
       : this.setState({ viewDetails: false });
-  },
+  };
 
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-  handleConfirmDelete(answer) {
+  handleConfirmDelete = (answer) => {
     switch (answer) {
       case 'no':
         return this.setState({ confirmDelete: false });
@@ -60,9 +60,9 @@ export default React.createClass({
 
         this.setState({ confirmDelete: false, viewDetails: false });
     }
-  },
+  };
 
-  handleConfirmCancel(answer) {
+  handleConfirmCancel = (answer) => {
     switch (answer) {
       case 'no':
         return this.setState({ confirmCancel: false });
@@ -73,9 +73,9 @@ export default React.createClass({
           dirty: false,
         });
     }
-  },
+  };
 
-  saveChanges() {
+  saveChanges = () => {
     let name = this.nameInput.value.trim();
     let desc = this.descinput.value.trim();
     let containerId = this.containerSelect.value;
@@ -108,9 +108,9 @@ export default React.createClass({
     });
 
     this.setState({ editDetails: false, dirty: false });
-  },
+  };
 
-  renderItemEditDetails() {
+  renderItemEditDetails = () => {
     return <section>
       <div className='modal-header'>
         <h3>
@@ -152,9 +152,9 @@ export default React.createClass({
         { createCancelBtn(this.handleCancel) }
       </div>
     </section>
-  },
+  };
 
-  renderItemDetails() {
+  renderItemDetails = () => {
     return <section>
       <div className='modal-header'>
         <h3>{this.props.name}</h3>
@@ -167,7 +167,7 @@ export default React.createClass({
         { createRemoveBtn(() => this.setState({ confirmDelete: true })) }
       </div>
     </section>
-  },
+  };
 
   render() {
     let {
@@ -203,5 +203,5 @@ export default React.createClass({
         />
       </ListItem>
     );
-  },
-});
+  }
+}

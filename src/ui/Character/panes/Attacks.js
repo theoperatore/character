@@ -1,6 +1,6 @@
-'use strict';
 
-import React from 'react';
+
+import React, { Component } from 'react';
 import AttackBonusItem from '../containers/AttackBonusItem';
 import AttackItem from '../containers/AttackItem';
 import ClassChargeItem from '../containers/ClassChargeItem';
@@ -9,9 +9,13 @@ import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog'
 import Icon from '../../components/Icon';
 import ListItem from '../../components/ListItem/v2';
 
-export default React.createClass({
-  displayName: 'PaneAttacks',
+export default class extends React.Component {
+  static displayName = 'PaneAttacks';
 
+  state = {
+    createAttackBonus: false,
+    createAttack: false
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
       return (
@@ -22,18 +26,9 @@ export default React.createClass({
         this.state.createAttackBonus !== nextState.createAttackBonus ||
         this.state.createAttack !== nextState.createAttack
       )
-  },
+  }
 
-
-  getInitialState() {
-    return {
-      createAttackBonus: false,
-      createAttack: false
-    }
-  },
-
-
-  useClassCharge(id) {
+  useClassCharge = (id) => {
     let event = {
       type: 'CLASS_CHARGE_DECREMENT',
       data: {
@@ -41,10 +36,9 @@ export default React.createClass({
       },
     }
     this.props.handleAttacksChange(event);
-  },
+  };
 
-
-  renderAttackBonuses() {
+  renderAttackBonuses = () => {
     if (!this.props.bubbles) return null;
 
     return this.props.bubbles.toJS().map((bonus, i) => {
@@ -60,10 +54,9 @@ export default React.createClass({
         onChange={this.props.handlePreferencesChange}
       />
     })
-  },
+  };
 
-
-  renderClassCharges() {
+  renderClassCharges = () => {
     if (!this.props.charges) return null;
     if (this.props.preferences.get('classCharges') === 'SPELLS_ONLY') return null;
     
@@ -81,10 +74,9 @@ export default React.createClass({
     return (<section className='info-section'>
       { charges }
     </section>)
-  },
+  };
 
-
-  renderAttacks() {
+  renderAttacks = () => {
     if (!this.props.attacks) return null;
 
     return this.props.attacks.toJS().map((attack, i) => {
@@ -98,8 +90,7 @@ export default React.createClass({
         />
       )
     })
-  },
-
+  };
 
   render() {
     return (
@@ -130,4 +121,4 @@ export default React.createClass({
       </div>
     );
   }
-})
+}

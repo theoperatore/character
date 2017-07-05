@@ -1,41 +1,38 @@
-'use strict';
 
-import React from 'react';
-import uuid from 'node-uuid';
+
+import PropTypes from 'prop-types';
+
+import React, { Component } from 'react';
+import uuid from 'uuid/v1';
 
 import Icon from '../../../components/Icon';
 import Modal from '../../../components/Modal';
 import ConfirmModal from '../ConfirmModal';
 
-export default React.createClass({
-  displayName: 'CreateNewFeatureDialog',
+export default class extends React.Component {
+  static displayName = 'CreateNewFeatureDialog';
 
-  propTypes: {
-    active: React.PropTypes.bool.isRequired,
-    dismiss: React.PropTypes.func.isRequired,
-    onCreate: React.PropTypes.func.isRequired
-  },
+  static propTypes = {
+    active: PropTypes.bool.isRequired,
+    dismiss: PropTypes.func.isRequired,
+    onCreate: PropTypes.func.isRequired
+  };
 
+  state = {
+    dirty: false,
+    confirm: false,
+    selectedType: 'PASSIVE',
+    hasCharges: false,
+    cctotal: ''
+  };
 
-  getInitialState() {
-    return {
-      dirty: false,
-      confirm: false,
-      selectedType: 'PASSIVE',
-      hasCharges: false,
-      cctotal: ''
-    }
-  },
-
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-
-  confirm(answer) {
+  confirm = (answer) => {
     switch (answer) {
       case 'yes':
         this.setState({ confirm: false, dirty: false, selectedType: 'PASSIVE', hasCharges: false, cctotal: '' });
@@ -45,16 +42,15 @@ export default React.createClass({
         this.setState({ confirm: false });
         break;
     }
-  },
+  };
 
-
-  handleCreate() {
+  handleCreate = () => {
     let data = {
       feature: {
         name: this.refs.newName.value.trim(),
         desc: this.refs.newDesc.value.trim(),
         type: this.state.selectedType,
-        id: `feature-${uuid.v1()}`,
+        id: `feature-${uuid()}`,
       }
     }
 
@@ -63,7 +59,7 @@ export default React.createClass({
       data.classCharge.name = this.refs.ccname.value.trim();
       data.classCharge.charges = this.state.cctotal !== '' ? this.state.cctotal : 0;
       data.classCharge.current = this.state.cctotal !== '' ? this.state.cctotal : 0;
-      data.classCharge.id = `classCharge-${uuid.v1()}`;
+      data.classCharge.id = `classCharge-${uuid()}`;
       data.feature.classChargesId = data.classCharge.id;
     }
 
@@ -71,10 +67,9 @@ export default React.createClass({
       this.props.onCreate({ type: 'FEATURE_CREATE', data });
       this.props.dismiss();
     }
-  },
+  };
 
-
-  handleCancel() {
+  handleCancel = () => {
     if (this.state.dirty) {
       this.setState({ confirm: true });
       return;
@@ -82,15 +77,13 @@ export default React.createClass({
 
     this.setState({ confirm: false, dirty: false, selectedType: 'PASSIVE', hasCharges: false, cctotal: '' });
     this.props.dismiss();
-  },
+  };
 
-
-  handleTypeSelect(selectedType) {
+  handleTypeSelect = (selectedType) => {
     this.setState({ selectedType, dirty: true });
-  },
+  };
 
-
-  validateNumber(ev) {
+  validateNumber = (ev) => {
     if (ev.target.value.trim() === '') {
       this.setState({ cctotal: ev.target.value.trim(), dirty: true });
       return;
@@ -101,10 +94,9 @@ export default React.createClass({
     if (!isNaN(num)) {
       this.setState({ cctotal: num, dirty: true });
     }
-  },
+  };
 
-
-  content() {
+  content = () => {
     return (
       <section>
         <div className='modal-header'>
@@ -163,8 +155,7 @@ export default React.createClass({
         </div>
       </section>
     )
-  },
-
+  };
 
   render() {
     return <span>
@@ -172,4 +163,4 @@ export default React.createClass({
       <ConfirmModal active={this.state.confirm} onConfirm={this.confirm} />
     </span>
   }
-})
+}
