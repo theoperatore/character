@@ -1,9 +1,5 @@
-
-
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import {Component} from 'react';
-import createReactClass from 'create-react-class';
 import debug from 'debug';
 
 import Icon from '../../../components/Icon';
@@ -12,20 +8,8 @@ const log = debug('app:levelXpDialog');
 
 const refNames = ['level', 'xp', 'class', 'race', 'alignment', 'background'];
 
-export default createReactClass({
-  displayName: 'LevelXPDialog',
-
-
-  getInitialState() {
-    return ({
-      dirty: false,
-      level: this.props.currLevel,
-      xp: this.props.currXp,
-    });
-  },
-
-
-  propTypes: {
+export default class LevelXPDialog extends Component {
+  static propTypes = {
     currLevel: PropTypes.number.isRequired,
     currXp: PropTypes.number.isRequired,
     currRace: PropTypes.string.isRequired,
@@ -34,22 +18,28 @@ export default createReactClass({
     currClass: PropTypes.string.isRequired,
     onSave: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired
-  },
+  }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      dirty: false,
+      level: props.currLevel,
+      xp: props.currXp,
+    };
+  }
 
-  isDirty() {
+  isDirty = () => {
     return this.state.dirty;
-  },
+  }
 
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  }
 
-
-  handleSave() {
+  handleSave = () => {
     let infos = refNames
       .map(refName => ({[refName]: this.refs[refName].value}))
       .reduce((obj, ref) => Object.assign(obj, ref), {});
@@ -58,14 +48,13 @@ export default createReactClass({
     infos.level = this.state.level === '' ? 0 : this.state.level;
 
     this.props.onSave({ type: 'BASIC_INFO_EDIT', data: infos });
-  },
+  }
 
-
-  handleCancel() {
+  handleCancel = () => {
     this.props.onCancel();
-  },
+  }
 
-  validateNumber(type, ev) {
+  validateNumber = (type, ev) => {
     if (ev.target.value === '') {
       return this.setState({ [type]: '', dirty: true });
     }
@@ -74,8 +63,7 @@ export default createReactClass({
     if (isNaN(num)) return;
 
     this.setState({ [`${type}`]: num, dirty: true });
-  },
-
+  }
 
   render() {
 
@@ -126,4 +114,4 @@ export default createReactClass({
       </section>
     )
   }
-});
+}

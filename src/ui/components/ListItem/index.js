@@ -26,7 +26,7 @@ export default class ListItem extends Component {
     confirmMessage: 'Do you really want to cancel and lose any unsaved changes?'
   }
 
-  _open(ev) {
+  _open = (ev) => {
     this.setState({ edit : true });
     ev.preventDefault();
     ev.stopPropagation();
@@ -35,7 +35,7 @@ export default class ListItem extends Component {
   // don't close the confirmation dialog by tapping overlay
   noop() {}
 
-  onDismiss() {
+  onDismiss = () => {
     let isDirty = this.props.onDismiss();
 
     if (isDirty) {
@@ -49,17 +49,17 @@ export default class ListItem extends Component {
     }
   }
 
-  confirmCancel(stayOpen = false, confirmMessage = 'Do you really want to cancel and lose any unsaved changes?') {
+  confirmCancel = (stayOpen = false, confirmMessage = 'Do you really want to cancel and lose any unsaved changes?') => {
     return new Promise(resolve => {
       this.setState({ areYouSure: true, resolve, stayOpen, confirmMessage });
     })
   }
 
-  dismiss() {
+  dismiss = () => {
     this.handleYes();
   }
 
-  handleYes() {
+  handleYes = () => {
     if (this.state.resolve) {
       this.state.resolve('yes');
     }
@@ -72,7 +72,7 @@ export default class ListItem extends Component {
     });
   }
 
-  handleNo() {
+  handleNo = () => {
     if (this.state.resolve) {
       this.state.resolve('no');
     }
@@ -80,7 +80,7 @@ export default class ListItem extends Component {
     this.setState({ areYouSure: false, resolve: null });
   }
 
-  areYouSureContent() {
+  areYouSureContent = () => {
     return (
       <section>
         <div className='modal-header'>

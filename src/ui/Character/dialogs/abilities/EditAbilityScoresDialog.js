@@ -1,10 +1,5 @@
-
-
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import {Component} from 'react';
-
-import createReactClass from 'create-react-class';
 
 import { AbilityScores } from '../../constants';
 import Icon from '../../../components/Icon';
@@ -12,40 +7,35 @@ import ConfirmModal from '../ConfirmModal';
 
 const abilityScoreOrder = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 
-export default createReactClass({
-  displayName: 'EditAbilityScoresDialog',
-
-
-  propTypes: {
+export default class EditAbilityScoresDialog extends Component {
+  static propTypes = {
     onSave: PropTypes.func.isRequired,
     abilities: PropTypes.object.isRequired,
-  },
+  }
 
-
-  getInitialState() {
-    return {
+  constructor(props) {
+    super(props);
+    this.state = {
       dirty: false,
       confirm: false,
       resolve: null,
-
-      newStr: this.props.abilities.getIn(['str','score']),
-      newDex: this.props.abilities.getIn(['dex','score']),
-      newCon: this.props.abilities.getIn(['con','score']),
-      newWis: this.props.abilities.getIn(['wis','score']),
-      newInt: this.props.abilities.getIn(['int','score']),
-      newCha: this.props.abilities.getIn(['cha','score']),
+      newStr: props.abilities.getIn(['str','score']),
+      newDex: props.abilities.getIn(['dex','score']),
+      newCon: props.abilities.getIn(['con','score']),
+      newWis: props.abilities.getIn(['wis','score']),
+      newInt: props.abilities.getIn(['int','score']),
+      newCha: props.abilities.getIn(['cha','score']),
     }
-  },
+  }
 
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.diry) {
       this.setState({ dirty: true });
     }
-  },
+  }
 
 
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     switch (answer) {
       case 'yes':
         if (this.state.resolve) {
@@ -60,10 +50,9 @@ export default createReactClass({
         this.setState({ confirm: false, resolve: null });
         break;
     }
-  },
+  }
 
-
-  confirm() {
+  confirm = () => {
     return new Promise(resolve => {
       if (this.state.dirty) {
         this.setState({ confirm: true, resolve });
@@ -72,9 +61,9 @@ export default createReactClass({
 
       resolve('yes');
     })
-  },
+  }
 
-  checkToSave() {
+  checkToSave = () => {
     return (
       this.state.newStr !== this.props.abilities.getIn(['str', 'score']) ||
       this.state.newDex !== this.props.abilities.getIn(['dex', 'score']) ||
@@ -83,10 +72,9 @@ export default createReactClass({
       this.state.newInt !== this.props.abilities.getIn(['int', 'score']) ||
       this.state.newcha !== this.props.abilities.getIn(['cha', 'score'])
     )
-  },
+  }
 
-
-  handleSave() {
+  handleSave = () => {
     if (this.checkToSave()) {
       let data = {
         str: this.state.newStr === '' ? 0 : this.state.newStr,
@@ -98,15 +86,13 @@ export default createReactClass({
       };
       this.props.onSave({ type: 'ABILITY_SCORE_EDIT', data });
     }
-  },
+  }
 
-
-  handleCancel() {
+  handleCancel = () => {
     this.props.parentDismiss();
-  },
+  }
 
-
-  handleAbilityChange(ability, event) {
+  handleAbilityChange = (ability, event) => {
     this.makeDirty();
     if (event.target.value === '') {
       this.setState({ [ability]: '' });
@@ -117,23 +103,20 @@ export default createReactClass({
         this.setState({ [ability]: input });
       }
     }
-  },
+  }
 
-
-  getMod(ability) {
+  getMod = (ability) => {
     return this.state[ability] === ''
       ? 0
       : Math.floor((this.state[ability] - 10) / 2);
-  },
+  }
 
-
-  mapToState(abilityKey) {
+  mapToState = (abilityKey) => {
     return `new${abilityKey.substr(0,1).toUpperCase() + abilityKey.substr(1)}`;
-  },
+  }
 
-
-  createAbilityScoreContent() {
-    return this.abilityScoreOrder.map((abilityKey, i) => {
+  createAbilityScoreContent = () => {
+    return abilityScoreOrder.map((abilityKey, i) => {
       let stateKey = this.mapToState(abilityKey);
 
       return (
@@ -156,8 +139,7 @@ export default createReactClass({
         </div>
       )
     })
-  },
-
+  }
 
   render() {
     return (
@@ -174,4 +156,4 @@ export default createReactClass({
       </section>
     )
   }
-});
+}

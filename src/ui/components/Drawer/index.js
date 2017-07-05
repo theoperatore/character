@@ -57,7 +57,7 @@ export default class Drawer extends Component {
     }
   }
 
-  dismiss(ev) {
+  dismiss = (ev) => {
     if (ev.target === ReactDOM.findDOMNode(this.refs.overlay)) {
       ev.preventDefault();
       ev.stopPropagation();

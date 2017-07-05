@@ -1,5 +1,3 @@
-
-
 import React, { Component } from 'react';
 import Immutable from 'immutable';
 import SkillItem from '../containers/SkillItem';
@@ -62,9 +60,9 @@ export default class extends React.Component {
   };
 
   createEditContent = () => {
-    return <EditScores 
+    return <EditScores
         ref='editScores'
-        onSave={this.handleScoreEdit} 
+        onSave={this.handleScoreEdit}
         abilities={this.props.abilities}
         proficiency={this.props.proficiencyBonus}
       />
@@ -79,7 +77,7 @@ export default class extends React.Component {
       : maxScore;
 
     return data.map((skill, i) => {
-      return <SkillItem 
+      return <SkillItem
         key={i}
         name={skill.name}
         score={skill.score}
