@@ -10,35 +10,27 @@ import Portal from '../Portal';
 const appContainer = '.character-body';
 const paneContainer = '.swiper-slide-active>.base-pane-container';
 
-export default React.createClass({
-  displayName: 'Modal',
+export default class extends React.Component {
+  static displayName = 'Modal';
 
-
-  propTypes: {
+  static propTypes = {
     active: PropTypes.bool.isRequired,
     id: PropTypes.string.isRequired,
     content: PropTypes.element.isRequired,
     onDismiss: PropTypes.func.isRequired,
     overflowAppContainer: PropTypes.string,
     overflowPaneContainer: PropTypes.string,
-  },
+  };
 
+  static defaultProps = {
+    active: false
+  };
 
-  getInitialState() {
-    return {
-      active: false,
-      open: false,
-      moving: false
-    }
-  },
-
-
-  getDefaultProps() {
-    return {
-      active: false
-    }
-  },
-
+  state = {
+    active: false,
+    open: false,
+    moving: false
+  };
 
   componentWillReceiveProps(nextProps) {
     let _appContainer = nextProps.overflowAppContainer || appContainer;
@@ -62,23 +54,20 @@ export default React.createClass({
         }, 300);
       }) 
     }
-  },
+  }
 
-
-  dismiss(ev) {
+  dismiss = (ev) => {
     if (ev.target === ReactDOM.findDOMNode(this.refs.overlay)) {
       ev.preventDefault();
       ev.stopPropagation();
 
       this.props.onDismiss();
     }
-  },
+  };
 
-
-  _dismiss() {
+  _dismiss = () => {
     this.props.onDismiss();
-  },
-
+  };
 
   componentWillUnmount() {
     let app = document.querySelector(appContainer);
@@ -91,8 +80,7 @@ export default React.createClass({
     if (pane) {
       pane.style.overflow = 'auto';
     }
-  },
-
+  }
 
   render() {
     let css = cn({
@@ -117,4 +105,4 @@ export default React.createClass({
       </Portal>
       : null)
   }
-})
+}

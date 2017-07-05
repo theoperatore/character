@@ -6,19 +6,20 @@ import Tabs from '../../../components/Tabs';
 import Tab from '../../../components/Tab';
 import { createRestBtn, createCancelBtn } from '../../../components/Modal/buttons';
 
-export default React.createClass({
-  displayName: 'RestDialog',
+export default class extends React.Component {
+  static displayName = 'RestDialog';
 
-  propTypes: {
+  static propTypes = {
     active: PropTypes.bool.isRequired,
     onDismiss: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     hitDice: PropTypes.object.isRequired,
     hitDiceDefinitions: PropTypes.object.isRequired,
-  },
+  };
 
-  getInitialState() {
-    let longRestInputs = this.props.hitDice
+  constructor(props) {
+    super(props);
+    let longRestInputs = props.hitDice
       .map((d, i) => {
         return `lrInput${i}`
       })
@@ -27,7 +28,7 @@ export default React.createClass({
         return agg;
       }, {});
 
-    let shortRestInputs = this.props.hitDice
+    let shortRestInputs = props.hitDice
       .map((d, i) => {
         return `srInput${i}`
       })
@@ -36,14 +37,14 @@ export default React.createClass({
         return agg;
       }, {});
 
-    return {
+    this.state = {
       restType: 0, // short rest === 0
       longRestInputs,
       shortRestInputs,
       regainHp: 0,
       useAll: true,
-    }
-  },
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
     let longRestInputs = this.props.hitDice
@@ -65,9 +66,9 @@ export default React.createClass({
       }, {});
 
     this.setState({ longRestInputs, shortRestInputs, regainHp: 0, restType: 0 });
-  },
+  }
 
-  validateInput(inputType, inputId, ev) {
+  validateInput = (inputType, inputId, ev) => {
     let num = Number(ev.target.value.trim());
 
     if (isNaN(num)) return;
@@ -81,17 +82,17 @@ export default React.createClass({
     })
 
     this.setState(newState);
-  },
+  };
 
-  validateHp(ev) {
+  validateHp = (ev) => {
     let num = Number(ev.target.value);
 
     if (isNaN(num)) return;
 
     this.setState({ regainHp: num });
-  },
+  };
 
-  handleShortRest() {
+  handleShortRest = () => {
     let diceUsed = this.props.hitDice
       .map((id, i) => ({ ref: `srInput${i}`, id }))
       .map(datum => Object.assign({}, datum, { value: this.state.shortRestInputs[datum.ref] }))
@@ -110,9 +111,9 @@ export default React.createClass({
         diceUsed,
       }
     })
-  },
+  };
 
-  handleLongRest() {
+  handleLongRest = () => {
     let inputValues = this.props.hitDice
       .map((id, i) => ({ref: `lrInput${i}`, id }))
       .map(datum => Object.assign({}, datum, { value: this.state.longRestInputs[datum.ref] }))
@@ -132,14 +133,14 @@ export default React.createClass({
     });
 
     this.props.onDismiss();
-  },
+  };
 
-  handleUseAll() {
+  handleUseAll = () => {
     let useAll = this.useAllInput.checked;
     this.setState({ useAll });
-  },
+  };
 
-  longRestContent() {
+  longRestContent = () => {
     return <div>
       <p className='subtext'>A <span className='text-blue'>Long Rest</span> will restore all of your hit points and some spent hit dice.</p>
       
@@ -168,9 +169,9 @@ export default React.createClass({
           })
       }
     </div>
-  },
+  };
 
-  shortRestContent() {
+  shortRestContent = () => {
     return <div>
       <p className='subtext'>A <span className='text-blue'>Short Rest</span> will allow you to spend hit dice to regain lost hit points.</p>
       <label className='block mt1'>Use how many hit dice?</label>
@@ -203,9 +204,9 @@ export default React.createClass({
         <p className='subtext'>Enter the total number of hit points to regain across all dice rolls and modifiers.</p>
       </div>
     </div>
-  },
+  };
 
-  getContent() {
+  getContent = () => {
     return <section className='rest-dialog'>
       <div className='modal-header'><h3>Take a Rest?</h3></div>
       <div className='modal-content'>
@@ -234,7 +235,7 @@ export default React.createClass({
         { createCancelBtn(this.props.onDismiss) }
       </div>
     </section>
-  },
+  };
 
   render() {
     return <Modal
@@ -244,4 +245,4 @@ export default React.createClass({
       onDismiss={this.props.onDismiss}
     />
   }
-})
+}

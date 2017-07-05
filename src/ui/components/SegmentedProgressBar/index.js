@@ -2,15 +2,13 @@
 
 import React, { Component } from 'react';
 
-export default React.createClass({
-  displayName: 'SegmentedProgressBar',
+export default class extends React.Component {
+  static displayName = 'SegmentedProgressBar';
 
-
-  propTypes: {
+  static propTypes = {
     segments: PropTypes.number.isRequired,
     current: PropTypes.number.isRequired
-  },
-
+  };
 
   render() {
     let segmentStyle = {
@@ -32,4 +30,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

@@ -26,25 +26,23 @@ import Equipments from './panes/Equipments';
 import { characterProvider } from './characterProvider';
 import connectUserRoute from '../connectUserRoute';
 
-let Character = React.createClass({
-  displayName: "CharacterApp",
+class Character extends React.Component {
+  static displayName = "CharacterApp";
 
-  propTypes: {
+  static propTypes = {
     dispatch: PropTypes.func.isRequired,
     state: PropTypes.object.isRequired,
     isLoading: PropTypes.bool,
     isSaving: PropTypes.bool,
     saveError: PropTypes.object,
     lastSavedDate: PropTypes.number,
-  },
+  };
 
-  getInitialState() {
-    return ({
-      activePane : 0,
-      mainMenu: false,
-      settingsMenu: false,
-    })
-  },
+  state = {
+    activePane : 0,
+    mainMenu: false,
+    settingsMenu: false,
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     return nextProps.state.character !== this.props.state.character ||
@@ -56,23 +54,21 @@ let Character = React.createClass({
            nextState.mainMenu !== this.state.mainMenu ||
            nextState.settingsMenu !== this.state.settingsMenu
 
-  },
+  }
 
-  signOut() {
+  signOut = () => {
     this.props.dispatch(signOut());
-  },
+  };
 
-
-  handlePaneSwipe(ev) {
+  handlePaneSwipe = (ev) => {
     this.setState({ activePane : ev.activeIndex });
-  },
+  };
 
-
-  handleTabSelect(idx) {
+  handleTabSelect = (idx) => {
     this.setState({ activePane : idx });
-  },
+  };
 
-  getMenuContent() {
+  getMenuContent = () => {
     let date = new Date(this.props.lastSavedDate);
     let time = date.toDateString();
 
@@ -93,9 +89,9 @@ let Character = React.createClass({
         }
       </div>
     </section>
-  },
+  };
 
-  getSettingsContent() {
+  getSettingsContent = () => {
     return <section>
       <div className='drawer-header'><p>Preferences</p></div>
       <div className='drawer-content p2'>
@@ -162,7 +158,7 @@ let Character = React.createClass({
         </div>
       </div>
     </section>
-  },
+  };
 
   render() {
     let {
@@ -324,6 +320,6 @@ let Character = React.createClass({
       </div>
     );
   }
-});
+}
 
 export default connectUserRoute(characterProvider(Character));

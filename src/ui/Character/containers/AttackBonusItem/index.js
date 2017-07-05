@@ -5,11 +5,10 @@ import ConfirmModal from '../../dialogs/ConfirmModal';
 import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 
-export default React.createClass({
-  displayName: 'AttackBonusItem',
+export default class extends React.Component {
+  static displayName = 'AttackBonusItem';
 
-
-  propTypes: {
+  static propTypes = {
     id: PropTypes.string.isRequired,
     score: PropTypes.number.isRequired,
     ability: PropTypes.string.isRequired,
@@ -19,34 +18,28 @@ export default React.createClass({
     subtitle: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     removable: PropTypes.bool,
-  },
+  };
 
+  static defaultProps = {
+    removable: true,
+  };
 
-  getInitialState() {
-    return {
-      bonus: this.props.bonus,
-      confirmMessage: null,
-      willRemove: false,
-      confirm: false,
-      dirty: false,
-      edit: false
-    }
-  },
+  state = {
+    bonus: this.props.bonus,
+    confirmMessage: null,
+    willRemove: false,
+    confirm: false,
+    dirty: false,
+    edit: false
+  };
 
-  getDefaultProps() {
-    return {
-      removable: true,
-    }
-  },
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-
-  validateBonus(ev) {
+  validateBonus = (ev) => {
     this.makeDirty();
 
     if (ev.target.value === '-' || ev.target.value === '') {
@@ -58,10 +51,9 @@ export default React.createClass({
     if (!isNaN(val) && val !== Infinity) {
       this.setState({ bonus: val });
     }
-  },
+  };
 
-
-  confirm(answer) {
+  confirm = (answer) => {
     if (answer === 'no') {
       this.setState({ confirm: false, willRemove: false });
       return;
@@ -72,19 +64,18 @@ export default React.createClass({
     }
 
     this.setState({ confirm: false, willRemove: false, dirty: false, edit: false });
-  },
+  };
 
-
-  dismiss() {
+  dismiss = () => {
     if (this.state.dirty) {
       this.setState({ confirm: true, confirmMessage: null });
       return;
     }
 
     this.setState({ edit: false, dirty: false });
-  },
+  };
 
-  save() {
+  save = () => {
     let title = this.refs.newTitle.value.trim();
     let prof = this.refs.prof.checked;
     let abil = this.refs.ability.value;
@@ -96,19 +87,17 @@ export default React.createClass({
     }
 
     this.setState({ edit: false, dirty: false, confirm: false, willRemove: false, confirmMessage: null });
-  },
+  };
 
-
-  delete() {
+  delete = () => {
     this.setState({ 
       confirm: true, 
       confirmMessage: `Delete ${this.props.title} forever?`,
       willRemove: true
     });
-  },
+  };
 
-
-  content() {
+  content = () => {
     return <section>
       <div className='modal-header'>
         <h3>
@@ -145,8 +134,7 @@ export default React.createClass({
         }
       </div>
     </section>
-  },
-
+  };
 
   render() {
     return (
@@ -163,4 +151,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

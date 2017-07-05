@@ -6,30 +6,28 @@ import Modal from '../../../components/Modal';
 import ConfirmModal from '../ConfirmModal';
 import { createSaveBtn, createCancelBtn } from '../../../components/Modal/buttons';
 
-export default React.createClass({
-  displayName: 'CreateEquipmentItem',
+export default class extends React.Component {
+  static displayName = 'CreateEquipmentItem';
 
-  propTypes: {
+  static propTypes = {
     containerId: PropTypes.string.isRequired,
     onDismiss: PropTypes.func.isRequired,
     active: PropTypes.bool.isRequired,
     onCreate: PropTypes.func.isRequired,
-  },
+  };
 
-  getInitialState() {
-    return {
-      dirty: false,
-      confirmCancel: false,
-    }
-  },
+  state = {
+    dirty: false,
+    confirmCancel: false,
+  };
 
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-  handleSave() {
+  handleSave = () => {
     let name = this.nameInput.value.trim();
     let desc = this.descInput.value.trim();
 
@@ -51,18 +49,18 @@ export default React.createClass({
 
     this.setState({ dirty: false });
     this.props.onDismiss();
-  },
+  };
 
-  handleCancel() {
+  handleCancel = () => {
     if (this.state.dirty) {
       return this.setState({ confirmCancel: true });
     }
 
     this.setState({ dirty: false, confirmCancel: false });
     this.props.onDismiss();
-  },
+  };
 
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     switch (answer) {
       case 'no':
         return this.setState({ confirmCancel: false });
@@ -70,9 +68,9 @@ export default React.createClass({
         this.setState({ confirmCancel: false, dirty: false });
         this.props.onDismiss();
     }
-  },
+  };
 
-  renderCreateContent() {
+  renderCreateContent = () => {
     return <section>
       <div className='modal-header'>
         <h3>
@@ -96,7 +94,7 @@ export default React.createClass({
         { createCancelBtn(this.handleCancel) }
       </div>
     </section>
-  },
+  };
 
   render() {
     return <Modal
@@ -110,5 +108,5 @@ export default React.createClass({
         onConfirm={this.handleConfirm}
       />
     </Modal>
-  },
-})
+  }
+}

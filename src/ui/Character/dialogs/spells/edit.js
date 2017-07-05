@@ -12,10 +12,10 @@ const NEW_SPELL = {
   dur: 'Duration',
 }
 
-export default React.createClass({
-  displayName: 'EditSpell',
+export default class extends React.Component {
+  static displayName = 'EditSpell';
 
-  propTypes: {
+  static propTypes = {
     spell: PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
@@ -29,9 +29,9 @@ export default React.createClass({
     level: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
-  },
+  };
 
-  getSpellInput() {
+  getSpellInput = () => {
     return {
       spell: {
         id: this.props.spell.id,
@@ -45,9 +45,9 @@ export default React.createClass({
       },
       level: Number(this.levelInput.value),
     }
-  },
+  };
 
-  handleSave() {
+  handleSave = () => {
     let type = 'SPELL_EDIT';
     let data = this.getSpellInput();
 
@@ -55,11 +55,11 @@ export default React.createClass({
       this.props.onChange({ type, data });
       this.props.onCancel();
     }
-  },
+  };
 
-  handleCancel() {
+  handleCancel = () => {
     this.props.onCancel();
-  },
+  };
 
   render() {
     let {
@@ -127,5 +127,5 @@ export default React.createClass({
         </div>
       </section>
     );
-  },
-});
+  }
+}

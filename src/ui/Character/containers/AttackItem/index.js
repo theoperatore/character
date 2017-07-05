@@ -7,48 +7,41 @@ import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 import ConfirmModal from '../../dialogs/ConfirmModal';
 
-export default React.createClass({
-  displayName: 'AttackItem',
+export default class extends React.Component {
+  static displayName = 'AttackItem';
 
-
-  propTypes: {
+  static propTypes = {
     name: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired
-  },
+  };
 
+  state = {
+    dirty: false,
+    edit: false,
+    details: false,
+    confirm: false,
+    willRemove: false,
+    message: null
+  };
 
-  getInitialState() {
-    return {
-      dirty: false,
-      edit: false,
-      details: false,
-      confirm: false,
-      willRemove: false,
-      message: null
-    }
-  },
-
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-
-  dismiss() {
+  dismiss = () => {
     if (this.state.dirty) {
       this.setState({ confirm: true, message: null });
       return;
     }
 
     this.setState({ dirty: false, edit: false, details: false, confirm: false, willRemove: false });
-  },
+  };
 
-
-  deleteOrCancel() {
+  deleteOrCancel = () => {
     // cancel
     if (this.state.edit) {
       if (this.state.dirty) {
@@ -62,10 +55,9 @@ export default React.createClass({
 
     // delete
     this.setState({ confirm: true, message: `Delete ${this.props.name} forever?`, willRemove: true });
-  },
+  };
 
-
-  editOrSave() {
+  editOrSave = () => {
     // save
     if (this.state.edit) {
       let name = this.refs.name.value.trim();
@@ -80,10 +72,9 @@ export default React.createClass({
 
     // edit
     this.setState({ edit: true });
-  },
+  };
 
-
-  confirm(answer) {
+  confirm = (answer) => {
     switch (answer) {
       case 'yes':
         //delete
@@ -99,10 +90,9 @@ export default React.createClass({
         this.setState({ confirm: false, willRemove: false });
         break;
     }
-  },
+  };
 
-
-  content() {
+  content = () => {
     return <section>
       <div className='modal-header'>
         <h3>
@@ -125,8 +115,7 @@ export default React.createClass({
         <button onClick={this.deleteOrCancel} className='text-red'><Icon icon='fa fa-remove'/> {this.state.edit ? 'Cancel' : 'Delete'}</button>
       </div>
     </section>
-  },
-
+  };
 
   render() {
     return (
@@ -141,4 +130,4 @@ export default React.createClass({
       </ListItem>
     )
   }
-})
+}

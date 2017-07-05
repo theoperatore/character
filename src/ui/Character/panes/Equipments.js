@@ -1,16 +1,18 @@
 'use strict';
 
-import React, { Component } from 'react';
+import {Component} from 'react';
+import createReactClass from 'create-react-class';
 import ListItem from '../../components/ListItem/v2';
 import Icon from '../../components/Icon';
 import CreateEquipmentContainer from '../dialogs/equipment/createEquipmentContainer';
 import ManageWealth from '../dialogs/equipment/manageWealth';
 import EquipmentContainer from '../containers/EquipmentContainer';
 
-export default React.createClass({
+const wealthTypes = ['cp', 'sp', 'ep', 'gp', 'pp'];
+
+export default createReactClass({
   displayName : 'PaneEquipments',
 
-  wealthTypes: ['cp', 'sp', 'ep', 'gp', 'pp'],
 
   propTypes: {
     equipment: PropTypes.object.isRequired,
@@ -31,7 +33,7 @@ export default React.createClass({
   },
 
   renderWealth() {
-    return this.wealthTypes.map(type => {
+    return wealthTypes.map(type => {
       let money = this.props.equipment.getIn(['money', type]);
 
       return <div
@@ -53,7 +55,7 @@ export default React.createClass({
     }).toJS();
 
     return this.props.equipment.get('containers').map(container => {
-      let mappedItems = container.get('items') 
+      let mappedItems = container.get('items')
         ? container.get('items').map(id => {
           return this.props.equipment.getIn(['allItems', id]);
         })
@@ -101,4 +103,4 @@ export default React.createClass({
       </div>
     );
   }
-})
+});

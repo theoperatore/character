@@ -1,12 +1,16 @@
 'use strict';
 
-import React, { Component } from 'react';
+import {Component} from 'react';
+import createReactClass from 'create-react-class';
 import Modal from '../../../components/Modal';
 import Tabs from '../../../components/Tabs';
 import Tab from '../../../components/Tab';
 import { createSaveBtn, createCancelBtn } from '../../../components/Modal/buttons';
 
-export default React.createClass({
+const wealthTypes = ['cp', 'sp', 'ep', 'gp', 'pp'];
+const actionTypes = ['add', 'subtract'];
+
+export default createReactClass({
   displayName: 'ManageWealth',
 
   propTypes: {
@@ -23,17 +27,14 @@ export default React.createClass({
     };
   },
 
-  wealthTypes: ['cp', 'sp', 'ep', 'gp', 'pp'],
-  actionTypes: ['add', 'subtract'],
-
   handleSave() {
     if (this.state.value === '') return;
 
     this.props.onChange({
       type: 'WEALTH_EDIT',
       data: {
-        wealthType: this.wealthTypes[this.state.wealthType],
-        actionType: this.actionTypes[this.state.actionType],
+        wealthType: wealthTypes[this.state.wealthType],
+        actionType: actionTypes[this.state.actionType],
         value: this.state.value,
       },
     });

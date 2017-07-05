@@ -1,12 +1,13 @@
-'use strict';
-
-import React, { Component } from 'react';
+import {Component} from 'react';
+import createReactClass from 'create-react-class';
 import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 import Tab from '../../../components/Tab';
 import Tabs from '../../../components/Tabs';
 
-export default React.createClass({
+const types = ['damage', 'heal', 'temporary'];
+
+export default createReactClass({
   displayName: 'EditHpDialog',
 
 
@@ -25,7 +26,6 @@ export default React.createClass({
   },
 
 
-  types: ['damage', 'heal', 'temporary'],
 
 
   componentWillReceiveProps(nextProps) {
@@ -68,7 +68,7 @@ export default React.createClass({
   save() {
     if (this.state.value !== '' && !isNaN(this.state.value)) {
       let data = {
-        type: this.types[this.state.type],
+        type: types[this.state.type],
         value: this.state.value
       }
       this.props.onChange({ type: 'HIT_POINTS_EDIT', data });
@@ -86,4 +86,4 @@ export default React.createClass({
   render() {
     return <Modal id='edit-hp-dialog' active={this.props.active} content={this.getContent()} onDismiss={this.dismiss} />
   }
-})
+});

@@ -4,19 +4,15 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import Icon from '../Icon';
 
-module.exports = React.createClass({
-  displayName : "Message",
+module.exports = class extends React.Component {
+  static displayName = "Message";
 
+  static defaultProps = {
+    type : "info",
+    message : ""
+  };
 
-  getDefaultProps : function() {
-    return ({
-      type : "info",
-      message : ""
-    })
-  },
-
-
-  render : function() {
+  render() {
     let css = classnames({
       'message-container' : true,
       'message-alert' : (this.props.type === 'alert'),
@@ -47,4 +43,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

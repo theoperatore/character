@@ -9,30 +9,26 @@ import Portal from '../Portal';
 const appContainer = '.character-body';
 const paneContainer = '.swiper-slide-active>.base-pane-container';
 
-export default React.createClass({
-  displayName: 'Popup',
+export default class extends React.Component {
+  static displayName = 'Popup';
 
-  propTypes: {
+  static propTypes = {
     active: PropTypes.bool.isRequired,
     id: PropTypes.string.isRequired,
     content: PropTypes.element.isRequired,
     overflowAppContainer: PropTypes.string,
     overflowPaneContainer: PropTypes.string,
-  },
+  };
 
-  getInitialState() {
-    return {
-      active: false,
-      moving: false,
-      open: false,
-    };
-  },
+  static defaultProps = {
+    active: false,
+  };
 
-  getDefaultProps() {
-    return {
-      active: false,
-    }
-  },
+  state = {
+    active: false,
+    moving: false,
+    open: false,
+  };
 
   componentWillReceiveProps(nextProps) {
     let _appContainer = nextProps.overflowAppContainer || appContainer;
@@ -56,7 +52,7 @@ export default React.createClass({
         }, 300);
       }) 
     }
-  },
+  }
 
   render() {
     let { id, content, children } = this.props;
@@ -83,4 +79,4 @@ export default React.createClass({
         </Portal>
       : null;
   }
-})
+}

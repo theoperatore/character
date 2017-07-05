@@ -6,43 +6,36 @@ import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 import ConfirmModal from '../ConfirmModal';
 
-export default React.createClass({
-  displayName: 'CreateAttackDialog',
+export default class extends React.Component {
+  static displayName = 'CreateAttackDialog';
 
-
-  propTypes: {
+  static propTypes = {
     active: PropTypes.bool.isRequired,
     dismiss: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired
-  },
+  };
 
+  state = {
+    confirm: false,
+    dirty: false
+  };
 
-  getInitialState() {
-    return {
-      confirm: false,
-      dirty: false
-    }
-  },
-
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-
-  dismiss() {
+  dismiss = () => {
     if (this.state.dirty) {
       this.setState({ confirm: true });
       return;
     }
 
     this.props.dismiss();
-  },
+  };
 
-
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     switch (answer) {
       case 'yes':
         this.setState({ confirm: false, dirty: false });
@@ -52,10 +45,9 @@ export default React.createClass({
         this.setState({ confirm: false });
         break;
     }
-  },
+  };
 
-
-  save() {
+  save = () => {
     if (this.refs.name.value.trim() !== '') {
       let name = this.refs.name.value.trim();
       let desc = this.refs.desc.value.trim();
@@ -67,10 +59,9 @@ export default React.createClass({
 
     this.setState({ confirm: false, dirty: false });
     this.props.dismiss();
-  },
+  };
 
-
-  content() {
+  content = () => {
     return <section>
       <div className='modal-header'>
         <h3>
@@ -85,8 +76,7 @@ export default React.createClass({
         <button className='text-red' onClick={this.dismiss}><Icon icon='fa fa-remove'/> Cancel</button>
       </div>
     </section>
-  },
-
+  };
 
   render() {
     return (
@@ -96,4 +86,4 @@ export default React.createClass({
       </span>
     )
   }
-})
+}

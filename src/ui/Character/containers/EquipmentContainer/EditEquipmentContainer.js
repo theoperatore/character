@@ -5,30 +5,28 @@ import Modal from '../../../components/Modal';
 import { createSaveBtn, createCancelBtn } from '../../../components/Modal/buttons';
 import ConfirmModal from '../../dialogs/ConfirmModal';
 
-export default React.createClass({
-  displayName: 'EditEquipmentContainer',
+export default class extends React.Component {
+  static displayName = 'EditEquipmentContainer';
 
-  propTypes: {
+  static propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     onDismiss: PropTypes.func.isRequired,
-  },
+  };
 
-  getInitialState() {
-    return {
-      confirmCancel: false,
-      dirty: false,
-    }
-  },
+  state = {
+    confirmCancel: false,
+    dirty: false,
+  };
 
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-  handleSave() {
+  handleSave = () => {
     let name = this.nameInput.value.trim();
 
     if (name === '') return;
@@ -45,18 +43,18 @@ export default React.createClass({
       },
     });
     this.props.onDismiss();
-  },
+  };
 
-  handleCancel() {
+  handleCancel = () => {
     if (this.state.dirty) {
       this.setState({ confirmCancel: true });
     }
 
     this.setState({ dirty: false });
     this.props.onDismiss();
-  },
+  };
 
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     switch (answer) {
       case 'no':
         return this.setState({ confirmCancel: false });
@@ -64,9 +62,9 @@ export default React.createClass({
         this.setState({ dirty: false });
         this.props.onDismiss();
     }
-  },
+  };
 
-  renderEditContent() {
+  renderEditContent = () => {
     return <section>
       <div className='modal-header'>
         <h3>
@@ -84,7 +82,7 @@ export default React.createClass({
         { createCancelBtn(this.handleCancel) }
       </div>
     </section>
-  },
+  };
 
   render() {
     return <Modal
@@ -98,5 +96,5 @@ export default React.createClass({
         onConfirm={this.handleConfirm}
       />
     </Modal>
-  },
-})
+  }
+}

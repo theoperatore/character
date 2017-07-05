@@ -6,46 +6,47 @@ import Icon from '../../../components/Icon';
 import { dieTypes } from '../../constants';
 import { debounce } from '../../utils';
 
-export default React.createClass({
-  displayName: 'ManageHitDice',
+export default class extends React.Component {
+  static displayName = 'ManageHitDice';
 
-  propTypes: {
+  static propTypes = {
     hitDice: PropTypes.object.isRequired,
     hitDiceDefinitions: PropTypes.object.isRequired,
     onDismiss: PropTypes.func.isRequired,
     active: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
-  },
+  };
 
-  getInitialState() {
-    let current = this.props.hitDice.map(id => {
+  constructor(props) {
+    super(props);
+    let current = props.hitDice.map(id => {
       return {
-        value: this.props.hitDiceDefinitions.getIn([id, 'current']),
+        value: props.hitDiceDefinitions.getIn([id, 'current']),
         id,
-      }
+      };
     }).reduce((agg, datum) => {
       agg[datum.id] = datum.value;
       return agg;
     }, {});
 
-    let maximum = this.props.hitDice.map(id => {
+    let maximum = props.hitDice.map(id => {
       return {
-        value: this.props.hitDiceDefinitions.getIn([id, 'maximum']),
+        value: props.hitDiceDefinitions.getIn([id, 'maximum']),
         id,
-      }
+      };
     }).reduce((agg, datum) => {
       agg[datum.id] = datum.value;
       return agg;
     }, {});
 
-    let debouncedChange = debounce(this.props.onChange, 500);
+    let debouncedChange = debounce(props.onChange, 500);
 
-    return {
+    this.state = {
       current,
       maximum,
       debouncedChange,
-    }
-  },
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
     let current = nextProps.hitDice.map(id => {
@@ -72,24 +73,24 @@ export default React.createClass({
       current,
       maximum,
     });
-  },
+  }
 
-  handleRemove(id) {
+  handleRemove = (id) => {
     this.props.onChange({
       type: 'HIT_DICE_DELETE',
       data: {
         id,
       }
     });
-  },
+  };
 
-  handleCreate() {
+  handleCreate = () => {
     this.props.onChange({
       type: 'HIT_DICE_CREATE',
     });
-  },
+  };
 
-  handleSave(hitDieId, inputType, ev) {
+  handleSave = (hitDieId, inputType, ev) => {
     let newCurrent;
     let newMaximum;
     let type;
@@ -133,9 +134,9 @@ export default React.createClass({
         type,
       }
     });
-  },
+  };
 
-  getHitDiceContent() {
+  getHitDiceContent = () => {
     return this.props.hitDice.map(id => {
       return (
         <div key={id} className='mb1'>
@@ -163,9 +164,9 @@ export default React.createClass({
         </div>
       )
     }) 
-  },
+  };
 
-  getContent() {
+  getContent = () => {
     return <section>
       <div className='modal-header'>
         <h3>Manage Hit Dice</h3>
@@ -175,7 +176,7 @@ export default React.createClass({
         <p className='subtext interactable p1' onClick={this.handleCreate}><Icon icon='fa fa-plus'/> Add hit dice</p>
       </div>
     </section>
-  },
+  };
 
   render() {
     return <Modal
@@ -184,5 +185,5 @@ export default React.createClass({
       onDismiss={this.props.onDismiss}
       content={this.getContent()}
     />
-  },
-});
+  }
+}

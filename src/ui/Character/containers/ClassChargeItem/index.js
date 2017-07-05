@@ -4,26 +4,26 @@ import React, { Component } from 'react';
 import SegmentedProgressBar from '../../../components/SegmentedProgressBar';
 import Icon from '../../../components/Icon';
 
-export default React.createClass({
-  displayName: 'ClassChargeItem',
+export default class extends React.Component {
+  static displayName = 'ClassChargeItem';
 
-  propTypes: {
+  static propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     charges: PropTypes.number.isRequired,
     current: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
-  },
+  };
 
-  useCharge() {
+  useCharge = () => {
     let data = { id: this.props.id };
     this.props.onChange({ type: 'CLASS_CHARGE_DECREMENT', data });
-  },
+  };
 
-  addCharge() {
+  addCharge = () => {
     let data = { id: this.props.id };
     this.props.onChange({ type: 'CLASS_CHARGE_INCREMENT', data });
-  },
+  };
 
   render() {
     let {
@@ -50,5 +50,5 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
-})
+  }
+}

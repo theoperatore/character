@@ -5,11 +5,10 @@ import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 import ConfirmModal from '../ConfirmModal';
 
-export default React.createClass({
-  displayName: 'EditDefenseStatDialog',
+export default class extends React.Component {
+  static displayName = 'EditDefenseStatDialog';
 
-
-  propTypes: {
+  static propTypes = {
     active: PropTypes.bool.isRequired,
     dismiss: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -17,19 +16,15 @@ export default React.createClass({
     armorClass: PropTypes.number.isRequired,
     speed: PropTypes.string.isRequired,
     initiative: PropTypes.number.isRequired,
-  },
+  };
 
-
-  getInitialState() {
-    return {
-      dirty: false,
-      confirm: false,
-      hp: this.props.hp,
-      armorClass: this.props.armorClass,
-      initiative: this.props.initiative
-    }
-  },
-
+  state = {
+    dirty: false,
+    confirm: false,
+    hp: this.props.hp,
+    armorClass: this.props.armorClass,
+    initiative: this.props.initiative
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.active) {
@@ -39,17 +34,15 @@ export default React.createClass({
         initiative: nextProps.initiative
       })
     }
-  },
+  }
 
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-
-  verifyNumber(prop, ev) {
+  verifyNumber = (prop, ev) => {
     this.makeDirty();
     if (ev.target.value === '') {
       this.setState({ [prop]: ev.target.value });
@@ -61,10 +54,9 @@ export default React.createClass({
     if (!isNaN(num) && num !== Infinity) {
       this.setState({ [prop]: num });
     }
-  },
+  };
 
-
-  getContent() {
+  getContent = () => {
     return <section>
       <div className='modal-header'><h3>Edit Defenses</h3></div>
       <div className='modal-content'>
@@ -91,18 +83,16 @@ export default React.createClass({
         <button className='text-red' onClick={this.dismiss}><Icon icon='fa fa-remove'/> Cancel</button>
       </div>
     </section>
-  },
+  };
 
-
-  needsUpdate(hp, ac, sp, init) {
+  needsUpdate = (hp, ac, sp, init) => {
     return hp !== this.props.hp || 
            ac !== this.props.armorClass ||
            sp !== this.props.speed ||
            init !== this.props.initiative;
-  },
+  };
 
-
-  save() {
+  save = () => {
     let hp = this.state.hp === '' ? this.props.hp : this.state.hp;
     let ac = this.state.armorClass === '' ? this.props.armorClass : this.state.armorClass;
     let speed = this.refs.speed.value === '' ? this.props.speed : this.refs.speed.value;
@@ -121,20 +111,18 @@ export default React.createClass({
 
     this.setState({ confirm: false, dirty: false });
     this.props.dismiss();
-  },
+  };
 
-
-  dismiss() {
+  dismiss = () => {
     if (this.state.dirty) {
       this.setState({ confirm: true });
       return;
     }
 
     this.props.dismiss();
-  },
+  };
 
-
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     if (answer === 'yes') {
       this.setState({ confirm: false, dirty: false });
       this.props.dismiss();
@@ -142,8 +130,7 @@ export default React.createClass({
     }
 
     this.setState({ confirm: false });
-  },
-
+  };
 
   render() {
     return <span>
@@ -151,4 +138,4 @@ export default React.createClass({
       <ConfirmModal active={this.state.confirm} onConfirm={this.handleConfirm} />
     </span>
   }
-})
+}

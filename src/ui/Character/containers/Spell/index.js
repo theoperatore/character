@@ -8,10 +8,10 @@ import EditSpell from '../../dialogs/spells/edit';
 import CastSpell from '../../dialogs/spells/cast';
 import Icon from '../../../components/Icon';
 
-export default React.createClass({
-  displayName: 'Spell',
+export default class extends React.Component {
+  static displayName = 'Spell';
 
-  propTypes: {
+  static propTypes = {
     spell: PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
@@ -25,19 +25,17 @@ export default React.createClass({
     spellLevel: PropTypes.number.isRequired,
     onSpellChange: PropTypes.func.isRequired,
     slotsPerLevel: PropTypes.array.isRequired,
-  },
+  };
 
-  getInitialState() {
-    return {
-      showDetails: false,
-      editSpell: false,
-      confirm: false,
-      message: null,
-      castSpell: false,
-    }
-  },
+  state = {
+    showDetails: false,
+    editSpell: false,
+    confirm: false,
+    message: null,
+    castSpell: false,
+  };
 
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     switch (answer) {
       case 'yes':
         this.props.onSpellChange({
@@ -59,28 +57,28 @@ export default React.createClass({
         });
         break;
     }
-  },
+  };
 
-  handleDelete() {
+  handleDelete = () => {
     this.setState({
       confirm: true,
       message: `Are you sure you want to delete the spell: ${this.props.spell.name}?`
     });
-  },
+  };
 
-  handleEditCancel() {
+  handleEditCancel = () => {
     this.setState({
       editSpell: false,
     });
-  },
+  };
 
-  handleDetailCancel() {
+  handleDetailCancel = () => {
     this.setState({
       showDetails: false,
     });
-  },
+  };
 
-  prepareSpell() {
+  prepareSpell = () => {
     let type = this.props.spell.prepared
       ? 'SPELL_UNPREPARE'
       : 'SPELL_PREPARE';
@@ -91,9 +89,9 @@ export default React.createClass({
     };
 
     this.props.onSpellChange({ type, data });
-  },
+  };
 
-  getDetailContent() {
+  getDetailContent = () => {
     let {
       name,
       desc,
@@ -155,7 +153,7 @@ export default React.createClass({
         ><Icon icon='fa fa-remove'/> Delete</button>
       </div>
     </section>);
-  },
+  };
 
   render() {
     let { spell, spellLevel } = this.props;
@@ -204,4 +202,4 @@ export default React.createClass({
       </ListItem>
     )
   }
-})
+}

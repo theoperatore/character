@@ -1,13 +1,16 @@
 'use strict';
 
-import React, { Component } from 'react';
+import {Component} from 'react';
+import createReactClass from 'create-react-class';
 import debug from 'debug';
 
 import Icon from '../../../components/Icon';
 
 const log = debug('app:levelXpDialog');
 
-export default React.createClass({
+const refNames = ['level', 'xp', 'class', 'race', 'alignment', 'background'];
+
+export default createReactClass({
   displayName: 'LevelXPDialog',
 
 
@@ -31,7 +34,6 @@ export default React.createClass({
     onCancel: PropTypes.func.isRequired
   },
 
-  refNames: ['level', 'xp', 'class', 'race', 'alignment', 'background'],
 
   isDirty() {
     return this.state.dirty;
@@ -46,13 +48,13 @@ export default React.createClass({
 
 
   handleSave() {
-    let infos = this.refNames
+    let infos = refNames
       .map(refName => ({[refName]: this.refs[refName].value}))
       .reduce((obj, ref) => Object.assign(obj, ref), {});
 
     infos.xp = this.state.xp === '' ? 0 : this.state.xp;
     infos.level = this.state.level === '' ? 0 : this.state.level;
-    
+
     this.props.onSave({ type: 'BASIC_INFO_EDIT', data: infos });
   },
 
@@ -122,4 +124,4 @@ export default React.createClass({
       </section>
     )
   }
-})
+});

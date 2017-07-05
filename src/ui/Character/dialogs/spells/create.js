@@ -13,15 +13,15 @@ const NEW_SPELL = {
   dur: 'Duration',
 }
 
-export default React.createClass({
-  displayName: 'CreateSpell',
+export default class extends React.Component {
+  static displayName = 'CreateSpell';
 
-  propTypes: {
+  static propTypes = {
     onChange: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
-  },
+  };
 
-  getSpellInput() {
+  getSpellInput = () => {
     return {
       spell: {
         id: `spell-${uuid()}`,
@@ -35,9 +35,9 @@ export default React.createClass({
       },
       level: Number(this.levelInput.value),
     }
-  },
+  };
 
-  handleSave() {
+  handleSave = () => {
     let type = 'SPELL_CREATE';
     let data = this.getSpellInput();
 
@@ -45,11 +45,11 @@ export default React.createClass({
       this.props.onChange({ type, data });
       this.props.onCancel();
     }
-  },
+  };
 
-  handleCancel() {
+  handleCancel = () => {
     this.props.onCancel();
-  },
+  };
 
   render() {
 
@@ -109,5 +109,5 @@ export default React.createClass({
         </div>
       </section>
     );
-  },
-});
+  }
+}

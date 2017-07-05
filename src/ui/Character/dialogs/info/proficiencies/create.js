@@ -4,45 +4,39 @@ import React, { Component } from 'react';
 import uuid from 'uuid/v1';
 import Icon from '../../../../components/Icon';
 
-export default React.createClass({
-  displayName: 'CreateProficiency',
+export default class extends React.Component {
+  static displayName = 'CreateProficiency';
 
-  propTypes: {
+  static propTypes = {
     onCreate: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired
-  },
+  };
 
-  getInitialState() {
-    return {
-      dirty: false
-    }
-  },
+  state = {
+    dirty: false
+  };
 
-
-  isDirty() {
+  isDirty = () => {
     return this.state.dirty;
-  },
+  };
 
-
-  handleCreate() {
+  handleCreate = () => {
     let name = this.refs.newName.value.trim();
     let desc = this.refs.newDesc.value.trim();
     let id = `prof-${uuid()}`;
 
     this.props.onCreate({ type: 'PROFICIENCY_CREATE', data: { name, desc, id }});
-  },
+  };
 
-
-  handleCancel() {
+  handleCancel = () => {
     this.props.onCancel();
-  },
+  };
 
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
   render() {
     return (
@@ -66,4 +60,4 @@ export default React.createClass({
       </section>
     )
   }
-})
+}

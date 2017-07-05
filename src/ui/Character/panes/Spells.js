@@ -10,18 +10,25 @@ import CreateAttackBonusDialog from '../dialogs/attacks/CreateAttackBonusDialog'
 import Icon from '../../components/Icon';
 import Modal from '../../components/Modal';
 
-export default React.createClass({
-  displayName: "PaneSpells",
+export default class extends React.Component {
+  static displayName = "PaneSpells";
 
-  propTypes: {
+  static propTypes = {
     spells: PropTypes.object.isRequired,
     spellDC: PropTypes.object.isRequired,
     bubbles: PropTypes.object.isRequired,
     charges: PropTypes.object.isRequired,
     preferences: PropTypes.object.isRequired,
     handleSpellsChange: PropTypes.func.isRequired,
-  },
+  };
 
+  state = {
+    flattenedSpells: [],
+    slotsPerLevel: [],
+    viewSpellSlots: false,
+    createSpellAttackBonus: false,
+    createNewSpell: false,
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     return (
@@ -35,17 +42,7 @@ export default React.createClass({
       this.state.createNewSpell !== nextState.createNewSpell ||
       this.state.slotsPerLevel !== nextState.slotsPerLevel
     );
-  },
-
-  getInitialState() {
-    return {
-      flattenedSpells: [],
-      slotsPerLevel: [],
-      viewSpellSlots: false,
-      createSpellAttackBonus: false,
-      createNewSpell: false,
-    }
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     let spells = nextProps.spells.toJS();
@@ -71,29 +68,29 @@ export default React.createClass({
     });
 
     this.setState({ flattenedSpells, slotsPerLevel });
-  },
+  }
 
-  onSpellAttackBonusChange(event) {
+  onSpellAttackBonusChange = (event) => {
     let updatedEvent = Object.assign({}, event, {
       type: 'SPELL_' + event.type
     });
 
     this.props.handleSpellsChange(updatedEvent);
-  },
+  };
 
-  onSpellDCChange(event) {
+  onSpellDCChange = (event) => {
     let updatedEvent = Object.assign({}, event, {
       type: 'SPELL_DC_EDIT'
     });
 
     this.props.handleSpellsChange(updatedEvent);
-  },
+  };
 
-  handleCreateCancel() {
+  handleCreateCancel = () => {
     this.setState({ createNewSpell: false });
-  },
+  };
 
-  renderSpellDC() {
+  renderSpellDC = () => {
     let subtitle = this.props.spellDC.get('abil');
 
     subtitle = this.props.spellDC.get('prof')
@@ -111,9 +108,9 @@ export default React.createClass({
       subtitle={subtitle}
       onChange={this.onSpellDCChange}
     />
-  },
+  };
 
-  renderSpellAttackBonuses() {
+  renderSpellAttackBonuses = () => {
     if (!this.props.bubbles) return null;
 
     return this.props.bubbles.toJS().map(bubble => {
@@ -135,9 +132,9 @@ export default React.createClass({
         onChange={this.onSpellAttackBonusChange}
       />
     })
-  },
+  };
 
-  renderClassCharges() {
+  renderClassCharges = () => {
     if (!this.props.charges) return null;
     if (this.props.preferences.get('classCharges') === 'ATTACK_ONLY') return null;
     
@@ -155,9 +152,9 @@ export default React.createClass({
     return (<section className='info-section'>
       { charges }
     </section>)
-  },
+  };
 
-  renderSpellSlots() {
+  renderSpellSlots = () => {
     return this.props.spells.toJS()
       .slice(1)
       .map((level, i) => {
@@ -182,9 +179,9 @@ export default React.createClass({
         </div>
       )
     })
-  },
+  };
 
-  renderSpells() {
+  renderSpells = () => {
     return this.state.flattenedSpells.map(spell => {
       return (<Spell 
         key={spell.id}
@@ -194,7 +191,7 @@ export default React.createClass({
         onSpellChange={this.props.handleSpellsChange}
       />)
     })
-  },
+  };
 
   render() {
 
@@ -247,4 +244,4 @@ export default React.createClass({
       </div>
     );
   }
-})
+}

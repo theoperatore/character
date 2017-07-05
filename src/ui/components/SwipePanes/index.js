@@ -6,17 +6,15 @@ import Swiper from 'swiper';
 
 let swipe;
 
-module.exports = React.createClass({
-  displayName : "SwipePanes",
+module.exports = class extends React.Component {
+  static displayName = "SwipePanes";
 
-
-  componentDidUpdate : function() {
+  componentDidUpdate() {
     swipe.onResize();
     swipe.slideTo(this.props.activeIdx);
-  },
+  }
 
-
-  componentDidMount : function() {
+  componentDidMount() {
     let mount = ReactDOM.findDOMNode(this);
     let { activeIdx, ...opts } = this.props;
 
@@ -25,15 +23,14 @@ module.exports = React.createClass({
     document.querySelector('.swiper-wrapper').style.height = `${height}px`;
 
     swipe = new Swiper(mount, opts);
-  },
+  }
 
   componentWillUnmount() {
     swipe.destroy(true, true);
     swipe = null;
-  },
+  }
 
-
-  render : function() {
+  render() {
     return (
       <div className="swiper-container">
         <div className="swiper-wrapper">
@@ -42,4 +39,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

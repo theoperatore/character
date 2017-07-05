@@ -8,19 +8,15 @@ import EditScores from '../dialogs/abilities/EditAbilityScoresDialog';
 import EditProficiencyBonus from '../dialogs/abilities/EditProficiencyBonusDialog';
 import EditPassivePerception from '../dialogs/abilities/EditPassivePerceptionDialog';
 
-export default React.createClass({
-  displayName: 'AbilitiesPane',
+export default class extends React.Component {
+  static displayName = 'AbilitiesPane';
 
-
-  getInitialState() {
-    return {
-      sort: 'a-z',
-      editScores: false,
-      editPP: false,
-      editPB: false,
-    }
-  },
-
+  state = {
+    sort: 'a-z',
+    editScores: false,
+    editPP: false,
+    editPB: false,
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     return (
@@ -33,10 +29,9 @@ export default React.createClass({
       this.state.editPP !== nextState.editPP ||
       this.state.editPB !== nextState.editPB
     );
-  },
+  }
 
-
-  sortData(data) {
+  sortData = (data) => {
     switch (this.state.sort) {
       case 'a-z':
         return data;
@@ -47,40 +42,35 @@ export default React.createClass({
       default:
         return data;
     }
-  },
+  };
 
-
-  changeSort(option) {
+  changeSort = (option) => {
     this.setState({ sort: option });
-  },
+  };
 
-
-  handleEditScoresDismiss() {
+  handleEditScoresDismiss = () => {
     this.refs.editScores.confirm().then(answer => {
       if (answer === 'yes') {
         this.setState({ editScores: false });
       }
     })
-  },
+  };
 
-
-  handleScoreEdit(event) {
+  handleScoreEdit = (event) => {
     this.setState({ editScores: false });
     this.props.handleAbilityChange(event);
-  },
+  };
 
-
-  createEditContent() {
+  createEditContent = () => {
     return <EditScores 
         ref='editScores'
         onSave={this.handleScoreEdit} 
         abilities={this.props.abilities}
         proficiency={this.props.proficiencyBonus}
       />
-  },
+  };
 
-
-  renderSkills() {
+  renderSkills = () => {
     let maxScore = this.props.skills.toJS().reduce((max, skill) => Math.max(max, skill.score), 0);
     let data = this.sortData(this.props.skills.toJS())
 
@@ -99,8 +89,7 @@ export default React.createClass({
         onSkillChange={this.props.handleAbilityChange}
       />;
     })
-  },
-
+  };
 
   render() {
     let perceptionTrained = this.props.skills.find((value) => {
@@ -187,4 +176,4 @@ export default React.createClass({
       </div>
     );
   }
-})
+}

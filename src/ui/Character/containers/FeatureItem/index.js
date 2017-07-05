@@ -8,11 +8,10 @@ import Icon from '../../../components/Icon';
 import ListItem from '../../../components/ListItem/v2';
 import ConfirmModal from '../../dialogs/ConfirmModal';
 
-export default React.createClass({
-  displayName: 'FeatureItem',
+export default class extends React.Component {
+  static displayName = 'FeatureItem';
 
-
-  propTypes: {
+  static propTypes = {
     name: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
@@ -21,25 +20,21 @@ export default React.createClass({
     classChargesId: PropTypes.string,
     classChargesName: PropTypes.string,
     classChargesTotal: PropTypes.number
-  },
+  };
 
+  state = {
+    detail: false,
+    confirm: false,
+    message: null,
+    dirty: false,
+    edit: false,
+    willDelete: false,
+    typeSelected: this.props.featureType,
+    hasCharges: !!this.props.classChargesId,
+    cctotal: this.props.classChargesTotal,
+  };
 
-  getInitialState() {
-    return {
-      detail: false,
-      confirm: false,
-      message: null,
-      dirty: false,
-      edit: false,
-      willDelete: false,
-      typeSelected: this.props.featureType,
-      hasCharges: !!this.props.classChargesId,
-      cctotal: this.props.classChargesTotal,
-    }
-  },
-
-
-  resetState() {
+  resetState = () => {
     this.setState({
       detail: false,
       confirm: false,
@@ -51,8 +46,7 @@ export default React.createClass({
       hasCharges: !!this.props.classChargesId,
       cctotal: this.props.classChargesTotal,
     })
-  },
-
+  };
 
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -60,32 +54,28 @@ export default React.createClass({
       hasCharges: !!nextProps.classChargesId,
       cctotal: nextProps.classChargesTotal
     });
-  },
+  }
 
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-
-  handleTypeSelect(newType) {
+  handleTypeSelect = (newType) => {
     this.setState({ typeSelected: newType, dirty: true });
-  },
+  };
 
-
-  dismiss() {
+  dismiss = () => {
     if (this.state.dirty) {
       this.setState({ confirm: true, message: null });
       return;
     }
 
     this.resetState();
-  },
+  };
 
-
-  confirm(answer) {
+  confirm = (answer) => {
     switch(answer) {
       case 'yes':
         if (this.state.willDelete) {
@@ -100,10 +90,9 @@ export default React.createClass({
         this.setState({ confirm: false, message: null, willDelete: false });
         break;
     }
-  },
+  };
 
-
-  handleEditSave() {
+  handleEditSave = () => {
     // save mode
     if (this.state.edit) {
       let name = this.refs.newName.value.trim();
@@ -142,10 +131,9 @@ export default React.createClass({
 
     // enter edit mode
     this.setState({ edit: true });
-  },
+  };
 
-
-  handleDeleteCancel() {
+  handleDeleteCancel = () => {
     // cancel mode
     if (this.state.edit) {
       if (this.state.dirty) {
@@ -159,10 +147,9 @@ export default React.createClass({
 
     // delete mode
     this.setState({ confirm: true, willDelete: true, message: `Do you really want to delete ${this.props.name}?`});
-  },
+  };
 
-
-  createGlyph(type) {
+  createGlyph = (type) => {
     switch (type) {
       case 'PASSIVE':
         return { icon: <Icon icon='fa fa-cube' className='ml2'/>, style: ''};
@@ -173,10 +160,9 @@ export default React.createClass({
       case 'DEFENSE':
         return { icon: <Icon icon='icon-shield' className='ml2'/>, style: 'text-str' };
     }
-  },
+  };
 
-
-  validateNumber(ev) {
+  validateNumber = (ev) => {
     this.makeDirty();
     let val = ev.target.value;
     if (val === '') {
@@ -188,10 +174,9 @@ export default React.createClass({
     if (!isNaN(val)) {
       this.setState({ cctotal: num });
     }
-  },
+  };
 
-
-  content() {
+  content = () => {
     let featureGlyph = this.createGlyph(this.props.featureType);
 
     return <section>
@@ -263,8 +248,7 @@ export default React.createClass({
         <button className='text-red' onClick={this.handleDeleteCancel}><Icon icon='fa fa-remove'/> {this.state.edit ? 'Cancel' : 'Delete'}</button>
       </div>
     </section>
-  },
-
+  };
 
   render() {
     let glyph = this.createGlyph(this.props.featureType);
@@ -276,4 +260,4 @@ export default React.createClass({
       </ListItem>
     )
   }
-})
+}

@@ -5,38 +5,32 @@ import Modal from '../../../components/Modal';
 import Icon from '../../../components/Icon';
 import ConfirmModal from '../../dialogs/ConfirmModal';
 
-export default React.createClass({
-  displayName: 'ResistanceItem',
+export default class extends React.Component {
+  static displayName = 'ResistanceItem';
 
-
-  propTypes: {
+  static propTypes = {
     name: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     onResistanceChange: PropTypes.func.isRequired
-  },
+  };
 
+  state = {
+    details: false,
+    confirm: false,
+    edit: false,
+    dirty: false,
+    message: null,
+    willRemove: false
+  };
 
-  getInitialState() {
-    return {
-      details: false,
-      confirm: false,
-      edit: false,
-      dirty: false,
-      message: null,
-      willRemove: false
-    }
-  },
-
-
-  makeDirty() {
+  makeDirty = () => {
     if (!this.state.dirty) {
       this.setState({ dirty: true });
     }
-  },
+  };
 
-
-  handleEditSave() {
+  handleEditSave = () => {
     // save edits
     if (this.state.edit) {
       let name = this.refs.newName.value;
@@ -53,10 +47,9 @@ export default React.createClass({
 
     // enter edit mode
     this.setState({ edit: true });
-  },
+  };
 
-
-  handleCancelRemove() {
+  handleCancelRemove = () => {
     // cancel
     if (this.state.edit) {
       if (this.state.dirty) {
@@ -70,10 +63,9 @@ export default React.createClass({
 
     // remove
     this.setState({ confirm: true, message: `Are you sure you want to delete ${this.props.name} forever?`, willRemove: true });
-  },
+  };
 
-
-  getDetailsContent() {
+  getDetailsContent = () => {
     return <section>
       <div className='modal-header'>
         <h3>{
@@ -92,20 +84,18 @@ export default React.createClass({
         <button onClick={this.handleCancelRemove} className='text-red'><Icon icon='fa fa-remove'/> {this.state.edit ? 'Cancel' : 'Remove'}</button>
       </div>
     </section>
-  },
+  };
 
-
-  dismiss() {
+  dismiss = () => {
     if (this.state.dirty) {
       this.setState({ confirm: true, message: null });
       return;
     }
 
     this.setState({ details: false });
-  },
+  };
 
-
-  handleConfirm(answer) {
+  handleConfirm = (answer) => {
     switch (answer) {
       case 'yes':
         if (this.state.willRemove) {
@@ -117,8 +107,7 @@ export default React.createClass({
         this.setState({ confirm: false });
         break;
     }
-  },
-
+  };
 
   render() {
     return ( 
@@ -134,4 +123,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

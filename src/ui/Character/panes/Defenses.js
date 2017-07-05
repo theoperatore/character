@@ -1,6 +1,8 @@
 'use strict';
 
-import React, { Component } from 'react';
+import {Component} from 'react';
+
+import createReactClass from 'create-react-class';
 
 import HPCounter from '../../components/HPCounter';
 import Icon from '../../components/Icon';
@@ -13,7 +15,9 @@ import EditHpDialog from '../dialogs/defenses/EditHpDialog';
 import EditDefenseStatDialog from '../dialogs/defenses/EditDefenseStatDialog';
 import ManageHitDice from '../dialogs/defenses/ManageHitDice';
 
-export default React.createClass({
+const savingThrowsOrder = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+
+export default createReactClass({
   displayName: 'PaneDefenses',
 
 
@@ -26,14 +30,13 @@ export default React.createClass({
       this.props.savingThrows !== nextProps.savingThrows ||
       this.props.resistances !== nextProps.resistances ||
       this.state.create !== nextState.create ||
-      this.state.hpDialog !== nextState.hpDialog || 
+      this.state.hpDialog !== nextState.hpDialog ||
       this.state.defenseDialog !== nextState.defenseDialog ||
       this.state.restDialog !== nextState.restDialog ||
       this.state.manageHitDice !== nextState.manageHitDice
     );
   },
 
-  savingThrowsOrder: ['str', 'dex', 'con', 'int', 'wis', 'cha'],
 
   getInitialState() {
     return {
@@ -55,7 +58,7 @@ export default React.createClass({
 
 
   renderSavingThrows() {
-    return this.savingThrowsOrder.map((abilityKey, i) => {
+    return savingThrowsOrder.map((abilityKey, i) => {
       return <SavingThrowItem
         key={i}
         ability={abilityKey}
@@ -90,12 +93,12 @@ export default React.createClass({
 
     return this.props.resistances.toJS().map((resistance, i) => {
       return (
-        <ResistanceItem 
+        <ResistanceItem
           key={i}
           id={resistance.id}
           name={resistance.name}
           desc={resistance.desc}
-          onResistanceChange={this.props.handleDefenseChange} 
+          onResistanceChange={this.props.handleDefenseChange}
         />
       )
     })
@@ -108,13 +111,13 @@ export default React.createClass({
         <section className='info-section pane-padding'>
           <div className='row'>
             <div className='col-2-3'>
-              <EditHpDialog 
-                active={this.state.hpDialog} 
-                dismiss={() => this.setState({ hpDialog: false })} 
-                onChange={this.props.handleDefenseChange} 
+              <EditHpDialog
+                active={this.state.hpDialog}
+                dismiss={() => this.setState({ hpDialog: false })}
+                onChange={this.props.handleDefenseChange}
               />
               <div className='hp-container' onClick={() => this.setState({ hpDialog: true })}>
-                <HPCounter 
+                <HPCounter
                   maximum={this.props.hitPoints.get('maximum')}
                   current={this.props.hitPoints.get('current')}
                   temporary={this.props.hitPoints.get('temporary')}
@@ -155,14 +158,14 @@ export default React.createClass({
                 hitDiceDefinitions={this.props.hitPoints.get('hitDiceDefinitions')}
                 onChange={this.props.handleDefenseChange}
               />
-              <RestDialog 
+              <RestDialog
                 active={this.state.restDialog}
                 onDismiss={() => this.setState({ restDialog: false })}
                 onChange={this.props.handleDefenseChange}
                 hitDice={this.props.hitPoints.get('hitDice')}
                 hitDiceDefinitions={this.props.hitPoints.get('hitDiceDefinitions')}
               />
-              <EditDefenseStatDialog 
+              <EditDefenseStatDialog
                 active={this.state.defenseDialog}
                 dismiss={() => this.setState({ defenseDialog: false })}
                 onChange={this.props.handleDefenseChange}
@@ -192,4 +195,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+});

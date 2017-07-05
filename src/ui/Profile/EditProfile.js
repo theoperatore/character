@@ -9,22 +9,20 @@ import { storage } from '../../api';
 window.URL = window.URL || window.webkitURL;
 
 export default class EditProfile extends Compoent {
-  static propTypes = {
+  static propTypes = (({
     active: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
     onDismiss: PropTypes.func.isRequired,
     displayName: PropTypes.string,
     profileImg: PropTypes.string,
     userId: PropTypes.string,
-  },
-
-  state = {
+  } = {
     imgURL: null,
     file: null,
     uploading: false,
     uploadError: '',
     uploadProgress: 0,
-  }
+  })
 
   componentWillReceiveProps() {
     this.setState({
@@ -158,5 +156,5 @@ export default class EditProfile extends Compoent {
       overflowAppContainer='body'
       overflowPaneContainer='body'
     />
-  },
+  }
 }
