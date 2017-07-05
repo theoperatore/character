@@ -1,0 +1,19 @@
+server {
+  listen 80;
+  root /srv/www;
+  index index.html
+
+  server_name localhost;
+
+  # just to know if the app is running or not.
+  location /_ping {
+    return 200;
+  }
+
+  # First, attempt to serve request as file,
+  # then as a directory, then fall back to displaying index.html
+  # this allows us the ability to use html5 SPA
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}
