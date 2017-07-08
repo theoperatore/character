@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
-import Router from '../router/Router';
-import { ROUTE_LOGIN, ROUTE_CHARACTER } from '../routes';
-
-import { getCharactersForUser, signOut, createCharacter, deleteCharacter } from '../state/actions';
 import Icon from '../components/Icon';
 import Loading from '../components/Loading';
 import Drawer from '../components/Drawer';
@@ -12,8 +9,7 @@ import Confirm from './Confirm';
 import SimpleCreate from './SimpleCharacterCreateModal';
 import EditProfile from './EditProfile';
 
-import connectUserRoute from '../connectUserRoute';
-import connectAuthRedirect from '../connectAuthRedirect';
+import { getCharactersForUser, signOut, createCharacter, deleteCharacter } from '../state/actions';
 
 export class Profile extends Component {
   state = {
@@ -25,24 +21,15 @@ export class Profile extends Component {
   }
 
   componentDidMount() {
-    let user = this.props.state.user;
-
+    const { user } = this.props.state;
     if (user.get('uid')) {
-      this.props.dispatch(getCharactersForUser(user.get('uid')));
+      this.loadCharacters(user.get('uid'));
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    let user = nextProps.state.user;
-    let status = nextProps.state.status;
-    if (user.get('uid') && !user.get('characters') && !status.get('characterListLoading')) {
-      this.props.dispatch(getCharactersForUser(user.get('uid')));
-    }
-  }
+  loadCharacters = (uid) => this.props.dispatch(getCharactersForUser(uid));
 
-  loadCharacter(id) {
-    Router.nav(ROUTE_CHARACTER, id);
-  }
+  loadCharacter = (id) => this.props.history.push(`/app/character/${id}`)
 
   deleteCharacter = (id) => {
     this.setState({
@@ -125,7 +112,7 @@ export class Profile extends Component {
               <Icon className='text-red' icon='fa fa-user-times'/>
             </div>
           }
-          onClick={this.loadCharacter.bind(this, character.get('characterId'))}
+          onClick={() => this.loadCharacter(character.get('characterId'))}
         />
       );
     });
@@ -212,11 +199,4 @@ export class Profile extends Component {
   }
 }
 
-export default connectUserRoute(
-  connectAuthRedirect(
-    Profile,
-    () => {
-      Router.nav(ROUTE_LOGIN);
-    }
-  )
-)
+export default withRouter(Profile);

@@ -2,7 +2,7 @@ import { fromJS, Map } from 'immutable';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 import debug from 'debug';
-import { preferences, character, user, status, route } from './reducers';
+import { preferences, character, user, status } from './reducers';
 
 import defaultCharacter from '../../data/defaultCharacter';
 import defaultPreferences from '../../data/defaultPreferences';
@@ -32,7 +32,6 @@ export function createState(defaults = {}) {
       preferences,
       user,
       status,
-      route,
     }),
     initialState,
     applyMiddleware(reduxThunk, logger));

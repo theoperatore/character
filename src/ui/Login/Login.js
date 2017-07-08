@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Router from '../router/Router';
-import { ROUTE_PROFILE } from '../routes';
+import { withRouter } from 'react-router-dom';
+import firebase from 'firebase';
+
 import Message from '../components/Message';
 import Icon from '../components/Icon';
-import firebase from 'firebase';
+
 import { ref } from '../../api';
-import { signOut, signInWithEmail } from '../state/actions';
-import { connectSessionToLogin } from './connectSessionToLogin';
+import { signOut } from '../state/actions';
 import { generateRandomName } from '../generateName';
 
 const IDENTIFY = 'identify';
@@ -20,6 +20,7 @@ export class Login extends Component {
   state = {
     messageType : "alert",
     disabled: false,
+    isLoading: false,
     error: '',
     formType: IDENTIFY,
     email: '',
@@ -29,8 +30,53 @@ export class Login extends Component {
   pwdInput = null;
 
   componentDidMount() {
-    if (!sessionStorage.getItem('__pocket_character_redirect_login__')) {
+    if (!window.sessionStorage.getItem('__pocket_character_redirect_login__')) {
       this.props.dispatch(signOut());
+    }
+  }
+
+  componentWillMount() {
+    if (window.sessionStorage.getItem('__pocket_character_redirect_login__') === 'LOGIN') {
+      this.setState({ isLoading: true });
+      firebase.auth()
+        .getRedirectResult()
+        .then(result => result.user)
+        .then(user => {
+          return ref
+            .child(`users/${user.uid}`)
+            .once('value')
+            .then(snapshot => snapshot.val())
+            .then(userData => {
+              if (!userData) {
+                return ref
+                  .child(`users/${user.uid}`)
+                  .update({ createdOn: Date.now() });
+              }
+            })
+        })
+        .then(() => {
+          let currentUser = firebase.auth().currentUser;
+
+          // only update if displayName doesn't exist yet
+          // pull displayName and photo from provider data;
+          if (!currentUser.displayName) {
+            return currentUser.updateProfile({
+              photoURL: currentUser.providerData[0].photoURL,
+              displayName: currentUser.providerData[0].displayName
+            })
+          }
+        })
+        .then(() => {
+          window.sessionStorage.setItem('__pocket_character_redirect_login__', false);
+          this.props.dispatch({ type: 'USER_LOADING_PROFILE' });
+          this.props.history.push('/app');
+        })
+        .catch(err => {
+          this.setState({ error: err.message, isLoading: false })
+        });
+    }
+    else {
+      this.setState({ isLoading: false, error: '' })
     }
   }
 
@@ -64,19 +110,21 @@ export class Login extends Component {
     let password = this.passwordInput.value.trim();
     let email = this.state.email;
 
+
+    this.props.dispatch({ type: 'USER_LOADING_PROFILE' });
     this.setState({ disabled: true });
     firebase.auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
-        Router.nav(ROUTE_PROFILE);
+        this.props.history.push("/app");
       })
       .catch(error => {
         this.setState({ disabled: false, error: error.message });
-      })
+      });
   }
 
   googleLogin = () => {
-    if (this.props.isLoading || this.state.disabled) return;
+    if (this.state.isLoading || this.state.disabled) return;
 
     this.setState({ disabled: true })
 
@@ -101,6 +149,7 @@ export class Login extends Component {
       return;
     }
 
+    this.props.dispatch({ type: 'USER_LOADING_PROFILE' });
     firebase.auth()
       .createUserWithEmailAndPassword(email, pwd)
       .then(user => {
@@ -114,7 +163,7 @@ export class Login extends Component {
             })
           })
           .then(() => {
-            Router.nav(ROUTE_PROFILE);
+            this.props.history.push('/app');
           })
           .catch(error => {
             this.setState({ error: error.message });
@@ -127,7 +176,7 @@ export class Login extends Component {
 
   renderLandingForm = () => {
     return <div className='login-input-group'>
-      <Message type={this.state.messageType} message={this.state.error || this.props.error} />
+      <Message type={this.state.messageType} message={this.state.error} />
       <input
         className='login-input'
         type='email'
@@ -137,14 +186,14 @@ export class Login extends Component {
       <button
         className='login-btn'
         onClick={this.handleProviderSearch}
-        disabled={this.props.isLoading || this.state.disabled}
-      >{this.props.isLoading ? 'Authenticating...' : 'Sign In'}</button>
+        disabled={this.state.isLoading || this.state.disabled}
+      >{this.state.isLoading ? 'Authenticating...' : 'Sign In'}</button>
     </div>
   }
 
   renderSignUpForm = () => {
     return <div className="login-input-group">
-      <Message type={this.state.messageType} message={this.state.error || this.props.error} />
+      <Message type={this.state.messageType} message={this.state.error} />
       <p className='login-email-disabled text-center'>{this.state.email}</p>
       <hr />
       <input
@@ -162,13 +211,13 @@ export class Login extends Component {
       <button
         className='login-btn'
         onClick={this.handleAccountCreate}
-        disabled={this.props.isLoading || this.state.disabled}
-      >{this.props.isLoading || this.state.disabled ? 'Creating...' : 'Create Account'}</button>
+        disabled={this.state.isLoading || this.state.disabled}
+      >{this.state.isLoading || this.state.disabled ? 'Creating...' : 'Create Account'}</button>
       <hr />
       <div className='mt3'>
         <div
           className='login-google'
-          disabled={this.props.isLoading || this.state.disabled}
+          disabled={this.state.isLoading || this.state.disabled}
           onClick={this.googleLogin}
         ></div>
       </div>
@@ -177,7 +226,7 @@ export class Login extends Component {
 
   renderPasswordForm = () => {
     return <div className='login-input-group'>
-      <Message type={this.state.messageType} message={this.state.error || this.props.error} />
+      <Message type={this.state.messageType} message={this.state.error} />
       <p className='login-email-disabled text-center'>{this.state.email}</p>
       <input
         className='login-input'
@@ -188,8 +237,8 @@ export class Login extends Component {
       <button
         className='login-btn'
         onClick={this.handlePasswordLogin}
-        disabled={this.props.isLoading || this.state.disabled}
-      >{this.props.isLoading || this.state.disabled ? 'Authenticating...' : 'Sign In'}</button>
+        disabled={this.state.isLoading || this.state.disabled}
+      >{this.state.isLoading || this.state.disabled ? 'Authenticating...' : 'Sign In'}</button>
     </div>
   }
 
@@ -218,4 +267,4 @@ export class Login extends Component {
   }
 }
 
-export default connectSessionToLogin(Login, window.sessionStorage);
+export default withRouter(Login);

@@ -4,6 +4,9 @@ import { db, ref } from '../../api';
 import defaultCharacter from '../../data/defaultCharacter';
 import defaultPreferences from '../../data/defaultPreferences';
 
+// This action will determine if a user is authenticated or not.
+// if the user is authenticated, it will load their profile data.
+// otherwise, it will set the `state.status.userSignedIn` to false;
 export function loadUser() {
   return dispatch => {
     dispatch({ type: 'USER_LOADING_PROFILE' });
