@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { signInWithEmail, signOut } from '../state/actions';
-import { ROUTE_PROFILE } from '../routes';
-import Router from '../router/Router';
 
 export default class Landing extends Component {
   static displayName = 'Landing';
@@ -24,7 +23,7 @@ export default class Landing extends Component {
       <div style={style}>
         <h1>Pocket Character</h1>
         <hr />
-        <p className='link' onClick={() => Router.nav(ROUTE_PROFILE)}>Sign In</p>
+        <Link to="/app">Sign In</Link>
       </div>
     )
   }

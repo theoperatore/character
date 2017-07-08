@@ -1,12 +1,12 @@
 import FastClick from 'fastclick';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import firebase from 'firebase';
 
-import { initRouter } from './createRouter';
 import { createState } from './state';
 import { loadUser } from './state/actions';
 
-import App from './App';
+import Root from './Root';
 
 let mount = document.querySelector('#mount');
 new FastClick(document.body);
@@ -14,14 +14,11 @@ new FastClick(document.body);
 // create state
 let store = createState();
 
-// start the router and handle routing to initial url
-initRouter(store.dispatch);
-
 store.subscribe(() => {
   let state = store.getState();
   let dispatch = store.dispatch;
 
-  ReactDOM.render(<App dispatch={dispatch} state={state}/>, mount);
-})
+  ReactDOM.render(<Root dispatch={dispatch} state={state}/>, mount);
+});
 
-ReactDOM.render(<App dispatch={store.dispatch} state={store.getState()}/>, mount);
+ReactDOM.render(<Root dispatch={store.dispatch} state={store.getState()}/>, mount);

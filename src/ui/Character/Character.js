@@ -1,13 +1,9 @@
-"use strict";
-
-import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
-import Router from '../router/Router';
 import { db } from '../../api';
 import { signOut } from '../state/actions';
-import { ROUTE_PROFILE } from '../routes';
 
 import SwipePanes from '../components/SwipePanes';
 import SwipePane from '../components/SwipePane';
@@ -26,7 +22,6 @@ import Spells from './panes/Spells';
 import Equipments from './panes/Equipments';
 
 import { characterProvider } from './characterProvider';
-import connectUserRoute from '../connectUserRoute';
 
 class Character extends React.Component {
   static displayName = "CharacterApp";
@@ -52,6 +47,7 @@ class Character extends React.Component {
            nextProps.isSaving !== this.props.isSaving ||
            nextProps.saveError !== this.props.saveError ||
            nextProps.lastSavedDate !== this.props.lastSavedDate ||
+           nextProps.characterId !== this.props.characterId ||
            nextState.activePane !== this.state.activePane ||
            nextState.mainMenu !== this.state.mainMenu ||
            nextState.settingsMenu !== this.state.settingsMenu
@@ -78,7 +74,7 @@ class Character extends React.Component {
       <div className='drawer-header'><p>Menu</p></div>
       <div className='drawer-content p3'>
         <button
-          onClick={() => Router.nav(ROUTE_PROFILE)}
+          onClick={() => this.props.history.push('/app/profile')}
           className='btn btn-default btn-primary block mb2 mt2 full-width'
         >
           <Icon icon='fa fa-random' /> Switch Characters
@@ -324,4 +320,4 @@ class Character extends React.Component {
   }
 }
 
-export default connectUserRoute(characterProvider(Character));
+export default characterProvider(withRouter(Character));

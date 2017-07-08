@@ -18,7 +18,7 @@ export default class SimpleCharacterCreateModal extends Component {
     canCreate: false,
   }
 
-  handleSave() {
+  handleSave = () => {
     if (!this.state.canCreate) return;
 
     let name = this.nameInput.value.trim();
@@ -41,11 +41,11 @@ export default class SimpleCharacterCreateModal extends Component {
     }
   }
 
-  handleCancel() {
+  handleCancel = () => {
     this.props.onDismiss();
   }
 
-  handleChange(ev) {
+  handleChange = (ev) => {
     if (ev.target.value.trim() !== '') {
       this.setState({ canCreate: true })
     }
@@ -54,12 +54,12 @@ export default class SimpleCharacterCreateModal extends Component {
     }
   }
 
-  pickRandomName() {
+  pickRandomName = () => {
     this.nameInput.value = generateRandomName();
     this.setState({ canCreate: true });
   }
 
-  getSimpleContent() {
+  getSimpleContent = () => {
     return <section>
       <div className='modal-header'>
         <h3>Create A New Character</h3>

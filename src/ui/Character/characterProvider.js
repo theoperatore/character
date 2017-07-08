@@ -59,6 +59,7 @@ export function characterProvider(Component) {
     static propTypes = {
       dispatch: PropTypes.func.isRequired,
       state: PropTypes.object.isRequired,
+      characterId: PropTypes.string.isRequired,
     };
 
     state = {
@@ -68,7 +69,7 @@ export function characterProvider(Component) {
     };
 
     componentDidMount() {
-      let characterId = this.props.state.route.getIn(['params', 'uid']);
+      let characterId = this.props.characterId;
       this.props.dispatch(loadCharacter(characterId));
     }
 
@@ -98,14 +99,14 @@ export function characterProvider(Component) {
       let characterToSave = nextProps.state.character.toJS();
       let preferencesToSave = nextProps.state.preferences.toJS();
 
-      // made into a side-effect because otherwise it would almost be impossible to 
+      // made into a side-effect because otherwise it would almost be impossible to
       // not have infinite state updates.
       log('saving new character and preferences state...', characterToSave);
       this.setState({ isSaving: true });
       saveCharacter(userId, characterId, characterToSave, preferencesToSave)
         .then(() => this.setState({ isSaving: false, saveError: null, lastSavedDate: Date.now() }))
         .catch(error => this.setState({ isSaving: false, saveError: error }));
-        
+
     }
 
     render() {

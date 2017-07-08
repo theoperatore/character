@@ -40,14 +40,14 @@ export default class EditProfile extends Component {
   imgUpload = null;
   profileInput = null;
 
-  handleFileSelect() {
+  handleFileSelect = () => {
     let file = this.imgUpload.files[0];
     let url = window.URL.createObjectURL(file);
 
     this.setState({ imgURL: url, file });
   }
 
-  handleSave() {
+  handleSave = () => {
     let profileName = this.props.displayName;
     if (this.profileInput && this.profileInput.value.trim() !== '') {
       profileName = this.profileInput.value.trim();
@@ -80,7 +80,7 @@ export default class EditProfile extends Component {
 
   }
 
-  getDisplayImg() {
+  getDisplayImg = () => {
     if (!this.props.displayName) return null;
 
     return this.props.profileImg
@@ -90,7 +90,7 @@ export default class EditProfile extends Component {
       </div>
   }
 
-  content() {
+  content = () => {
     return <section>
       <div className='popup-header' onClick={this.props.onDismiss}>
         <h3>Edit Profile Details</h3>

@@ -12,7 +12,7 @@ const DEFAULT_USER_STATE = Map({});
 const DEFAUlT_ROUTE = Map({ route: 'landing' });
 const DEFAULT_STATUS = fromJS({
   userSignedIn: false,
-  userAuthenticating: false,
+  userAuthenticating: true,
   userAuthenticationError: null,
   userSigningOut: false,
   userLoadingProfile: false,
@@ -934,25 +934,6 @@ export function user(state = DEFAULT_USER_STATE, action) {
 
 export function status(state = DEFAULT_STATUS, action) {
   switch (action.type) {
-
-    case 'USER_AUTHENTICATING':
-      return state
-        .set('userAuthenticating', true)
-        .set('userAuthenticationError', null)
-        .set('userSignedIn', false);
-
-    case 'USER_AUTHENTICATED':
-      return state
-        .set('userAuthenticating', false)
-        .set('userAuthenticationError', null)
-        .set('userSignedIn', true);
-
-    case 'USER_AUTHENTICATION_ERROR':
-      return state
-        .set('userAuthenticating', false)
-        .set('userAuthenticationError', Map(action.data.error))
-        .set('userSignedIn', false);
-
     case 'USER_NOT_SIGNED_IN':
       return state
         .set('userAuthenticating', false)
@@ -964,7 +945,8 @@ export function status(state = DEFAULT_STATUS, action) {
       return state.set('userSigningOut', true);
 
     case 'USER_SIGN_OUT':
-      return DEFAULT_STATUS;
+      return DEFAULT_STATUS
+        .set('userAuthenticating', false);
 
     case 'USER_LOADING_PROFILE':
       return state
@@ -1046,17 +1028,6 @@ export function status(state = DEFAULT_STATUS, action) {
       return state
         .set('characterDeleting', true);
 
-    default:
-      return state;
-  }
-}
-
-export function route(state = DEFAUlT_ROUTE, action) {
-  switch (action.type) {
-    case 'GO_TO':
-      return state
-        .set('route', action.data.route)
-        .set('params', Map(action.data.params));
     default:
       return state;
   }
