@@ -1,9 +1,7 @@
-
-
-import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import debug from 'debug';
+
 import { ref } from '../../api';
 import { loadCharacter } from '../state/actions';
 
@@ -82,7 +80,7 @@ export function characterProvider(Component) {
       if (isLoading || isInError) return;
 
       let cleanedAction = JSON.stringify(action);
-      let characterId = this.props.state.route.getIn(['params', 'uid']);
+      let characterId = this.props.characterId;
 
       ref.child(`actions/${characterId}`).push(cleanedAction);
       this.props.dispatch(action);
@@ -94,7 +92,7 @@ export function characterProvider(Component) {
 
       if (!characterIsLoaded || characterIsSaving) return;
 
-      let characterId = nextProps.state.route.getIn(['params', 'uid']);
+      let characterId = nextProps.characterId;
       let userId = nextProps.state.user.get('uid');
       let characterToSave = nextProps.state.character.toJS();
       let preferencesToSave = nextProps.state.preferences.toJS();

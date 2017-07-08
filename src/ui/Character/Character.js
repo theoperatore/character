@@ -51,7 +51,6 @@ class Character extends React.Component {
            nextState.activePane !== this.state.activePane ||
            nextState.mainMenu !== this.state.mainMenu ||
            nextState.settingsMenu !== this.state.settingsMenu
-
   }
 
   signOut = () => {

@@ -9,7 +9,6 @@ const DEFAULT_CHARACTER = fromJS(defaultCharacter);
 const DEFAULT_PREFERENCES = fromJS(defaultPreferences);
 const DEFAULT_DEFINITIONS = fromJS(defaultDefinitions);
 const DEFAULT_USER_STATE = Map({});
-const DEFAUlT_ROUTE = Map({ route: 'landing' });
 const DEFAULT_STATUS = fromJS({
   userSignedIn: false,
   userAuthenticating: true,
