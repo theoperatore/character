@@ -21,7 +21,7 @@
     "build-prod": "yarn statics && yarn css-min && yarn js-prod",
     "build-ci": "NODE_ENV=production yarn build-prod",
     "build-deploy": "yarn build-ci && yarn deploy",
-    "start": "serve --port 9966 -s build",
+    "start": "serve --port 9966 -s -o build",
     "test": "tape -r babel-register ./tests/*.test.js | tap-spec"
   },
   "author": "Alex Petersen <theoperatore@gmail.com> (http://anpetersen.me)",
