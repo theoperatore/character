@@ -17,7 +17,7 @@ yarn start
 
 This will install all dependencies, build all assets, serve the application on port `9966`.
 
-**NOTE** you will need to set up your environment first in order for authentication and an actual database to work. See below [Environment variables / Secrets]().
+**NOTE** you will need to set up your environment first in order for authentication and an actual database to work. See below [Environment variables / Secrets](#environment-variables--secrets).
 
 Run tests with:
 
@@ -48,7 +48,7 @@ This application is deployed using [docker](http://docker.com) and `make`.
 
 Deployment requires three things:
 
-1. The target machine running [docker]()
+1. The target machine running [docker](http://docker.com)
 2. The target machine authenticated via `docker login` (to [docker hub](http://hub.docker.com))
 3. The target machine being accessible via `ssh`
 
@@ -58,7 +58,7 @@ If those three requirements are met, then to deploy:
 make package push deploy
 ```
 
-Once successful, the target machine will have a new [nginx]() image running with the latest compiled application assets.
+Once successful, the target machine will have a new [nginx](https://www.nginx.com/resources/wiki/) image running with the latest compiled application assets.
 
 To view more detailed info on what these steps are actually doing, check out the [Makefile](https://github.com/theoperatore/character/blob/master/Makefile) at the root of the project.
 
