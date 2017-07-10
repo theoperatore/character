@@ -7,7 +7,7 @@ DEPLOY_STAGING_HOST:=character-staging.alorg.net
 package:
 	docker build -t "${BUILD_NAME}" -f ./Dockerfile .
 	docker run --rm "${BUILD_NAME}" yarn test
-	docker run --rm -e BUILD_VERSION=${GIT_HASH} -v ${PWD}/build:/app/build -w /app "${BUILD_NAME}" yarn build-ci
+	docker run --rm -e BUILD_VERSION=${GIT_HASH} -v ${PWD}/build:/app/build -w /app "${BUILD_NAME}" yarn build:prod
 	docker build -t "${IMAGE_NAME}" -f ./Dockerfile.nginx .
 
 push:

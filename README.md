@@ -12,7 +12,6 @@ Clone the repo, then:
 
 ```bash
 yarn install
-yarn build
 yarn start
 ```
 
@@ -37,9 +36,11 @@ FIREBASE_DATABASE_URL=<your database url>
 FIREBASE_STORAGE_BUCKET=<your storage bucket>
 ```
 
-This is most easily accomplished using [localenv](https://github.com/defunctzombie/localenv), which this project is already set up to do.
+This is most easily accomplished using [dotenv](https://github.com/motdotla/dotenv), which this project is already set up to do.
 
 Create a file named `.env` at the root of this project and put in the above variables (with their values) in that file. When the app is built, they will be available.
+
+**IMPORTANT** do not commit the `.env` file (the git repo is already configured to ignore it, but still).
 
 ## Deployment
 
