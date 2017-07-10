@@ -4,37 +4,28 @@
   "description": "A smarter mobile tabel-top character sheet",
   "main": "index.js",
   "scripts": {
-    "js": "node ./bin/bundle.js",
-    "js-min": "yarn js && uglifyjs build/bundle.js -o build/bundle.js --compress --mangle",
-    "js-vendor": "node ./bin/bundle-vendor.js",
-    "js-vendor-prod": "yarn js-vendor && uglifyjs build/vendor.js -o build/vendor.js --compress --mangle",
-    "js-prod": "yarn js-vendor-prod && yarn js-min",
-    "watch-js": "node ./bin/watch.js",
-    "css": "stylus src/ui --line-numbers --out build/style.css --compress -u nib --import src/ui/commonStyles/base",
-    "css-min": "stylus src/ui --out build/style.css --compress -u nib --import src/ui/commonStyles/base.styl",
-    "watch-css": "stylus -w src/ui --line-numbers --out build/style.css --compress -u nib --import src/ui/commonStyles/base",
+    "watch:js": "webpack-dev-server --config ./webpack.dev.js",
+    "build:js": "webpack --config webpack.dev.js",
+    "build:js:prod": "NODE_ENV=production webpack --config ./webpack.prod.js -p",
+    "watch:css": "stylus -w src/ui --line-numbers --out build/style.css --compress -u nib --import src/ui/commonStyles/base",
+    "build:css": "stylus src/ui --line-numbers --out build/style.css --compress -u nib --import src/ui/commonStyles/base",
+    "build:css:prod": "stylus src/ui --out build/style.css --compress -u nib --import src/ui/commonStyles/base.styl",
     "statics": "cp -R src/ui/statics/. build",
     "clean": "rm -rf build",
     "deploy": "scp -r build/* root@ci.cmonocle.link:~/public/",
-    "build": "yarn run clean && yarn statics && yarn css && yarn js-vendor && yarn js",
-    "watch-build": "yarn run clean && yarn statics && yarn css && yarn js-vendor && yarn watch-js",
-    "build-prod": "yarn statics && yarn css-min && yarn js-prod",
-    "build-ci": "NODE_ENV=production yarn build-prod",
-    "build-deploy": "yarn build-ci && yarn deploy",
-    "start": "serve --port 9966 -s -o build",
+    "build": "yarn statics && yarn build:css && yarn build:js",
+    "build:prod": "yarn statics && yarn build:css:prod && yarn build:js:prod",
+    "start:static": "yarn build && serve --port 9966 -s -o build",
+    "start": "yarn statics && yarn build:css && yarn watch:js",
+    "serve": "serve --port 9966 -s -o build",
     "test": "tape -r babel-register ./tests/*.test.js | tap-spec"
   },
   "author": "Alex Petersen <theoperatore@gmail.com> (http://anpetersen.me)",
   "license": "MIT",
-  "browserify": {
-    "transform": [
-      "babelify",
-      "localenvify"
-    ]
-  },
   "dependencies": {
     "classnames": "^2.2.5",
     "debug": "^2.6.8",
+    "dotenv": "^4.0.0",
     "fastclick": "1.0.6",
     "firebase": "4.1.3",
     "immutable": "^3.8.1",
@@ -49,20 +40,20 @@
     "uuid": "3.1.0"
   },
   "devDependencies": {
+    "babel-loader": "^7.1.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.24.1",
-    "babelify": "^7.3.0",
-    "browserify": "14.4.0",
-    "chalk": "2.0.1",
-    "localenvify": "1.0.1",
+    "css-loader": "^0.28.4",
     "nib": "^1.1.2",
     "serve": "^6.0.1",
+    "style-loader": "^0.18.2",
     "stylus": "0.54.5",
     "tap-spec": "4.1.1",
     "tape": "^4.7.0",
     "uglify-js": "3.0.23",
-    "watchify": "^3.9.0"
+    "webpack": "^3.1.0",
+    "webpack-dev-server": "^2.5.1"
   }
 }
