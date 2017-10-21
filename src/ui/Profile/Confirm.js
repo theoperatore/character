@@ -53,7 +53,7 @@ export default class ConfirmDialog extends Component {
           <input
             className='full-width mt2'
             placeholder='Enter character name to delete'
-            onChange={this.handleInputChange}
+            onChange={this.handleInputChange.bind(this)}
           />
         </div>
         <div className='modal-footer'>

@@ -10,6 +10,7 @@ const abilityScoreOrder = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 export default class EditAbilityScoresDialog extends Component {
   static propTypes = {
     onSave: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
     abilities: PropTypes.object.isRequired,
   }
 
@@ -89,7 +90,7 @@ export default class EditAbilityScoresDialog extends Component {
   }
 
   handleCancel = () => {
-    this.props.parentDismiss();
+    this.props.onCancel();
   }
 
   handleAbilityChange = (ability, event) => {

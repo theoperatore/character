@@ -37,6 +37,7 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   devServer: {
+    historyApiFallback: true,
     contentBase: path.join(process.cwd(), 'build'),
     compress: true,
     port: 9966,

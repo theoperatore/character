@@ -65,6 +65,7 @@ export default class extends React.Component {
         onSave={this.handleScoreEdit}
         abilities={this.props.abilities}
         proficiency={this.props.proficiencyBonus}
+        onCancel={this.handleEditScoresDismiss}
       />
   };
 

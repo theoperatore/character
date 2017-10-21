@@ -101,7 +101,7 @@ export default class extends React.Component {
       <Portal id={this.props.id}>
         <div ref='overlay' className={css} onClick={this.dismiss}>
           <div ref='content' className={container}>
-            {React.cloneElement(this.props.content, { parentDismiss: this._dismiss })}
+            {this.props.content}
             { this.props.children }
           </div>
         </div>
