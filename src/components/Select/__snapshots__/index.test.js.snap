@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Select /> renders 1`] = `
+<label
+  className="select"
+>
+  <select />
+  <span
+    className="select_indicator"
+  />
+</label>
+`;
+
+exports[`<Select /> renders label 1`] = `
+<label
+  className="select"
+>
+  <span
+    className="select_label"
+  >
+    my select box
+  </span>
+  <select />
+  <span
+    className="select_indicator select_indicator--hasLabel"
+  />
+</label>
+`;
+
+exports[`<Select /> renders with children 1`] = `
+<label
+  className="select"
+>
+  <select>
+    <option>
+      1
+    </option>
+    <option>
+      2
+    </option>
+  </select>
+  <span
+    className="select_indicator"
+  />
+</label>
+`;

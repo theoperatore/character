@@ -1,0 +1,54 @@
+
+.select {
+  display: block;
+  position: relative;
+}
+
+.select_label {
+  font-size: 0.70em;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--attack-color);
+}
+
+.select select {
+  display: block;
+  width: 100%;
+  font-size: 1em;
+  padding: 8px;
+  appearance: none;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--black);
+  border-radius: 0;
+  outline: none;
+  transition: border-color 300ms ease;
+}
+
+.select_indicator {
+  display: block;
+  position: absolute;
+  right: 8px;
+  top: 12px;
+  height: 0;
+  width: 0;
+  content: ' ';
+  border-left: 0.4em solid transparent;
+  border-right: 0.4em solid transparent;
+  border-top: 0.4em solid var(--black);
+  transition: border-color 300ms ease;
+}
+
+.select_indicator--hasLabel {
+  top: 30px;
+}
+
+.select select:active,
+.select select:focus {
+  border-color: var(--attack-color);
+}
+
+.select select:active ~ .select_indicator,
+.select select:focus ~ .select_indicator {
+  border-top-color: var(--attack-color);
+}
