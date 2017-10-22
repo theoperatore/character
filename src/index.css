@@ -15,3 +15,28 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+:root {
+  --white: #ffffff;
+  --black: #333333;
+
+  --grey-10: #181818;
+  --grey-14: #222326;
+  --grey-40: #616467;
+  --grey-55: #919496;
+  --grey-75: #c1c3c6;
+  --grey-85: #d9dadc;
+  --grey-90: #efefef;
+  --grey-95: #f8f8f8;
+
+  --attack-color: #AB4642;
+  --spell-color: #BA8BAF;
+  --str-color: #A16946;
+  --dex-color: #DC9656;
+  --con-color: #F7ca88;
+  --wis-color: #86c1b9;
+  --int-color: #7cafc2;
+  --cha-color: #a1b56c;
+  --proficient-color: #e8e8e8;
+  --proficient-color: #383838;
+}

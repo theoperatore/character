@@ -1,8 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { createState } from './state';
 import registerServiceWorker from './registerServiceWorker';
+import App from './App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import './index.css';
+import './hippo.css';
+
+const store = createState();
+
+ReactDOM.render(
+  <App store={store} />,
+  document.getElementById('root')
+);
 registerServiceWorker();

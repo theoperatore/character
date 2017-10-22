@@ -1,8 +1,9 @@
 FROM node:8
 
-RUN ["mkdir", "-p", "/app/src"]
+RUN ["mkdir", "-p", "/app/src", "/app/public"]
 WORKDIR /app
 
+COPY ./.npmrc /app
 COPY ./package.json /app
 COPY ./yarn.lock /app
 
@@ -13,4 +14,5 @@ COPY ./.env /app
 
 RUN ["yarn", "--frozen-lockfile"]
 
+COPY ./public/. /app/public/.
 COPY ./src/. /app/src/.

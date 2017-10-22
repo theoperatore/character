@@ -3,18 +3,35 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.5",
+    "debug": "^3.1.0",
+    "firebase": "^4.6.0",
+    "immutable": "^3.8.2",
     "react": "^16.0.0",
+    "react-document-title": "^2.0.3",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
-    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-devtools-extension": "^2.13.2",
+    "redux-thunk": "^2.2.0",
+    "uuid": "^3.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test:ci": "CI=true react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "remote": "ssh root@character-v3.alorg.net",
+    "deploy": "make package push deploy",
+    "styleguide": "styleguidist server"
+  },
+  "devDependencies": {
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.0.2",
+    "react-styleguidist": "^6.0.31",
+    "react-test-renderer": "16"
   }
 }

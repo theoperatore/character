@@ -1,0 +1,25 @@
+
+.input {
+  display: block;
+  width: 100%;
+  appearance: none;
+  border: 0;
+  border-bottom: 1px solid var(--black);
+  padding: 8px;
+  outline: none;
+  font-size: 1em;
+  transition: border-bottom-color 300ms ease;
+}
+
+.input:focus,
+.input:active {
+  border-bottom-color: var(--attack-color);
+}
+
+.input:read-only {
+  cursor: text;
+}
+
+.input:disabled {
+  cursor: not-allowed;
+}
