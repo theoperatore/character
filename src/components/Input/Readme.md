@@ -6,6 +6,12 @@ Basic example:
 <Input placeholder="type something..." />
 ```
 
+Input with label:
+
+```js
+<Input label="Type a thing" placeholder="anything at all..." />
+```
+
 Disabled:
 
 ```js

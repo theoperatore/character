@@ -1,6 +1,7 @@
 :root {
   --white: #ffffff;
-  --black: #333333;
+  --black: #000000;
+  --dark: #333333;
 
   --grey-10: #181818;
   --grey-14: #222326;
@@ -37,5 +38,5 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  color: var(--black);
+  /*color: var(--black);*/
 }

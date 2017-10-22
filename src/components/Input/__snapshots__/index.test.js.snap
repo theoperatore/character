@@ -1,51 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Input /> renders text by default 1`] = `
-ShallowWrapper {
-  "length": 1,
-  Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <Input
+<label
+  className="input_label"
+>
+  <input
+    className="input"
     type="text"
-/>,
-  Symbol(enzyme.__renderer__): Object {
-    "batchedUpdates": [Function],
-    "getNode": [Function],
-    "render": [Function],
-    "simulateEvent": [Function],
-    "unmount": [Function],
-  },
-  Symbol(enzyme.__node__): Object {
-    "instance": null,
-    "key": null,
-    "nodeType": "host",
-    "props": Object {
-      "className": "input",
-      "type": "text",
-    },
-    "ref": null,
-    "rendered": null,
-    "type": "input",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": null,
-      "nodeType": "host",
-      "props": Object {
-        "className": "input",
-        "type": "text",
-      },
-      "ref": null,
-      "rendered": null,
-      "type": "input",
-    },
-  ],
-  Symbol(enzyme.__options__): Object {
-    "adapter": ReactSixteenAdapter {
-      "options": Object {
-        "enableComponentDidUpdateOnSetState": true,
-      },
-    },
-  },
-}
+  />
+</label>
+`;
+
+exports[`<Input /> renders with label 1`] = `
+<label
+  className="input_label"
+>
+  <span>
+    Dis cool?
+  </span>
+  <input
+    className="input"
+    type="text"
+  />
+</label>
 `;
