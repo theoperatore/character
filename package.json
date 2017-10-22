@@ -6,6 +6,7 @@
     "classnames": "^2.2.5",
     "debug": "^3.1.0",
     "firebase": "^4.6.0",
+    "font-awesome": "^4.7.0",
     "immutable": "^3.8.2",
     "react": "^16.0.0",
     "react-document-title": "^2.0.3",

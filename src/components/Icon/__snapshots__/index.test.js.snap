@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Icon /> renders font awesome icon 1`] = `
+<span
+  className="fa fa-arrow-up icon__16"
+/>
+`;
+
+exports[`<Icon /> renders hippo icon 1`] = `
+<span
+  className="icon-beer icon__16"
+/>
+`;
