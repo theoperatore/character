@@ -1,0 +1,41 @@
+
+.checkbox {
+  cursor: pointer;
+  position: relative;
+  line-height: normal;
+  display: block;
+}
+
+.checkbox > input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox_label {
+  margin-left: 1.5em;
+}
+
+.checkbox_indicator {
+  display: block;
+  width: 1em;
+  height: 1em;
+  border: 1px solid var(--black);
+  content: '';
+  cursor: pointer;
+  user-select: none;
+  transition: background-color, border-color 300ms ease;
+}
+
+.checkbox.checkbox--hasLabel .checkbox_indicator {
+  position: absolute;
+  top: 0;
+}
+
+.checkbox > input[type="checkbox"]:checked ~ .checkbox_indicator {
+  background-image: url('data:image/svg+xml;charset=utf-8, %3Csvg%20width%3D%2210%22%20height%3D%229%22%20viewBox%3D%220%200%2010%209%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M1%204l3%203%205-6%22%20stroke-width%3D%222%22%20stroke%3D%22%23FFF%22%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 10px;
+  vertical-align: middle;
+  background-color: var(--attack-color);
+  border-color: var(--attack-color);
+}
