@@ -13,8 +13,8 @@ export default function Checkbox({ label, id, ...props }) {
         tabIndex="0"
         type="checkbox" {...props}
       />
-      {label && <span className="checkbox_label">{label}</span>}
       <span className="checkbox_indicator" />
+      {label && <span className="checkbox_label">{label}</span>}
     </label>
   );
 }

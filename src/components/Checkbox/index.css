@@ -3,7 +3,8 @@
   cursor: pointer;
   position: relative;
   line-height: normal;
-  display: block;
+  display: flex;
+  align-items: center;
 }
 
 .checkbox > input[type="checkbox"] {
@@ -11,7 +12,9 @@
 }
 
 .checkbox_label {
-  margin-left: 1.5em;
+  font-size: 0.80em;
+  margin-left: 8px;
+  font-weight: bold;
 }
 
 .checkbox_indicator {
@@ -23,11 +26,6 @@
   cursor: pointer;
   user-select: none;
   transition: background-color, border-color 300ms ease;
-}
-
-.checkbox.checkbox--hasLabel .checkbox_indicator {
-  position: absolute;
-  top: 0;
 }
 
 .checkbox > input[type="checkbox"]:checked ~ .checkbox_indicator {

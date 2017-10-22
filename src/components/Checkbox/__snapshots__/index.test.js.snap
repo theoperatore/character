@@ -1,285 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Checkbox /> renders with label 1`] = `
-ShallowWrapper {
-  "length": 1,
-  Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <Checkbox
-    label="Heyo"
-/>,
-  Symbol(enzyme.__renderer__): Object {
-    "batchedUpdates": [Function],
-    "getNode": [Function],
-    "render": [Function],
-    "simulateEvent": [Function],
-    "unmount": [Function],
-  },
-  Symbol(enzyme.__node__): Object {
-    "instance": null,
-    "key": null,
-    "nodeType": "host",
-    "props": Object {
-      "children": Array [
-        <input
-          aria-checked="false"
-          id={undefined}
-          tabIndex="0"
-          type="checkbox"
-/>,
-        <span
-          className="checkbox_label"
+<label
+  className="checkbox checkbox--hasLabel"
 >
-          Heyo
-</span>,
-        <span
-          className="checkbox_indicator"
-/>,
-      ],
-      "className": "checkbox checkbox--hasLabel",
-      "htmlFor": undefined,
-    },
-    "ref": null,
-    "rendered": Array [
-      Object {
-        "instance": null,
-        "key": null,
-        "nodeType": "host",
-        "props": Object {
-          "aria-checked": "false",
-          "id": undefined,
-          "tabIndex": "0",
-          "type": "checkbox",
-        },
-        "ref": null,
-        "rendered": null,
-        "type": "input",
-      },
-      Object {
-        "instance": null,
-        "key": null,
-        "nodeType": "host",
-        "props": Object {
-          "children": "Heyo",
-          "className": "checkbox_label",
-        },
-        "ref": null,
-        "rendered": "Heyo",
-        "type": "span",
-      },
-      Object {
-        "instance": null,
-        "key": null,
-        "nodeType": "host",
-        "props": Object {
-          "className": "checkbox_indicator",
-        },
-        "ref": null,
-        "rendered": null,
-        "type": "span",
-      },
-    ],
-    "type": "label",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": null,
-      "nodeType": "host",
-      "props": Object {
-        "children": Array [
-          <input
-            aria-checked="false"
-            id={undefined}
-            tabIndex="0"
-            type="checkbox"
-/>,
-          <span
-            className="checkbox_label"
->
-            Heyo
-</span>,
-          <span
-            className="checkbox_indicator"
-/>,
-        ],
-        "className": "checkbox checkbox--hasLabel",
-        "htmlFor": undefined,
-      },
-      "ref": null,
-      "rendered": Array [
-        Object {
-          "instance": null,
-          "key": null,
-          "nodeType": "host",
-          "props": Object {
-            "aria-checked": "false",
-            "id": undefined,
-            "tabIndex": "0",
-            "type": "checkbox",
-          },
-          "ref": null,
-          "rendered": null,
-          "type": "input",
-        },
-        Object {
-          "instance": null,
-          "key": null,
-          "nodeType": "host",
-          "props": Object {
-            "children": "Heyo",
-            "className": "checkbox_label",
-          },
-          "ref": null,
-          "rendered": "Heyo",
-          "type": "span",
-        },
-        Object {
-          "instance": null,
-          "key": null,
-          "nodeType": "host",
-          "props": Object {
-            "className": "checkbox_indicator",
-          },
-          "ref": null,
-          "rendered": null,
-          "type": "span",
-        },
-      ],
-      "type": "label",
-    },
-  ],
-  Symbol(enzyme.__options__): Object {
-    "adapter": ReactSixteenAdapter {
-      "options": Object {
-        "enableComponentDidUpdateOnSetState": true,
-      },
-    },
-  },
-}
+  <input
+    aria-checked="false"
+    tabIndex="0"
+    type="checkbox"
+  />
+  <span
+    className="checkbox_indicator"
+  />
+  <span
+    className="checkbox_label"
+  >
+    Heyo
+  </span>
+</label>
 `;
 
 exports[`<Checkbox /> renders without label 1`] = `
-ShallowWrapper {
-  "length": 1,
-  Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <Checkbox />,
-  Symbol(enzyme.__renderer__): Object {
-    "batchedUpdates": [Function],
-    "getNode": [Function],
-    "render": [Function],
-    "simulateEvent": [Function],
-    "unmount": [Function],
-  },
-  Symbol(enzyme.__node__): Object {
-    "instance": null,
-    "key": null,
-    "nodeType": "host",
-    "props": Object {
-      "children": Array [
-        <input
-          aria-checked="false"
-          id={undefined}
-          tabIndex="0"
-          type="checkbox"
-/>,
-        undefined,
-        <span
-          className="checkbox_indicator"
-/>,
-      ],
-      "className": "checkbox",
-      "htmlFor": undefined,
-    },
-    "ref": null,
-    "rendered": Array [
-      Object {
-        "instance": null,
-        "key": null,
-        "nodeType": "host",
-        "props": Object {
-          "aria-checked": "false",
-          "id": undefined,
-          "tabIndex": "0",
-          "type": "checkbox",
-        },
-        "ref": null,
-        "rendered": null,
-        "type": "input",
-      },
-      undefined,
-      Object {
-        "instance": null,
-        "key": null,
-        "nodeType": "host",
-        "props": Object {
-          "className": "checkbox_indicator",
-        },
-        "ref": null,
-        "rendered": null,
-        "type": "span",
-      },
-    ],
-    "type": "label",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": null,
-      "nodeType": "host",
-      "props": Object {
-        "children": Array [
-          <input
-            aria-checked="false"
-            id={undefined}
-            tabIndex="0"
-            type="checkbox"
-/>,
-          undefined,
-          <span
-            className="checkbox_indicator"
-/>,
-        ],
-        "className": "checkbox",
-        "htmlFor": undefined,
-      },
-      "ref": null,
-      "rendered": Array [
-        Object {
-          "instance": null,
-          "key": null,
-          "nodeType": "host",
-          "props": Object {
-            "aria-checked": "false",
-            "id": undefined,
-            "tabIndex": "0",
-            "type": "checkbox",
-          },
-          "ref": null,
-          "rendered": null,
-          "type": "input",
-        },
-        undefined,
-        Object {
-          "instance": null,
-          "key": null,
-          "nodeType": "host",
-          "props": Object {
-            "className": "checkbox_indicator",
-          },
-          "ref": null,
-          "rendered": null,
-          "type": "span",
-        },
-      ],
-      "type": "label",
-    },
-  ],
-  Symbol(enzyme.__options__): Object {
-    "adapter": ReactSixteenAdapter {
-      "options": Object {
-        "enableComponentDidUpdateOnSetState": true,
-      },
-    },
-  },
-}
+<label
+  className="checkbox"
+>
+  <input
+    aria-checked="false"
+    tabIndex="0"
+    type="checkbox"
+  />
+  <span
+    className="checkbox_indicator"
+  />
+</label>
 `;
