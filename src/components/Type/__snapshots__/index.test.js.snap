@@ -2,7 +2,7 @@
 
 exports[`<Type /> renders body 1`] = `
 <span
-  className="type type__body"
+  className="type type__body type__black"
 >
   body
 </span>
@@ -10,7 +10,7 @@ exports[`<Type /> renders body 1`] = `
 
 exports[`<Type /> renders display-1 1`] = `
 <span
-  className="type type__display-1"
+  className="type type__display-1 type__black"
 >
   display-1
 </span>
@@ -18,7 +18,7 @@ exports[`<Type /> renders display-1 1`] = `
 
 exports[`<Type /> renders display-2 1`] = `
 <span
-  className="type type__display-2"
+  className="type type__display-2 type__black"
 >
   display-2
 </span>
@@ -26,7 +26,7 @@ exports[`<Type /> renders display-2 1`] = `
 
 exports[`<Type /> renders heading-1 1`] = `
 <span
-  className="type type__heading-1"
+  className="type type__heading-1 type__black"
 >
   heading-1
 </span>
@@ -34,7 +34,7 @@ exports[`<Type /> renders heading-1 1`] = `
 
 exports[`<Type /> renders heading-2 1`] = `
 <span
-  className="type type__heading-2"
+  className="type type__heading-2 type__black"
 >
   heading-2
 </span>
@@ -42,7 +42,7 @@ exports[`<Type /> renders heading-2 1`] = `
 
 exports[`<Type /> renders normal copy 1`] = `
 <span
-  className="type type__default"
+  className="type type__default type__black"
 >
   normal
 </span>
@@ -50,7 +50,7 @@ exports[`<Type /> renders normal copy 1`] = `
 
 exports[`<Type /> renders subtext 1`] = `
 <span
-  className="type type__subtext"
+  className="type type__subtext type__black"
 >
   subtext
 </span>

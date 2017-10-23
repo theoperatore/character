@@ -4,12 +4,118 @@
   flex-direction: row;
 }
 
+.loading--white .loading_dot {
+  background-color: var(--white);
+}
+.loading--black .loading_dot {
+  background-color: var(--black);
+}
+.loading--dark .loading_dot {
+  background-color: var(--dark);
+}
+.loading--grey-10 .loading_dot {
+  background-color: var(--grey-10);
+}
+.loading--grey-14 .loading_dot {
+  background-color: var(--grey-14);
+}
+.loading--grey-40 .loading_dot {
+  background-color: var(--grey-40);
+}
+.loading--grey-55 .loading_dot {
+  background-color: var(--grey-55);
+}
+.loading--grey-75 .loading_dot {
+  background-color: var(--grey-75);
+}
+.loading--grey-85 .loading_dot {
+  background-color: var(--grey-85);
+}
+.loading--grey-90 .loading_dot {
+  background-color: var(--grey-90);
+}
+.loading--grey-95 .loading_dot {
+  background-color: var(--grey-95);
+}
+.loading--attack-color .loading_dot {
+  background-color: var(--attack-color);
+}
+.loading--spell-color .loading_dot {
+  background-color: var(--spell-color);
+}
+.loading--str-color .loading_dot {
+  background-color: var(--str-color);
+}
+.loading--dex-color .loading_dot {
+  background-color: var(--dex-color);
+}
+.loading--con-color .loading_dot {
+  background-color: var(--con-color);
+}
+.loading--wis-color .loading_dot {
+  background-color: var(--wis-color);
+}
+.loading--int-color .loading_dot {
+  background-color: var(--int-color);
+}
+.loading--cha-color .loading_dot {
+  background-color: var(--cha-color);
+}
+.loading--dark-attack-color .loading_dot {
+  background-color: var(--dark-attack-color);
+}
+.loading--dark-spell-color .loading_dot {
+  background-color: var(--dark-spell-color);
+}
+.loading--dark-str-color .loading_dot {
+  background-color: var(--dark-str-color);
+}
+.loading--dark-dex-color .loading_dot {
+  background-color: var(--dark-dex-color);
+}
+.loading--dark-con-color .loading_dot {
+  background-color: var(--dark-con-color);
+}
+.loading--dark-wis-color .loading_dot {
+  background-color: var(--dark-wis-color);
+}
+.loading--dark-int-color .loading_dot {
+  background-color: var(--dark-int-color);
+}
+.loading--dark-cha-color .loading_dot {
+  background-color: var(--dark-cha-color);
+}
+.loading--light-attack-color .loading_dot {
+  background-color: var(--light-attack-color);
+}
+.loading--light-spell-color .loading_dot {
+  background-color: var(--light-spell-color);
+}
+.loading--light-str-color .loading_dot {
+  background-color: var(--light-str-color);
+}
+.loading--light-dex-color .loading_dot {
+  background-color: var(--light-dex-color);
+}
+.loading--light-con-color .loading_dot {
+  background-color: var(--light-con-color);
+}
+.loading--light-wis-color .loading_dot {
+  background-color: var(--light-wis-color);
+}
+.loading--light-int-color .loading_dot {
+  background-color: var(--light-int-color);
+}
+.loading--light-cha-color .loading_dot {
+  background-color: var(--light-cha-color);
+}
+
+
 .loading_dot {
   width: 12px;
   height: 12px;
   border-radius: 50%;
 
-  background-color: var(--attack-color);
   animation-name: loadingAnim;
   animation-duration: 500ms;
   animation-iteration-count: infinite;

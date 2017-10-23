@@ -47,5 +47,5 @@ Sizes: 16, 32, 48, 64 pixels
 Color however you want:
 
 ```js
-<Icon style={{ color: 'blue' }} name="arrow-up" size={64}/>
+<Icon style={{ color: 'var(--int-color)' }} name="arrow-up" size={64}/>
 ```

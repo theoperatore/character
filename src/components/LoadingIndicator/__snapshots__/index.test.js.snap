@@ -2,7 +2,7 @@
 
 exports[`<LoadingIndicator /> renders 1`] = `
 <div
-  className="loading"
+  className="loading loading--attack-color"
 >
   <div
     className="loading_dot"
