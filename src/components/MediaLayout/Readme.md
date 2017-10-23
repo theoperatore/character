@@ -4,6 +4,7 @@ Align items side-by-side, with a slight gap between them and vertical alignment 
 require('../Type');
 
 <MediaLayout
+  key="test-1"
   media={<div style={{ height: '100px', width: '100px', backgroundColor: 'purple' }}/>}
   description={[
     <Type>What do you think about this purple?</Type>,
@@ -15,6 +16,7 @@ require('../Type');
 require('../Type');
 
 <MediaLayout
+  key="test-2"
   align="top"
   media={<div style={{ height: '100px', width: '100px', backgroundColor: 'purple' }}/>}
   description={<Type>Align to the top</Type>}
@@ -25,6 +27,7 @@ require('../Type');
 require('../Type');
 
 <MediaLayout
+  key="test-3"
   align="bottom"
   media={<div style={{ height: '100px', width: '100px', backgroundColor: 'purple' }}/>}
   description={<Type>Align to the bottom</Type>}

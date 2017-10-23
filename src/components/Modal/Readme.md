@@ -2,16 +2,16 @@ For when you want to display something on top of something else. This component 
 
 Users can press the `ESC` key to invoke `onDismiss` as well.
 
+**NOTE** Modals must start with `active` set to `false`, otherwise the modal will not render properly.
+
 ```js
+require('../Button');
+require('../Type');
+const toggleOpen = () => setState({ open: !state.open });
+
 <div>
-  <button key="mtb" onClick={() => setState({ open: !state.open })}>toggle</button>
-  {
-    state.open && (
-      <Modal key="mmm" onDismiss={() => setState({ open: !state.open })}>
-        <div style={{ height: '400px', width: '400px', backgroundColor: 'white' }}>
-          <h1>Heyo</h1>
-        </div>
-      </Modal>
-    )
-  }
+  <Button key="mtb" onClick={toggleOpen} variant="pill" color="proficient">Toggle</Button>
+  <Modal key="mmm" onDismiss={toggleOpen} active={state.open}>
+    <Type variant="display-2" color="attack-color">Engage!</Type>
+  </Modal>
 </div>
