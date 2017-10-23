@@ -1,13 +1,17 @@
 
 .icon__16 {
+  height: 16px;
   font-size: 16px;
 }
 .icon__32 {
+  height: 32px;
   font-size: 32px;
 }
 .icon__48 {
+  height: 48px;
   font-size: 48px;
 }
 .icon__64 {
+  height: 64px;
   font-size: 64px;
 }
