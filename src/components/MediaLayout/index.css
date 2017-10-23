@@ -1,5 +1,5 @@
 
-.media_desc--container {
+.media_layout--container {
   width: 100%;
   height: 100%;;
   display: flex;
@@ -7,10 +7,10 @@
   align-items: center;
 }
 
-.media_desc--media {
+.media_layout--media {
   margin-right: 8px;
 }
 
-.media_desc--desc {
+.media_layout--desc {
   flex-grow: 1;
 }

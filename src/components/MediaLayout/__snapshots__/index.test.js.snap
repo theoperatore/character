@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<MediaWithDescription /> renders 1`] = `
+exports[`<MediaLayout /> renders 1`] = `
 <div
-  className="media_desc--container"
+  className="media_layout--container"
 >
   <div
-    className="media_desc--media"
+    className="media_layout--media"
   >
     <div>
       media
     </div>
   </div>
   <div
-    className="media_desc--desc"
+    className="media_layout--desc"
   >
     <div>
       description
