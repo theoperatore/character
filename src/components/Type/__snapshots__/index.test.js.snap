@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Type /> renders body 1`] = `
+<span
+  className="type type__body"
+>
+  body
+</span>
+`;
+
+exports[`<Type /> renders display-1 1`] = `
+<span
+  className="type type__display-1"
+>
+  display-1
+</span>
+`;
+
+exports[`<Type /> renders display-2 1`] = `
+<span
+  className="type type__display-2"
+>
+  display-2
+</span>
+`;
+
+exports[`<Type /> renders heading-1 1`] = `
+<span
+  className="type type__heading-1"
+>
+  heading-1
+</span>
+`;
+
+exports[`<Type /> renders heading-2 1`] = `
+<span
+  className="type type__heading-2"
+>
+  heading-2
+</span>
+`;
+
+exports[`<Type /> renders normal copy 1`] = `
+<span
+  className="type type__default"
+>
+  normal
+</span>
+`;
+
+exports[`<Type /> renders subtext 1`] = `
+<span
+  className="type type__subtext"
+>
+  subtext
+</span>
+`;

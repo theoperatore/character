@@ -1,0 +1,44 @@
+
+.type {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+  font-weight: 400;
+}
+
+.type__body {
+  display: block;
+  padding-bottom: 1em;
+}
+
+.type__subtext {
+  font-size: 12px;
+  color: var(--grey-55);
+}
+
+.type__heading-1 {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.type__heading-2 {
+  display: block;
+  padding-bottom: 1em;
+  font-weight: bold;
+}
+
+.type__display-1 {
+  display: block;
+  font-size: 2em;
+  padding-bottom: 1em;
+}
+
+.type__display-2 {
+  display: block;
+  font-weight: bold;
+  font-size: 3em;
+  padding-bottom: 1em;
+}
