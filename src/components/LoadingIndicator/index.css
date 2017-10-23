@@ -1,0 +1,39 @@
+
+.loading {
+  display: flex;
+  flex-direction: row;
+}
+
+.loading_dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+
+  background-color: var(--attack-color);
+  animation-name: loadingAnim;
+  animation-duration: 500ms;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.loading_dot:nth-of-type(2) {
+  animation-delay: 150ms;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.loading_dot:nth-of-type(3) {
+  animation-delay: 300ms;
+}
+
+@keyframes loadingAnim {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
