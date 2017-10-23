@@ -1,4 +1,4 @@
-Align items side-by-side, with a slight gap between them, vertically centered.
+Align items side-by-side, with a slight gap between them and vertical alignment configurable.
 
 ```js
 require('../Type');
@@ -15,6 +15,18 @@ require('../Type');
 require('../Type');
 
 <MediaLayout
-  description={<Type>Just some normal content. No media to balance against</Type>}
+  align="top"
+  media={<div style={{ height: '100px', width: '100px', backgroundColor: 'purple' }}/>}
+  description={<Type>Align to the top</Type>}
+/>
+```
+
+```js
+require('../Type');
+
+<MediaLayout
+  align="bottom"
+  media={<div style={{ height: '100px', width: '100px', backgroundColor: 'purple' }}/>}
+  description={<Type>Align to the bottom</Type>}
 />
 ```

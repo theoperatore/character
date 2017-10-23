@@ -3,9 +3,14 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import './index.css';
 
-export default function MediaLayout({ media, description, className, ...props }) {
+export default function MediaLayout({ media, description, align, className, ...props }) {
+  const css = cn(
+    'media_layout--container',
+    `media_layout--${align}`,
+    className
+  );
   return (
-    <div className={cn('media_layout--container', className)}>
+    <div className={css}>
       <div className="media_layout--media">{media}</div>
       <div className="media_layout--desc">{description}</div>
     </div>
@@ -13,6 +18,11 @@ export default function MediaLayout({ media, description, className, ...props })
 }
 
 MediaLayout.propTypes = {
+  align: PropTypes.oneOf(['top', 'middle', 'bottom']),
   media: PropTypes.node,
   description: PropTypes.node,
+};
+
+MediaLayout.defaultProps = {
+  align: 'middle',
 };

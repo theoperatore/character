@@ -2,7 +2,7 @@
 
 exports[`<MediaLayout /> renders 1`] = `
 <div
-  className="media_layout--container"
+  className="media_layout--container media_layout--middle"
 >
   <div
     className="media_layout--media"

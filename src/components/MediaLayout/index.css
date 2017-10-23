@@ -4,7 +4,18 @@
   height: 100%;;
   display: flex;
   flex-direction: row;
+}
+
+.media_layout--top {
+  align-items: flex-start;
+}
+
+.media_layout--middle {
   align-items: center;
+}
+
+.media_layout--bottom {
+  align-items: flex-end;
 }
 
 .media_layout--media {
