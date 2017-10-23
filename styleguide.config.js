@@ -9,17 +9,18 @@ module.exports = {
     path.resolve(__dirname, 'node_modules/font-awesome/css/font-awesome.min.css'),
   ],
   title: 'Character (v3) Style Guide',
-  sections: [
-    {
-      name: 'Atomic Components',
-      content: 'src/components/atomic-components.md',
-      components: 'src/components/{Button,Checkbox,Icon,Input,LoadingIndicator,Modal,Select}/*.js',
-    },
-    {
-      name: 'Layout Components',
-      content: 'src/components/layout-components.md',
-    }
-  ],
+  // sections: [
+  //   {
+  //     name: 'Atomic Components',
+  //     content: 'src/components/atomic-components.md',
+  //     components: 'src/components/{Button,Checkbox,Icon,Input,LoadingIndicator,Modal,Select}/*.js',
+  //   },
+  //   {
+  //     name: 'Layout Components',
+  //     content: 'src/components/layout-components.md',
+  //     components: 'src/components/{MediaWithDescription}/*.js',
+  //   },
+  // ],
   theme: {
     color: {
       // baseBackground: '#333333',

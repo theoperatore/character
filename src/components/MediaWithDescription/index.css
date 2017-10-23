@@ -1,0 +1,16 @@
+
+.media_desc--container {
+  width: 100%;
+  height: 100%;;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.media_desc--media {
+  margin-right: 8px;
+}
+
+.media_desc--desc {
+  flex-grow: 1;
+}

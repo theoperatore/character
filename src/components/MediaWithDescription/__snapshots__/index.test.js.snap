@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MediaWithDescription /> renders 1`] = `
+<div
+  className="media_desc--container"
+>
+  <div
+    className="media_desc--media"
+  >
+    <div>
+      media
+    </div>
+  </div>
+  <div
+    className="media_desc--desc"
+  >
+    <div>
+      description
+    </div>
+  </div>
+</div>
+`;
