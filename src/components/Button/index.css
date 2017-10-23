@@ -16,7 +16,8 @@
 }
 
 .button__sm {
-  font-size: 9px;
+  padding: 8px 25px;
+  font-size: 12px;
 }
 
 .button__lg {
