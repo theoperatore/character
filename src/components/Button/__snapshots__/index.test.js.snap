@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button /> renders bare 1`] = `
+<button
+  className="button button__bare button__green button__md"
+>
+  Bare
+</button>
+`;
+
+exports[`<Button /> renders defaults 1`] = `
+<button
+  className="button button__default button__green button__md"
+>
+  heyo
+</button>
+`;
+
+exports[`<Button /> renders pill 1`] = `
+<button
+  className="button button__pill button__green button__md"
+>
+  Pill
+</button>
+`;
+
+exports[`<Button /> renders size lg 1`] = `
+<button
+  className="button button__default button__green button__lg"
+>
+  large
+</button>
+`;
+
+exports[`<Button /> renders size sm 1`] = `
+<button
+  className="button button__default button__green button__sm"
+>
+  small
+</button>
+`;

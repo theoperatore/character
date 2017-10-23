@@ -1,0 +1,303 @@
+
+.button {
+  appearance: none;
+  outline: none;
+  font-size: 1em;
+  border: 0;
+  background-color: transparent;
+  padding: 10px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.button__sm {
+  font-size: 9px;
+}
+
+.button__lg {
+  font-size: 1.5em;
+}
+
+.button__default {
+}
+
+.button__pill {
+  border-radius: 35px;
+}
+
+.button__bare {
+  padding: 0;
+  background-color: transparent;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.button__str {
+  background-color: var(--str-color);
+  color: var(--white);
+}
+.button__str:hover:not(:disabled) {
+  background-color: var(--light-str-color);
+}
+.button__str:active:not(:disabled) {
+  background-color: var(--dark-str-color);
+}
+
+.button__dex {
+  background-color: var(--dex-color);
+  color: var(--white);
+}
+.button__dex:hover:not(:disabled) {
+  background-color: var(--light-dex-color);
+}
+.button__dex:active:not(:disabled) {
+  background-color: var(--dark-dex-color);
+}
+
+.button__con {
+  background-color: var(--con-color);
+  color: var(--white);
+}
+.button__con:hover:not(:disabled) {
+  background-color: var(--light-con-color);
+}
+.button__con:active:not(:disabled) {
+  background-color: var(--dark-con-color);
+}
+
+.button__wis {
+  background-color: var(--wis-color);
+  color: var(--white);
+}
+.button__wis:hover:not(:disabled) {
+  background-color: var(--light-wis-color);
+}
+.button__wis:active:not(:disabled) {
+  background-color: var(--dark-wis-color);
+}
+
+.button__int {
+  background-color: var(--int-color);
+  color: var(--white);
+}
+.button__int:hover:not(:disabled) {
+  background-color: var(--light-int-color);
+}
+.button__int:active:not(:disabled) {
+  background-color: var(--dark-int-color);
+}
+
+.button__cha {
+  background-color: var(--cha-color);
+  color: var(--white);
+}
+.button__cha:hover:not(:disabled) {
+  background-color: var(--light-cha-color);
+}
+.button__cha:active:not(:disabled) {
+  background-color: var(--dark-cha-color);
+}
+
+.button__attack {
+  background-color: var(--attack-color);
+  color: var(--white);
+}
+.button__attack:hover:not(:disabled) {
+  background-color: var(--light-attack-color);
+}
+.button__attack:active:not(:disabled) {
+  background-color: var(--dark-attack-color);
+}
+
+.button__spell {
+  background-color: var(--spell-color);
+  color: var(--white);
+}
+.button__spell:hover:not(:disabled) {
+  background-color: var(--light-spell-color);
+}
+.button__spell:active:not(:disabled) {
+  background-color: var(--dark-spell-color);
+}
+
+.button__proficient {
+  background-color: var(--dark);
+  color: var(--white);
+}
+.button__proficient:hover:not(:disabled) {
+  background-color: var(--grey-55);
+}
+.button__proficient:active:not(:disabled) {
+  background-color: var(--grey-14);
+}
+
+.button__green {
+  background-color: var(--cha-color);
+  color: var(--white);
+}
+.button__green:hover:not(:disabled) {
+  background-color: var(--light-cha-color);
+}
+.button__green:active:not(:disabled) {
+  background-color: var(--dark-cha-color);
+}
+
+.button__red {
+  background-color: var(--attack-color);
+  color: var(--white);
+}
+.button__red:hover:not(:disabled) {
+  background-color: var(--light-attack-color);
+}
+.button__red:active:not(:disabled) {
+  background-color: var(--dark-attack-color);
+}
+
+.button__bare.button__str {
+  background-color: transparent;
+  color: var(--str-color);
+}
+.button__bare.button__str:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--light-str-color);
+}
+.button__bare.button__str:active:not(:disabled) {
+  background-color: transparent;
+  color: var(--dark-str-color);
+}
+
+.button__bare.button__dex {
+  background-color: transparent;
+  color: var(--dex-color);
+}
+.button__bare.button__dex:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--light-dex-color);
+}
+.button__bare.button__dex:active:not(:disabled) {
+  background-color: transparent;
+  color: var(--dark-dex-color);
+}
+
+.button__bare.button__con {
+  background-color: transparent;
+  color: var(--con-color);
+}
+.button__bare.button__con:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--light-con-color);
+}
+.button__bare.button__con:active:not(:disabled) {
+  background-color: transparent;
+  color: var(--dark-con-color);
+}
+
+.button__bare.button__wis {
+  background-color: transparent;
+  color: var(--wis-color);
+}
+.button__bare.button__wis:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--light-wis-color);
+}
+.button__bare.button__wis:active:not(:disabled) {
+  background-color: transparent;
+  color: var(--dark-wis-color);
+}
+
+.button__bare.button__int {
+  background-color: transparent;
+  color: var(--int-color);
+}
+.button__bare.button__int:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--light-int-color);
+}
+.button__bare.button__int:active:not(:disabled) {
+  background-color: transparent;
+  color: var(--dark-int-color);
+}
+
+.button__bare.button__cha {
+  background-color: transparent;
+  color: var(--cha-color);
+}
+.button__bare.button__cha:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--light-cha-color);
+}
+.button__bare.button__cha:active:not(:disabled) {
+  background-color: transparent;
+  color: var(--dark-cha-color);
+}
+
+.button__bare.button__attack {
+  background-color: transparent;
+  color: var(--attack-color);
+}
+.button__bare.button__attack:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--light-attack-color);
+}
+.button__bare.button__attack:active:not(:disabled) {
+  background-color: transparent;
+  color: var(--dark-attack-color);
+}
+
+.button__bare.button__spell {
+  background-color: transparent;
+  color: var(--spell-color);
+}
+.button__bare.button__spell:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--light-spell-color);
+}
+.button__bare.button__spell:active:not(:disabled) {
+  background-color: transparent;
+  color: var(--dark-spell-color);
+}
+
+.button__bare.button__proficient {
+  background-color: transparent;
+  color: var(--dark);
+}
+.button__bare.button__proficient:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--grey-55);
+}
+.button__bare.button__proficient:active:not(:disabled) {
+  background-color: transpar14t;
+  color: var(--grey-55);
+}
+
+.button__bare.button__green {
+  background-color: transparent;
+  color: var(--cha-color);
+}
+.button__bare.button__green:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--light-cha-color);
+}
+.button__bare.button__green:active:not(:disabled) {
+  background-color: transparent;
+  color: var(--dark-cha-color);
+}
+
+.button__bare.button__red {
+  background-color: transparent;
+  color: var(--attack-color);
+}
+.button__bare.button__red:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--light-attack-color);
+}
+.button__bare.button__red:active:not(:disabled) {
+  background-color: transparent;
+  color: var(--dark-attack-color);
+}

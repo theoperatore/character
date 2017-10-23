@@ -27,12 +27,14 @@
     "eject": "react-scripts eject",
     "remote": "ssh root@character-v3.alorg.net",
     "deploy": "make package push deploy",
-    "styleguide": "styleguidist server"
+    "styleguide": "styleguidist server",
+    "build:sass": "node-sass-chokidar src -o src"
   },
   "devDependencies": {
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.0.2",
     "enzyme-to-json": "^3.1.4",
+    "node-sass-chokidar": "^0.0.3",
     "react-styleguidist": "^6.0.31",
     "react-test-renderer": "16"
   },
