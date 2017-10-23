@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AppLayout /> renders 1`] = `
+<div
+  className="app_layout--container"
+>
+  <nav
+    className="app_layout--nav"
+  >
+    <h1>
+      heyo
+    </h1>
+  </nav>
+  <section
+    className="app_layout--body"
+  >
+    <p>
+      my body
+    </p>
+  </section>
+</div>
+`;
+
+exports[`<AppLayout /> renders horizontal 1`] = `
+<div
+  className="app_layout--container app_layout--horizontal"
+>
+  <nav
+    className="app_layout--nav"
+  >
+    <h1>
+      heyo
+    </h1>
+  </nav>
+  <section
+    className="app_layout--body"
+  >
+    <p>
+      my body
+    </p>
+  </section>
+</div>
+`;

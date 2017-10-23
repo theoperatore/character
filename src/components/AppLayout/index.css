@@ -1,0 +1,22 @@
+
+.app_layout--container {
+  flex-grow: 1;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.app_layout--body {
+  flex-grow: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.app_layout--horizontal {
+  flex-direction: row;
+}
+
+.app_layout--horizontal .app_layout--nav {
+  height: 100%;
+}
