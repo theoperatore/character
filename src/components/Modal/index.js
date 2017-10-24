@@ -9,11 +9,14 @@ export default class Modal extends Component {
   static propTypes = {
     /** Set to true to show the modal */
     active: PropTypes.bool,
+    /** Set where the modal enters the window from */
+    from: PropTypes.oneOf(['middle', 'top', 'bottom', 'left', 'right']),
     onDismiss: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     active: false,
+    from : 'middle',
   };
 
   overlayRef = null;
@@ -86,17 +89,27 @@ export default class Modal extends Component {
   }
 
   render() {
+    const { from } = this.props;
     const { hasEntered, shouldRenderPortal } = this.state;
-    const css = cn('modal_overlay', {
-      'modal_overlay--events': true,
-      'modal_overlay--enter': hasEntered,
-    });
+    const css = cn(
+      'modal_overlay',
+      from === 'middle' && `modal_overlay--middle`,
+      hasEntered && 'modal_overlay--enter'
+    );
+
+    const contentCss = cn(
+      'modal_content',
+      `modal_content--${from}`,
+      hasEntered && `modal_content--enter`,
+    );
 
     if (!shouldRenderPortal) return null;
 
     return createPortal(
       (<div ref={e => (this.overlayRef = e)} className={css} onClick={this.handleClick}>
-        {this.props.children}
+        <div className={contentCss}>
+          {this.props.children}
+        </div>
       </div>),
       this.el
     );
