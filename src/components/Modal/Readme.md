@@ -9,12 +9,21 @@ Default usage:
 ```js
 require('../Button');
 require('../Type');
+
+const modalStyle = {
+  backgroundColor: 'var(--white)',
+  maxHeight: '400px',
+  padding: '8px',
+  textAlign: 'center',
+};
 const toggleOpen = () => setState({ open: !state.open });
 
 <div>
   <Button key="mtb" onClick={toggleOpen} variant="pill" color="proficient">Toggle</Button>
   <Modal key="mmm" onDismiss={toggleOpen} active={state.open}>
-    <Type variant="display-2" color="attack-color">Engage!</Type>
+    <div style={modalStyle}>
+      <Type variant="display-2" color="attack-color">Engage!</Type>
+    </div>
   </Modal>
 </div>
 ```
