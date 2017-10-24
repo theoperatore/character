@@ -28,6 +28,7 @@
     "remote": "ssh root@character-v3.alorg.net",
     "deploy": "make package push deploy",
     "styleguide": "styleguidist server",
+    "styleguide:build": "styleguidist build",
     "build:sass": "node-sass-chokidar src -o src"
   },
   "devDependencies": {
