@@ -10,6 +10,7 @@
   font-size: 1em;
   transition: border-bottom-color 300ms ease;
   background-color: transparent;
+  border-radius: 0;
 }
 
 .input:focus,
