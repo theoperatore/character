@@ -1,9 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<AlertDialog /> does not render 1`] = `
-<Modal
+<Modal-Mock
   active={true}
-  from="middle"
   onDismiss={[Function]}
 >
   <div
@@ -32,5 +31,5 @@ exports[`<AlertDialog /> does not render 1`] = `
       </Button>
     </div>
   </div>
-</Modal>
+</Modal-Mock>
 `;

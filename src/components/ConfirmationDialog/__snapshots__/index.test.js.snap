@@ -1,9 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ConfirmationDialog /> renders 1`] = `
-<Modal
-  active={false}
-  from="middle"
+<Modal-Mock
+  active={true}
   onDismiss={[Function]}
 >
   <div
@@ -36,5 +35,5 @@ exports[`<ConfirmationDialog /> renders 1`] = `
       </p>
     </div>
   </div>
-</Modal>
+</Modal-Mock>
 `;
