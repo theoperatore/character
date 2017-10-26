@@ -25,6 +25,10 @@ module.exports = {
       content: 'src/components/dialogs.md',
       components: 'src/components/*Dialog/index.js',
     },
+    {
+      name: 'Misc',
+      components: '/src/components/(!*Layout|*Dialog|Button|Checkbox|Icon|Input|LoadingIndicator|Modal|Select|Type)/index.js',
+    }
   ],
   theme: {
     color: {
