@@ -13,12 +13,17 @@ module.exports = {
     {
       name: 'Atomic Components',
       content: 'src/components/atomic-components.md',
-      components: 'src/components/!(*Layout)/index.js',
+      components: 'src/components/!(*Layout|*Dialog)/index.js',
     },
     {
       name: 'Layout Components',
       content: 'src/components/layout-components.md',
       components: 'src/components/*Layout/index.js',
+    },
+    {
+      name: 'Dialogs',
+      content: 'src/components/dialogs.md',
+      components: 'src/components/*Dialog/index.js',
     },
   ],
   theme: {

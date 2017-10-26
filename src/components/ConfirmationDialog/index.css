@@ -1,0 +1,26 @@
+
+.confirmation_dialog {
+  background-color: var(--white);
+  border-radius: 2px;
+  max-width: 500px;
+  max-height: 85vh;
+}
+
+.confirmation_dialog__title {
+  background-color: var(--dark);
+  padding: 12px;
+}
+
+.confirmation_dialog__body {
+  padding: 12px;
+}
+
+.confirmation_dialog__controls {
+  padding: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.confirmation_dialog__controls > *:first-child {
+  margin-right: 24px;
+}

@@ -1,4 +1,4 @@
-.confirmation {
+.alert {
   background-color: var(--white);
   border-radius: 2px;
   padding: 12px;
@@ -6,13 +6,13 @@
   max-height: 85vh;
 }
 
-.confirmation__controls {
+.alert__controls {
   width: 100%;
   display: flex;
   justify-content: flex-end;
   padding-top: 24px;
 }
 
-.confirmation__control {
+.alert__control {
   margin-right: 24px;
 }

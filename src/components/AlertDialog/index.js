@@ -11,10 +11,10 @@ const noop = () => {};
 export default function AlertDialog({ active, message, onConfirm }) {
   return (
     <Modal onDismiss={noop} active={active}>
-      <div className="confirmation">
+      <div className="alert">
         {message}
-        <div className="confirmation__controls">
-          <Button className="confirmation__control" variant="bare" color="red" onClick={() => onConfirm('no')}>No</Button>
+        <div className="alert__controls">
+          <Button className="alert__control" variant="bare" color="red" onClick={() => onConfirm('no')}>No</Button>
           <Button variant="bare" color="green" onClick={() => onConfirm('yes')}>Yes</Button>
         </div>
       </div>

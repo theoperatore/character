@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ConfirmationDialog /> renders 1`] = `
+<Modal
+  active={false}
+  from="middle"
+  onDismiss={[Function]}
+>
+  <div
+    className="confirmation_dialog"
+  >
+    <div
+      className="confirmation_dialog__title"
+    >
+      test-dialog
+    </div>
+    <div
+      className="confirmation_dialog__body"
+    >
+      <p>
+        yo
+      </p>
+    </div>
+    <div
+      className="confirmation_dialog__controls"
+    >
+      <p
+        key="a"
+      >
+        a
+      </p>
+      <p
+        key="b"
+      >
+        b
+      </p>
+    </div>
+  </div>
+</Modal>
+`;

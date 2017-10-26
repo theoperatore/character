@@ -7,14 +7,14 @@ exports[`<AlertDialog /> does not render 1`] = `
   onDismiss={[Function]}
 >
   <div
-    className="confirmation"
+    className="alert"
   >
     yo?
     <div
-      className="confirmation__controls"
+      className="alert__controls"
     >
       <Button
-        className="confirmation__control"
+        className="alert__control"
         color="red"
         onClick={[Function]}
         size="md"
