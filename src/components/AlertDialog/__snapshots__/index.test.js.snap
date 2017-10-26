@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AlertDialog /> does not render 1`] = `
+<Modal
+  active={true}
+  from="middle"
+  onDismiss={[Function]}
+>
+  <div
+    className="confirmation"
+  >
+    yo?
+    <div
+      className="confirmation__controls"
+    >
+      <Button
+        className="confirmation__control"
+        color="red"
+        onClick={[Function]}
+        size="md"
+        variant="bare"
+      >
+        No
+      </Button>
+      <Button
+        color="green"
+        onClick={[Function]}
+        size="md"
+        variant="bare"
+      >
+        Yes
+      </Button>
+    </div>
+  </div>
+</Modal>
+`;

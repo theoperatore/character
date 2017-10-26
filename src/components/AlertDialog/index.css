@@ -1,0 +1,18 @@
+.confirmation {
+  background-color: var(--white);
+  border-radius: 2px;
+  padding: 12px;
+  max-width: 240px;
+  max-height: 85vh;
+}
+
+.confirmation__controls {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 24px;
+}
+
+.confirmation__control {
+  margin-right: 24px;
+}
