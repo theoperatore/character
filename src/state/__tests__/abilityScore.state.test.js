@@ -1,21 +1,7 @@
 import { createStore, combineReducers } from 'redux';
 import { Map, List, fromJS } from 'immutable';
 import { character } from 'state/reducers';
-import { characters } from './testUtils/dummy-data/dummy-characters';
-
-function editAbilityScores({ str, con, dex, wis, int, cha }) {
-  return {
-    type: 'ABILITY_SCORE_EDIT',
-    data: {
-      str,
-      con,
-      dex,
-      wis,
-      int,
-      cha,
-    },
-  };
-}
+import { characters } from 'state/testingData/dummy-characters';
 
 test('Updating ability scores will update relevant stats', () => {
   const store = createStore(combineReducers({ character }), { character: fromJS(characters.ralf.character_data) });

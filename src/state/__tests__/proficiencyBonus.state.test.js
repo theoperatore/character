@@ -1,17 +1,7 @@
 import { createStore, combineReducers } from 'redux';
 import { Map, List, fromJS } from 'immutable';
 import { character } from 'state/reducers';
-import { characters } from './testUtils/dummy-data/dummy-characters';
-
-function editProficiencyBonus({ base, bonus }) {
-  return {
-    type: 'PROFICIENCY_BONUS_EDIT',
-    data: {
-      base,
-      bonus,
-    },
-  };
-}
+import { characters } from 'state/testingData/dummy-characters';
 
 test('Updating Proficiency Bonus will update relevant stats', () => {
   const store = createStore(combineReducers({ character }), { character: fromJS(characters.ralf.character_data) });
