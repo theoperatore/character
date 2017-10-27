@@ -29,12 +29,14 @@
     "deploy": "make package push deploy",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
-    "build:sass": "node-sass-chokidar src -o src"
+    "build:sass": "node-sass-chokidar src -o src",
+    "prettier": "prettier --trailing-comma es5 --tab-width 2 --write --single-quote src/**/*.js"
   },
   "devDependencies": {
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.0.2",
     "enzyme-to-json": "^3.1.4",
+    "prettier": "1.7.4",
     "node-sass-chokidar": "^0.0.3",
     "react-styleguidist": "^6.0.31",
     "react-test-renderer": "16"

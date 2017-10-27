@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Modal /> renders bottom portal when active 1`] = `
+<div
+  className="portal-mock"
+>
+  <div
+    className="modal_overlay"
+    onClick={[Function]}
+  >
+    <div
+      className="modal_content modal_content--bottom"
+    >
+      <div>
+        from bottom
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Modal /> renders default portal when active 1`] = `
+<div
+  className="portal-mock"
+>
+  <div
+    className="modal_overlay modal_overlay--middle"
+    onClick={[Function]}
+  >
+    <div
+      className="modal_content modal_content--middle"
+    >
+      <div>
+        Heyo
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Modal /> renders left portal when active 1`] = `
+<div
+  className="portal-mock"
+>
+  <div
+    className="modal_overlay"
+    onClick={[Function]}
+  >
+    <div
+      className="modal_content modal_content--left"
+    >
+      <div>
+        from left
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Modal /> renders nothing when not active 1`] = `""`;
+
+exports[`<Modal /> renders right portal when active 1`] = `
+<div
+  className="portal-mock"
+>
+  <div
+    className="modal_overlay"
+    onClick={[Function]}
+  >
+    <div
+      className="modal_content modal_content--right"
+    >
+      <div>
+        from right
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Modal /> renders top portal when active 1`] = `
+<div
+  className="portal-mock"
+>
+  <div
+    className="modal_overlay"
+    onClick={[Function]}
+  >
+    <div
+      className="modal_content modal_content--top"
+    >
+      <div>
+        from top
+      </div>
+    </div>
+  </div>
+</div>
+`;

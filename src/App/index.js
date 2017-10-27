@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import DocumentTitle from 'react-document-title';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Switch, Redirect, Route} from 'react-router-dom';
+import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 
 import Showcase from './Showcase';
 
@@ -28,16 +28,9 @@ export default class App extends PureComponent {
                 exact
                 render={() => <h1>This one is profile</h1>}
               />
-              <Route
-                path="/app"
-                render={() => <h1>This one is app</h1>}
-              />
-              <Route
-                path="/showcase"
-                exact
-                component={Showcase}
-              />
-              <Route render={() => <Redirect to='/showcase' />} />
+              <Route path="/app" render={() => <h1>This one is app</h1>} />
+              <Route path="/showcase" exact component={Showcase} />
+              <Route render={() => <Redirect to="/showcase" />} />
             </Switch>
           </BrowserRouter>
         </Provider>

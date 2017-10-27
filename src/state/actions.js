@@ -18,20 +18,19 @@ export function loadUser() {
           displayName: user.displayName,
           profileImg: user.photoURL,
           uid: user.uid,
-        }
+        };
 
         dispatch({
           type: 'USER_LOADED_PROFILE',
           data: {
             profileData,
-          }
-        })
-      }
-      else {
+          },
+        });
+      } else {
         dispatch({ type: 'USER_NOT_SIGNED_IN' });
       }
-    })
-  }
+    });
+  };
 }
 
 export function updateUserProfile(newProfileName, imagePath) {
@@ -47,8 +46,8 @@ export function updateUserProfile(newProfileName, imagePath) {
     }
 
     db
-      .auth().currentUser
-      .updateProfile(newProfile)
+      .auth()
+      .currentUser.updateProfile(newProfile)
       .then(() => {
         let off = db.auth().onAuthStateChanged(user => {
           off();
@@ -57,31 +56,33 @@ export function updateUserProfile(newProfileName, imagePath) {
               displayName: user.displayName,
               profileImg: user.photoURL,
               uid: user.uid,
-            }
+            };
 
             dispatch({
               type: 'USER_LOADED_PROFILE',
               data: {
                 profileData,
-              }
-            })
-          }
-          else {
+              },
+            });
+          } else {
             dispatch({ type: 'USER_NOT_SIGNED_IN' });
           }
-        })
-      })
-  }
+        });
+      });
+  };
 }
 
 export function signOut() {
   return dispatch => {
     dispatch({ type: 'USER_SIGNING_OUT' });
 
-    db.auth().signOut().then(() => {
-      dispatch({ type: 'USER_SIGN_OUT' });
-    });
-  }
+    db
+      .auth()
+      .signOut()
+      .then(() => {
+        dispatch({ type: 'USER_SIGN_OUT' });
+      });
+  };
 }
 
 export function getCharactersForUser(userId) {
@@ -107,11 +108,11 @@ export function getCharactersForUser(userId) {
             error: {
               code: error.code,
               message: error.message,
-            }
-          }
+            },
+          },
         });
       });
-  }
+  };
 }
 
 function loadCharacterData(charId) {
@@ -122,7 +123,7 @@ function loadCharacterData(charId) {
       .then(snapshot => snapshot.val())
       .then(charData => resolve(charData))
       .catch(error => reject(error));
-  })
+  });
 }
 
 function loadCharacterPreferences(charId) {
@@ -133,35 +134,32 @@ function loadCharacterPreferences(charId) {
       .then(snapshot => snapshot.val())
       .then(prefData => resolve(prefData))
       .catch(error => reject(error));
-  })
+  });
 }
 
 export function loadCharacter(charId) {
   return dispatch => {
     dispatch({ type: 'CHARACTER_LOAD' });
 
-    Promise.all([
-      loadCharacterData(charId),
-      loadCharacterPreferences(charId),
-    ])
-    .then(data => {
-      dispatch({
-        type: 'CHARACTER_LOADED',
-        data: {
-          character: data[0],
-          preferences: data[1],
-        }
+    Promise.all([loadCharacterData(charId), loadCharacterPreferences(charId)])
+      .then(data => {
+        dispatch({
+          type: 'CHARACTER_LOADED',
+          data: {
+            character: data[0],
+            preferences: data[1],
+          },
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: 'CHARACTER_LOAD_ERROR',
+          data: {
+            error,
+          },
+        });
       });
-    })
-    .catch(error => {
-      dispatch({
-        type: 'CHARACTER_LOAD_ERROR',
-        data: {
-          error
-        },
-      });
-    });
-  }
+  };
 }
 
 function createCharacterInList(charId, newCharacter) {
@@ -171,7 +169,7 @@ function createCharacterInList(charId, newCharacter) {
       .update(newCharacter)
       .then(() => resolve())
       .catch(error => reject(error));
-  })
+  });
 }
 
 function createPreferencesForCharacter(charId, newPreferences) {
@@ -181,7 +179,7 @@ function createPreferencesForCharacter(charId, newPreferences) {
       .update(newPreferences)
       .then(() => resolve())
       .catch(error => reject(error));
-  })
+  });
 }
 
 function associateCharacterWithUser(userId, charId, newCharacterMetaData) {
@@ -191,7 +189,7 @@ function associateCharacterWithUser(userId, charId, newCharacterMetaData) {
       .update(newCharacterMetaData)
       .then(() => resolve())
       .catch(error => reject(error));
-  })
+  });
 }
 
 export function createCharacter(userId, newCharName) {
@@ -211,62 +209,55 @@ export function createCharacter(userId, newCharName) {
       characterId: charId,
       characterLevel: newCharacter.charInfo.level,
       characterName: newCharName,
-      createdOn: Date.now()
-    }
+      createdOn: Date.now(),
+    };
 
     associateCharacterWithUser(userId, charId, metaData)
-    .then(() => createCharacterInList(charId, newCharacter))
-    .then(() => createPreferencesForCharacter(charId, defaultPreferences))
-    .then(() => {
-      dispatch({ type: 'CHARACTER_LIST_LOAD' });
+      .then(() => createCharacterInList(charId, newCharacter))
+      .then(() => createPreferencesForCharacter(charId, defaultPreferences))
+      .then(() => {
+        dispatch({ type: 'CHARACTER_LIST_LOAD' });
 
-      ref
-        .child(`users/${userId}`)
-        .once('value')
-        .then(snapshot => snapshot.val())
-        .then(userData => {
-          dispatch({
-            type: 'CHARACTER_LIST_LOADED',
-            data: {
-              characters: userData.characters,
-            },
+        ref
+          .child(`users/${userId}`)
+          .once('value')
+          .then(snapshot => snapshot.val())
+          .then(userData => {
+            dispatch({
+              type: 'CHARACTER_LIST_LOADED',
+              data: {
+                characters: userData.characters,
+              },
+            });
+          })
+          .catch(error => {
+            dispatch({
+              type: 'CHARACTER_LIST_LOAD_ERROR',
+              data: {
+                error: {
+                  code: error.code,
+                  message: error.message,
+                },
+              },
+            });
           });
-        })
-        .catch(error => {
-          dispatch({
-            type: 'CHARACTER_LIST_LOAD_ERROR',
-            data: {
-              error: {
-                code: error.code,
-                message: error.message,
-              }
-            }
-          });
-        });
-    })
-    .catch(error => {
-      // rollback any changes
-      ref
-        .child(`characters/${charId}`)
-        .remove();
-
-      ref
-        .child(`preferences/${charId}`)
-        .remove();
-
-      ref
-        .child(`users/${userId}/characters/${charId}`)
-        .remove();
-
-
-      dispatch({
-        type: 'CHARACTER_CREATE_ERROR',
-        data: {
-          error,
-        }
       })
-    })
-  }
+      .catch(error => {
+        // rollback any changes
+        ref.child(`characters/${charId}`).remove();
+
+        ref.child(`preferences/${charId}`).remove();
+
+        ref.child(`users/${userId}/characters/${charId}`).remove();
+
+        dispatch({
+          type: 'CHARACTER_CREATE_ERROR',
+          data: {
+            error,
+          },
+        });
+      });
+  };
 }
 
 export function deleteCharacter(userId, charId) {
@@ -298,10 +289,10 @@ export function deleteCharacter(userId, charId) {
                 error: {
                   code: error.code,
                   message: error.message,
-                }
-              }
+                },
+              },
             });
           });
-      })
-  }
+      });
+  };
 }

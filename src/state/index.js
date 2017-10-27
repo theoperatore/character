@@ -14,7 +14,7 @@ export function createState(defaults = {}) {
   let initialState = Object.assign({}, defaults, {
     character: defaults.character || DEFAULT_CHARACTER,
     preferences: defaults.preferences || DEFAULT_PREFERENCES,
-  })
+  });
 
   return createStore(
     combineReducers({
@@ -24,5 +24,6 @@ export function createState(defaults = {}) {
       status,
     }),
     initialState,
-    composeWithDevTools(applyMiddleware(reduxThunk)));
+    composeWithDevTools(applyMiddleware(reduxThunk))
+  );
 }

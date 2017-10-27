@@ -1,5 +1,3 @@
-
-
 export default {
   proficiencies: {},
   languages: {},
@@ -12,4 +10,4 @@ export default {
   itemContainers: {},
   attackBonuses: {},
   spellAttackBonuses: {},
-}
+};
