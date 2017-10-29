@@ -1,23 +1,22 @@
 import Immutable from 'immutable';
-import { createStore, combineReducers } from 'redux';
-import { character } from 'state/reducers';
+import { createState } from 'state';
 import defaultCharacter from '../defaultCharacter';
 
 test('update basic character info', () => {
   const initialState = Immutable.fromJS(defaultCharacter);
-  const store = createStore(combineReducers({ character}), { character: initialState });
+  const store = createState({ character: initialState });
 
   const before = store.getState().character.get('charInfo');
 
   store.dispatch({
     type: 'BASIC_INFO_EDIT',
     data: {
-      class: "test",
+      class: 'test',
       level: 100,
-      background: "cool bg",
-      race: "person",
-      alignment: "usually good",
-    }
+      background: 'cool bg',
+      race: 'person',
+      alignment: 'usually good',
+    },
   });
 
   let after = store.getState().character.get('charInfo');

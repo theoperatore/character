@@ -55,7 +55,7 @@
       "!**/node_modules/**",
       "!**/src/registerServiceWorker*.js",
       "!**/src/setupTests*.js",
-      "!**/src/**/testingData/*.js"
+      "!**/src/**/testingData/**/*.js"
     ]
   }
 }

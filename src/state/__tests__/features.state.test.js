@@ -1,11 +1,10 @@
 import Immutable from 'immutable';
-import { createStore, combineReducers } from 'redux';
-import { character } from 'state/reducers';
+import { createState } from 'state';
 import defaultCharacter from '../defaultCharacter';
 
 test('Creating feature with a class charge updates both attributes', () => {
   const initialState = Immutable.fromJS(defaultCharacter);
-  const store = createStore(combineReducers({ character}), { character: initialState });
+  const store = createState({ character: initialState });
 
   store.dispatch({
     type: 'FEATURE_CREATE',
@@ -31,13 +30,19 @@ test('Creating feature with a class charge updates both attributes', () => {
 
   expect(afterFeats.size).toEqual(1, 'has one new feature');
   expect(afterChrgs.size).toEqual(1, 'has one new charge');
-  expect(afterChrgs.getIn([0, 'id'])).toEqual('charge-1', 'charge has correct id');
-  expect(afterFeats.getIn([0, 'classChargesId'])).toEqual('charge-1', 'feat has correct id');
-})
+  expect(afterChrgs.getIn([0, 'id'])).toEqual(
+    'charge-1',
+    'charge has correct id'
+  );
+  expect(afterFeats.getIn([0, 'classChargesId'])).toEqual(
+    'charge-1',
+    'feat has correct id'
+  );
+});
 
 test('Editing a feature with a class charge to remove a class charge, removes the charge', () => {
   const initialState = Immutable.fromJS(defaultCharacter);
-  const store = createStore(combineReducers({ character}), { character: initialState });
+  const store = createState({ character: initialState });
 
   store.dispatch({
     type: 'FEATURE_CREATE',
@@ -73,5 +78,8 @@ test('Editing a feature with a class charge to remove a class charge, removes th
   let afterChrgs = store.getState().character.get('charClassCharges');
 
   expect(afterChrgs.size).toEqual(0, 'removed charge');
-  expect(afterFeats.getIn([0, 'classChargesId'])).toEqual(undefined, 'removed class charge id from feature');
-})
+  expect(afterFeats.getIn([0, 'classChargesId'])).toEqual(
+    undefined,
+    'removed class charge id from feature'
+  );
+});
