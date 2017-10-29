@@ -51,7 +51,7 @@
     "snapshotSerializers": ["enzyme-to-json/serializer"],
     "collectCoverageFrom": [
       "**/src/**/*.{js,jsx}",
-      "!**/Modal/*",
+      "!**/src/index*.js",
       "!**/node_modules/**",
       "!**/src/registerServiceWorker*.js",
       "!**/src/setupTests*.js",

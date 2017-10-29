@@ -5,7 +5,7 @@ import cn from 'classnames';
 
 import './index.css';
 
-export default class Modal extends Component {
+class Modal extends Component {
   static propTypes = {
     /** Set to true to show the modal */
     active: PropTypes.bool,
@@ -16,7 +16,7 @@ export default class Modal extends Component {
 
   static defaultProps = {
     active: false,
-    from : 'middle',
+    from: 'middle',
   };
 
   overlayRef = null;
@@ -36,29 +36,19 @@ export default class Modal extends Component {
   componentWillReceiveProps(nextProps) {
     // if we need to take action...
     if (this.props.active !== nextProps.active) {
-
       // if we should be opening...
       if (nextProps.active) {
         this.addtoDom();
 
-        this.setState(
-          { shouldRenderPortal: true },
-          () => setTimeout(
-            () => this.setState({ hasEntered: true }),
-            100
-          )
+        this.setState({ shouldRenderPortal: true }, () =>
+          setTimeout(() => this.setState({ hasEntered: true }), 100)
         );
-      }
-
-      // if we should be closing...
-      else {
-        this.setState(
-          { hasEntered: false },
-          () => setTimeout(
-            () => this.setState(
-              { shouldRenderPortal: false },
-              this.removeFromDom
-            ),
+      } else {
+        // if we should be closing...
+        this.setState({ hasEntered: false }, () =>
+          setTimeout(
+            () =>
+              this.setState({ shouldRenderPortal: false }, this.removeFromDom),
             300
           )
         );
@@ -78,7 +68,7 @@ export default class Modal extends Component {
     document.body.style.overflow = 'hidden';
     document.body.appendChild(this.el);
     window.addEventListener('keydown', this.handleEsc);
-  }
+  };
 
   removeFromDom = () => {
     document.body.style.overflow = 'inherit';
@@ -86,7 +76,7 @@ export default class Modal extends Component {
       document.body.removeChild(this.el);
     }
     window.removeEventListener('keydown', this.handleEsc);
-  }
+  };
 
   render() {
     const { from } = this.props;
@@ -100,18 +90,22 @@ export default class Modal extends Component {
     const contentCss = cn(
       'modal_content',
       `modal_content--${from}`,
-      hasEntered && `modal_content--enter`,
+      hasEntered && `modal_content--enter`
     );
 
     if (!shouldRenderPortal) return null;
 
     return createPortal(
-      (<div ref={e => (this.overlayRef = e)} className={css} onClick={this.handleClick}>
-        <div className={contentCss}>
-          {this.props.children}
-        </div>
-      </div>),
+      <div
+        ref={e => (this.overlayRef = e)}
+        className={css}
+        onClick={this.handleClick}
+      >
+        <div className={contentCss}>{this.props.children}</div>
+      </div>,
       this.el
     );
   }
 }
+
+export default Modal;
