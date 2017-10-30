@@ -116,25 +116,17 @@ export function getCharactersForUser(userId) {
 }
 
 function loadCharacterData(charId) {
-  return new Promise((resolve, reject) => {
-    ref
-      .child(`characters/${charId}`)
-      .once('value')
-      .then(snapshot => snapshot.val())
-      .then(charData => resolve(charData))
-      .catch(error => reject(error));
-  });
+  return ref
+    .child(`characters/${charId}`)
+    .once('value')
+    .then(snapshot => snapshot.val());
 }
 
 function loadCharacterPreferences(charId) {
-  return new Promise((resolve, reject) => {
-    ref
-      .child(`preferences/${charId}`)
-      .once('value')
-      .then(snapshot => snapshot.val())
-      .then(prefData => resolve(prefData))
-      .catch(error => reject(error));
-  });
+  return ref
+    .child(`preferences/${charId}`)
+    .once('value')
+    .then(snapshot => snapshot.val());
 }
 
 export function loadCharacter(charId) {
@@ -163,33 +155,17 @@ export function loadCharacter(charId) {
 }
 
 function createCharacterInList(charId, newCharacter) {
-  return new Promise((resolve, reject) => {
-    ref
-      .child(`characters/${charId}`)
-      .update(newCharacter)
-      .then(() => resolve())
-      .catch(error => reject(error));
-  });
+  return ref.child(`characters/${charId}`).update(newCharacter);
 }
 
 function createPreferencesForCharacter(charId, newPreferences) {
-  return new Promise((resolve, reject) => {
-    ref
-      .child(`preferences/${charId}`)
-      .update(newPreferences)
-      .then(() => resolve())
-      .catch(error => reject(error));
-  });
+  return ref.child(`preferences/${charId}`).update(newPreferences);
 }
 
 function associateCharacterWithUser(userId, charId, newCharacterMetaData) {
-  return new Promise((resolve, reject) => {
-    ref
-      .child(`users/${userId}/characters/${charId}`)
-      .update(newCharacterMetaData)
-      .then(() => resolve())
-      .catch(error => reject(error));
-  });
+  return ref
+    .child(`users/${userId}/characters/${charId}`)
+    .update(newCharacterMetaData);
 }
 
 export function createCharacter(userId, newCharName) {

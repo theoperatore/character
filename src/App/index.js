@@ -3,19 +3,15 @@ import DocumentTitle from 'react-document-title';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 
+import Login from './Login';
+
 export function App({ store }) {
   return (
     <DocumentTitle title="D&D 5e Character">
       <Provider store={store}>
         <BrowserRouter>
           <Switch>
-            <Route
-              path="/login"
-              exact
-              render={/* istanbul ignore next */ () => (
-                <h1>Login to your stuff</h1>
-              )}
-            />
+            <Route path="/login" exact component={Login} />
             <Route
               path="/profile"
               exact

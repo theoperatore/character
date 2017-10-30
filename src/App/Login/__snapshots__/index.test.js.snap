@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Login /> renders 1`] = `
+Array [
+  <div
+    className="login__title"
+    key="login__title"
+/>,
+  <div
+    id="login"
+    key="login__form"
+/>,
+]
+`;

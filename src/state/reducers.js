@@ -87,7 +87,7 @@ export function character(state = DEFAULT_CHARACTER, action) {
       return state.updateIn(
         ['charOtherProficiencies', 'languages'],
         languages => {
-          let idx = languages.findINdx(
+          let idx = languages.findIndex(
             lang => lang.get('id') === action.data.id
           );
           return languages.update(idx, lang => lang.merge(action.data));
