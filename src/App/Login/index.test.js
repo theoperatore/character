@@ -6,5 +6,5 @@ jest.mock('firebase');
 jest.mock('firebaseui');
 
 test('<Login /> renders', () => {
-  expect(shallow(<Login />)).toMatchSnapshot();
+  expect(shallow(<Login history={{ push() {} }} />)).toMatchSnapshot();
 });

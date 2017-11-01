@@ -20,18 +20,22 @@ exports[`<App /> renders 1`] = `
           exact={true}
           path="/login"
         />
-        <Route
-          exact={true}
-          path="/profile"
-          render={[Function]}
-        />
-        <Route
-          path="/app"
-          render={[Function]}
-        />
-        <Route
-          render={[Function]}
-        />
+        <Connect(UserProvider)>
+          <Switch>
+            <Connect(ProtectedRoute)
+              exact={true}
+              path="/profile"
+              render={[Function]}
+            />
+            <Connect(ProtectedRoute)
+              path="/app"
+              render={[Function]}
+            />
+            <Route
+              render={[Function]}
+            />
+          </Switch>
+        </Connect(UserProvider)>
       </Switch>
     </BrowserRouter>
   </Provider>

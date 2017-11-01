@@ -2,7 +2,8 @@ import { fromJS } from 'immutable';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reduxThunk from 'redux-thunk';
-import { preferences, character, user, status } from './reducers';
+import { preferences, character } from './reducers';
+import { user } from './user/reducer';
 
 import defaultCharacter from './defaultCharacter';
 import defaultPreferences from './defaultPreferences';
@@ -21,7 +22,7 @@ export function createState(defaults = {}) {
       character,
       preferences,
       user,
-      status,
+      // status,
     }),
     initialState,
     composeWithDevTools(applyMiddleware(reduxThunk))

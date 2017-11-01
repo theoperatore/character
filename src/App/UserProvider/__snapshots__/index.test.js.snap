@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<UserProvider /> renders children when user is loaded 1`] = `
+<span>
+  hey
+</span>
+`;
+
+exports[`<UserProvider /> renders error if problem loading user 1`] = `
+<section
+  className="user_provider__container"
+>
+  <Type
+    color="black"
+    element="h1"
+    variant="display-1"
+  >
+    Some error occurred
+  </Type>
+  <Type
+    color="black"
+    element="p"
+    variant="body"
+  >
+    <Link
+      replace={false}
+      to="/login"
+    >
+      Try logging in again
+    </Link>
+  </Type>
+</section>
+`;
+
+exports[`<UserProvider /> renders loading when loading user 1`] = `
+<section
+  className="user_provider__container"
+>
+  <LoadingIndicator
+    color="attack-color"
+  />
+</section>
+`;

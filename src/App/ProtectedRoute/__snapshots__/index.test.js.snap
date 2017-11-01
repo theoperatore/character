@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ProtectedRoute /> renders 1`] = `
+<Route
+  render={[Function]}
+/>
+`;

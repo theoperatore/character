@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import firebaseui from 'firebaseui';
 import firebase from 'firebase';
 import Type from 'components/Type';
@@ -7,6 +8,12 @@ import Icon from 'components/Icon';
 import './index.css';
 
 class Login extends Component {
+  static propTypes = {
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
   componentDidMount() {
     const config = {
       signInOptions: [
@@ -19,7 +26,7 @@ class Login extends Component {
       ],
       callbacks: {
         signInSuccess: /* istanbul ignore next */ () =>
-          this.props.history.push('/app'),
+          this.props.history.push('/profile'),
       },
     };
 
