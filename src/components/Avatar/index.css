@@ -1,0 +1,28 @@
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--grey-85);
+  overflow: hidden;
+  position: relative;
+}
+
+.avatar__circle {
+  border-radius: 50%;
+}
+
+.avatar_img__48,
+.avatar__48 {
+  height: 48px;
+  width: 48px;
+}
+
+.avatar_img__64,
+.avatar__64 {
+  height: 64px;
+  width: 64px;
+}
+
+.avatar_img {
+  position: absolute;
+}

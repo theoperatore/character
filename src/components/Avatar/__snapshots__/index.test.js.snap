@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Avatar /> renders image and icon 1`] = `
+<div
+  className="avatar avatar__48"
+>
+  <p>
+    some icon
+  </p>
+  <img
+    alt="AP"
+    className="avatar_img avatar_img__48"
+    src="imgsrc"
+  />
+</div>
+`;
+
+exports[`<Avatar /> renders image and text 1`] = `
+<div
+  className="avatar avatar__48"
+>
+  <Type
+    color="black"
+    element="span"
+    variant="default"
+  >
+    AP
+  </Type>
+  <img
+    alt="AP"
+    className="avatar_img avatar_img__48"
+    src="imgsrc"
+  />
+</div>
+`;
+
+exports[`<Avatar /> renders size and circle 1`] = `
+<div
+  className="avatar avatar__64 avatar__circle"
+>
+  <p>
+    some icon
+  </p>
+  <img
+    alt="AP"
+    className="avatar_img avatar_img__64"
+    src="imgsrc"
+  />
+</div>
+`;
