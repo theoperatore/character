@@ -7,13 +7,15 @@ export function ProtectedRoute({ user, ...routeProps }) {
   return (
     <Route
       path={routeProps.path}
-      render={() => {
-        if (!user.profile) {
-          return <Redirect to="/login" />;
-        }
+      render={
+        /* istanbul ignore next */ () => {
+          if (!user.profile) {
+            return <Redirect to="/login" />;
+          }
 
-        return <Route {...routeProps} />;
-      }}
+          return <Route {...routeProps} />;
+        }
+      }
     />
   );
 }
@@ -24,7 +26,7 @@ ProtectedRoute.propTypes = {
   }).isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = /* istanbul ignore next */ state => ({
   user: state.user,
 });
 

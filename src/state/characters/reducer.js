@@ -1,9 +1,9 @@
 import loadReducer from '../loadReducer';
-import { LOAD_USER } from './actions';
+import { LOAD_CHARACTERS } from './actions';
 
-export function user(state = null, action) {
+export function characters(state = null, action) {
   switch (action.type) {
-    case LOAD_USER:
+    case LOAD_CHARACTERS:
       return loadReducer(action);
     default:
       return state;

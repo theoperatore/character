@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import 'font-awesome/css/font-awesome.min.css';
+
 import { createState } from './state';
 import registerServiceWorker from './registerServiceWorker';
 import registerDatabase from './registerDatabase';
 
-import 'firebaseui/dist/firebaseui.css';
-import 'font-awesome/css/font-awesome.min.css';
 import './index.css';
 import './hippo.css';
 

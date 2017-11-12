@@ -1,3 +1,13 @@
+.loading--center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
 
 .loading {
   display: flex;
@@ -109,7 +119,6 @@
 .loading--light-cha-color .loading_dot {
   background-color: var(--light-cha-color);
 }
-
 
 .loading_dot {
   width: 12px;

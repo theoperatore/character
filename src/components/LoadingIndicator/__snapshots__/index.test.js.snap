@@ -2,16 +2,40 @@
 
 exports[`<LoadingIndicator /> renders 1`] = `
 <div
-  className="loading loading--attack-color"
+  className=""
 >
   <div
-    className="loading_dot"
-  />
+    className="loading loading--attack-color"
+  >
+    <div
+      className="loading_dot"
+    />
+    <div
+      className="loading_dot"
+    />
+    <div
+      className="loading_dot"
+    />
+  </div>
+</div>
+`;
+
+exports[`<LoadingIndicator /> renders in the center 1`] = `
+<div
+  className="loading--center"
+>
   <div
-    className="loading_dot"
-  />
-  <div
-    className="loading_dot"
-  />
+    className="loading loading--attack-color"
+  >
+    <div
+      className="loading_dot"
+    />
+    <div
+      className="loading_dot"
+    />
+    <div
+      className="loading_dot"
+    />
+  </div>
 </div>
 `;

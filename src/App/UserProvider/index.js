@@ -9,13 +9,13 @@ import { authenticateUser } from 'state/user/actions';
 
 import './index.css';
 
-export class UserProvider extends Component {
+class UserProvider extends Component {
   static propTypes = {
     authenticateUser: PropTypes.func.isRequired,
     user: PropTypes.shape({
-      isAuthenticating: PropTypes.bool,
+      isLoading: PropTypes.bool,
       error: PropTypes.string,
-    }).isRequired,
+    }),
   };
 
   componentWillMount() {
@@ -24,6 +24,15 @@ export class UserProvider extends Component {
 
   render() {
     const { user, children } = this.props;
+
+    if (!user || user.isLoading) {
+      return (
+        <section className="user_provider__container">
+          <LoadingIndicator />
+        </section>
+      );
+    }
+
     if (user.error) {
       return (
         <section className="user_provider__container">
@@ -37,19 +46,11 @@ export class UserProvider extends Component {
       );
     }
 
-    if (user.isAuthenticating) {
-      return (
-        <section className="user_provider__container">
-          <LoadingIndicator />
-        </section>
-      );
-    }
-
     return children;
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = /* istanbul ignore next */ state => ({
   user: state.user,
 });
 
@@ -57,4 +58,5 @@ const mapDispatchToProps = {
   authenticateUser,
 };
 
+export { UserProvider };
 export default connect(mapStateToProps, mapDispatchToProps)(UserProvider);

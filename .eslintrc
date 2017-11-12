@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "react-app",
+    "airbnb",
+    "prettier"
+  ],
+  "plugins": [
+    "jest"
+  ],
+  "env": {
+    "jest": true,
+    "es6": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  },
+  "rules": {
+    "jest/valid-expect": "error"
+  }
+}

@@ -6,24 +6,24 @@ import defaultPreferences from './defaultPreferences';
 
 const DEFAULT_CHARACTER = fromJS(defaultCharacter);
 const DEFAULT_PREFERENCES = fromJS(defaultPreferences);
-const DEFAULT_USER_STATE = Map({});
-const DEFAULT_STATUS = fromJS({
-  userSignedIn: false,
-  userAuthenticating: true,
-  userAuthenticationError: null,
-  userSigningOut: false,
-  userLoadingProfile: false,
-  userLoadingProfileError: null,
-  characterListLoading: false,
-  characterListLoadError: null,
-  characterLoading: false,
-  characterIsLoaded: false,
-  characterLoadError: null,
-  characterSaving: false,
-  characterSaveError: null,
-  characterCreating: false,
-  characterDeleting: false,
-});
+// const DEFAULT_USER_STATE = Map({});
+// const DEFAULT_STATUS = fromJS({
+//   userSignedIn: false,
+//   userAuthenticating: true,
+//   userAuthenticationError: null,
+//   userSigningOut: false,
+//   userLoadingProfile: false,
+//   userLoadingProfileError: null,
+//   characterListLoading: false,
+//   characterListLoadError: null,
+//   characterLoading: false,
+//   characterIsLoaded: false,
+//   characterLoadError: null,
+//   characterSaving: false,
+//   characterSaveError: null,
+//   characterCreating: false,
+//   characterDeleting: false,
+// });
 
 const ABILITY_SCORE_KEYS = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 
@@ -1078,114 +1078,114 @@ export function preferences(state = DEFAULT_PREFERENCES, action) {
   }
 }
 
-export function user(state = DEFAULT_USER_STATE, action) {
-  switch (action.type) {
-    case 'USER_LOADED_PROFILE':
-      return fromJS(action.data.profileData);
-
-    case 'USER_SIGN_OUT':
-    case 'USER_NOT_SIGNED_IN':
-      return Map({});
-
-    case 'CHARACTER_LIST_LOADED':
-      return state.set('characters', fromJS(action.data.characters));
-    default:
-      return state;
-  }
-}
-
-export function status(state = DEFAULT_STATUS, action) {
-  switch (action.type) {
-    case 'USER_NOT_SIGNED_IN':
-      return state
-        .set('userAuthenticating', false)
-        .set('userAuthenticationError', null)
-        .set('userLoadingProfile', false)
-        .set('userSignedIn', false);
-
-    case 'USER_SIGNING_OUT':
-      return state.set('userSigningOut', true);
-
-    case 'USER_SIGN_OUT':
-      return DEFAULT_STATUS.set('userAuthenticating', false);
-
-    case 'USER_LOADING_PROFILE':
-      return state
-        .set('userAuthenticating', true)
-        .set('userLoadingProfile', true)
-        .set('userLoadingProfileError', null);
-
-    case 'USER_LOADED_PROFILE':
-      return state
-        .set('userAuthenticating', false)
-        .set('userSignedIn', true)
-        .set('userLoadingProfile', false)
-        .set('userLoadingProfileError', null);
-
-    case 'USER_LOADING_PROFILE_ERROR':
-      return state
-        .set('userAuthenticating', false)
-        .set('userSignedIn', false)
-        .set('userLoadingProfile', false)
-        .set('userLoadingProfileError', Map(action.data.error));
-
-    case 'CHARACTER_LIST_LOAD':
-      return state
-        .set('characterListLoading', true)
-        .set('characterListLoadError', null);
-
-    case 'CHARACTER_LIST_LOADED':
-      return state
-        .set('characterCreating', false)
-        .set('characterDeleting', false)
-        .set('characterListLoading', false)
-        .set('characterListLoadError', null);
-
-    case 'CHARACTER_LIST_LOAD_ERROR':
-      return state
-        .set('characterCreating', false)
-        .set('characterDeleting', false)
-        .set('characterListLoading', false)
-        .set('characterListLoadError', Map(action.data.error));
-
-    case 'CHARACTER_LOAD':
-      return state
-        .set('characterLoading', true)
-        .set('characterIsLoaded', false)
-        .set('characterLoadError', null);
-
-    case 'CHARACTER_LOADED':
-      return state
-        .set('characterLoading', false)
-        .set('characterIsLoaded', true)
-        .set('characterLoadError', null);
-
-    case 'CHARACTER_LOAD_ERROR':
-      return state
-        .set('characterLoadError', Map(action.data.error))
-        .set('characterLoading', false)
-        .set('characterIsLoaded', false);
-
-    case 'CHARACTER_SAVING':
-      return state.set('characterSaving', true).set('characterSaveError', null);
-
-    case 'CHARACTER_SAVED':
-      return state
-        .set('characterSaving', false)
-        .set('characterSaveError', null);
-
-    case 'CHARACTER_SAVE_ERROR':
-      return state
-        .set('characterSaving', false)
-        .set('characterSaveError', Map(action.data.error));
-
-    case 'CHARACTER_CREATING':
-      return state.set('characterCreating', true);
-
-    case 'CHARACTER_DELETING':
-      return state.set('characterDeleting', true);
-
-    default:
-      return state;
-  }
-}
+// export function user(state = DEFAULT_USER_STATE, action) {
+//   switch (action.type) {
+//     case 'USER_LOADED_PROFILE':
+//       return fromJS(action.data.profileData);
+//
+//     case 'USER_SIGN_OUT':
+//     case 'USER_NOT_SIGNED_IN':
+//       return Map({});
+//
+//     case 'CHARACTER_LIST_LOADED':
+//       return state.set('characters', fromJS(action.data.characters));
+//     default:
+//       return state;
+//   }
+// }
+//
+// export function status(state = DEFAULT_STATUS, action) {
+//   switch (action.type) {
+//     case 'USER_NOT_SIGNED_IN':
+//       return state
+//         .set('userAuthenticating', false)
+//         .set('userAuthenticationError', null)
+//         .set('userLoadingProfile', false)
+//         .set('userSignedIn', false);
+//
+//     case 'USER_SIGNING_OUT':
+//       return state.set('userSigningOut', true);
+//
+//     case 'USER_SIGN_OUT':
+//       return DEFAULT_STATUS.set('userAuthenticating', false);
+//
+//     case 'USER_LOADING_PROFILE':
+//       return state
+//         .set('userAuthenticating', true)
+//         .set('userLoadingProfile', true)
+//         .set('userLoadingProfileError', null);
+//
+//     case 'USER_LOADED_PROFILE':
+//       return state
+//         .set('userAuthenticating', false)
+//         .set('userSignedIn', true)
+//         .set('userLoadingProfile', false)
+//         .set('userLoadingProfileError', null);
+//
+//     case 'USER_LOADING_PROFILE_ERROR':
+//       return state
+//         .set('userAuthenticating', false)
+//         .set('userSignedIn', false)
+//         .set('userLoadingProfile', false)
+//         .set('userLoadingProfileError', Map(action.data.error));
+//
+//     case 'CHARACTER_LIST_LOAD':
+//       return state
+//         .set('characterListLoading', true)
+//         .set('characterListLoadError', null);
+//
+//     case 'CHARACTER_LIST_LOADED':
+//       return state
+//         .set('characterCreating', false)
+//         .set('characterDeleting', false)
+//         .set('characterListLoading', false)
+//         .set('characterListLoadError', null);
+//
+//     case 'CHARACTER_LIST_LOAD_ERROR':
+//       return state
+//         .set('characterCreating', false)
+//         .set('characterDeleting', false)
+//         .set('characterListLoading', false)
+//         .set('characterListLoadError', Map(action.data.error));
+//
+//     case 'CHARACTER_LOAD':
+//       return state
+//         .set('characterLoading', true)
+//         .set('characterIsLoaded', false)
+//         .set('characterLoadError', null);
+//
+//     case 'CHARACTER_LOADED':
+//       return state
+//         .set('characterLoading', false)
+//         .set('characterIsLoaded', true)
+//         .set('characterLoadError', null);
+//
+//     case 'CHARACTER_LOAD_ERROR':
+//       return state
+//         .set('characterLoadError', Map(action.data.error))
+//         .set('characterLoading', false)
+//         .set('characterIsLoaded', false);
+//
+//     case 'CHARACTER_SAVING':
+//       return state.set('characterSaving', true).set('characterSaveError', null);
+//
+//     case 'CHARACTER_SAVED':
+//       return state
+//         .set('characterSaving', false)
+//         .set('characterSaveError', null);
+//
+//     case 'CHARACTER_SAVE_ERROR':
+//       return state
+//         .set('characterSaving', false)
+//         .set('characterSaveError', Map(action.data.error));
+//
+//     case 'CHARACTER_CREATING':
+//       return state.set('characterCreating', true);
+//
+//     case 'CHARACTER_DELETING':
+//       return state.set('characterDeleting', true);
+//
+//     default:
+//       return state;
+//   }
+// }

@@ -5,10 +5,7 @@ import { UserProvider } from './index';
 test('<UserProvider /> renders loading when loading user', () => {
   expect(
     shallow(
-      <UserProvider
-        user={{ isAuthenticating: true }}
-        authenticateUser={() => {}}
-      >
+      <UserProvider user={{ isLoading: true }} authenticateUser={() => {}}>
         <span>hey</span>
       </UserProvider>
     )
@@ -18,10 +15,7 @@ test('<UserProvider /> renders loading when loading user', () => {
 test('<UserProvider /> renders children when user is loaded', () => {
   expect(
     shallow(
-      <UserProvider
-        user={{ isAuthenticating: false }}
-        authenticateUser={() => {}}
-      >
+      <UserProvider user={{ isLoading: false }} authenticateUser={() => {}}>
         <span>hey</span>
       </UserProvider>
     )

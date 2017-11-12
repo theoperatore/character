@@ -1,32 +1,10 @@
-import firebase from 'firebase';
+import { loadUserProfile } from 'api';
 
-const _loadUser = (error, data, isAuthenticating) => ({
-  type: 'LOAD_USER',
-  data,
-  error,
-  isAuthenticating,
-});
-
+export const LOAD_USER = 'LOAD_USER';
 export const authenticateUser = () => dispatch => {
-  dispatch(_loadUser(null, null, true));
+  dispatch({ type: LOAD_USER });
 
-  const off = firebase.auth().onAuthStateChanged(
-    user => {
-      off();
-      if (user) {
-        dispatch(
-          _loadUser(null, {
-            displayName: user.displayName,
-            profileImg: user.photoURL,
-            uid: user.uid,
-          })
-        );
-      } else {
-        dispatch(_loadUser());
-      }
-    },
-    err => {
-      dispatch(_loadUser(err.message));
-    }
-  );
+  return loadUserProfile()
+    .then(profile => dispatch({ type: LOAD_USER, profile }))
+    .catch(error => dispatch({ type: LOAD_USER, error }));
 };

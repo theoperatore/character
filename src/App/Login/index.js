@@ -5,6 +5,7 @@ import firebase from 'firebase';
 import Type from 'components/Type';
 import Icon from 'components/Icon';
 
+import 'firebaseui/dist/firebaseui.css';
 import './index.css';
 
 class Login extends Component {
@@ -17,7 +18,13 @@ class Login extends Component {
   componentDidMount() {
     const config = {
       signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        {
+          provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          scopes: [
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email',
+          ],
+        },
         // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
         // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
         // firebase.auth.GithubAuthProvider.PROVIDER_ID,
@@ -26,7 +33,7 @@ class Login extends Component {
       ],
       callbacks: {
         signInSuccess: /* istanbul ignore next */ () =>
-          this.props.history.push('/profile'),
+          this.props.history.push('/app'),
       },
     };
 

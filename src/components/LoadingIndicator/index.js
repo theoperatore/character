@@ -4,18 +4,23 @@ import cn from 'classnames';
 
 import './index.css';
 
-export default function LoadingIndicator({ color }) {
+export default function LoadingIndicator({ color, center }) {
   const css = cn('loading', `loading--${color}`);
+  const containerCss = cn(center && 'loading--center');
   return (
-    <div className={css}>
-      <div className="loading_dot" />
-      <div className="loading_dot" />
-      <div className="loading_dot" />
+    <div className={containerCss}>
+      <div className={css}>
+        <div className="loading_dot" />
+        <div className="loading_dot" />
+        <div className="loading_dot" />
+      </div>
     </div>
   );
 }
 
 LoadingIndicator.propTypes = {
+  /** set to true to make the loading dots try to center itself in it's container */
+  center: PropTypes.bool,
   color: PropTypes.oneOf([
     'white',
     'black',

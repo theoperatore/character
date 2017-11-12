@@ -2,9 +2,9 @@ import React from 'react';
 import DocumentTitle from 'react-document-title';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
+
 import ProtectedRoute from './ProtectedRoute';
 import UserProvider from './UserProvider';
-
 import Login from './Login';
 
 function App({ store }) {
@@ -17,22 +17,15 @@ function App({ store }) {
             <UserProvider>
               <Switch>
                 <ProtectedRoute
-                  path="/profile"
-                  exact
-                  render={/* istanbul ignore next */ () => (
-                    <h1>This one is profile</h1>
-                  )}
-                />
-                <ProtectedRoute
                   path="/app"
-                  render={/* istanbul ignore next */ () => (
-                    <h1>This one is app</h1>
-                  )}
+                  render={
+                    /* istanbul ignore next */ () => <h1>This one is app</h1>
+                  }
                 />
                 <Route
-                  render={/* istanbul ignore next */ () => (
-                    <Redirect to="/profile" />
-                  )}
+                  render={
+                    /* istanbul ignore next */ () => <Redirect to="/app" />
+                  }
                 />
               </Switch>
             </UserProvider>

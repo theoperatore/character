@@ -3,6 +3,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reduxThunk from 'redux-thunk';
 import { preferences, character } from './reducers';
+import { characters } from './characters/reducer';
 import { user } from './user/reducer';
 
 import defaultCharacter from './defaultCharacter';
@@ -20,11 +21,15 @@ export function createState(defaults = {}) {
   return createStore(
     combineReducers({
       character,
+      characters,
       preferences,
       user,
       // status,
     }),
     initialState,
-    composeWithDevTools(applyMiddleware(reduxThunk))
+    /* istanbul ignore next */ process.env.NODE_ENV !== 'production' &&
+      composeWithDevTools(applyMiddleware(reduxThunk)),
+    /* istanbul ignore next */ process.env.NODE_ENV === 'production' &&
+      applyMiddleware(reduxThunk)
   );
 }
