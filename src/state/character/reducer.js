@@ -4,10 +4,12 @@ import charInfoReducer from './charInfo/reducer';
 import charTraitsReducer from './charTraits/reducer';
 import charProficienciesReducer from './charProficiencies/reducer';
 import charLanguagesReducer from './charLanguages/reducer';
+import charFeaturesReducer from './charFeatures/reducer';
 
 const ABILITY_SCORE_KEYS = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+const defaultState = Map();
 
-export function character(state = null, action) {
+export function character(state = defaultState, action) {
   switch (action.type) {
     // loaded character from BE
     case 'CHARACTER_LOADED':
@@ -34,91 +36,9 @@ export function character(state = null, action) {
 
     // features
     case 'FEATURE_CREATE':
-      const createsClassCharge = !!action.data.classCharge;
-
-      const partialStateFeat = state.update('charFeatures', charFeatures => {
-        return charFeatures
-          ? charFeatures.push(Map(action.data.feature))
-          : List([Map(action.data.feature)]);
-      });
-
-      return createsClassCharge
-        ? partialStateFeat.update('charClassCharges', charClassCharges => {
-            return charClassCharges
-              ? charClassCharges.push(Map(action.data.classCharge))
-              : List([Map(action.data.classCharge)]);
-          })
-        : partialStateFeat;
-
     case 'FEATURE_EDIT':
-      const createClassCharge = action.data.isNewClassCharge;
-      const removeClassCharge = action.data.removeClassCharge;
-      const editClassCharge =
-        action.data.feature.classChargesId && action.data.classCharge;
-
-      const partialStateFeatEdit = state.update(
-        'charFeatures',
-        charFeatures => {
-          const idx = charFeatures.findIndex(
-            feat => feat.get('id') === action.data.feature.id
-          );
-          return charFeatures.update(idx, feature => {
-            if (removeClassCharge) {
-              return feature
-                .merge(action.data.feature)
-                .delete('classChargesId');
-            }
-
-            return feature.merge(action.data.feature);
-          });
-        }
-      );
-
-      return createClassCharge || removeClassCharge || editClassCharge
-        ? partialStateFeatEdit.update('charClassCharges', charClassCharges => {
-            // create
-            if (action.data.isNewClassCharge) {
-              return charClassCharges
-                ? charClassCharges.push(Map(action.data.classCharge))
-                : List([Map(action.data.classCharge)]);
-            }
-
-            // remove
-            if (removeClassCharge) {
-              return charClassCharges.filter(
-                charge => charge.get('id') !== action.data.classChargeId
-              );
-            }
-
-            // edit
-            const idx = charClassCharges.findIndex(
-              charge => charge.get('id') === action.data.classCharge.id
-            );
-            return charClassCharges.update(idx, charge =>
-              charge.merge(action.data.classCharge)
-            );
-          })
-        : partialStateFeatEdit;
-
     case 'FEATURE_DELETE':
-      const hasClassCharge = !!action.data.classChargesId;
-      const partialStateFeatDelete = state.update(
-        'charFeatures',
-        charFeatures => {
-          return charFeatures.filter(feat => feat.get('id') !== action.data.id);
-        }
-      );
-
-      return hasClassCharge
-        ? partialStateFeatDelete.update(
-            'charClassCharges',
-            charClassCharges => {
-              return charClassCharges.filter(
-                charge => charge.get('id') !== action.data.classChargesId
-              );
-            }
-          )
-        : partialStateFeatDelete;
+      return charFeaturesReducer(state, action);
 
     // ability
     case 'SKILL_EDIT':
@@ -127,7 +47,7 @@ export function character(state = null, action) {
           skill => skill.get('name') === action.data.name
         );
         return charSkills.update(idx, skill => {
-          const newScore =
+          let newScore =
             skill.get('bonus') +
             state.getIn(['charAbilities', skill.get('mod'), 'mod']);
 
@@ -361,7 +281,7 @@ export function character(state = null, action) {
       return state.updateIn(
         ['charSavingThrows', action.data.ability],
         savingThrow => {
-          const newScore =
+          let newScore =
             savingThrow.get('bonus') +
             state.getIn(['charAbilities', action.data.ability, 'mod']);
 
@@ -391,7 +311,7 @@ export function character(state = null, action) {
         case 'heal':
           return state.update('charHitPoints', hitPoints => {
             const isNegative = hitPoints.get('current') < 0;
-            const newValue = isNegative
+            let newValue = isNegative
               ? 0 + action.data.value
               : hitPoints.get('current') + action.data.value;
 
@@ -422,9 +342,7 @@ export function character(state = null, action) {
       return state.update('charHitPoints', charHitPoints => {
         return charHitPoints.updateIn(
           ['deathSaves', Object.keys(action.data)[0]],
-          save => {
-            return (save += action.data[Object.keys(action.data)[0]]);
-          }
+          save => save + action.data[Object.keys(action.data)[0]]
         );
       });
 
@@ -522,7 +440,7 @@ export function character(state = null, action) {
 
           return Object.keys(action.data).reduce((state, hitDiceId) => {
             return state.updateIn(['hitDiceDefinitions', hitDiceId], hdDef => {
-              const newValue =
+              let newValue =
                 hdDef.get('current') < 0 ? 0 : hdDef.get('current');
 
               newValue += action.data[hitDiceId].valueToAdd;
@@ -553,7 +471,7 @@ export function character(state = null, action) {
 
     case 'SHORT_REST':
       return state.update('charHitPoints', charHitPoints => {
-        const newHitPoints =
+        let newHitPoints =
           charHitPoints.get('current') < 0 ? 0 : charHitPoints.get('current');
 
         newHitPoints += action.data.hpRegained;
@@ -582,7 +500,7 @@ export function character(state = null, action) {
           charge => charge.get('id') === action.data.id
         );
         return charClassCharges.update(idx, charge => {
-          const newCurrent = charge.get('current') - 1;
+          let newCurrent = charge.get('current') - 1;
 
           newCurrent = newCurrent < 0 ? 0 : newCurrent;
 
@@ -595,7 +513,7 @@ export function character(state = null, action) {
           charge => charge.get('id') === action.data.id
         );
         return charClassCharges.update(idx, charge => {
-          const newCurrent = charge.get('current') + 1;
+          let newCurrent = charge.get('current') + 1;
 
           newCurrent =
             newCurrent > charge.get('charges')
@@ -645,7 +563,7 @@ export function character(state = null, action) {
 
     case 'SPELL_DC_EDIT':
       return state.update('charSpellSaveDC', spellSaveDC => {
-        const score =
+        let score =
           state.getIn(['charAbilities', action.data.abil, 'mod']) +
           state.getIn(['charSpellSaveDC', 'base']) +
           action.data.bonus;
@@ -751,7 +669,7 @@ export function character(state = null, action) {
       );
 
     case 'EQUIPMENT_ITEM_EDIT':
-      const editItemPartialState = state.updateIn(
+      let editItemPartialState = state.updateIn(
         ['charEquipment', 'allItems', action.data.item.id],
         itm => {
           return itm.merge(action.data.item);
@@ -832,7 +750,7 @@ export function character(state = null, action) {
         containers => containers.get('id') === action.data.id
       );
 
-      const toContainerIdx = editContainers.findIndex(
+      let toContainerIdx = editContainers.findIndex(
         containers => !!containers.get('default') === true
       );
 

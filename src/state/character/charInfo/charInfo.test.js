@@ -55,10 +55,7 @@ test('updating character level also updates hit dice', () => {
 
 test('Can update info from blank data', () => {
   const store = createState({
-    character: fromJS({
-      ...defaultCharacter,
-      charInfo: null,
-    }),
+    character: fromJS({}),
   });
 
   const mockInfo = {

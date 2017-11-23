@@ -24,10 +24,8 @@ export default function charProficienciesReducer(state, action) {
     case 'PROFICIENCY_CREATE':
       return state.updateIn(
         ['charOtherProficiencies', 'proficiencies'],
-        proficiencies =>
-          proficiencies
-            ? proficiencies.push(Map(action.data))
-            : List([Map(action.data)])
+        List(),
+        proficiencies => proficiencies.push(Map(action.data))
       );
   }
 }

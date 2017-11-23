@@ -25,6 +25,7 @@
     "firebaseui": "2.4.1",
     "font-awesome": "^4.7.0",
     "immutable": "^3.8.2",
+    "invariant": "^2.2.2",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-document-title": "^2.0.3",

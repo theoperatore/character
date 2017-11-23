@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Creating/Editing features and class charges must have correct mapping 1`] = `"Creating a feature with class charge requires \`featureId\` to be a string"`;
+
+exports[`Creating/Editing features and class charges must have correct mapping 2`] = `"Creating a feature with class charge requires \`featureId\` to be a string"`;
+
+exports[`Creating/Editing features and class charges must have correct mapping 3`] = `"Class charge \`featureId\` must equal the feauture id"`;
+
+exports[`Creating/Editing features and class charges must have correct mapping 4`] = `"Class charge \`featureId\` must equal the feauture id"`;
+
+exports[`Creating/Editing features and class charges must have correct mapping 5`] = `"A feature's \`classChargesId\` must match the class charge \`id\`"`;
+
+exports[`Creating/Editing features and class charges must have correct mapping 6`] = `"A feature's \`classChargesId\` must match the class charge \`id\`"`;

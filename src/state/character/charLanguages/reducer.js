@@ -23,10 +23,8 @@ export default function charLanguagesReducer(state, action) {
     case 'LANGUAGE_CREATE':
       return state.updateIn(
         ['charOtherProficiencies', 'languages'],
-        languages =>
-          languages
-            ? languages.push(Map(action.data))
-            : List([Map(action.data)])
+        List(),
+        languages => languages.push(Map(action.data))
       );
   }
 }
