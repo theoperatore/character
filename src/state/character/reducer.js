@@ -177,25 +177,16 @@ export function character(state = defaultState, action) {
         .updateIn(['charHitPoints', 'hitDice'], hitDice => {
           return hitDice ? hitDice.push(newHitDieId) : List([newHitDieId]);
         })
-        .updateIn(['charHitPoints', 'hitDiceDefinitions'], defs => {
-          return defs
-            ? defs.set(
-                newHitDieId,
-                Map({
-                  id: newHitDieId,
-                  type: 'd4',
-                  current: 1,
-                  maximum: 1,
-                })
-              )
-            : Map({
-                [`${newHitDieId}`]: Map({
-                  id: newHitDieId,
-                  type: 'd4',
-                  current: 1,
-                  maximum: 1,
-                }),
-              });
+        .updateIn(['charHitPoints', Map(), 'hitDiceDefinitions'], defs => {
+          return defs.set(
+            newHitDieId,
+            Map({
+              id: newHitDieId,
+              type: 'd4',
+              current: 1,
+              maximum: 1,
+            })
+          );
         });
 
     case 'LONG_REST':
