@@ -98,6 +98,14 @@ module.exports = {
           bonus: 0,
           score: 5,
         },
+        {
+          abil: 'cha',
+          prof: true,
+          name: 'Another bonus',
+          id: 'ralf-spellBubble-2',
+          bonus: 0,
+          score: 9,
+        },
       ],
 
       charSpellSaveDC: {

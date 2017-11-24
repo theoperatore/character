@@ -6,6 +6,7 @@ import charProficienciesReducer from './charProficiencies/reducer';
 import charLanguagesReducer from './charLanguages/reducer';
 import charFeaturesReducer from './charFeatures/reducer';
 import charSkillsReducer from './charSkills/reducer';
+import charAbilityScoresReducer from './charAbilityScores/reducer';
 
 const ABILITY_SCORE_KEYS = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 const defaultState = Map();
@@ -47,98 +48,7 @@ export function character(state = defaultState, action) {
       return charSkillsReducer(state, action);
 
     case 'ABILITY_SCORE_EDIT':
-      const proficiencyBonus = state.getIn(['charProficiencyBonus', 'score']);
-      const abilityScoreKeys = Object.keys(action.data);
-      const abilityScoreMods = abilityScoreKeys.reduce((obj, key) => {
-        obj[key] = Math.floor((action.data[key] - 10) / 2);
-        return obj;
-      }, {});
-
-      const partialState = state
-        .update('charAbilities', charAbilities => {
-          return abilityScoreKeys.reduce((outAbil, abilKey) => {
-            return outAbil
-              .setIn([abilKey, 'score'], action.data[abilKey])
-              .setIn([abilKey, 'mod'], abilityScoreMods[abilKey]);
-          }, charAbilities);
-        })
-        .update('charAttackBubbles', charAttackBubbles => {
-          if (!charAttackBubbles) {
-            return List([]);
-          }
-
-          return charAttackBubbles.map(bubble => {
-            let newScore =
-              abilityScoreMods[bubble.get('abil')] + bubble.get('bonus');
-
-            newScore += bubble.get('prof') ? proficiencyBonus : 0;
-
-            return bubble.set('score', newScore);
-          });
-        })
-        .update('charSpellBubbles', charSpellBubbles => {
-          if (!charSpellBubbles) {
-            return List([]);
-          }
-
-          return charSpellBubbles.map(bubble => {
-            let newScore =
-              abilityScoreMods[bubble.get('abil')] + bubble.get('bonus');
-
-            newScore += bubble.get('prof') ? proficiencyBonus : 0;
-
-            return bubble.set('score', newScore);
-          });
-        })
-        .update('charSpellSaveDC', charSpellSaveDC => {
-          let newScore =
-            charSpellSaveDC.get('base') +
-            charSpellSaveDC.get('bonus') +
-            abilityScoreMods[charSpellSaveDC.get('abil')];
-
-          newScore += charSpellSaveDC.get('prof') ? proficiencyBonus : 0;
-
-          return charSpellSaveDC.set('score', newScore);
-        })
-        .update('charInitiative', charInitiative => {
-          const newScore = charInitiative.get('bonus') + abilityScoreMods.dex;
-          return charInitiative.set('score', newScore);
-        })
-        .update('charSavingThrows', charSavingThrows => {
-          return abilityScoreKeys.reduce((outSavingThrows, abilKey) => {
-            let newScore = abilityScoreMods[abilKey];
-
-            newScore += outSavingThrows.getIn([abilKey, 'proficient'])
-              ? proficiencyBonus
-              : 0;
-
-            return outSavingThrows.setIn([abilKey, 'score'], newScore);
-          }, charSavingThrows);
-        })
-        .update('charSkills', charSkills => {
-          return charSkills.map(skill => {
-            let newScore =
-              skill.get('bonus') + abilityScoreMods[skill.get('mod')];
-
-            newScore += skill.get('trained') ? proficiencyBonus : 0;
-
-            return skill.set('score', newScore);
-          });
-        });
-
-      return partialState.update(
-        'charPassivePerception',
-        charPassivePerception => {
-          const perceptionSkill = partialState
-            .get('charSkills')
-            .find(itm => itm.get('name') === 'Perception');
-          const newScore =
-            charPassivePerception.get('bonus') +
-            perceptionSkill.get('score') +
-            charPassivePerception.get('base');
-          return charPassivePerception.set('score', newScore);
-        }
-      );
+      return charAbilityScoresReducer(state, action);
 
     case 'PASSIVE_PERCEPTION_EDIT':
       return state
