@@ -1,6 +1,5 @@
 import { fromJS } from 'immutable';
 import { createState } from 'state';
-import defaultCharacter from 'state/defaultCharacter';
 import { editBasicInfo } from './actions';
 
 test('update basic character info', () => {

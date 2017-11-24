@@ -5,6 +5,7 @@ import charTraitsReducer from './charTraits/reducer';
 import charProficienciesReducer from './charProficiencies/reducer';
 import charLanguagesReducer from './charLanguages/reducer';
 import charFeaturesReducer from './charFeatures/reducer';
+import charSkillsReducer from './charSkills/reducer';
 
 const ABILITY_SCORE_KEYS = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 const defaultState = Map();
@@ -35,6 +36,7 @@ export function character(state = defaultState, action) {
       return charLanguagesReducer(state, action);
 
     // features
+    // and class charges CRUD
     case 'FEATURE_CREATE':
     case 'FEATURE_EDIT':
     case 'FEATURE_DELETE':
@@ -42,38 +44,7 @@ export function character(state = defaultState, action) {
 
     // ability
     case 'SKILL_EDIT':
-      const partialSkillState = state.update('charSkills', charSkills => {
-        const idx = charSkills.findIndex(
-          skill => skill.get('name') === action.data.name
-        );
-        return charSkills.update(idx, skill => {
-          let newScore =
-            skill.get('bonus') +
-            state.getIn(['charAbilities', skill.get('mod'), 'mod']);
-
-          newScore += action.data.trained
-            ? state.getIn(['charProficiencyBonus', 'score'])
-            : 0;
-
-          return skill
-            .set('trained', action.data.trained)
-            .set('score', newScore);
-        });
-      });
-
-      return partialSkillState.update(
-        'charPassivePerception',
-        charPassivePerception => {
-          const perceptionSkill = partialSkillState
-            .get('charSkills')
-            .find(itm => itm.get('name') === 'Perception');
-          const newScore =
-            charPassivePerception.get('bonus') +
-            perceptionSkill.get('score') +
-            charPassivePerception.get('base');
-          return charPassivePerception.set('score', newScore);
-        }
-      );
+      return charSkillsReducer(state, action);
 
     case 'ABILITY_SCORE_EDIT':
       const proficiencyBonus = state.getIn(['charProficiencyBonus', 'score']);
