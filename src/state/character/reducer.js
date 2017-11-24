@@ -7,6 +7,7 @@ import charLanguagesReducer from './charLanguages/reducer';
 import charFeaturesReducer from './charFeatures/reducer';
 import charSkillsReducer from './charSkills/reducer';
 import charAbilityScoresReducer from './charAbilityScores/reducer';
+import charPassivePerceptionReducer from './charPassivePerception/reducer';
 
 const ABILITY_SCORE_KEYS = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 const defaultState = Map();
@@ -51,21 +52,7 @@ export function character(state = defaultState, action) {
       return charAbilityScoresReducer(state, action);
 
     case 'PASSIVE_PERCEPTION_EDIT':
-      return state
-        .updateIn(['charPassivePerception', 'bonus'], bonus => {
-          return action.data.bonus;
-        })
-        .update('charPassivePerception', passivePerception => {
-          const perceptionSkill = state
-            .get('charSkills')
-            .find(itm => itm.get('name') === 'Perception');
-          const newScore =
-            passivePerception.get('base') +
-            passivePerception.get('bonus') +
-            perceptionSkill.get('score');
-
-          return passivePerception.set('score', newScore);
-        });
+      return charPassivePerceptionReducer(state, action);
 
     case 'PROFICIENCY_BONUS_EDIT':
       const newProficiencyBonus = action.data.base + action.data.bonus;
