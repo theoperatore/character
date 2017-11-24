@@ -136,34 +136,33 @@ export function character(state = defaultState, action) {
         });
 
     case 'RESISTANCES_CREATE':
-      return state.update('charResistances', charResistances => {
-        return charResistances
-          ? charResistances.push(Map(action.data))
-          : List([Map(action.data)]);
-      });
+      return state.update('charResistances', List(), charResistances =>
+        charResistances.push(Map(action.data))
+      );
 
     case 'RESISTANCES_EDIT':
       return state.update('charResistances', charResistances => {
         const idx = charResistances.findIndex(
           res => res.get('id') === action.data.id
         );
+
+        if (idx === -1) return charResistances;
+
         return charResistances.update(idx, res => {
           return res.merge(action.data);
         });
       });
 
     case 'RESISTANCES_DELETE':
-      return state.update('charResistances', charResistances => {
-        return charResistances.filter(res => res.get('id') !== action.data.id);
-      });
+      return state.update('charResistances', charResistances =>
+        charResistances.filter(res => res.get('id') !== action.data.id)
+      );
 
     // hit dice
     case 'HIT_DICE_EDIT':
       return state.updateIn(
         ['charHitPoints', 'hitDiceDefinitions', action.data.id],
-        def => {
-          return def.merge(action.data);
-        }
+        def => def.merge(action.data)
       );
 
     case 'HIT_DICE_DELETE':
@@ -174,11 +173,11 @@ export function character(state = defaultState, action) {
     case 'HIT_DICE_CREATE':
       const newHitDieId = `hit-die-${uuid()}`;
       return state
-        .updateIn(['charHitPoints', 'hitDice'], hitDice => {
-          return hitDice ? hitDice.push(newHitDieId) : List([newHitDieId]);
-        })
-        .updateIn(['charHitPoints', Map(), 'hitDiceDefinitions'], defs => {
-          return defs.set(
+        .updateIn(['charHitPoints', 'hitDice'], List(), hitDice =>
+          hitDice.push(newHitDieId)
+        )
+        .updateIn(['charHitPoints', Map(), 'hitDiceDefinitions'], defs =>
+          defs.set(
             newHitDieId,
             Map({
               id: newHitDieId,
@@ -186,8 +185,8 @@ export function character(state = defaultState, action) {
               current: 1,
               maximum: 1,
             })
-          );
-        });
+          )
+        );
 
     case 'LONG_REST':
       return state
@@ -212,20 +211,14 @@ export function character(state = defaultState, action) {
             });
           }, partialState);
         })
-        .update('charClassCharges', charClassCharges => {
-          if (!charClassCharges) {
-            return List([]);
-          }
-
-          return charClassCharges.map(charge => {
-            return charge.set('current', charge.get('charges'));
-          });
-        })
-        .update('charSpells', spells => {
-          return spells.map(spellLevel => {
-            return spellLevel.set('used', 0);
-          });
-        });
+        .update('charClassCharges', List(), charClassCharges =>
+          charClassCharges.map(charge =>
+            charge.set('current', charge.get('charges'))
+          )
+        )
+        .update('charSpells', spells =>
+          spells.map(spellLevel => spellLevel.set('used', 0))
+        );
 
     case 'SHORT_REST':
       return state.update('charHitPoints', charHitPoints => {
@@ -257,6 +250,7 @@ export function character(state = defaultState, action) {
         const idx = charClassCharges.findIndex(
           charge => charge.get('id') === action.data.id
         );
+        if (idx === -1) return charClassCharges;
         return charClassCharges.update(idx, charge => {
           let newCurrent = charge.get('current') - 1;
 
@@ -270,6 +264,7 @@ export function character(state = defaultState, action) {
         const idx = charClassCharges.findIndex(
           charge => charge.get('id') === action.data.id
         );
+        if (idx === -1) return charClassCharges;
         return charClassCharges.update(idx, charge => {
           let newCurrent = charge.get('current') + 1;
 
@@ -287,6 +282,7 @@ export function character(state = defaultState, action) {
         const idx = charAttacks.findIndex(
           atk => atk.get('id') === action.data.id
         );
+        if (idx === -1) return charAttacks;
         return charAttacks.update(idx, attack => {
           return attack.merge(action.data);
         });
@@ -300,35 +296,30 @@ export function character(state = defaultState, action) {
       });
 
     case 'ATTACK_CREATE':
-      return state.update('charAttacks', charAttacks => {
-        return charAttacks
-          ? charAttacks.push(Map(action.data))
-          : List([Map(action.data)]);
-      });
+      return state.update('charAttacks', List(), charAttacks =>
+        charAttacks.push(Map(action.data))
+      );
 
     // spells
     case 'SPELL_SLOTS_EDIT':
-      return state.update('charSpells', charSpells => {
-        return charSpells.map((spell, idx) => {
-          return spell
+      return state.update('charSpells', charSpells =>
+        charSpells.map((spell, idx) =>
+          spell
             .set('slots', action.data.slots[idx].max)
             .set(
               'used',
               action.data.slots[idx].max - action.data.slots[idx].curr
-            );
-        });
-      });
+            )
+        )
+      );
 
     case 'SPELL_DC_EDIT':
       return state.update('charSpellSaveDC', spellSaveDC => {
-        let score =
+        const score =
           state.getIn(['charAbilities', action.data.abil, 'mod']) +
           state.getIn(['charSpellSaveDC', 'base']) +
-          action.data.bonus;
-
-        score += action.data.prof
-          ? state.getIn(['charProficiencyBonus', 'score'])
-          : 0;
+          action.data.bonus +
+          state.getIn(['charProficiencyBonus', 'score']);
 
         return spellSaveDC.merge(action.data, { score });
       });
@@ -340,6 +331,7 @@ export function character(state = defaultState, action) {
           const idx = spells.findIndex(
             spell => spell.get('id') === action.data.spell.id
           );
+          if (idx === -1) return spells;
           return spells.update(idx, spell => spell.merge(action.data.spell));
         }
       );
@@ -347,19 +339,14 @@ export function character(state = defaultState, action) {
     case 'SPELL_DELETE':
       return state.updateIn(
         ['charSpells', action.data.level, 'spells'],
-        spells => {
-          return spells.filter(spell => spell.get('id') !== action.data.id);
-        }
+        spells => spells.filter(spell => spell.get('id') !== action.data.id)
       );
 
     case 'SPELL_CREATE':
       return state.updateIn(
         ['charSpells', action.data.level, 'spells'],
-        spells => {
-          return spells
-            ? spells.push(Map(action.data.spell))
-            : List([Map(action.data.spell)]);
-        }
+        List(),
+        spells => spells.push(Map(action.data.spell))
       );
 
     case 'SPELL_PREPARE':
@@ -369,6 +356,7 @@ export function character(state = defaultState, action) {
           const idx = spells.findIndex(
             spell => spell.get('id') === action.data.id
           );
+          if (idx === -1) return spells;
           return spells.update(idx, spell => {
             return spell.set('prepared', true);
           });
@@ -382,6 +370,7 @@ export function character(state = defaultState, action) {
           const idx = spells.findIndex(
             spell => spell.get('id') === action.data.id
           );
+          if (idx === -1) return spells;
           return spells.update(idx, spell => {
             return spell.set('prepared', false);
           });
@@ -389,24 +378,16 @@ export function character(state = defaultState, action) {
       );
 
     case 'SPELL_CAST':
-      return state.updateIn(
-        ['charSpells', action.data.levelSelected],
-        level => {
-          return level.set('used', level.get('used') + action.data.slotsUsed);
-        }
+      return state.updateIn(['charSpells', action.data.levelSelected], level =>
+        level.set('used', level.get('used') + action.data.slotsUsed)
       );
 
     // equipments
     case 'EQUIPMENT_ITEM_CREATE':
       const createItemPartialState = state.updateIn(
         ['charEquipment', 'allItems'],
-        allItems => {
-          return allItems
-            ? allItems.set(action.data.item.id, Map(action.data.item))
-            : Map({
-                [`${action.data.item.id}`]: Map(action.data.item),
-              });
-        }
+        Map(),
+        allItems => allItems.set(action.data.item.id, Map(action.data.item))
       );
 
       const containerIdx = state
@@ -415,23 +396,21 @@ export function character(state = defaultState, action) {
           container => container.get('id') === action.data.container.id
         );
 
+      if (idx === -1) return state;
+
       return createItemPartialState.updateIn(
         ['charEquipment', 'containers', containerIdx],
-        container => {
-          return container.update('items', items => {
-            return items
-              ? items.push(action.data.item.id)
-              : List([action.data.item.id]);
-          });
-        }
+        container =>
+          container.update('items', List(), items =>
+            items.push(action.data.item.id)
+          )
       );
 
     case 'EQUIPMENT_ITEM_EDIT':
       let editItemPartialState = state.updateIn(
         ['charEquipment', 'allItems', action.data.item.id],
-        itm => {
-          return itm.merge(action.data.item);
-        }
+        Map(),
+        itm => itm.merge(action.data.item)
       );
 
       if (action.data.hasMoved) {
@@ -473,13 +452,14 @@ export function character(state = defaultState, action) {
           containers => containers.get('id') === action.data.containerId
         );
 
+      if (containerIdxOfItemToDelete === -1) return state;
+
       return state.updateIn(
         ['charEquipment', 'containers', containerIdxOfItemToDelete],
-        container => {
-          return container.update('items', items => {
-            return items.filter(itm => itm !== action.data.id);
-          });
-        }
+        container =>
+          container.update('items', items =>
+            items.filter(itm => itm !== action.data.id)
+          )
       );
 
     case 'EQUIPMENT_CONTAINER_CREATE':
@@ -494,11 +474,11 @@ export function character(state = defaultState, action) {
         .getIn(['charEquipment', 'containers'])
         .findIndex(container => container.get('id') === action.data.id);
 
+      if (editContainerIdx === -1) return state;
+
       return state.updateIn(
         ['charEquipment', 'containers', editContainerIdx],
-        container => {
-          return container.merge(action.data);
-        }
+        container => container.merge(action.data)
       );
 
     case 'EQUIPMENT_CONTAINER_DELETE':
@@ -556,7 +536,7 @@ export function character(state = defaultState, action) {
 
     // attack bonuses
     case 'ATTACK_BONUS_CREATE':
-      return state.update('charAttackBubbles', charAttackBubbles => {
+      return state.update('charAttackBubbles', List(), charAttackBubbles => {
         let score =
           state.getIn(['charAbilities', action.data.abil, 'mod']) +
           action.data.bonus;
@@ -566,9 +546,7 @@ export function character(state = defaultState, action) {
           : 0;
 
         const newBubble = Map(Object.assign({}, action.data, { score }));
-        return charAttackBubbles
-          ? charAttackBubbles.push(newBubble)
-          : List([newBubble]);
+        return charAttackBubbles.push(newBubble);
       });
 
     case 'ATTACK_BONUS_EDIT':
@@ -576,6 +554,7 @@ export function character(state = defaultState, action) {
         const idx = charAttackBubbles.findIndex(
           bubble => bubble.get('id') === action.data.id
         );
+        if (idx === -1) return charAttackBubbles;
         return charAttackBubbles.update(idx, bubble => {
           let score =
             state.getIn(['charAbilities', action.data.abil, 'mod']) +
@@ -590,15 +569,13 @@ export function character(state = defaultState, action) {
       });
 
     case 'ATTACK_BONUS_DELETE':
-      return state.update('charAttackBubbles', charAttackBubbles => {
-        return charAttackBubbles.filter(
-          bubble => bubble.get('id') !== action.data.id
-        );
-      });
+      return state.update('charAttackBubbles', charAttackBubbles =>
+        charAttackBubbles.filter(bubble => bubble.get('id') !== action.data.id)
+      );
 
     // spell attack bonuses
     case 'SPELL_ATTACK_BONUS_CREATE':
-      return state.update('charSpellBubbles', charSpellBubbles => {
+      return state.update('charSpellBubbles', List(), charSpellBubbles => {
         let score =
           state.getIn(['charAbilities', action.data.abil, 'mod']) +
           action.data.bonus;
@@ -608,9 +585,7 @@ export function character(state = defaultState, action) {
           : 0;
 
         const newSpellBubble = Map(Object.assign({}, action.data, { score }));
-        return charSpellBubbles
-          ? charSpellBubbles.push(newSpellBubble)
-          : List([newSpellBubble]);
+        return charSpellBubbles.push(newSpellBubble);
       });
 
     case 'SPELL_ATTACK_BONUS_EDIT':
@@ -618,6 +593,7 @@ export function character(state = defaultState, action) {
         const idx = charSpellBubbles.findIndex(
           bubble => bubble.get('id') === action.data.id
         );
+        if (idx === -1) return charSpellBubbles;
         return charSpellBubbles.update(idx, bubble => {
           let score =
             state.getIn(['charAbilities', action.data.abil, 'mod']) +
@@ -632,11 +608,9 @@ export function character(state = defaultState, action) {
       });
 
     case 'SPELL_ATTACK_BONUS_DELETE':
-      return state.update('charSpellBubbles', charSpellBubbles => {
-        return charSpellBubbles.filter(
-          bubble => bubble.get('id') !== action.data.id
-        );
-      });
+      return state.update('charSpellBubbles', charSpellBubbles =>
+        charSpellBubbles.filter(bubble => bubble.get('id') !== action.data.id)
+      );
 
     default:
       return state;
