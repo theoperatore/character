@@ -9,6 +9,7 @@ import charSkillsReducer from './charSkills/reducer';
 import charAbilityScoresReducer from './charAbilityScores/reducer';
 import charPassivePerceptionReducer from './charPassivePerception/reducer';
 import charProficiencyBonusReducer from './charProficiencyBonus/reducer';
+import charSavingThrowsReducer from './charSavingThrows/reducer';
 
 const defaultState = Map();
 
@@ -59,22 +60,7 @@ export function character(state = defaultState, action) {
 
     // defenses
     case 'SAVING_THROW_EDIT':
-      return state.updateIn(
-        ['charSavingThrows', action.data.ability],
-        savingThrow => {
-          let newScore =
-            savingThrow.get('bonus') +
-            state.getIn(['charAbilities', action.data.ability, 'mod']);
-
-          newScore += action.data.proficient
-            ? state.getIn(['charProficiencyBonus', 'score'])
-            : 0;
-
-          return savingThrow
-            .set('proficient', action.data.proficient)
-            .set('score', newScore);
-        }
-      );
+      return charSavingThrowsReducer(state, action);
 
     case 'HIT_POINTS_EDIT':
       switch (action.data.type) {
