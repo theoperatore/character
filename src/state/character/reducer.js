@@ -584,8 +584,12 @@ export function character(state = defaultState, action) {
           ? state.getIn(['charProficiencyBonus', 'score'])
           : 0;
 
-        const newSpellBubble = Map(Object.assign({}, action.data, { score }));
-        return charSpellBubbles.push(newSpellBubble);
+        return charSpellBubbles.push(
+          Map({
+            ...action.data,
+            score,
+          })
+        );
       });
 
     case 'SPELL_ATTACK_BONUS_EDIT':
