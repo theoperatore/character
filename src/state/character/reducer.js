@@ -384,19 +384,19 @@ export function character(state = defaultState, action) {
 
     // equipments
     case 'EQUIPMENT_ITEM_CREATE':
-      const createItemPartialState = state.updateIn(
-        ['charEquipment', 'allItems'],
-        Map(),
-        allItems => allItems.set(action.data.item.id, Map(action.data.item))
-      );
-
       const containerIdx = state
         .getIn(['charEquipment', 'containers'])
         .findIndex(
           container => container.get('id') === action.data.container.id
         );
 
-      if (idx === -1) return state;
+      if (containerIdx === -1) return state;
+
+      const createItemPartialState = state.updateIn(
+        ['charEquipment', 'allItems'],
+        Map(),
+        allItems => allItems.set(action.data.item.id, Map(action.data.item))
+      );
 
       return createItemPartialState.updateIn(
         ['charEquipment', 'containers', containerIdx],
@@ -407,49 +407,41 @@ export function character(state = defaultState, action) {
       );
 
     case 'EQUIPMENT_ITEM_EDIT':
-      let editItemPartialState = state.updateIn(
+      return state.updateIn(
         ['charEquipment', 'allItems', action.data.item.id],
         Map(),
         itm => itm.merge(action.data.item)
       );
 
-      if (action.data.hasMoved) {
-        const containers = editItemPartialState.getIn([
-          'charEquipment',
-          'containers',
-        ]);
+    case 'EQUIPMENT_ITEM_MOVE': {
+      const containers = state.getIn(['charEquipment', 'containers']);
 
-        const fromContainerIdx = containers.findIndex(
-          cont => cont.get('id') === action.data.container.originalContainerId
+      const toContainerIdx = containers.findIndex(
+        cont => cont.get('id') === action.data.container.id
+      );
+      const fromContainerIdx = containers.findIndex(
+        cont => cont.get('id') === action.data.fromContainer.id
+      );
+
+      if (toContainerIdx === -1) return state;
+      if (fromContainerIdx === -1) return state;
+
+      return state
+        .updateIn(
+          ['charEquipment', 'containers', fromContainerIdx, 'items'],
+          itms => itms.filter(itm => itm !== action.data.item.id)
+        )
+        .updateIn(
+          ['charEquipment', 'containers', toContainerIdx, 'items'],
+          itms => itms.push(action.data.item.id)
         );
-        const toContainerIdx = containers.findIndex(
-          cont => cont.get('id') === action.data.container.id
-        );
-
-        editItemPartialState = editItemPartialState
-          .updateIn(['charEquipment', 'containers'], containers => {
-            return containers.update(fromContainerIdx, cont => {
-              return cont.update('items', itms => {
-                return itms.filter(itm => itm !== action.data.item.id);
-              });
-            });
-          })
-          .updateIn(['charEquipment', 'containers'], containers => {
-            return containers.update(toContainerIdx, cont => {
-              return cont.update('items', itms => {
-                return itms.push(action.data.item.id);
-              });
-            });
-          });
-      }
-
-      return editItemPartialState;
+    } // end item move case
 
     case 'EQUIPMENT_ITEM_DELETE':
       const containerIdxOfItemToDelete = state
         .getIn(['charEquipment', 'containers'])
         .findIndex(
-          containers => containers.get('id') === action.data.containerId
+          containers => containers.get('id') === action.data.container.id
         );
 
       if (containerIdxOfItemToDelete === -1) return state;
@@ -458,16 +450,16 @@ export function character(state = defaultState, action) {
         ['charEquipment', 'containers', containerIdxOfItemToDelete],
         container =>
           container.update('items', items =>
-            items.filter(itm => itm !== action.data.id)
+            items.filter(itm => itm !== action.data.item.id)
           )
       );
 
     case 'EQUIPMENT_CONTAINER_CREATE':
-      return state.updateIn(['charEquipment', 'containers'], containers => {
-        return containers.push(
+      return state.updateIn(['charEquipment', 'containers'], containers =>
+        containers.push(
           Map(Object.assign({}, action.data, { items: List([]) }))
-        );
-      });
+        )
+      );
 
     case 'EQUIPMENT_CONTAINER_EDIT':
       const editContainerIdx = state
@@ -488,6 +480,8 @@ export function character(state = defaultState, action) {
         containers => containers.get('id') === action.data.id
       );
 
+      if (fromContainerIdx === -1) return state;
+
       let toContainerIdx = editContainers.findIndex(
         containers => !!containers.get('default') === true
       );
@@ -495,15 +489,15 @@ export function character(state = defaultState, action) {
       // cannot delete default container
       if (fromContainerIdx === toContainerIdx) return state;
 
+      // cache deleted items in order to transfer them to the default
+      // container
       const deletedItems = editContainers.getIn([fromContainerIdx, 'items']);
 
+      // actually delete the container
       const deletedContainersPartialState = state.updateIn(
         ['charEquipment', 'containers'],
-        containers => {
-          return containers.filter(
-            container => container.get('id') !== action.data.id
-          );
-        }
+        containers =>
+          containers.filter(container => container.get('id') !== action.data.id)
       );
 
       // get the default id again because it could be different
@@ -514,9 +508,7 @@ export function character(state = defaultState, action) {
 
       return deletedContainersPartialState.updateIn(
         ['charEquipment', 'containers', toContainerIdx, 'items'],
-        items => {
-          return items.concat(deletedItems);
-        }
+        items => items.concat(deletedItems)
       );
 
     case 'WEALTH_EDIT':
