@@ -208,28 +208,44 @@ export function character(state = defaultState, action) {
     case 'LONG_REST':
       return state
         .update('charHitPoints', charHitPoints => {
-          const partialState = charHitPoints
+          return charHitPoints
             .set('current', charHitPoints.get('maximum'))
-            .set('temporary', 0);
+            .set('temporary', 0)
+            .setIn(['deathSaves', 'successes'], 0)
+            .setIn(['deathSaves', 'failures'], 0)
+            .updateIn(['hitDiceDefinitions', action.data.hitDiceId], def => {
+              const halfMax = Math.floor(def.get('maximum') / 2);
+              const newCurrent = Math.min(
+                def.get('current') + halfMax,
+                def.get('maximum')
+              );
+              return def.set('current', newCurrent);
+            });
 
-          return Object.keys(action.data).reduce((reducedState, hitDiceId) => {
-            return reducedState.updateIn(
-              ['hitDiceDefinitions', hitDiceId],
-              hdDef => {
-                let newValue =
-                  hdDef.get('current') < 0 ? 0 : hdDef.get('current');
-
-                newValue += action.data[hitDiceId].valueToAdd;
-
-                newValue =
-                  newValue > hdDef.get('maximum')
-                    ? hdDef.get('maximum')
-                    : newValue;
-
-                return hdDef.set('current', newValue);
-              }
-            );
-          }, partialState);
+          // TODO: these are multiclass rules.
+          // I'm going to make this simpler so that each long rest
+          // assumes you are not multiclassing for now.
+          // Later, when multiclassing is a thing, this should possibly be split
+          // out into a separate action to recover specific hit dice because
+          // of multiclass rules, ex: LONG_REST_MULTICLASS...
+          // return Object.keys(action.data).reduce((reducedState, hitDiceId) => {
+          //   return reducedState.updateIn(
+          //     ['hitDiceDefinitions', hitDiceId],
+          //     hdDef => {
+          //       let newValue =
+          //         hdDef.get('current') < 0 ? 0 : hdDef.get('current');
+          //
+          //       newValue += action.data[hitDiceId].valueToAdd;
+          //
+          //       newValue =
+          //         newValue > hdDef.get('maximum')
+          //           ? hdDef.get('maximum')
+          //           : newValue;
+          //
+          //       return hdDef.set('current', newValue);
+          //     }
+          //   );
+          // }, partialState);
         })
         .update('charClassCharges', List(), charClassCharges =>
           charClassCharges.map(charge =>
@@ -242,32 +258,38 @@ export function character(state = defaultState, action) {
 
     case 'SHORT_REST':
       return state.update('charHitPoints', charHitPoints => {
-        let newHitPoints =
-          charHitPoints.get('current') < 0 ? 0 : charHitPoints.get('current');
+        // hp regaining always starts at 0;
+        let newHitPoints = Math.max(0, charHitPoints.get('current'));
 
         newHitPoints += action.data.hpRegained;
+        newHitPoints = Math.min(newHitPoints, charHitPoints.get('maximum'));
 
-        newHitPoints =
-          newHitPoints > charHitPoints.get('maximum')
-            ? charHitPoints.get('maximum')
-            : newHitPoints;
+        return charHitPoints
+          .set('current', newHitPoints)
+          .updateIn(['hitDiceDefinitions', action.data.hitDiceId], def => {
+            let newCurrent = def.get('current') - action.data.numHitDiceUsed;
+            newCurrent = Math.max(0, newCurrent);
+            return def.set('current', newCurrent);
+          });
 
-        const partialState = charHitPoints.set('current', newHitPoints);
-
-        return Object.keys(action.data.diceUsed).reduce(
-          (reducedState, hitDiceId) => {
-            return reducedState.updateIn(
-              ['hitDiceDefinitions', hitDiceId],
-              hdDef => {
-                const newValue =
-                  hdDef.get('current') - action.data.diceUsed[hitDiceId].num;
-
-                return hdDef.set('current', newValue);
-              }
-            );
-          },
-          partialState
-        );
+        // TODO: these are multiclass rules.
+        // this should be simpler for the time being.
+        // when multiclass becomes a thing, then this action should become
+        // more sophisticated and possibly a new action; SHORT_REST_MULTICLASS
+        // return Object.keys(action.data.diceUsed).reduce(
+        //   (reducedState, hitDiceId) => {
+        //     return reducedState.updateIn(
+        //       ['hitDiceDefinitions', hitDiceId],
+        //       hdDef => {
+        //         const newValue =
+        //           hdDef.get('current') - action.data.diceUsed[hitDiceId].num;
+        //
+        //         return hdDef.set('current', newValue);
+        //       }
+        //     );
+        //   },
+        //   partialState
+        // );
       });
 
     // attacks

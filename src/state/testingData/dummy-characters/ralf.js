@@ -163,13 +163,13 @@ module.exports = {
         {
           name: '1st',
           slots: 1,
-          used: 0,
+          used: 1,
           spells: [],
         },
         {
           name: '2nd',
           slots: 5,
-          used: 0,
+          used: 5,
           spells: [
             {
               id: 'ralf-spell-level-2-0',
@@ -187,7 +187,7 @@ module.exports = {
         {
           name: '3rd',
           slots: 3,
-          used: 0,
+          used: 2,
           spells: [
             {
               id: 'ralf-spell-level-3-0',
