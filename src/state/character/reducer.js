@@ -62,48 +62,52 @@ export function character(state = defaultState, action) {
     case 'SAVING_THROW_EDIT':
       return charSavingThrowsReducer(state, action);
 
-    case 'HIT_POINTS_EDIT':
-      switch (action.data.type) {
-        case 'damage':
-          return state.update('charHitPoints', hitPoints => {
-            const tempDmg = action.data.value - hitPoints.get('temporary');
+    case 'HIT_POINTS_HEAL':
+      return state.update('charHitPoints', hitPoints => {
+        const isNegative = hitPoints.get('current') < 0;
 
-            if (tempDmg <= 0) {
-              return hitPoints.set('temporary', Math.abs(tempDmg));
-            }
+        // always start healing at 0; even if negative
+        let newValue = isNegative
+          ? 0 + action.data.value
+          : hitPoints.get('current') + action.data.value;
 
-            const tmp = hitPoints.set('temporary', 0);
-            return tmp.set('current', hitPoints.get('current') - tempDmg);
-          });
-        case 'heal':
-          return state.update('charHitPoints', hitPoints => {
-            const isNegative = hitPoints.get('current') < 0;
-            let newValue = isNegative
-              ? 0 + action.data.value
-              : hitPoints.get('current') + action.data.value;
+        // cap at max value;
+        newValue =
+          newValue > hitPoints.get('maximum')
+            ? hitPoints.get('maximum')
+            : newValue;
 
-            newValue =
-              newValue > hitPoints.get('maximum')
-                ? hitPoints.get('maximum')
-                : newValue;
+        // whenever you heal, always reset deathsaves
+        return hitPoints
+          .set('current', newValue)
+          .setIn(['deathSaves', 'successes'], 0)
+          .setIn(['deathSaves', 'failures'], 0);
+      });
 
-            return isNegative
-              ? hitPoints
-                  .set('current', newValue)
-                  .setIn(['deathSaves', 'successes'], 0)
-                  .setIn(['deathSaves', 'failures'], 0)
-              : hitPoints.set('current', newValue);
-          });
-        case 'temporary':
-          return state.update('charHitPoints', hitPoints => {
-            return hitPoints.set(
-              'temporary',
-              hitPoints.get('temporary') + action.data.value
-            );
-          });
-        default:
-          return state;
-      }
+    case 'HIT_POINTS_DAMAGE':
+      return state.update('charHitPoints', hitPoints => {
+        const tempDmg = action.data.value - hitPoints.get('temporary');
+
+        // if temp hp is negative, then there were more temp hp than
+        // damage received, so set temporary to remaining value
+        // and return
+        if (tempDmg <= 0) {
+          return hitPoints.set('temporary', Math.abs(tempDmg));
+        }
+
+        // otherwise, reset temporary to 0 and subtract the remaining
+        // damage from current hp.
+        const tmp = hitPoints.set('temporary', 0);
+        return tmp.set('current', hitPoints.get('current') - tempDmg);
+      });
+
+    case 'HIT_POINTS_TEMP':
+      return state.update('charHitPoints', hitPoints =>
+        hitPoints.set(
+          'temporary',
+          hitPoints.get('temporary') + action.data.value
+        )
+      );
 
     case 'DEATH_SAVES_ADD':
       return state.update('charHitPoints', charHitPoints => {
