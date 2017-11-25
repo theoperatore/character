@@ -195,20 +195,23 @@ export function character(state = defaultState, action) {
             .set('current', charHitPoints.get('maximum'))
             .set('temporary', 0);
 
-          return Object.keys(action.data).reduce((state, hitDiceId) => {
-            return state.updateIn(['hitDiceDefinitions', hitDiceId], hdDef => {
-              let newValue =
-                hdDef.get('current') < 0 ? 0 : hdDef.get('current');
+          return Object.keys(action.data).reduce((reducedState, hitDiceId) => {
+            return reducedState.updateIn(
+              ['hitDiceDefinitions', hitDiceId],
+              hdDef => {
+                let newValue =
+                  hdDef.get('current') < 0 ? 0 : hdDef.get('current');
 
-              newValue += action.data[hitDiceId].valueToAdd;
+                newValue += action.data[hitDiceId].valueToAdd;
 
-              newValue =
-                newValue > hdDef.get('maximum')
-                  ? hdDef.get('maximum')
-                  : newValue;
+                newValue =
+                  newValue > hdDef.get('maximum')
+                    ? hdDef.get('maximum')
+                    : newValue;
 
-              return hdDef.set('current', newValue);
-            });
+                return hdDef.set('current', newValue);
+              }
+            );
           }, partialState);
         })
         .update('charClassCharges', List(), charClassCharges =>
@@ -234,14 +237,20 @@ export function character(state = defaultState, action) {
 
         const partialState = charHitPoints.set('current', newHitPoints);
 
-        return Object.keys(action.data.diceUsed).reduce((state, hitDiceId) => {
-          return state.updateIn(['hitDiceDefinitions', hitDiceId], hdDef => {
-            const newValue =
-              hdDef.get('current') - action.data.diceUsed[hitDiceId].num;
+        return Object.keys(action.data.diceUsed).reduce(
+          (reducedState, hitDiceId) => {
+            return reducedState.updateIn(
+              ['hitDiceDefinitions', hitDiceId],
+              hdDef => {
+                const newValue =
+                  hdDef.get('current') - action.data.diceUsed[hitDiceId].num;
 
-            return hdDef.set('current', newValue);
-          });
-        }, partialState);
+                return hdDef.set('current', newValue);
+              }
+            );
+          },
+          partialState
+        );
       });
 
     // attacks
