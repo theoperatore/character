@@ -64,18 +64,10 @@ export function character(state = defaultState, action) {
 
     case 'HIT_POINTS_HEAL':
       return state.update('charHitPoints', hitPoints => {
-        const isNegative = hitPoints.get('current') < 0;
-
         // always start healing at 0; even if negative
-        let newValue = isNegative
-          ? 0 + action.data.value
-          : hitPoints.get('current') + action.data.value;
-
-        // cap at max value;
-        newValue =
-          newValue > hitPoints.get('maximum')
-            ? hitPoints.get('maximum')
-            : newValue;
+        let newValue = Math.max(0, hitPoints.get('current'));
+        newValue += action.data.value;
+        newValue = Math.min(newValue, hitPoints.get('maximum'));
 
         // whenever you heal, always reset deathsaves
         return hitPoints
@@ -301,9 +293,7 @@ export function character(state = defaultState, action) {
         if (idx === -1) return charClassCharges;
         return charClassCharges.update(idx, charge => {
           let newCurrent = charge.get('current') - 1;
-
-          newCurrent = newCurrent < 0 ? 0 : newCurrent;
-
+          newCurrent = Math.max(0, newCurrent);
           return charge.set('current', newCurrent);
         });
       });
@@ -315,12 +305,7 @@ export function character(state = defaultState, action) {
         if (idx === -1) return charClassCharges;
         return charClassCharges.update(idx, charge => {
           let newCurrent = charge.get('current') + 1;
-
-          newCurrent =
-            newCurrent > charge.get('charges')
-              ? charge.get('charges')
-              : newCurrent;
-
+          newCurrent = Math.min(charge.get('charges'), newCurrent);
           return charge.set('current', newCurrent);
         });
       });
