@@ -42,16 +42,16 @@ export default function charFeaturesReducer(state, action) {
 
       // we're adding a new class charge if the action has a classChargesId
       // and the current feature does not have a classChargesId
-      const isAddingClassCharge = !!(
+      const isAddingClassCharge = Boolean(
         !currentFeature.get('classChargesId') &&
-        action.data.feature.classChargesId
+          action.data.feature.classChargesId
       );
 
       // we're removing an existing class charge if the action does not have a classChargesId
       // and the existing current feature does have a classChargesId
-      const isRemovingClassCharge = !!(
+      const isRemovingClassCharge = Boolean(
         currentFeature.get('classChargesId') &&
-        !action.data.feature.classChargesId
+          !action.data.feature.classChargesId
       );
 
       const partial = state.updateIn(

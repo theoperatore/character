@@ -317,7 +317,7 @@ export function character(state = defaultState, action) {
       return state.update('charSpellSaveDC', spellSaveDC => {
         const score =
           state.getIn(['charAbilities', action.data.abil, 'mod']) +
-          state.getIn(['charSpellSaveDC', 'base']) +
+          action.data.base +
           action.data.bonus +
           state.getIn(['charProficiencyBonus', 'score']);
 
@@ -339,7 +339,8 @@ export function character(state = defaultState, action) {
     case 'SPELL_DELETE':
       return state.updateIn(
         ['charSpells', action.data.level, 'spells'],
-        spells => spells.filter(spell => spell.get('id') !== action.data.id)
+        spells =>
+          spells.filter(spell => spell.get('id') !== action.data.spell.id)
       );
 
     case 'SPELL_CREATE':
@@ -354,7 +355,7 @@ export function character(state = defaultState, action) {
         ['charSpells', action.data.level, 'spells'],
         spells => {
           const idx = spells.findIndex(
-            spell => spell.get('id') === action.data.id
+            spell => spell.get('id') === action.data.spell.id
           );
           if (idx === -1) return spells;
           return spells.update(idx, spell => {
@@ -368,7 +369,7 @@ export function character(state = defaultState, action) {
         ['charSpells', action.data.level, 'spells'],
         spells => {
           const idx = spells.findIndex(
-            spell => spell.get('id') === action.data.id
+            spell => spell.get('id') === action.data.spell.id
           );
           if (idx === -1) return spells;
           return spells.update(idx, spell => {
@@ -378,8 +379,8 @@ export function character(state = defaultState, action) {
       );
 
     case 'SPELL_CAST':
-      return state.updateIn(['charSpells', action.data.levelSelected], level =>
-        level.set('used', level.get('used') + action.data.slotsUsed)
+      return state.updateIn(['charSpells', action.data.level], level =>
+        level.set('used', level.get('used') + Number(action.data.slotsUsed))
       );
 
     // equipments
@@ -483,7 +484,7 @@ export function character(state = defaultState, action) {
       if (fromContainerIdx === -1) return state;
 
       let toContainerIdx = editContainers.findIndex(
-        containers => !!containers.get('default') === true
+        containers => Boolean(containers.get('default')) === true
       );
 
       // cannot delete default container
@@ -504,7 +505,7 @@ export function character(state = defaultState, action) {
       // after deleting the id
       toContainerIdx = deletedContainersPartialState
         .getIn(['charEquipment', 'containers'])
-        .findIndex(containers => !!containers.get('default') === true);
+        .findIndex(containers => Boolean(containers.get('default')) === true);
 
       return deletedContainersPartialState.updateIn(
         ['charEquipment', 'containers', toContainerIdx, 'items'],
