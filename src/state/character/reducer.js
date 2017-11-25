@@ -122,11 +122,13 @@ export function character(state = defaultState, action) {
         failures => failures + 1
       );
 
+    // TODO: This should probably be split up into separate
+    // actions and cases...
     case 'DEFENSES_EDIT':
       return state
-        .update('charArmorClass', charArmorClass => {
-          return charArmorClass.set('score', action.data.armorClass);
-        })
+        .update('charArmorClass', charArmorClass =>
+          charArmorClass.set('score', action.data.armorClass)
+        )
         .update('charInitiative', charInitiative => {
           const newScore =
             action.data.initiativeBonus +
@@ -135,14 +137,14 @@ export function character(state = defaultState, action) {
             .set('score', newScore)
             .set('bonus', action.data.initiativeBonus);
         })
-        .update('charSpeed', charSpeed => {
-          return charSpeed.set('score', action.data.speed);
-        })
-        .update('charHitPoints', charHitPoints => {
-          return charHitPoints
+        .update('charSpeed', charSpeed =>
+          charSpeed.set('score', action.data.speed)
+        )
+        .update('charHitPoints', charHitPoints =>
+          charHitPoints
             .set('maximum', action.data.maxHp)
-            .set('current', action.data.maxHp);
-        });
+            .set('current', action.data.maxHp)
+        );
 
     case 'RESISTANCES_CREATE':
       return state.update('charResistances', List(), charResistances =>
