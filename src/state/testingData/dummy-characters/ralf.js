@@ -10,6 +10,7 @@ module.exports = {
     {},
     {
       charId: 'test-char-0',
+      charInspiration: false,
       charName: 'Ralf McBeardsly',
       charInfo: {
         class: 'Bard',

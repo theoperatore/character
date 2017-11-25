@@ -1,5 +1,6 @@
 export default {
   charId: 'defaultCharacter',
+  charInspiration: false,
   charName: '-',
   charInfo: {
     class: '-',
