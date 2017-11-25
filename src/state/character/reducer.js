@@ -109,13 +109,18 @@ export function character(state = defaultState, action) {
         )
       );
 
-    case 'DEATH_SAVES_ADD':
-      return state.update('charHitPoints', charHitPoints => {
-        return charHitPoints.updateIn(
-          ['deathSaves', Object.keys(action.data)[0]],
-          save => save + action.data[Object.keys(action.data)[0]]
-        );
-      });
+    case 'DEATH_SAVES_SUCCESS_ADD':
+      return state.updateIn(
+        ['charHitPoints', 'deathSaves', 'successes'],
+        0,
+        successes => successes + 1
+      );
+    case 'DEATH_SAVES_FAILURE_ADD':
+      return state.updateIn(
+        ['charHitPoints', 'deathSaves', 'failures'],
+        0,
+        failures => failures + 1
+      );
 
     case 'DEFENSES_EDIT':
       return state

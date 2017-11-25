@@ -41,3 +41,11 @@ export const tempHpCharacter = value => dispatch => {
     },
   });
 };
+
+export const deathSaveSuccessAdd = () => ({
+  type: 'DEATH_SAVES_SUCCESS_ADD',
+});
+
+export const deathSaveFailureAdd = () => ({
+  type: 'DEATH_SAVES_FAILURE_ADD',
+});
