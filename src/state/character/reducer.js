@@ -171,13 +171,19 @@ export function character(state = defaultState, action) {
     case 'HIT_DICE_EDIT':
       return state.updateIn(
         ['charHitPoints', 'hitDiceDefinitions', action.data.id],
+        Map(),
         def => def.merge(action.data)
       );
 
     case 'HIT_DICE_DELETE':
-      return state.updateIn(['charHitPoints', 'hitDice'], hitDice => {
-        return hitDice.filter(die => die !== action.data.id);
-      });
+      return state
+        .updateIn(['charHitPoints', 'hitDice'], List(), hitDice =>
+          hitDice.filter(die => die !== action.data.id)
+        )
+        .updateIn(
+          ['charHitPoints', 'hitDiceDefinitions', action.data.id],
+          () => undefined
+        );
 
     case 'HIT_DICE_CREATE':
       const newHitDieId = `hit-die-${uuid()}`;
@@ -185,7 +191,7 @@ export function character(state = defaultState, action) {
         .updateIn(['charHitPoints', 'hitDice'], List(), hitDice =>
           hitDice.push(newHitDieId)
         )
-        .updateIn(['charHitPoints', Map(), 'hitDiceDefinitions'], defs =>
+        .updateIn(['charHitPoints', 'hitDiceDefinitions'], Map(), defs =>
           defs.set(
             newHitDieId,
             Map({
