@@ -47,7 +47,7 @@
     "babel-register": "^6.24.1",
     "css-loader": "^0.28.4",
     "nib": "^1.1.2",
-    "serve": "^6.0.1",
+    "serve": "^10.1.1",
     "style-loader": "^0.18.2",
     "stylus": "0.54.5",
     "tap-spec": "4.1.1",
